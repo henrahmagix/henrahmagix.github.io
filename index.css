@@ -65,3 +65,22 @@ p {
 .clearfix {
     display: inline-block;
 }
+.link {
+    font-size: 32px;
+    height: 32px;
+    line-height: 32px;
+    margin-top: 20px;
+    text-align: center;
+}
+.link a {
+    border-bottom: 2px solid;
+    display: inline-block;
+    text-decoration: none;
+}
+.link a:hover,
+.link a:focus {
+    border-bottom: none;
+}
+.link a:active {
+
+}
