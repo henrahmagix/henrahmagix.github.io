@@ -1,0 +1,67 @@
+body {
+    background-color: #B9B79E;
+    color: #2C241D;
+    font-family: "PT Sans", Arial;
+    font-size: 12px;
+    font-weight: normal;
+}
+code {
+    background-color: #EDEDE7;
+    color: #2C241D;
+    padding: 0 0.5em;
+}
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+.title, .subtitle, .button {
+    font-family: "Arvo";
+    text-align: center;
+}
+article {
+    color: #EDEDE7;
+    margin: 2% 0;
+    text-align: justify;
+    width: 38%;
+}
+p {
+    background-color: #593723;
+    border: 2px solid #EDEDE7;
+    -moz-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    padding: 2%;
+}
+.left {
+    float: left;
+    margin-left: 5%;
+}
+.right {
+    float: right;
+    margin-right: 5%;
+}
+.button {
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 auto 30px;
+}
+.side-by-side {
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+.info {
+    color: #2C241D;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    display: inline-block;
+}
