@@ -2,7 +2,7 @@ body {
     background-color: #B9B79E;
     color: #2C241D;
     font-family: "PT Sans", Arial;
-    font-size: 12px;
+    font-size: 100%;
     font-weight: normal;
 }
 code {
@@ -15,8 +15,19 @@ a {
     text-decoration: inherit;
 }
 .title, .subtitle, .button {
-    font-family: "Arvo";
+    /*font-family: "Arvo";*/
     text-align: center;
+}
+.title, .subtitle {
+    text-transform: uppercase;
+}
+.title {
+    letter-spacing: 1em;
+    margin-top: 3em;
+}
+.subtitle {
+    letter-spacing: 0.4em;
+    margin-bottom: 3em;
 }
 article {
     color: #EDEDE7;
@@ -42,9 +53,9 @@ p {
 }
 .button {
     cursor: pointer;
-    font-size: 16px;
-    line-height: 16px;
-    margin: 0 auto 30px;
+    font-size: 1.3em;
+    line-height: 1.3em;
+    margin: 0 auto 2.5em;
 }
 .side-by-side {
     margin: 0 auto;
@@ -66,11 +77,13 @@ p {
     display: inline-block;
 }
 .link {
-    font-size: 32px;
-    height: 32px;
-    line-height: 32px;
-    margin-top: 20px;
+    font-size: 2em;
+    line-height: 1;
+    margin: 1em 0 0 -32px;
     text-align: center;
+}
+.link img {
+    vertical-align: middle;
 }
 .link a {
     border-bottom: 2px solid;
@@ -79,8 +92,8 @@ p {
 }
 .link a:hover,
 .link a:focus {
-    border-bottom: none;
+    border-bottom-color: transparent;
 }
 .link a:active {
-
+    background-color: #EDEDE7;
 }
