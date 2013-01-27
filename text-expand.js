@@ -5,6 +5,7 @@ $(function() {
     var numberOfShadows = 30;
     text.css({
         'color': '#edede7',
+        'cursor': 'default',
         position: 'relative',
         'z-index': numberOfShadows + 1
     });
