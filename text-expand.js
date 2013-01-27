@@ -15,6 +15,10 @@ $(function() {
         left: textPos.left,
         'z-index': numberOfShadows,
         width: '100%',
+        'transform-origin': '50% bottom',
+        '-o-transform-origin': '50% bottom',
+        '-ms-transform-origin': '50% bottom',
+        '-moz-transform-origin': '50% bottom',
         '-webkit-transform-origin': '50% bottom'
     });
     var texts = [];
@@ -30,6 +34,10 @@ $(function() {
         clone.css({
             'color': '#' + color.toString(16),
             'z-index': numberOfShadows - i,
+            '-transform': transform.join(' '),
+            '-o-transform': transform.join(' '),
+            '-ms-transform': transform.join(' '),
+            '-moz-transform': transform.join(' '),
             '-webkit-transform': transform.join(' ')
         });
         texts.push(clone.get(0));
