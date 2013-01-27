@@ -27,15 +27,13 @@ $(function() {
             'scale3d(' + [scaleDecrement, scaleDecrement, 0].join(', ') + ')',
             'translate3d(' + [0, translateDecrement + '%', 0].join(', ') + ')'
         ];
-        console.log(transform.join(', '));
         clone.css({
             'color': '#' + color.toString(16),
             'z-index': numberOfShadows - i,
             '-webkit-transform': transform.join(' ')
         });
-        texts.push(clone.get()[0]);
+        texts.push(clone.get(0));
     }
-    console.log(texts);
     texts = $(texts);
     texts.hide();
     text.after(texts);
