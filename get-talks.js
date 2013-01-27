@@ -1,5 +1,3 @@
-// For readability, 'presentation' will be replaced by 'talk'.
-// 
 // This script parses .gitmodules for Gist IDs, then fetches each Gist's files.
 $(function() {
     var gitModulesUrl = 'https://api.github.com/repos/henrahmagix/presentations/contents/.gitmodules/';
@@ -44,12 +42,12 @@ $(function() {
     }
 
     function showTalks(talks) {
-        var area = $('.presentations');
+        var area = $('.talks');
         var talk;
         for (var i = 0; i < talks.length; i++) {
             talk = talks[i];
             $.get(gistAPI + talk.id, function(data, textStatus, jqXHR) {
-                area.append('<div class="presentation"><h3><a href="#' + talk.id + '">' + talk.name + '</a></h3></div>');
+                area.append('<div class="talk"><h3><a href="#' + talk.id + '">' + talk.name + '</a></h3></div>');
             });
         }
     }
