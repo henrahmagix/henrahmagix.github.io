@@ -7,8 +7,10 @@ $(function() {
     function getTalks(callback) {
         var talks;
         $.get(gitModulesUrl, function(data, textStatus, jqXHR) {
-            talks = getGistsFromGitModules(Base64.decode(data.content));
-            callback(talks);
+            if (data.content) {
+                talks = getGistsFromGitModules(Base64.decode(data.content));
+                callback(talks);
+            }
         });
     }
 
