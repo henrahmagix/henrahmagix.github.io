@@ -1,5 +1,5 @@
 $(function() {
-    var text = $('h1').first();
+    var text = $('.title');
     var textPos = text.position();
     var textColor = text.css('color');
     var numberOfShadows = 30;
