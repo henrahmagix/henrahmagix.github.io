@@ -4,67 +4,51 @@ body {
     font-family: "PT Sans", Arial;
     font-size: 100%;
     font-weight: normal;
+    line-height: 1.4;
     margin: 0;
 }
-code {
+code, pre {
     background-color: #EDEDE7;
     color: #2C241D;
+}
+code {
+    display: inline-block;
     padding: 0 0.5em;
+}
+pre {
+    padding: 1em;
 }
 a {
     color: inherit;
-    text-decoration: inherit;
+    border-bottom: 1px solid;
+    text-decoration: none;
 }
-.title, .subtitle, .button {
+a:hover,
+a:focus {
+    border-bottom-color: transparent;
+}
+h1 a, h2 a, h3 a, .links a {
+    border-bottom-width: 2px;
+}
+.title, .subtitle, .button, .talks {
     /*font-family: "Arvo";*/
     text-align: center;
 }
 .title, .subtitle {
+    margin-top: 1em;
     text-transform: uppercase;
 }
 .title {
     letter-spacing: 1em;
-    margin-top: 1em;
 }
 .subtitle {
     letter-spacing: 0.4em;
-    margin-bottom: 3em;
-}
-article {
-    color: #EDEDE7;
-    margin: 2% 0;
-    text-align: justify;
-    width: 38%;
-}
-p {
-    background-color: #593723;
-    border: 2px solid #EDEDE7;
-    -moz-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
-    padding: 2%;
-}
-.left {
-    float: left;
-    margin-left: 5%;
-}
-.right {
-    float: right;
-    margin-right: 5%;
 }
 .button {
     cursor: pointer;
     font-size: 1.3em;
     line-height: 1.3em;
     margin: 0 auto 2.5em;
-}
-.side-by-side {
-    margin: 0 auto;
-    position: relative;
-    text-align: center;
-}
-.info {
-    color: #2C241D;
 }
 .clearfix:after {
     content: ".";
@@ -83,18 +67,39 @@ p {
     margin: 1em 0 0 -32px;
     text-align: center;
 }
+.link:first-child {
+    margin-top: 0;
+}
 .link img {
     vertical-align: middle;
 }
 .link a {
-    border-bottom: 2px solid;
     display: inline-block;
-    text-decoration: none;
 }
-.link a:hover,
-.link a:focus {
-    border-bottom-color: transparent;
+.talks {
+    margin-top: 2.5em;
 }
-.link a:active {
-    background-color: #EDEDE7;
+.markdown-content {
+    background-color: #593723;
+    border: 2px solid #EDEDE7;
+    -moz-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    color: #EDEDE7;
+    font-family: Arvo;
+    line-height: 1.6;
+    margin: 0 auto;
+    min-width: 600px;
+    padding: 3em;
+    text-align: justify;
+    width: 60%;
+}
+.markdown-content h2,
+.markdown-content h3 {
+    margin-top: 2em;
+    text-align: center;
+}
+.markdown-content h2:first-child,
+.markdown-content h3:first-child {
+    margin-top: 0;
 }
