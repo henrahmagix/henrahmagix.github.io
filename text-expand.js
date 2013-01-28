@@ -1,15 +1,14 @@
 $(function() {
-    var text = $('.title');
-    var textPos = text.position();
-    var textColor = text.css('color');
-    var numberOfShadows = 30;
-    text.css({
+    var text = $('.title').css({
         'color': '#edede7',
         'cursor': 'default',
         position: 'relative',
         'z-index': numberOfShadows + 1
     });
-    textShadow = text.clone().css({
+    var textPos = text.position();
+    var textColor = text.css('color');
+    var numberOfShadows = 30;
+    var textShadow = text.clone().css({
         position: 'absolute',
         top: textPos.top,
         left: textPos.left,
@@ -22,6 +21,8 @@ $(function() {
         '-webkit-transform-origin': '50% bottom'
     });
     var texts = [];
+    var scaleDecrement;
+    var translateDecrement;
     for (var i = 0, clone, color, transform; i < numberOfShadows; i++) {
         clone = textShadow.clone();
         scaleDecrement = 1 - (0.01 * i);
@@ -70,7 +71,6 @@ $(function() {
         clearInterval(shadowInterval);
         shadowInterval = setInterval(function() {hoverShadow('out')}, 5);
     });
-});
 
 function colorToHex(color, addAmount) {
     if (color.substr(0, 1) === '#') {
@@ -91,3 +91,4 @@ function colorToHex(color, addAmount) {
     var rgb = blue | (green << 8) | (red << 16);
     return digits[1] + rgb.toString(16);
 }
+});
