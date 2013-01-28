@@ -6,8 +6,11 @@ $(function() {
 
     function getTalks(callback) {
         var talks;
-        $.get(gitModulesUrl, function(data, textStatus, jqXHR) {
-            if (data.content) {
+        $.get(gitModulesUrl, function(data) {
+            if (typeof data === 'string') {
+                data = $.parseJSON(data);
+            }
+            if (data !== null && data.hasOwnProperty('content')) {
                 talks = getGistsFromGitModules(Base64.decode(data.content));
                 callback(talks);
             }
@@ -48,27 +51,36 @@ $(function() {
         var area = $('.talks');
         var wrapper = $('<article class="talk"><h3><a class="gist"></a></h3><div class="markdown-content"></div></article>');
         for (var id in talks) {
-            $.get(gistAPI + id, function(data, textStatus, jqXHR) {
-                var $talk = wrapper.clone();
-                var thisTalk;
-                var markdown;
-                talks[id].description = data.description;
-                talks[id].files = data.files;
-                thisTalk = talks[id];
-                if (thisTalk.hasOwnProperty('files')) {
-                    for (file in thisTalk.files) {
-                        file = thisTalk.files[file];
-                        if (file.language === 'Markdown') {
-                            markdown = renderTalk(file.content);
-                            $talk.find('.markdown-content').hide().append(markdown);
-                            $talk.find('.gist')
-                                .attr({
-                                    'data-gist-id': id,
-                                    'data-talk': 'closed',
-                                    'href': '//gist.github.com/' + id
-                                })
-                                .text(thisTalk.description);
-                            area.append($talk);
+            $.get(gistAPI + id, function(data) {
+                if (typeof data === 'string') {
+                    data = $.parseJSON(data);
+                }
+                if (data !== null && data.hasOwnProperty('files')) {
+                    var $talk = wrapper.clone();
+                    var thisTalk;
+                    var markdown;
+                    talks[id].files = data.files;
+                    if (data.hasOwnProperty('description')) {
+                        talks[id].description = data.description;
+                    } else {
+                        talks[id].description = '';
+                    }
+                    thisTalk = talks[id];
+                    if (thisTalk.hasOwnProperty('files')) {
+                        for (file in thisTalk.files) {
+                            file = thisTalk.files[file];
+                            if (file.language === 'Markdown') {
+                                markdown = renderTalk(file.content);
+                                $talk.find('.markdown-content').hide().append(markdown);
+                                $talk.find('.gist')
+                                    .attr({
+                                        'data-gist-id': id,
+                                        'data-talk': 'closed',
+                                        'href': '//gist.github.com/' + id
+                                    })
+                                    .text(thisTalk.description);
+                                area.append($talk);
+                            }
                         }
                     }
                 }
