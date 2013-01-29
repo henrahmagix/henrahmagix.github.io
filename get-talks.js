@@ -6,7 +6,7 @@ $(function() {
 
     function getTalks(callback) {
         var talks;
-        $.get(gitModulesUrl, function(data) {
+        $.getJSON(gitModulesUrl, function(data) {
             if (typeof data === 'string') {
                 data = $.parseJSON(data);
             }
@@ -51,7 +51,7 @@ $(function() {
         var area = $('.talks');
         var wrapper = $('<article class="talk"><h3><a class="gist"></a></h3><div class="markdown-content"></div></article>');
         for (var id in talks) {
-            $.get(gistAPI + id, function(data) {
+            $.getJSON(gistAPI + id, function(data) {
                 if (typeof data === 'string') {
                     data = $.parseJSON(data);
                 }
