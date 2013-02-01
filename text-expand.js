@@ -1,13 +1,14 @@
 $(function() {
-    var text = $('.title').css({
+    var text = $('.title');
+    var textPos = text.position();
+    var textColor = text.css('color');
+    var numberOfShadows = 30;
+    text.css({
         'color': '#edede7',
         'cursor': 'default',
         position: 'relative',
         'z-index': numberOfShadows + 1
     });
-    var textPos = text.position();
-    var textColor = text.css('color');
-    var numberOfShadows = 30;
     var textShadow = text.clone().css({
         position: 'absolute',
         top: textPos.top,
