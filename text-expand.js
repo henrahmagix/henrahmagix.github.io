@@ -30,13 +30,13 @@ $(function() {
         translateDecrement = i;
         color = colorToHex(textColor, i * 1);
         transform = [
-            'scale3d(' + [scaleDecrement, scaleDecrement, 0].join(', ') + ')',
+            'scale3d(' + [scaleDecrement, scaleDecrement, 1].join(', ') + ')',
             'translate3d(' + [0, translateDecrement + '%', 0].join(', ') + ')'
         ];
         clone.css({
             'color': '#' + color.toString(16),
             'z-index': numberOfShadows - i,
-            '-transform': transform.join(' '),
+            'transform': transform.join(' '),
             '-o-transform': transform.join(' '),
             '-ms-transform': transform.join(' '),
             '-moz-transform': transform.join(' '),
@@ -51,7 +51,6 @@ $(function() {
     var shadowIndex = 0;
     var shadowInterval;
     function hoverShadow(direction) {
-        // clearInterval(shadowInterval);
         var shadow = texts.eq(shadowIndex);
         if (direction === 'in' && shadowIndex < numberOfShadows - 1) {
             shadow.show();
