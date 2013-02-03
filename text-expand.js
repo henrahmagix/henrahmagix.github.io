@@ -15,11 +15,11 @@ $(function() {
         left: textPos.left,
         'z-index': numberOfShadows,
         width: '100%',
-        'transform-origin': '50% bottom',
-        '-o-transform-origin': '50% bottom',
-        '-ms-transform-origin': '50% bottom',
-        '-moz-transform-origin': '50% bottom',
-        '-webkit-transform-origin': '50% bottom'
+        'transform-origin': '49% bottom',
+        '-o-transform-origin': '49% bottom',
+        '-ms-transform-origin': '49% bottom',
+        '-moz-transform-origin': '49% bottom',
+        '-webkit-transform-origin': '49% bottom'
     });
     var texts = [];
     var scaleDecrement;
