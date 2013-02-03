@@ -2,7 +2,7 @@ $(function() {
     var text = $('.title');
     var textPos = text.position();
     var textColor = text.css('color');
-    var numberOfShadows = 60;
+    var numberOfShadows = 30;
     text.css({
         'color': '#edede7',
         'cursor': 'default',
@@ -33,7 +33,7 @@ $(function() {
     for (var i = 0, clone, color, transform; i < numberOfShadows; i++) {
         clone = textShadow.clone();
         scaleDecrement = 1 - (0.01 * i);
-        translateDecrement = i;
+        translateDecrement = i * 2;
         color = colorToHex(textColor, colorStep.map(function(val, j) {
             return val * (i + 1);
         }));
