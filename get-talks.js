@@ -178,7 +178,7 @@ $(function() {
                     $talkLink.attr('data-talk', 'open');
                 });
                 $scrollWindow.animate({
-                    scrollTop: $talkLink.offset().top
+                    scrollTop: $talkLink.offset().top - parseInt($talkLink.closest('.talk').css('margin-top'), 10)
                 }, speed.slow);
             }
         }
