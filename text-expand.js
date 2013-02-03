@@ -2,7 +2,7 @@ $(function() {
     var text = $('.title');
     var textPos = text.position();
     var textColor = text.css('color');
-    var numberOfShadows = 30;
+    var numberOfShadows = 60;
     text.css({
         'color': '#edede7',
         'cursor': 'default',
@@ -57,7 +57,7 @@ $(function() {
         var shadow = texts.eq(shadowIndex);
         hoverTime = Date.now();
         if (shadowIndex < numberOfShadows && shadowIndex >= 0) {
-            if (hoverTime - prevTime > shadowIndex / 2 + 1) {
+            if (hoverTime - prevTime > (shadowIndex + 1) / 10) {
                 prevTime = hoverTime;
                 if (hoverDirection === 'in' && shadowIndex < numberOfShadows - 1) {
                     shadow.show();
