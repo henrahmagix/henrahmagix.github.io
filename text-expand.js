@@ -91,38 +91,48 @@ $(function() {
     });
 
     function colorToHex(color, addAmount) {
+        var rgb;
         if (color.substr(0, 1) === '#') {
-            return color.substr(1);
-        }
-        var digits = /(.*?)rgb\((\d+), ?(\d+), ?(\d+)\)/.exec(color);
-
-        var red = parseInt(digits[2]);
-        var green = parseInt(digits[3]);
-        var blue = parseInt(digits[4]);
-
-        if (typeof addAmount !== 'undefined') {
-            if (typeof addAmount === 'number') {
-                red += addAmount;
-                green += addAmount;
-                blue += addAmount;
-            } else if (addAmount instanceof Array) {
-                red += addAmount[0] || 0;
-                green += addAmount[1] || 0;
-                blue += addAmount[2] || 0;
-            } else if (typeof addAmount !== 'string') {
-                if (addAmount.hasOwnProperty('red')) {
-                    red += addAmount.red;
-                } else if (addAmount.hasOwnProperty('green')) {
-                    green += addAmount.green;
-                } else if (addAmount.hasOwnProperty('blue')) {
-                    blue += addAmount.blue;
+            // This is already a hex string, so chop of the hash.
+            rgb = color.substr(1);
+            // If this is a 3-character hex string, make it 6-characters long.
+            if (rgb.length === 3) {
+                // Get an array with each value duplicated, then join it into a
+                // string.
+                rgb = $.map(rgb.split(''), function(val) {
+                    return val + val;
+                }).join('');
+            }
+        } else {
+            var digits = /(.*?)rgb\((\d+), ?(\d+), ?(\d+)\)/.exec(color);
+            var red = parseInt(digits[2]);
+            var green = parseInt(digits[3]);
+            var blue = parseInt(digits[4]);
+            // Adjust values if addAmount is passed.
+            if (typeof addAmount !== 'undefined') {
+                if (typeof addAmount === 'number') {
+                    red += addAmount;
+                    green += addAmount;
+                    blue += addAmount;
+                } else if (addAmount instanceof Array) {
+                    red += addAmount[0] || 0;
+                    green += addAmount[1] || 0;
+                    blue += addAmount[2] || 0;
+                } else if (typeof addAmount !== 'string') {
+                    if (addAmount.hasOwnProperty('red')) {
+                        red += addAmount.red;
+                    } else if (addAmount.hasOwnProperty('green')) {
+                        green += addAmount.green;
+                    } else if (addAmount.hasOwnProperty('blue')) {
+                        blue += addAmount.blue;
+                    }
                 }
             }
+            // Get a base10 number.
+            rgb = blue | (green << 8) | (red << 16);
+            rgb = rgb.toString(16);
         }
-
-        var rgb = blue | (green << 8) | (red << 16);
         // Prepend rgb with zeros until it is 6 characters long.
-        rgb = rgb.toString(16);
         while (rgb.length < 6) {
             rgb = '0' + rgb;
         }
