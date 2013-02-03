@@ -24,17 +24,25 @@ $(function() {
     var texts = [];
     var scaleDecrement;
     var translateDecrement;
+    var bgColorHex = colorToHex($('body').css('background-color'));
+    var bgColorRgb = getRgbArray($('body').css('background-color'));
+    var textColorRgb = getRgbArray(textColor);
+    var colorStep = bgColorRgb.map(function(val, i) {
+        return (parseInt(val, 10) - parseInt(textColorRgb[i], 10)) / numberOfShadows;
+    });
     for (var i = 0, clone, color, transform; i < numberOfShadows; i++) {
         clone = textShadow.clone();
         scaleDecrement = 1 - (0.01 * i);
         translateDecrement = i;
-        color = colorToHex(textColor, i * 1);
+        color = colorToHex(textColor, colorStep.map(function(val, j) {
+            return val * (i + 1);
+        }));
         transform = [
             'scale3d(' + [scaleDecrement, scaleDecrement, 1].join(', ') + ')',
             'translate3d(' + [0, translateDecrement + '%', 0].join(', ') + ')'
         ];
         clone.css({
-            'color': '#' + color.toString(16),
+            'color': '#' + color,
             'z-index': numberOfShadows - i,
             'transform': transform.join(' '),
             '-o-transform': transform.join(' '),
@@ -82,23 +90,59 @@ $(function() {
         hoverAnim = requestAnimationFrame(hoverShadow, text);
     });
 
-function colorToHex(color, addAmount) {
-    if (color.substr(0, 1) === '#') {
-        return color;
+    function colorToHex(color, addAmount) {
+        if (color.substr(0, 1) === '#') {
+            return color.substr(1);
+        }
+        var digits = /(.*?)rgb\((\d+), ?(\d+), ?(\d+)\)/.exec(color);
+
+        var red = parseInt(digits[2]);
+        var green = parseInt(digits[3]);
+        var blue = parseInt(digits[4]);
+
+        if (typeof addAmount !== 'undefined') {
+            if (typeof addAmount === 'number') {
+                red += addAmount;
+                green += addAmount;
+                blue += addAmount;
+            } else if (addAmount instanceof Array) {
+                red += addAmount[0] || 0;
+                green += addAmount[1] || 0;
+                blue += addAmount[2] || 0;
+            } else if (typeof addAmount !== 'string') {
+                if (addAmount.hasOwnProperty('red')) {
+                    red += addAmount.red;
+                } else if (addAmount.hasOwnProperty('green')) {
+                    green += addAmount.green;
+                } else if (addAmount.hasOwnProperty('blue')) {
+                    blue += addAmount.blue;
+                }
+            }
+        }
+
+        var rgb = blue | (green << 8) | (red << 16);
+        // Prepend rgb with zeros until it is 6 characters long.
+        rgb = rgb.toString(16);
+        while (rgb.length < 6) {
+            rgb = '0' + rgb;
+        }
+        return rgb;
     }
-    var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
 
-    var red = parseInt(digits[2]);
-    var green = parseInt(digits[3]);
-    var blue = parseInt(digits[4]);
-
-    if (addAmount) {
-        red += addAmount;
-        green += addAmount;
-        blue += addAmount;
+    function getRgbArray(color) {
+        var hex;
+        var rgb = [];
+        if (color.substr(0, 1) === '#') {
+            hex = color.substr(1);
+            for (var i = 0; i < 3; i++) {
+                rgb[i] = parseInt(hex[i * 2] + hex[i * 2 + 1], 16);
+            }
+        } else {
+            hex = color.match(/rgb\(([^)]+)/);
+            if (hex !== null && hex[1]) {
+                rgb = hex[1].split(/, ?/);
+            }
+        }
+        return rgb;
     }
-
-    var rgb = blue | (green << 8) | (red << 16);
-    return digits[1] + rgb.toString(16);
-}
 });
