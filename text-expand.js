@@ -49,27 +49,37 @@ $(function() {
     text.after(texts);
 
     var shadowIndex = 0;
-    var shadowInterval;
-    function hoverShadow(direction) {
+    var prevTime = Date.now();
+    var hoverTime = Date.now();
+    var hoverDirection;
+    var hoverAnim;
+    function hoverShadow() {
         var shadow = texts.eq(shadowIndex);
-        if (direction === 'in' && shadowIndex < numberOfShadows - 1) {
-            shadow.show();
-            shadowIndex++;
-        } else if (direction === 'out' && shadowIndex > 0) {
-            shadow.hide();
-            shadowIndex--;
+        hoverTime = Date.now();
+        if (shadowIndex < numberOfShadows && shadowIndex >= 0) {
+            if (hoverTime - prevTime > shadowIndex / 2 + 1) {
+                prevTime = hoverTime;
+                if (hoverDirection === 'in' && shadowIndex < numberOfShadows - 1) {
+                    shadow.show();
+                    shadowIndex++;
+                } else if (hoverDirection === 'out' && shadowIndex > 0) {
+                    shadow.hide();
+                    shadowIndex--;
+                }
+            }
+            requestAnimationFrame(hoverShadow, text);
         } else {
-            clearInterval(shadowInterval);
+            cancelAnimationFrame(hoverAnim);
         }
     }
     text.hover(function(e) {
-        // Mouse in, 10);
-        clearInterval(shadowInterval);
-        shadowInterval = setInterval(function() {hoverShadow('in')}, 5);
+        // Mouse in
+        hoverDirection = 'in';
+        hoverAnim = requestAnimationFrame(hoverShadow, text);
     }, function(e) {
         // Mouse out
-        clearInterval(shadowInterval);
-        shadowInterval = setInterval(function() {hoverShadow('out')}, 5);
+        hoverDirection = 'out';
+        hoverAnim = requestAnimationFrame(hoverShadow, text);
     });
 
 function colorToHex(color, addAmount) {
