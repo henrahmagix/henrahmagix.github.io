@@ -57,36 +57,48 @@ $(function() {
     text.after(texts);
 
     var shadowIndex = 0;
-    var prevTime = Date.now();
-    var hoverTime = Date.now();
-    var hoverDirection;
+    var shadowAction;
     var hoverAnim;
     function hoverShadow() {
-        var shadow = texts.eq(shadowIndex);
-        hoverTime = Date.now();
         if (shadowIndex < numberOfShadows && shadowIndex >= 0) {
-            if (hoverTime - prevTime > (shadowIndex + 1) / 10) {
-                prevTime = hoverTime;
-                if (hoverDirection === 'in' && shadowIndex < numberOfShadows - 1) {
-                    shadow.show();
-                    shadowIndex++;
-                } else if (hoverDirection === 'out' && shadowIndex > 0) {
-                    shadow.hide();
-                    shadowIndex--;
-                }
-            }
+            animateShadow(shadowAction);
             requestAnimationFrame(hoverShadow, text);
+            return true;
         } else {
             cancelAnimationFrame(hoverAnim);
+            return false;
         }
     }
+    function animateShadow(action) {
+        var shadow = texts.eq(shadowIndex);
+        if (action === 'show' && shadowIndex < numberOfShadows - 1) {
+            shadow.show();
+            shadowIndex++;
+            return true;
+        } else if (action === 'hide' && shadowIndex > 0) {
+            shadow.hide();
+            shadowIndex--;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    var animateOnLoad = setInterval(function() {
+        if (! hoverAnim) {
+            animateShadow('show');
+        } else {
+            clearInterval(animateOnLoad);
+        }
+    }, 20);
     text.hover(function(e) {
         // Mouse in
-        hoverDirection = 'in';
+        cancelAnimationFrame(hoverAnim);
+        shadowAction = 'hide';
         hoverAnim = requestAnimationFrame(hoverShadow, text);
     }, function(e) {
         // Mouse out
-        hoverDirection = 'out';
+        cancelAnimationFrame(hoverAnim);
+        shadowAction = 'show';
         hoverAnim = requestAnimationFrame(hoverShadow, text);
     });
 
