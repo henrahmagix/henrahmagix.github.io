@@ -134,7 +134,7 @@ $(function() {
         var file;
         var fileName;
         var markdown;
-        var wrapper = $('<article class="talk"><h3><a class="gist"></a></h3><div class="markdown-content"></div></article>');
+        var wrapper = $('<article class="talk"><h3 class="talk-title"><a class="gist"></a></h3><div class="markdown-content"></div></article>');
         var $talk;
         for (fileName in talk.files) {
             file = talk.files[fileName];

@@ -79,6 +79,12 @@ h1 a, h2 a, h3 a, .links a {
 .talks {
     margin-top: 2.5em;
 }
+.talk {
+    margin: 1em 0;
+}
+.talk-title {
+    margin: 0;
+}
 .markdown-content {
     background-color: #593723;
     border: 2px solid #EDEDE7;
@@ -90,7 +96,7 @@ h1 a, h2 a, h3 a, .links a {
     line-height: 1.6;
     margin: 0 auto;
     min-width: 600px;
-    padding: 3em;
+    padding: 0 3em;
     text-align: justify;
     width: 60%;
 }
