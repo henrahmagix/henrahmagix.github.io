@@ -100,14 +100,26 @@ h1 a, h2 a, h3 a, .links a {
     text-align: justify;
     width: 60%;
 }
+.markdown-content h1,
 .markdown-content h2,
 .markdown-content h3 {
     margin-top: 2em;
+    margin-bottom: 0.83em;
     text-align: center;
 }
+.markdown-content h1:first-child,
 .markdown-content h2:first-child,
 .markdown-content h3:first-child {
     margin-top: 0;
+}
+.markdown-content h1 {
+    font-size: 1.8em
+}
+.markdown-content h2 {
+    font-size: 1.5em
+}
+.markdown-content h3 {
+    font-size: 1.17em
 }
 .error,
 .talk {
