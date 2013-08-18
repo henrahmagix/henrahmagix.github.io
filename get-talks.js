@@ -23,11 +23,11 @@ $(function() {
     var msg = {
         load: {
             $el: $('.loading'),
-            original: $('.loading').text()
+            original: $('.loading').html()
         },
         error: {
             $el: $('.error'),
-            original: $('.error').text()
+            original: $('.error').html()
         }
     };
 
@@ -191,7 +191,7 @@ $(function() {
         if (text) {
             err.$el.text(text);
         } else {
-            err.$el.text(msg.error.original);
+            err.$el.html(err.original);
         }
         load.$el.fadeOut(speed.instant, function() {
             err.$el.fadeIn(speed.fast);
