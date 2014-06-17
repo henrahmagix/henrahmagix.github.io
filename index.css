@@ -1,5 +1,5 @@
 body {
-    background-color: #B9B79E;
+    background-color: #DAD6B0;
     color: #2C241D;
     font-family: "PT Sans", Arial;
     font-size: 100%;
@@ -14,14 +14,23 @@ code, pre {
 code {
     display: inline-block;
     padding: 0 0.5em;
+    white-space: pre-wrap;
 }
 pre {
     padding: 1em;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+pre code {
+    white-space: pre;
 }
 a {
     color: inherit;
     border-bottom: 1px solid;
     text-decoration: none;
+}
+img {
+    max-width: 100%
 }
 a:hover,
 a:focus {
@@ -31,14 +40,15 @@ h1 a, h2 a, h3 a, .links a {
     border-bottom-width: 2px;
 }
 .title, .subtitle, .button, .talks {
-    /*font-family: "Arvo";*/
     text-align: center;
 }
 .title, .subtitle {
+    font-family: "Arvo";
     margin-top: 1em;
     text-transform: uppercase;
 }
 .title {
+    font-size: 2em;
     letter-spacing: 1em;
 }
 .subtitle {
@@ -95,10 +105,10 @@ h1 a, h2 a, h3 a, .links a {
     font-family: Arvo;
     line-height: 1.6;
     margin: 0 auto;
-    min-width: 600px;
+    max-width: 1200px;
     padding: 0 3em;
     text-align: justify;
-    width: 60%;
+    width: 80%;
 }
 .markdown-content h1,
 .markdown-content h2,
@@ -124,4 +134,30 @@ h1 a, h2 a, h3 a, .links a {
 .error,
 .talk {
     display: none;
+}
+
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 530px) {
+    body {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 460px) {
+    .title {
+        letter-spacing: 0.7em;
+    }
+}
+@media screen and (max-width: 380px) {
+    .title {
+        letter-spacing: 0.4em;
+    }
 }
