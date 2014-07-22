@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Marquees are in</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
     <style type="text/css">
 body, html {
     height: 100%;
@@ -9,22 +10,46 @@ body, html {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 10px;
+    color: #eee;
 }
 div {
     height: 100%;
 }
 marquee {
+    margin-bottom: 0.5em;
     width: 100%;
-    color: #eeeeee;
     font-size: 500%;
     padding: 4px 0;
     border: 2px solid;
+}
+.link img {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    padding: 2px;
+}
+.link.github img {
+    background-color: #eee;
+}
+.link.twitter img {
+    margin-left: -10px;
+    margin-right: -10px;
 }
     </style>
 </head>
 <body>
     <div>
         <marquee scrollamount="100"><blink>Blinking marquees are like totally in right now</blink></marquee>
+        <section class="links">
+            <div class="link github">
+                <img src="blacktocat-32.png" height="32" width="32">
+                <a href="https://github.com/henrahmagix">GitHub</a>
+            </div>
+            <div class="link twitter">
+                <img src="twitter-bird-dark-bgs.png" height="48" width="48">
+                <a href="https://twitter.com/henrahmagix">Twitter</a>
+            </div>
+        </section>
     </div>
     <script type="text/javascript">
         function blink() {
