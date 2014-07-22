@@ -24,7 +24,17 @@ marquee {
 </head>
 <body>
     <div>
-        <marquee scrollamount="50">Marquees are like totally in right now</marquee>
+        <marquee scrollamount="100"><blink>Blinking marquees are like totally in right now</blink></marquee>
     </div>
+    <script type="text/javascript">
+        function blink() {
+          var tags = document.getElementsByTagName('blink');
+          for (var i = 0; i < tags.length; i++) {
+            var b = tags[i].style;
+            b.visibility = b.visibility === 'hidden' ? 'visible' : 'hidden';
+          };
+        }
+        setInterval(blink, 200);
+    </script>
 </body>
 </html>
