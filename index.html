@@ -1,42 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Henrahmagix</title>
-    <link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" type="text/css" href="button.css">
-    <script type="text/javascript" src="lib/jquery.1.9.0.min.js"></script>
-    <script type="text/javascript" src="text-expand.js"></script>
-    <script type="text/javascript" src="lib/base64.js"></script>
-    <script type="text/javascript" src="lib/requestAnimationFrame.js"></script>
-    <script type="text/javascript" src="lib/showdown/showdown.js"></script>
-    <script type="text/javascript" src="lib/showdown/extensions/github.js"></script>
-    <script type="text/javascript" src="get-talks.js"></script>
+    <title>Marquees are in</title>
+    <style type="text/css">
+body, html {
+    height: 100%;
+    background-color: #252525;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+}
+div {
+    height: 100%;
+}
+marquee {
+    width: 100%;
+    color: #eeeeee;
+    font-size: 500%;
+    padding: 4px 0;
+    border: 2px solid;
+}
+    </style>
 </head>
 <body>
-    <div class="title-wrapper">
-        <h1 class="title">Henrahmagix</h1>
+    <div>
+        <marquee scrollamount="50">Marquees are like totally in right now</marquee>
     </div>
-    <section class="links">
-        <div class="link">
-            <img src="blacktocat-32.png" height="32" width="32">
-            <a href="https://github.com/henrahmagix" class-"github">GitHub</a>
-        </div>
-        <div class="link">
-            <img src="twitter-bird-dark-bgs.png" height="32" width="32">
-            <a href="https://twitter.com/henrahmagix" class-"twitter">Twitter</a>
-        </div>
-    </section>
-    <section class="talks">
-        <h2 class="subtitle">Talks</h2>
-        <p class="loading">Loading...</p>
-        <p class="error">
-            Woops!<br>
-            An error occurred, my bad.<br>
-            Help me out by <a href="//github.com/henrahmagix/henrahmagix.github.com/issues">letting me know here</a><br>
-            so I can be <a href="https://twitter.com/betthearm/status/266916129291763713">one of these.</a>
-        </p>
-    </section>
 </body>
 </html>
