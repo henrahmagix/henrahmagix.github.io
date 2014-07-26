@@ -15,12 +15,8 @@ body, html {
 div {
     height: 100%;
 }
-marquee {
-    margin-bottom: 0.5em;
-    width: 100%;
-    font-size: 500%;
-    padding: 4px 0;
-    border: 2px solid;
+.link {
+    margin-left: 0;
 }
 .link img {
     -webkit-border-radius: 100%;
@@ -39,7 +35,6 @@ marquee {
 </head>
 <body>
     <div>
-        <marquee scrollamount="100"><blink>Blinking marquees are like totally in right now</blink></marquee>
         <section class="links">
             <div class="link github">
                 <img src="blacktocat-32.png" height="32" width="32">
@@ -54,16 +49,6 @@ marquee {
             </div>
         </section>
     </div>
-    <script type="text/javascript">
-        function blink() {
-          var tags = document.getElementsByTagName('blink');
-          for (var i = 0; i < tags.length; i++) {
-            var b = tags[i].style;
-            b.visibility = b.visibility === 'hidden' ? 'visible' : 'hidden';
-          };
-        }
-        setInterval(blink, 200);
-    </script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
