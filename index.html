@@ -2,17 +2,31 @@
 <html>
 <head>
     <title>Web developer and Pianist | Henry Blyth</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css">
     <style type="text/css">
 html, body {
-    background-color: #252525;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: #eee;
 }
 html, body, .wrapper, .links {
     height: 100%;
+}
+body {
+    background-color: #252525;
+    color: #eee;
+    font-family: "Arvo", serif;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1.4;
+}
+a {
+    color: inherit;
+    border-bottom: 1px solid;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    border-bottom-color: transparent;
 }
 .wrapper {
     display: table;
@@ -23,7 +37,14 @@ html, body, .wrapper, .links {
     vertical-align: middle;
 }
 .link {
-    margin-left: 0;
+    font-size: 2em;
+    line-height: 1;
+    margin: 0;
+    margin-top: 1em;
+    text-align: center;
+}
+.link:first-child {
+    margin-top: 0;
 }
 .link a, .link img {
     display: inline-block;
