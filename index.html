@@ -25,13 +25,17 @@ html, body, .wrapper, .links {
 .link {
     margin-left: 0;
 }
+.link a, .link img {
+    display: inline-block;
+    vertical-align: middle;
+}
 .link img {
+    padding: 2px;
+}
+.link.github img, .link.linkedin img {
     -webkit-border-radius: 100%;
     -moz-border-radius: 100%;
     border-radius: 100%;
-    padding: 2px;
-}
-.link.github img {
     background-color: #eee;
 }
 .link.twitter img {
@@ -50,6 +54,10 @@ html, body, .wrapper, .links {
             <div class="link twitter">
                 <img src="twitter-bird-dark-bgs.png" height="48" width="48">
                 <a href="http://twitter.com/henrahmagix">Twitter</a>
+            </div>
+            <div class="link linkedin">
+                <img src="linkedin_32_black.png" height="32" width="32">
+                <a href="http://uk.linkedin.com/in/henryblyth">LinkedIn</a>
             </div>
             <div class="link pianos">
                 <a href="http://pianosinoxford.uk">pianosinoxford.uk</a>
