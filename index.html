@@ -10,6 +10,7 @@ html, body {
 }
 html, body, .wrapper, .links {
     height: 100%;
+    width: auto;
 }
 body {
     background-color: #252525;
@@ -35,13 +36,19 @@ a:focus {
 .links {
     display: table-cell;
     vertical-align: middle;
+    padding: 0 15%;
+}
+h1 {
+    font-size: 3em;
+    text-align: right;
+    border-top: 1px solid;
 }
 .link {
     font-size: 2em;
     line-height: 1;
     margin: 0;
     margin-top: 1em;
-    text-align: center;
+    text-align: left;
 }
 .link:first-child {
     margin-top: 0;
@@ -60,14 +67,44 @@ a:focus {
     background-color: #eee;
 }
 .link.twitter img {
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.hidden {
+    visibility: hidden;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    .links {
+        padding: 0 10%;
+    }
+}
+@media screen and (max-width: 530px) {
+    body {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 420px) {
+    body {
+        font-size: 10px;
+    }
+    .links {
+        padding: 0 5%;
+    }
 }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <section class="links">
+            <h1>Henrahmagix</h1>
             <div class="link github">
                 <img src="blacktocat-32.png" height="32" width="32">
                 <a href="http://github.com/henrahmagix">GitHub</a>
@@ -81,6 +118,7 @@ a:focus {
                 <a href="http://uk.linkedin.com/in/henryblyth">LinkedIn</a>
             </div>
             <div class="link pianos">
+                <img src="" height="32" width="32" class="hidden">
                 <a href="http://pianosinoxford.uk">pianosinoxford.uk</a>
             </div>
         </section>
