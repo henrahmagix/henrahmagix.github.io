@@ -23,12 +23,11 @@ body {
 }
 a {
     color: inherit;
-    border-bottom: 1px solid;
-    text-decoration: none;
+    text-decoration: underline;
 }
 a:hover,
 a:focus {
-    border-bottom-color: transparent;
+    text-decoration: none;
 }
 .wrapper {
     display: table;
@@ -38,6 +37,17 @@ a:focus {
     display: table-cell;
     vertical-align: middle;
     padding: 0 15%;
+}
+.links a {
+    color: inherit;
+    text-decoration: none;
+}
+.links a span {
+    text-decoration: underline;
+}
+.links a:hover span,
+.links a:focus span {
+    text-decoration: none;
 }
 h1 {
     font-size: 3em;
@@ -54,7 +64,7 @@ h1 {
 .link:first-child {
     margin-top: 0;
 }
-.link a, .link img {
+.link span, .link img {
     display: inline-block;
     vertical-align: middle;
 }
@@ -110,24 +120,34 @@ h1 {
         <section class="links">
             <h1>Henrahmagix</h1>
             <div class="link github">
-                <img src="blacktocat-32.png" height="32" width="32">
-                <a href="http://github.com/henrahmagix">GitHub</a>
+                <a href="http://github.com/henrahmagix">
+                    <img src="blacktocat-32.png" height="32" width="32">
+                    <span>GitHub</span>
+                </a>
             </div>
             <div class="link twitter">
-                <img src="twitter-bird-dark-bgs.png" height="48" width="48">
-                <a href="http://twitter.com/henrahmagix">Twitter</a>
+                <a href="http://twitter.com/henrahmagix">
+                    <img src="twitter-bird-dark-bgs.png" height="48" width="48">
+                    <span>Twitter</span>
+                </a>
             </div>
             <div class="link linkedin">
-                <img src="linkedin_32_black.png" height="32" width="32">
-                <a href="http://uk.linkedin.com/in/henryblyth">LinkedIn</a>
+                <a href="http://uk.linkedin.com/in/henryblyth">
+                    <img src="linkedin_32_black.png" height="32" width="32">
+                    <span>LinkedIn</span>
+                </a>
             </div>
             <div class="link pianos">
-                <img src="" height="32" width="32" class="hidden">
-                <a href="http://pianosinoxford.uk">PianosInOxford.uk</a>
+                <a href="http://pianosinoxford.uk">
+                    <img src="" height="32" width="32" class="hidden">
+                    <span>PianosInOxford.uk</span>
+                </a>
             </div>
             <div class="link github-oauth-prompt">
-                <img src="" height="32" width="32" class="hidden">
-                <a href="https://www.npmjs.org/package/github-oauth-prompt">github-oauth-prompt npm package</a>
+                <a href="http://github.com/henrahmagix/github-oauth-prompt">
+                    <img src="" height="32" width="32" class="hidden">
+                    <span>github-oauth-prompt</span>
+                </a>
             </div>
         </section>
     </div>
