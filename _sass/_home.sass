@@ -1,0 +1,113 @@
+html,
+body
+    margin: 0
+    padding: 0
+
+html,
+body,
+.wrapper,
+.links
+    height: 100%
+    width: auto
+
+body
+    background-color: #252525
+    color: #eee
+    font:
+        family: Arvo, serif
+        size: 100%
+        weight: normal
+    line-height: 1.4
+
+a
+    color: inherit
+    text-decoration: underline
+
+    @include hover
+        text-decoration: none
+
+.wrapper
+    display: table
+    width: 100%
+
+.links
+    display: table-cell
+    vertical-align: middle
+    padding: 0 15%
+
+    a
+        text-decoration: none
+
+        span
+            text-decoration: underline
+
+        @include hover
+            span
+                text-decoration: none
+
+h1
+    font-size: 3em
+    text-align: right
+    border-top: 1px solid
+
+.link
+    font-size: 2em
+    line-height: 1
+    margin: 0
+        top: 1em
+    text-align: left
+
+    &:first-child
+        margin-top: 0
+
+    span,
+    img
+        display: inline-block
+        vertical-align: middle
+
+    img
+        padding: 2px
+
+    &.github img,
+    &.linkedin img
+        @include border-radius(100%)
+        background-color: #eee
+
+    &.twitter img
+        margin:
+            left: -8px
+            right: -8px
+
+.hidden
+    visibility: hidden
+
+
+
+// >600px wide
+@include media("screen and (min-width: 600px)")
+    body
+        font-size: 16px
+
+// Up to 600px
+@include media("screen and (max-width: 600px)")
+    body
+        font-size: 14px
+    .links
+        padding: 0 10%
+
+// Up to 530px
+@include media("screen and (max-width: 530px)")
+    body
+        font-size: 12px
+
+// Up to 420px
+@include media("screen and (max-width: 420px)")
+    body
+        font-size: 10px
+    .links
+        padding: 0 5%
+
+
+
+@-ms-viewport
+    width: device-width

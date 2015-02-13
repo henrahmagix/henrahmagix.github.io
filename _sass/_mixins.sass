@@ -1,0 +1,8 @@
+@mixin media($expression)
+    @media #{$expression}
+        @content
+
+@mixin hover
+    &:hover,
+    &:focus
+        @content
