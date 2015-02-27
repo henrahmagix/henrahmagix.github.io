@@ -6,7 +6,7 @@ body
 html,
 body,
 .wrapper,
-.links
+.inner
     height: 100%
     width: auto
 
@@ -30,11 +30,12 @@ a
     display: table
     width: 100%
 
-.links
+.inner
     display: table-cell
     vertical-align: middle
     padding: 0 15%
 
+.links
     a
         text-decoration: none
 
@@ -45,7 +46,7 @@ a
             span
                 text-decoration: none
 
-h1
+.page-title
     font-size: 3em
     text-align: right
     border-top: 1px solid
@@ -92,7 +93,7 @@ h1
 @include media("screen and (max-width: 600px)")
     body
         font-size: 14px
-    .links
+    .inner
         padding: 0 10%
 
 // Up to 530px
@@ -104,7 +105,7 @@ h1
 @include media("screen and (max-width: 420px)")
     body
         font-size: 10px
-    .links
+    .inner
         padding: 0 5%
 
 
