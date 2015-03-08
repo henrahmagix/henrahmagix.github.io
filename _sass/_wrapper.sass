@@ -32,57 +32,14 @@ a
 
 .inner
     display: table-cell
-    vertical-align: middle
-    padding: 0 15%
-
-.links
-    a
-        text-decoration: none
-
-        span
-            text-decoration: underline
-
-        @include hover
-            span
-                text-decoration: none
+    padding: 5% 15%
+    .page-home &
+        vertical-align: middle
 
 .page-title
     font-size: 3em
     text-align: right
     border-top: 1px solid
-
-.link
-    font-size: 2em
-    line-height: 1
-    margin: 0
-        top: 1em
-    text-align: left
-
-    &:first-child
-        margin-top: 0
-
-    span,
-    img
-        display: inline-block
-        vertical-align: middle
-
-    img
-        padding: 2px
-
-    &.github img,
-    &.linkedin img
-        @include border-radius(100%)
-        background-color: #eee
-
-    &.twitter img
-        margin:
-            left: -8px
-            right: -8px
-
-.hidden
-    visibility: hidden
-
-
 
 // >600px wide
 @include media("screen and (min-width: 600px)")
@@ -107,8 +64,6 @@ a
         font-size: 10px
     .inner
         padding: 0 5%
-
-
 
 @-ms-viewport
     width: device-width

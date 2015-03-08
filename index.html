@@ -1,8 +1,16 @@
 ---
-layout: default
 title: Henry Blyth
+class: home
 ---
 <section class="links">
+    {% if site.posts[0] %}
+    <div class="link latest no-icon">
+        <a href="{{ site.posts[0].url }}">
+            <img src="" height="32" width="32">
+            <span>Latest post: "{{ site.posts[0].title }}"</span>
+        </a>
+    </div>
+    {% endif %}
     <div class="link github">
         <a href="http://github.com/henrahmagix">
             <img src="images/blacktocat-32.png" height="32" width="32">
@@ -21,16 +29,16 @@ title: Henry Blyth
             <span>LinkedIn</span>
         </a>
     </div>
-    <div class="link pianos">
+    <div class="link pianos no-icon">
         <a href="http://pianosinoxford.uk">
-            <img src="" height="32" width="32" class="hidden">
+            <img src="" height="32" width="32">
             <span>PianosInOxford.uk</span>
         </a>
     </div>
-    <div class="link github-oauth-prompt">
+    <!-- <div class="link github-oauth-prompt no-icon">
         <a href="http://github.com/henrahmagix/github-oauth-prompt">
-            <img src="" height="32" width="32" class="hidden">
+            <img src="" height="32" width="32">
             <span>github-oauth-prompt</span>
         </a>
-    </div>
+    </div> -->
 </section>
