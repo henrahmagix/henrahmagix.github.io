@@ -63,6 +63,32 @@ a
     font:
         size: 1.5em
 
+.highlight
+    color: $highlight-color
+
+.page-footer
+    position: relative
+
+    .contact,
+    .links
+        position: absolute
+        bottom: 0
+    .contact
+        left: 0
+        padding-left: $separator-curl
+        margin-bottom: 5px
+        .first
+            margin-right: 5px
+    .links
+        right: 0
+        padding-right: $separator-curl
+        text-align: right
+    .link
+        display: inline-block
+        vertical-align: middle
+        margin-left: 5px
+        font-size: 2em
+
 // >600px wide
 @include media("screen and (min-width: 600px)")
     body
