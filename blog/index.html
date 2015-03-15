@@ -7,7 +7,10 @@ class: posts
 {% if site.posts.size > 0 %}
     <ul class="links posts">
         {% for post in site.posts %}
-            {% include link.html title=post.title post=post.excerpt icon="file-text-o" url=post.url class="latest" %}
+            {% capture excerpt %}
+                <span class="excerpt"><span class="screenreader">Excerpt:</span> {{ post.excerpt }}</span>
+            {% endcapture %}
+            {% include link.html title=post.title post=excerpt icon="file-text-o" url=post.url %}
         {% endfor %}
     </ul>
 {% else %}
