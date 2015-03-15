@@ -5,8 +5,9 @@ class: home
 <section class="links">
     {% if site.posts[0] %}
     <div class="link latest no-icon">
+        <span>Latest post:</span>
         <a href="{{ site.posts[0].url }}">
-            <span>Latest post: "{{ site.posts[0].title }}"</span>
+            <span>{{ site.posts[0].title }}</span>
         </a>
     </div>
     {% endif %}
