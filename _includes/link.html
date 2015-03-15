@@ -1,4 +1,7 @@
-<div class="link {{ include.title | slugify }} {% unless include.icon %}no-icon{% endunless %}">
+<div class="link {{ include.class }} {{ include.title | slugify }} {% unless include.icon %}no-icon{% endunless %}">
+    {% if include.pre %}
+        <span>{{ include.pre }}</span>
+    {% endif %}
     <a href="{{ include.url }}">
         {% if include.icon %}<i class="fa fa-{{ include.icon }}"></i>{% endif %}
         <span>{{ include.title }}</span>
