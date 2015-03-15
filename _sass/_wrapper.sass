@@ -11,8 +11,9 @@ body,
     width: auto
 
 body
-    background-color: #252525
-    color: #eee
+    background-color: $bg-color
+    background-color: #468BCF
+    color: $text-color
     font:
         family: "PT Sans", serif
         size: 100%
@@ -38,6 +39,10 @@ a
         vertical-align: middle
 
 .page-title,
+.fa
+    color: $highlight-color
+
+.page-title,
 .page-content
     padding: 5% 0
 
@@ -48,7 +53,7 @@ a
 .page-title
     font-size: 3em
     line-height: 1
-    border-top: 1px solid
+    border-top: $separator
     padding-bottom: 0
 
 .page-subtitle
@@ -56,7 +61,7 @@ a
         size: 1.5em
 
 .page-content
-    border-bottom: 1px solid
+    border-bottom: $separator
     padding-top: 0
 
 // >600px wide
