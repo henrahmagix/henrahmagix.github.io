@@ -2,18 +2,21 @@
     title: GitHub
     icon: github
     url: http://github.com/henrahmagix
+    homelist: true
+    footerlist: true
 -
     title: Twitter
     icon: twitter
     url: http://twitter.com/henrahmagix
+    homelist: true
+    footerlist: true
 -
     title: LinkedIn
     icon: linkedin
     url: http://uk.linkedin.com/in/henryblyth
+    homelist: true
+    footerlist: true
 -
     title: PianosInOxford.uk
     url: http://pianosinoxford.uk
--
-    title: github-oauth-prompt
-    url: http://github.com/henrahmagix/github-oauth-prompt
-    hidden: true
+    homelist: true

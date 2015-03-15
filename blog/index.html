@@ -1,0 +1,15 @@
+---
+layout: default
+title: Blog
+class: posts
+---
+
+{% if site.posts.size > 0 %}
+    <ul class="links posts">
+        {% for post in site.posts %}
+            {% include link.html title=post.title post=post.excerpt icon="file-text-o" url=post.url class="latest" %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <h2 class="empty">No blog posts</h2>
+{% endif %}

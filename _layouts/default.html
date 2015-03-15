@@ -29,7 +29,7 @@
             <div class="page-footer">
                 <ul class="links">
                     {% for link in site.data.links %}
-                        {% if link.icon %}
+                        {% if link.footerlist %}
                             {% include link.html icon=link.icon url=link.url %}
                         {% endif %}
                     {% endfor %}
