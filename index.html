@@ -11,33 +11,9 @@ class: home
         </a>
     </div>
     {% endif %}
-    <div class="link github">
-        <a href="http://github.com/henrahmagix">
-            <i class="fa fa-github"></i>
-            <span>GitHub</span>
-        </a>
-    </div>
-    <div class="link twitter">
-        <a href="http://twitter.com/henrahmagix">
-            <i class="fa fa-twitter"></i>
-            <span>Twitter</span>
-        </a>
-    </div>
-    <div class="link linkedin">
-        <a href="http://uk.linkedin.com/in/henryblyth">
-            <i class="fa fa-linkedin"></i>
-            <span>LinkedIn</span>
-        </a>
-    </div>
-    <div class="link pianos no-icon">
-        <a href="http://pianosinoxford.uk">
-            <span>PianosInOxford.uk</span>
-        </a>
-    </div>
-    <!-- <div class="link github-oauth-prompt no-icon">
-        <a href="http://github.com/henrahmagix/github-oauth-prompt">
-            <img src="" height="32" width="32">
-            <span>github-oauth-prompt</span>
-        </a>
-    </div> -->
+    {% include link.html title="GitHub" icon="github" url="http://github.com/henrahmagix" %}
+    {% include link.html title="Twitter" icon="twitter" url="http://twitter.com/henrahmagix" %}
+    {% include link.html title="LinkedIn" icon="linkedin" url="http://uk.linkedin.com/in/henryblyth" %}
+    {% include link.html title="PianosInOxford.uk" url="http://pianosinoxford.uk" %}
+    <!-- {% include link.html title="github-oauth-prompt" url="http://github.com/henrahmagix/github-oauth-prompt" %} -->
 </section>
