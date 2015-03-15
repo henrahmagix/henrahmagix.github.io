@@ -36,10 +36,19 @@ a
     .page-home &
         vertical-align: middle
 
+.page-title,
+.page-content
+    padding: 5% 0
+
 .page-title
     font-size: 3em
     text-align: right
     border-top: 1px solid
+    padding-bottom: 0
+    line-height: 1
+
+.page-content
+    border-bottom: 1px solid
 
 // >600px wide
 @include media("screen and (min-width: 600px)")
@@ -51,7 +60,7 @@ a
     body
         font-size: 14px
     .inner
-        padding: 0 10%
+        padding: 5% 10%
 
 // Up to 530px
 @include media("screen and (max-width: 530px)")
@@ -63,7 +72,7 @@ a
     body
         font-size: 10px
     .inner
-        padding: 0 5%
+        padding: 2% 5%
 
 @-ms-viewport
     width: device-width

@@ -8,31 +8,23 @@
                 text-decoration: none
 
 .link
+    $home-icon-width: 1.5em
     font-size: 2em
     line-height: 1
     margin: 0
         top: 1em
     text-align: left
 
-    &:first-child
-        margin-top: 0
-
-    span,
-    img
+    .fa,
+    span
         display: inline-block
         vertical-align: middle
 
-    img
-        padding: 2px
-    &.no-icon img
-        visibility: hidden
+    .fa
+        float: left
+        min-width: $home-icon-width
 
-    &.github img,
-    &.linkedin img
-        @include border-radius(100%)
-        background-color: #eee
-
-    &.twitter img
-        margin:
-            left: -8px
-            right: -8px
+    &.no-icon
+        span
+            margin:
+                left: $home-icon-width
