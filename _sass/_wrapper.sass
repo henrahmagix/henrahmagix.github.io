@@ -12,7 +12,6 @@ body,
 
 body
     background-color: $bg-color
-    background-color: #468BCF
     color: $text-color
     font:
         family: "PT Sans", serif
@@ -34,7 +33,7 @@ a
 
 .inner
     display: table-cell
-    padding: 5% 15%
+    padding: $site-padding-y $site-padding-x
     .page-home &
         vertical-align: middle
 
@@ -44,25 +43,27 @@ a
 
 .page-title,
 .page-content
-    padding: 5% 0
+    padding: $site-padding-y 0
 
 .page-title,
 .page-subtitle
     text-align: right
 
 .page-title
-    font-size: 3em
-    line-height: 1
+    @include border-radius($separator-width)
     border-top: $separator
     padding-bottom: 0
+    font-size: 3em
+    line-height: 1
 
 .page-subtitle
     font:
         size: 1.5em
 
 .page-content
+    @include border-radius($separator-width * 5)
     border-bottom: $separator
-    padding-top: 0
+    padding-bottom: $separator-width * 5
 
 // >600px wide
 @include media("screen and (min-width: 600px)")
@@ -74,7 +75,7 @@ a
     body
         font-size: 14px
     .inner
-        padding: 5% 10%
+        padding: $site-padding-y ($site-padding-x / 1.5)
 
 // Up to 530px
 @include media("screen and (max-width: 530px)")
@@ -86,7 +87,7 @@ a
     body
         font-size: 10px
     .inner
-        padding: 2% 5%
+        padding: ($site-padding-y / 1.5) ($site-padding-x / 3)
 
 @-ms-viewport
     width: device-width
