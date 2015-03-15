@@ -8,6 +8,8 @@
         {% endif %}
         {% if include.title %}
             <span class="title">{{ include.title }}</span>
+        {% else %}
+            <span class="screenreader">{{ include.icon | slugify }}</span>
         {% endif %}
     </a>
     {% if include.post %}
