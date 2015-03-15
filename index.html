@@ -11,9 +11,9 @@ class: home
         </a>
     </div>
     {% endif %}
-    {% include link.html title="GitHub" icon="github" url="http://github.com/henrahmagix" %}
-    {% include link.html title="Twitter" icon="twitter" url="http://twitter.com/henrahmagix" %}
-    {% include link.html title="LinkedIn" icon="linkedin" url="http://uk.linkedin.com/in/henryblyth" %}
-    {% include link.html title="PianosInOxford.uk" url="http://pianosinoxford.uk" %}
-    <!-- {% include link.html title="github-oauth-prompt" url="http://github.com/henrahmagix/github-oauth-prompt" %} -->
+    {% for link in site.data.links %}
+        {% unless link.hidden == true %}
+            {% include link.html title=link.title icon=link.icon url=link.url %}
+        {% endunless %}
+    {% endfor %}
 </section>
