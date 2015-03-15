@@ -41,15 +41,23 @@ a
 .page-content
     padding: 5% 0
 
+.page-title,
+.page-subtitle
+    text-align: right
+
 .page-title
     font-size: 3em
-    text-align: right
+    line-height: 1
     border-top: 1px solid
     padding-bottom: 0
-    line-height: 1
+
+.page-subtitle
+    font:
+        size: 1.5em
 
 .page-content
     border-bottom: 1px solid
+    padding-top: 0
 
 // >600px wide
 @include media("screen and (min-width: 600px)")

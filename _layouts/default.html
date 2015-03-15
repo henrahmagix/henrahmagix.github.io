@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Web developer and Pianist | Henry Blyth</title>
+    <title>{% if page.headTitle %}{{ page.headTitle }} – {% else if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
@@ -11,6 +12,9 @@
     <div class="wrapper page-{{ page.class }}">
         <div class="inner">
             <h1 class="page-title">{{ page.title }}</h1>
+            {% if page.subtitle %}
+                <h2 class="page-subtitle">{{ page.subtitle }}</h2>
+            {% endif %}
             <div class="page-content">{{ content }}</div>
         </div>
     </div>
