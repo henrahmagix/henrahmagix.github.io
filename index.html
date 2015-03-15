@@ -2,13 +2,13 @@
 title: Henry Blyth
 class: home
 ---
-<section class="links">
+<ul class="links">
     {% for post in site.posts limit:1 %}
-        {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
+        <li>{% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}</li>
     {% endfor %}
     {% for link in site.data.links %}
         {% unless link.hidden == true %}
-            {% include link.html title=link.title icon=link.icon url=link.url %}
+            <li>{% include link.html title=link.title icon=link.icon url=link.url %}</li>
         {% endunless %}
     {% endfor %}
-</section>
+</ul>
