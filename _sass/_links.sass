@@ -1,0 +1,49 @@
+.links
+    a
+        text-decoration: none
+        .title
+            text-decoration: underline
+        @include hover
+            .title
+                text-decoration: none
+
+.link
+
+    .fa,
+    .title
+        display: inline-block
+        vertical-align: middle
+
+    a
+        color: $link-color
+        @include hover
+            color: $link-hover-color
+
+    &.highlight
+        a
+            color: $link-hover-color
+        &.no-title
+            a
+                @include hover
+                    color: $link-color
+
+    &.home
+        float: left
+        font-size: 2em
+
+.page-footer
+    position: relative
+
+    .links
+        text-align: right
+        padding: 0 $separator-curl
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+
+    .link
+        display: inline-block
+        vertical-align: middle
+        margin-right: 5px
+        font-size: 2em

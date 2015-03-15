@@ -37,33 +37,31 @@ a
     .page-home &
         vertical-align: middle
 
-.page-title,
-.fa
-    color: $highlight-color
-
-.page-title,
-.page-content
+.page-header,
+.page-footer
     padding: $site-padding-y 0
+
+.page-header
+    @include border-radius($separator-width)
+    border-top: $separator
+
+.page-footer
+    @include border-radius($separator-curl)
+    border-bottom: $separator
+    padding-bottom: $separator-curl
 
 .page-title,
 .page-subtitle
     text-align: right
 
 .page-title
-    @include border-radius($separator-width)
-    border-top: $separator
-    padding-bottom: 0
+    color: $highlight-color
     font-size: 3em
     line-height: 1
 
 .page-subtitle
     font:
         size: 1.5em
-
-.page-content
-    @include border-radius($separator-width * 5)
-    border-bottom: $separator
-    padding-bottom: $separator-width * 5
 
 // >600px wide
 @include media("screen and (min-width: 600px)")

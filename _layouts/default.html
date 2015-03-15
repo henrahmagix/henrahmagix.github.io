@@ -9,13 +9,33 @@
 </head>
 <body>
 
-    <div class="wrapper page-{{ page.class }}">
+    <div class="wrapper page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
         <div class="inner">
-            <h1 class="page-title">{{ page.title }}</h1>
-            {% if page.subtitle %}
-                <h2 class="page-subtitle">{{ page.subtitle }}</h2>
-            {% endif %}
-            <div class="page-content">{{ content }}</div>
+
+            <div class="page-header">
+                {% unless page.path == "index.html" %}
+                    {% include home-link.html %}
+                {% endunless %}
+                <h1 class="page-title">{{ page.title }}</h1>
+                {% if page.subtitle %}
+                    <h2 class="page-subtitle">{{ page.subtitle }}</h2>
+                {% endif %}
+            </div>
+
+            <div class="page-body">
+                <div class="page-content">{{ content }}</div>
+            </div>
+
+            <div class="page-footer">
+                <ul class="links">
+                    {% for link in site.data.links %}
+                        {% if link.icon %}
+                            {% include link.html icon=link.icon url=link.url %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
         </div>
     </div>
 

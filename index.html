@@ -6,11 +6,14 @@ class: home
 ---
 <ul class="links">
     {% for post in site.posts limit:1 %}
-        <li>{% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}</li>
+        {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
     {% endfor %}
+    {% if site.posts.size > 0 %}
+        {% include link.html title="All posts" url="/posts" %}
+    {% endif %}
     {% for link in site.data.links %}
         {% unless link.hidden == true %}
-            <li>{% include link.html title=link.title icon=link.icon url=link.url %}</li>
+            {% include link.html title=link.title icon=link.icon url=link.url %}
         {% endunless %}
     {% endfor %}
 </ul>

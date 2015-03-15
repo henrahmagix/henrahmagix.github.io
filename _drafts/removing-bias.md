@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Removing bias
 class: post
 ---

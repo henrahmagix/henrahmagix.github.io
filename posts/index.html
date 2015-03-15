@@ -1,0 +1,10 @@
+---
+layout: default
+title: Posts
+---
+
+<ul class="links posts">
+    {% for post in site.posts %}
+        {% include link.html title=post.title post=post.excerpt icon="file-text-o" url=post.url class="latest" %}
+    {% endfor %}
+</ul>

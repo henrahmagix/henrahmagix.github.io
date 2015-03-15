@@ -1,29 +1,24 @@
-.links
-    a
-        text-decoration: none
-        span
-            text-decoration: underline
-        @include hover
-            span
-                text-decoration: none
+.page-home
 
-.link
-    $home-icon-width: 1.5em
-    font-size: 2em
-    line-height: 1
-    margin: 0
-        top: 1em
-    text-align: left
+    .page-body
 
-    .fa,
-    span
-        display: inline-block
-        vertical-align: middle
+        .link
+            $home-icon-width: 1.5em
+            display: block
+            font-size: 2em
+            line-height: 1
+            margin: 0
+                top: 1em
+            text-align: left
 
-    .fa
-        float: left
-        min-width: $home-icon-width
+            .fa
+                float: left
+                min-width: $home-icon-width
 
-    &.no-icon
-        margin:
-            left: $home-icon-width
+            &.no-icon
+                margin:
+                    left: $home-icon-width
+
+    .page-footer
+        .links
+            display: none
