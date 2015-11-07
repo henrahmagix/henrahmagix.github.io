@@ -1,0 +1,22 @@
+---
+layout: default
+title: Double exposures
+subtitle: in the browser
+class: posts
+---
+
+<img id="a" src="1a.jpg" style="display:block; margin:0 auto;">
+<img id="b" src="1b.jpg" style="display:none;">
+<script src="/lib/caman.full.min.js"></script>
+<script>
+    Caman('#a', function () {
+        this.greyscale();
+        this.newLayer(function () {
+            this.setBlendingMode('screen');
+            this.overlayImage('#b');
+            this.filter.greyscale();
+            this.filter.contrast(50);
+        });
+        this.render();
+    });
+</script>
