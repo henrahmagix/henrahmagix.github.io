@@ -73,9 +73,12 @@ class: doubles
     var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
         // Clone the first image for use with Caman, so both images can be seen
         // separately to the combined double-exposure.
-        var camanImage = firstImg.cloneNode();
-        firstImg.parentElement.appendChild(camanImage);
-        Caman(camanImage, function () {
+        var camanCanvas = document.createElement('canvas');
+        camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
+        camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
+        camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
+        firstImg.parentElement.appendChild(camanCanvas);
+        Caman(camanCanvas, function () {
             if (brightnessDiff < 10) {
                 this.brightness(-10);
             }
