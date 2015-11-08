@@ -7,6 +7,9 @@ class: home
 
 <ul class="links">
 
+    {% comment %}Latest feature{% endcomment %}
+    {% include link.html pre="Latest:" title="Double exposures" url="/doubles" class="latest" %}
+
     {% comment %}Latest post{% endcomment %}
     {% for post in site.posts limit:1 %}
         {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
