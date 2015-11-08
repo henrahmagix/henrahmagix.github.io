@@ -8,11 +8,22 @@ class: doubles
 <p>Two random images are loaded from <a href="http://lorempixel.com">lorempixel.com</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable.</p>
 
 <button id="generate">Generate</button>
+<span id="loading" style="display:none;">Processing...</span>
 
 <div id="images"></div>
 
 <script src="/lib/caman.full.min.js"></script>
 <script>
+
+    var generateButton = document.getElementById('generate');
+    var loadingMessage = document.getElementById('loading');
+    var showLoading = function () {
+        loadingMessage.style.display = '';
+    };
+    var hideLoading = function () {
+        loadingMessage.style.display = 'none';
+    };
+    hideLoading();
 
     var getAverageBrightness = function (img) {
         var colorSum = 0;
@@ -53,7 +64,7 @@ class: doubles
                     this.filter.brightness(10);
                 }
             });
-            this.render();
+            this.render(hideLoading);
             firstImg.width /= 2;
             firstImg.height /= 2;
             secondImg.width /= 2;
@@ -86,6 +97,7 @@ class: doubles
     };
 
     var generate = function () {
+        showLoading();
         // Remove all images.
         var numImages = images.children.length;
         for (var i = 0; i < numImages; i++) {
@@ -114,6 +126,6 @@ class: doubles
         startImageLoad(bImage);
     };
 
-    document.getElementById('generate').addEventListener('click', generate);
+    generateButton.addEventListener('click', generate);
 
 </script>
