@@ -1,0 +1,119 @@
+---
+layout: default
+title: Double exposures
+subtitle: in the browser – random
+class: doubles
+---
+
+<p>Two random images are loaded from <a href="http://lorempixel.com">lorempixel.com</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable.</p>
+
+<button id="generate">Generate</button>
+
+<div id="images"></div>
+
+<script src="/lib/caman.full.min.js"></script>
+<script>
+
+    var getAverageBrightness = function (img) {
+        var colorSum = 0;
+        var width = img.width;
+        var height = img.height;
+        var context = document.createElement('canvas').getContext('2d');
+        context.drawImage(img, 0, 0);
+        var data = context.getImageData(0, 0, width, height).data;
+
+        var r, g, b, avg;
+        for (var x = 0, len = data.length; x < len; x+=4) {
+            r = data[x];
+            g = data[x+1];
+            b = data[x+2];
+
+            avg = Math.floor((r + g + b) / 3);
+            colorSum += avg;
+        }
+
+        var brightness = Math.floor(colorSum / (width * height));
+        return brightness;
+    };
+
+    var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
+        // Clone the first image for use with Caman, so both images can be seen
+        // separately to the combined double-exposure.
+        var camanImage = firstImg.cloneNode();
+        firstImg.parentElement.appendChild(camanImage);
+        Caman(camanImage, function () {
+            if (brightnessDiff < 10) {
+                this.brightness(-10);
+            }
+            this.newLayer(function () {
+                this.setBlendingMode('screen');
+                this.context.drawImage(secondImg, 0, 0);
+                this.c.reloadCanvasData.call(this);
+                if (brightnessDiff < 10) {
+                    this.filter.brightness(10);
+                }
+            });
+            this.render();
+            firstImg.width /= 2;
+            firstImg.height /= 2;
+            secondImg.width /= 2;
+            secondImg.height /= 2;
+        });
+    };
+
+    var onAllImagesLoad = function (aImage, bImage) {
+        var aBrightness = getAverageBrightness(aImage);
+        var bBrightness = getAverageBrightness(bImage);
+        var difference = Math.abs(aBrightness - bBrightness);
+        if (aBrightness < bBrightness) {
+            makeDoubleExposure(aImage, bImage, difference);
+        } else {
+            makeDoubleExposure(bImage, aImage, difference);
+        }
+    };
+
+    var images = document.getElementById('images');
+
+    var startImageLoad = function (img) {
+        img.width = 400;
+        img.height = 400;
+        // Without crossOrigin set to anonymous, a security error will be thrown
+        // when calling getImageData() on a canvas context. lorempixel kindly
+        // supplies the correct Access-Control-Allow-Origin header.
+        img.crossOrigin = 'anonymous';
+        // Append a random number so a new image is requested and the cache isn't used.
+        img.src = 'http://lorempixel.com/400/400/?' + Math.random();
+    };
+
+    var generate = function () {
+        // Remove all images.
+        var numImages = images.children.length;
+        for (var i = 0; i < numImages; i++) {
+            images.removeChild(images.children[0]);
+        }
+        // Make new images.
+        var aImage = new Image();
+        var bImage = new Image();
+        images.appendChild(aImage);
+        images.appendChild(bImage);
+        var aLoaded = false;
+        var bLoaded = false;
+        aImage.addEventListener('load', function () {
+            aLoaded = true;
+            if (bLoaded) {
+                onAllImagesLoad(aImage, bImage);
+            }
+        });
+        bImage.addEventListener('load', function () {
+            bLoaded = true;
+            if (aLoaded) {
+                onAllImagesLoad(aImage, bImage);
+            }
+        });
+        startImageLoad(aImage);
+        startImageLoad(bImage);
+    };
+
+    document.getElementById('generate').addEventListener('click', generate);
+
+</script>

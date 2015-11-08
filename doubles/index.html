@@ -2,24 +2,25 @@
 layout: default
 title: Double exposures
 subtitle: in the browser
-class: posts
+class: doubles
 ---
 
-<p>Sources:</p>
 <ul>
+    Sources:
     <li><a href="https://www.flickr.com/photos/henryblyth/7338868070/">flickr.com/photos/henryblyth/7338868070</a></li>
     <li><a href="https://www.flickr.com/photos/henryblyth/7155566185/">flickr.com/photos/henryblyth/7155566185</a></li>
 </ul>
 
-<img id="a" src="1a.jpg" style="display:block; margin:0 auto;">
-<img id="b" src="1b.jpg" style="display:none;">
+<img id="image-a" src="1a.jpg">
+<img id="image-b" class="hidden" src="1b.jpg">
+
 <script src="/lib/caman.full.min.js"></script>
 <script>
-    Caman('#a', function () {
+    Caman('#image-a', function () {
         this.greyscale();
         this.newLayer(function () {
             this.setBlendingMode('screen');
-            this.overlayImage('#b');
+            this.overlayImage('#image-b');
             this.filter.greyscale();
             this.filter.contrast(50);
         });
