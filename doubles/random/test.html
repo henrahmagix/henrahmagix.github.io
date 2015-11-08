@@ -1,0 +1,37 @@
+---
+layout: default
+title: Double exposures
+subtitle: in the browser – test
+class: test
+---
+
+<p id="count"></p>
+<div id="images">
+    <img id="image-a" src="http://lorempixel.com/400/400?1">
+    <img id="image-b" src="http://lorempixel.com/400/400?2">
+</div>
+
+<script>
+
+    var images = document.getElementById('images');
+    var a = document.getElementById('image-a');
+    var b = document.getElementById('image-b');
+    var count = document.getElementById('count');
+
+    var i = 0;
+    var parentNode = a.parentNode;
+    setInterval(function () {
+        count.innerText = i;
+        var clone;
+        if (i % 2 === 0) {
+            clone = a.cloneNode();
+            parentNode.replaceChild(clone, a);
+            a = clone;
+        } else {
+            clone = b.cloneNode();
+            parentNode.replaceChild(clone, b);
+            b = clone;
+        }
+    }, 1000)
+
+</script>
