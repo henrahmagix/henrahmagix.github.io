@@ -11,6 +11,11 @@ class: doubles
 
 <p>Two random images are loaded from <a href="http://lorempixel.com">lorempixel.com</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable. Uses <a href="http://camanjs.com/">CamanJS</a>.</p>
 
+<p>
+    Change the dimensions below to get different images: <br>
+    Width: <input type="text" id="input-width" value="400"> Height: <input type="text" id="input-height" value="400">
+</p>
+
 <button id="generate">Generate</button>
 <span id="loading" style="display:none;">Processing...</span>
 
@@ -19,8 +24,12 @@ class: doubles
 <script src="/lib/caman.full.min.js"></script>
 <script>
 
+    var widthInput = document.getElementById('input-width');
+    var heightInput = document.getElementById('input-height');
+
     var generateButton = document.getElementById('generate');
     var loadingMessage = document.getElementById('loading');
+
     var showLoading = function () {
         loadingMessage.style.display = '';
     };
@@ -69,6 +78,9 @@ class: doubles
                 }
             });
             this.render(hideLoading);
+            var width = widthInput.value / 2 + 'px';
+            firstImg.style.maxWidth = width;
+            secondImg.style.maxWidth = width;
         });
     };
 
@@ -86,14 +98,16 @@ class: doubles
     var images = document.getElementById('images');
 
     var startImageLoad = function (img) {
-        img.width = 400;
-        img.height = 400;
+        var width = widthInput.value;
+        var height = heightInput.value;
+        img.width = width;
+        img.height = height;
         // Without crossOrigin set to anonymous, a security error will be thrown
         // when calling getImageData() on a canvas context. lorempixel kindly
         // supplies the correct Access-Control-Allow-Origin header.
         img.crossOrigin = 'anonymous';
         // Append a random number so a new image is requested and the cache isn't used.
-        img.src = 'http://lorempixel.com/400/400/?' + Math.random();
+        img.src = 'http://lorempixel.com/' + width + '/' + height + '/?' + Math.random();
     };
 
     var generate = function () {
