@@ -26,9 +26,9 @@ class: doubles
 
     var widthInput = document.getElementById('input-width');
     var heightInput = document.getElementById('input-height');
-
     var generateButton = document.getElementById('generate');
     var loadingMessage = document.getElementById('loading');
+    var images = document.getElementById('images');
 
     var showLoading = function () {
         loadingMessage.style.display = '';
@@ -37,6 +37,16 @@ class: doubles
         loadingMessage.style.display = 'none';
     };
     hideLoading();
+
+    var beforeGenerate = function () {
+        showLoading();
+        // Keep the height of the images container until regenerated.
+        images.style.height = images.clientHeight + 'px';
+    };
+    var afterGenerate = function () {
+        hideLoading();
+        images.style.height = '';
+    };
 
     var getAverageBrightness = function (img) {
         var colorSum = 0;
@@ -77,10 +87,12 @@ class: doubles
                     this.filter.brightness(10);
                 }
             });
-            this.render(hideLoading);
-            var width = widthInput.value / 2 + 'px';
-            firstImg.style.maxWidth = width;
-            secondImg.style.maxWidth = width;
+            this.render(function () {
+                var width = widthInput.value / 2 + 'px';
+                firstImg.style.maxWidth = width;
+                secondImg.style.maxWidth = width;
+                afterGenerate();
+            });
         });
     };
 
@@ -94,8 +106,6 @@ class: doubles
             makeDoubleExposure(bImage, aImage, difference);
         }
     };
-
-    var images = document.getElementById('images');
 
     var startImageLoad = function (img) {
         var width = widthInput.value;
@@ -111,7 +121,7 @@ class: doubles
     };
 
     var generate = function () {
-        showLoading();
+        beforeGenerate();
         // Remove all images.
         var numImages = images.children.length;
         for (var i = 0; i < numImages; i++) {
