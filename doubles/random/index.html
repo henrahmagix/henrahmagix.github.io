@@ -35,6 +35,8 @@ class: doubles
     var loadingMessage = document.getElementById('loading');
     var images = document.getElementById('images');
 
+    var canvasId = 'doubles-canvas';
+
     var showLoading = function () {
         loadingMessage.style.display = '';
     };
@@ -59,6 +61,7 @@ class: doubles
         var height = img.height;
         var context = document.createElement('canvas').getContext('2d');
         context.drawImage(img, 0, 0);
+        console.log('getAverageBrightness', img.id);
         var data = context.getImageData(0, 0, width, height).data;
 
         var r, g, b, avg;
@@ -79,6 +82,7 @@ class: doubles
         // Clone the first image for use with Caman, so both images can be seen
         // separately to the combined double-exposure.
         var camanCanvas = document.createElement('canvas');
+        camanCanvas.id = canvasId;
         camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
         camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
         camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
@@ -105,6 +109,7 @@ class: doubles
     };
 
     var onAllImagesLoad = function (aImage, bImage) {
+        console.log('onAllImagesLoad');
         var aBrightness = getAverageBrightness(aImage);
         var bBrightness = getAverageBrightness(bImage);
         var difference = Math.abs(aBrightness - bBrightness);
@@ -116,6 +121,9 @@ class: doubles
     };
 
     var startImageLoad = function (img) {
+        if (img.locked) {
+            return;
+        }
         var width = widthInput.value;
         var height = heightInput.value;
         img.width = width;
@@ -130,34 +138,64 @@ class: doubles
         var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
         var randomParam = '?' + Math.random();
         img.src = 'http://lorempixel.com/' + greyscaleParam + widthParam + heightParam + randomParam;
+        img.addEventListener('click', function () {
+            img.locked = !img.locked;
+            if (img.locked) {
+                img.className = 'locked';
+            } else {
+                img.className = '';
+            }
+        });
     };
 
     var generate = function () {
         beforeGenerate();
         // Remove all images.
-        var numImages = images.children.length;
-        for (var i = 0; i < numImages; i++) {
-            images.removeChild(images.children[0]);
+        var canvas = document.getElementById(canvasId);
+        if (canvas) {
+            canvas.parentNode.removeChild(canvas);
         }
-        // Make new images.
-        var aImage = new Image();
-        var bImage = new Image();
-        images.appendChild(aImage);
-        images.appendChild(bImage);
+        var aImage = document.getElementById('image-a');
+        var bImage = document.getElementById('image-b');
         var aLoaded = false;
         var bLoaded = false;
-        aImage.addEventListener('load', function () {
+        if (aImage) {
+            aLoaded = true;
+            aImage.parentNode.removeChild(aImage);
+            aImage.removeEventListener('load', aImage.loadListener);
+        }
+        if (bImage) {
+            bLoaded = true;
+            bImage.parentNode.removeChild(bImage);
+            bImage.removeEventListener('load', bImage.loadListener);
+        }
+        // Make new images if needed.
+        if (!aImage) {
+            aImage = new Image();
+            aImage.id = 'image-a';
+        }
+        if (!bImage) {
+            bImage = new Image();
+            bImage.id = 'image-b';
+        }
+        var aOnLoad = function () {
             aLoaded = true;
             if (bLoaded) {
                 onAllImagesLoad(aImage, bImage);
             }
-        });
-        bImage.addEventListener('load', function () {
+        };
+        var bOnLoad = function () {
             bLoaded = true;
             if (aLoaded) {
                 onAllImagesLoad(aImage, bImage);
             }
-        });
+        };
+        aImage.addEventListener('load', aOnLoad);
+        bImage.addEventListener('load', bOnLoad);
+        aImage.loadListener = aOnLoad;
+        bImage.loadListener = bOnLoad;
+        images.appendChild(aImage);
+        images.appendChild(bImage);
         startImageLoad(aImage);
         startImageLoad(bImage);
     };
