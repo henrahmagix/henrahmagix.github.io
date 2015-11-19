@@ -29,8 +29,14 @@ class: count
         countEl.innerHTML = 'You can count to ' + i + '.';
         congratsEl.innerHTML = getRandomItem(congrats);
     }
-    setTimeout(count);
-    setTimeout(end, 1000);
+    // Start in a setTimeout so the end only comes after the counting starts,
+    // not as soon as this script is parsed. The window can load but have the
+    // event queue paused due to it not being the focused window: Chrome does
+    // this, as may other browsers.
+    setTimeout(function () {
+        count();
+        setTimeout(end, 1000);
+    });
     congrats = [
         "I am overjoyed with your success. Shine on!",
         "You have done remarkably well at such a young age. My best wishes are always with you.",
