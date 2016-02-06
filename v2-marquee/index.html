@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marquees are in</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <style type="text/css">
+body, html {
+    height: 100%;
+    background-color: #252525;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    color: #eee;
+}
+div {
+    height: 100%;
+}
+marquee {
+    margin-bottom: 0.5em;
+    width: 100%;
+    font-size: 500%;
+    padding: 4px 0;
+    border: 2px solid;
+}
+.link img {
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    padding: 2px;
+}
+.link.github img {
+    background-color: #eee;
+}
+.link.twitter img {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+    </style>
+</head>
+<body>
+    <div>
+        <marquee scrollamount="100"><blink>Blinking marquees are like totally in right now</blink></marquee>
+        <section class="links">
+            <div class="link github">
+                <img src="blacktocat-32.png" height="32" width="32">
+                <a href="http://github.com/henrahmagix">GitHub</a>
+            </div>
+            <div class="link twitter">
+                <img src="twitter-bird-dark-bgs.png" height="48" width="48">
+                <a href="http://twitter.com/henrahmagix">Twitter</a>
+            </div>
+            <div class="link pianos">
+                <a href="http://pianosinoxford.uk">pianosinoxford.uk</a>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript">
+        function blink() {
+          var tags = document.getElementsByTagName('blink');
+          for (var i = 0; i < tags.length; i++) {
+            var b = tags[i].style;
+            b.visibility = b.visibility === 'hidden' ? 'visible' : 'hidden';
+          };
+        }
+        setInterval(blink, 200);
+    </script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-53059920-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

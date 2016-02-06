@@ -1,0 +1,163 @@
+body {
+    background-color: #DAD6B0;
+    color: #2C241D;
+    font-family: "PT Sans", Arial;
+    font-size: 100%;
+    font-weight: normal;
+    line-height: 1.4;
+    margin: 0;
+}
+code, pre {
+    background-color: #EDEDE7;
+    color: #2C241D;
+}
+code {
+    display: inline-block;
+    padding: 0 0.5em;
+    white-space: pre-wrap;
+}
+pre {
+    padding: 1em;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+pre code {
+    white-space: pre;
+}
+a {
+    color: inherit;
+    border-bottom: 1px solid;
+    text-decoration: none;
+}
+img {
+    max-width: 100%
+}
+a:hover,
+a:focus {
+    border-bottom-color: transparent;
+}
+h1 a, h2 a, h3 a, .links a {
+    border-bottom-width: 2px;
+}
+.title, .subtitle, .button, .talks {
+    text-align: center;
+}
+.title, .subtitle {
+    font-family: "Arvo";
+    margin-top: 1em;
+    text-transform: uppercase;
+}
+.title {
+    font-size: 2em;
+    letter-spacing: 1em;
+}
+.subtitle {
+    letter-spacing: 0.4em;
+}
+.button {
+    cursor: pointer;
+    font-size: 1.3em;
+    line-height: 1.3em;
+    margin: 0 auto 2.5em;
+}
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    display: inline-block;
+}
+.link {
+    font-size: 2em;
+    line-height: 1;
+    margin: 1em 0 0 -32px;
+    text-align: center;
+}
+.link:first-child {
+    margin-top: 0;
+}
+.link img {
+    vertical-align: middle;
+}
+.link a {
+    display: inline-block;
+}
+.talks {
+    margin-top: 2.5em;
+}
+.talk {
+    margin: 1em 0;
+}
+.talk-title {
+    margin: 0;
+}
+.markdown-content {
+    background-color: #593723;
+    border: 2px solid #EDEDE7;
+    -moz-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.3);
+    color: #EDEDE7;
+    font-family: Arvo;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 3em;
+    text-align: justify;
+    width: 80%;
+}
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+    margin-top: 2em;
+    margin-bottom: 0.83em;
+    text-align: center;
+}
+.markdown-content h1:first-child,
+.markdown-content h2:first-child,
+.markdown-content h3:first-child {
+    margin-top: 0;
+}
+.markdown-content h1 {
+    font-size: 1.8em
+}
+.markdown-content h2 {
+    font-size: 1.5em
+}
+.markdown-content h3 {
+    font-size: 1.17em
+}
+.error,
+.talk {
+    display: none;
+}
+
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 530px) {
+    body {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 460px) {
+    .title {
+        letter-spacing: 0.7em;
+    }
+}
+@media screen and (max-width: 380px) {
+    .title {
+        letter-spacing: 0.4em;
+    }
+}
