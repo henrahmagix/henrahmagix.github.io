@@ -36,7 +36,6 @@ $(function() {
         cache: true,
         dataType: 'jsonp',
         data: {
-            access_token: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
         }
     });
 
