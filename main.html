@@ -1,0 +1,30 @@
+---
+title: Henry Blyth
+subtitle: Web developer and Pianist
+headTitle: Web developer and Pianist
+class: home
+---
+
+<ul class="links">
+
+    {% comment %}Latest feature{% endcomment %}
+    {% include link.html pre="Latest:" title="Double exposures" url="/doubles" class="latest" %}
+
+    {% comment %}Latest post{% endcomment %}
+    {% for post in site.posts limit:1 %}
+        {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
+    {% endfor %}
+
+    {% comment %}Blog{% endcomment %}
+    {% if site.posts.size > 0 %}
+        {% include link.html title="Blog" url=site.data.urls.blog %}
+    {% endif %}
+
+    {% comment %}Links{% endcomment %}
+    {% for link in site.data.links %}
+        {% if link.homelist == true %}
+            {% include link.html title=link.title icon=link.icon url=link.url %}
+        {% endif %}
+    {% endfor %}
+
+</ul>
