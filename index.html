@@ -26,8 +26,6 @@
                 <div id="valentines">
                     <div class="circle"></div>
                     <i class="fa"></i>
-                    <!-- <i class="fa fa-heart"></i> -->
-                    <!-- <i class="fa fa-heart-o"></i> -->
                 </div>
             </div>
 
@@ -36,8 +34,8 @@
 
     <script>
         var valentines = document.getElementById('valentines');
-        var eventIn = 'mouseenter';
-        var eventOut = 'mouseleave';
+        var eventIn = 'mousedown';
+        var eventOut = 'mouseup';
         if ('ontouchstart' in window) {
             eventIn = 'touchstart';
             eventOut = 'touchend';
@@ -45,10 +43,8 @@
         var timeout;
         var delay = 2000; // 2 seconds
         var handlerIn = function () {
-            // valentines.className = 'start';
             document.body.className = 'start';
             timeout = setTimeout(function () {
-                // valentines.className = 'end';
                 document.body.className = 'end';
                 valentines.removeEventListener(eventIn, handlerIn);
                 valentines.removeEventListener(eventOut, handlerOut);
@@ -56,7 +52,6 @@
         };
         var handlerOut = function () {
             clearTimeout(timeout);
-            // valentines.className = '';
             document.body.className = '';
         };
         valentines.addEventListener(eventIn, handlerIn);
