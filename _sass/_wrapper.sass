@@ -33,9 +33,15 @@ a
 
 .inner
     display: table-cell
-    padding: $site-padding-y $site-padding-x
+    padding: 0 $site-padding-x
     .page-home &
         vertical-align: middle
+
+.page-header,
+.page-body,
+.page-footer
+    max-width: 700px
+    margin: auto
 
 .page-header,
 .page-footer
@@ -99,7 +105,7 @@ a
     body
         font-size: 14px
     .inner
-        padding: $site-padding-y ($site-padding-x / 1.5)
+        padding: 0 ($site-padding-x / 1.5)
 
 // Up to 530px
 @include media("screen and (max-width: 530px)")
@@ -116,7 +122,7 @@ a
     body
         font-size: 10px
     .inner
-        padding: ($site-padding-y / 1.5) ($site-padding-x / 3)
+        padding: 0 ($site-padding-x / 3)
     .page-footer
         .contact
             padding-left: $separator-curl * 0.6
