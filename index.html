@@ -24,38 +24,112 @@
                     <p>I love you!</p>
                 </div>
                 <div id="valentines">
-                    <div class="circle"></div>
-                    <i class="fa"></i>
+                    <div id="circle" class="circle"></div>
+                    <i id="heart" class="fa"></i>
                 </div>
             </div>
 
         </div>
     </div>
 
+    <script src="/lib/pressure/dist/pressure.min.js"></script>
     <script>
         var valentines = document.getElementById('valentines');
+        var heart = document.getElementById('heart');
+        var circle = document.getElementById('circle');
+
+        var start = function () {
+            document.body.className = 'start';
+        };
+        var end = function () {
+            document.body.className = 'end';
+        };
+        var reset = function () {
+            document.body.className = '';
+        };
+
+        // Without force touch.
+        var timeout;
+        var delay = 2000; // 2 seconds
+        // Mouse or touch events.
         var eventIn = 'mousedown';
         var eventOut = 'mouseup';
         if ('ontouchstart' in window) {
             eventIn = 'touchstart';
             eventOut = 'touchend';
         }
-        var timeout;
-        var delay = 2000; // 2 seconds
-        var handlerIn = function () {
-            document.body.className = 'start';
+
+        var heartStart = function () {
+            start();
             timeout = setTimeout(function () {
-                document.body.className = 'end';
-                valentines.removeEventListener(eventIn, handlerIn);
-                valentines.removeEventListener(eventOut, handlerOut);
+                endNoForceTouch();
+                end();
             }, delay);
         };
-        var handlerOut = function () {
+        var heartEnd = function () {
             clearTimeout(timeout);
-            document.body.className = '';
+            reset();
         };
-        valentines.addEventListener(eventIn, handlerIn);
-        valentines.addEventListener(eventOut, handlerOut);
+
+        var startNoForceTouch = function () {
+            valentines.addEventListener(eventIn, heartStart, false);
+            valentines.addEventListener(eventOut, heartEnd, false);
+        };
+        var endNoForceTouch = function () {
+            valentines.removeEventListener(eventIn, heartStart);
+            valentines.removeEventListener(eventOut, heartEnd);
+        };
+        var cancelNoForceTouch = function () {
+            heartEnd();
+            endNoForceTouch();
+        };
+
+        // With force touch.
+        var forceEnded = false;
+        var styleForceValue = function (forceValue) {
+            // Style the circle and heart like iOS 9+ 3d touch.
+            // Copied from https://github.com/freinbichler/3d-touch/blob/e8f606284c2e08b039b3a2e595c4d6b1e2e52055/3dtouch.js#L47-L48
+            heart.style.webkitTransform = 'translateX(-50%) translateY(-50%) scale(' + (1 + forceValue * 1.5) + ')';
+            circle.style.webkitFilter = 'blur(' + forceValue * 30 + 'px)';
+        };
+
+        // Pressure.js http://yamartino.github.io/pressure/
+        var noForceTouch = false;
+        Pressure.set(valentines, {
+            start: function (event) {
+                if (forceEnded) {
+                    return;
+                }
+                // Cancel the no-force-touch functions because force touch is
+                // being used instead.
+                // cancelNoForceTouch();
+            },
+            end: function (event) {
+                if (forceEnded) {
+                    return;
+                }
+                styleForceValue(0);
+            },
+            change: function (forceValue, event) {
+                if (forceEnded) {
+                    return;
+                }
+                styleForceValue(forceValue);
+                if (forceValue >= 0.95) {
+                    forceEnded = true;
+                    end();
+                }
+            },
+            unsupported: function () {
+                // Use non-force-touch functions.
+                if (!noForceTouch) {
+                    heartStart();
+                    startNoForceTouch();
+                }
+                noForceTouch = true;
+            }
+        });
+
     </script>
 
     <script>

@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "caman": "^4.1.2"
+    "caman": "^4.1.2",
+    "pressure": "^0.0.4"
   }
 }
