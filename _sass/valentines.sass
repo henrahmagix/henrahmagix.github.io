@@ -54,10 +54,32 @@ p
         size: 1.4em
     margin-top: 0
 
+@include keyframes(ellipsis)
+    0%
+        content: '.'
+    33%
+        content: '..'
+    66%
+        content: '...'
+
+#loading
+    font:
+        family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif
+        weight: bold
+        style: italic
+        size: 40px
+    position: absolute
+    top: 50%
+    left: 0
+    width: 100%
+    &::after
+        content: '.'
+        @include animation(ellipsis 1s infinite forwards)
+
 .text-end p
     margin-bottom: 0
 
-.page-body
+.page-valentines
     font:
         size: 20px
 
