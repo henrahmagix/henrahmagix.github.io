@@ -17,7 +17,11 @@
                     <h1>Touch me...</h1>
                 </div>
                 <div class="text-during">
-                    <p>keep going...</p>
+                    <p class="no-force-touch">keep going...</p>
+                    <p class="force-touch">harder...</p>
+                </div>
+                <div class="text-reset">
+                    <p>don't stop!</p>
                 </div>
                 <div class="text-end">
                     <h1>Happy Valentines Day</h1>
@@ -38,14 +42,20 @@
         var heart = document.getElementById('heart');
         var circle = document.getElementById('circle');
 
+        var ended = false;
+
         var start = function () {
-            document.body.className = 'start';
+            document.body.classList.add('start');
+            document.body.classList.remove('end', 'reset');
         };
         var end = function () {
-            document.body.className = 'end';
+            document.body.classList.add('end');
+            document.body.classList.remove('start', 'reset');
+            ended = true;
         };
         var reset = function () {
-            document.body.className = '';
+            document.body.classList.add('reset');
+            document.body.classList.remove('start', 'end');
         };
 
         // Without force touch.
@@ -71,7 +81,11 @@
             reset();
         };
 
+        var startForceTouch = function () {
+            document.body.classList.add('force-touch');
+        };
         var startNoForceTouch = function () {
+            document.body.classList.add('no-force-touch');
             valentines.addEventListener(eventIn, heartStart, false);
             valentines.addEventListener(eventOut, heartEnd, false);
         };
@@ -85,7 +99,6 @@
         };
 
         // With force touch.
-        var forceEnded = false;
         var styleForceValue = function (forceValue) {
             // Style the circle and heart like iOS 9+ 3d touch.
             // Copied from https://github.com/freinbichler/3d-touch/blob/e8f606284c2e08b039b3a2e595c4d6b1e2e52055/3dtouch.js#L47-L48
@@ -94,42 +107,43 @@
         };
 
         // Pressure.js http://yamartino.github.io/pressure/
-        var noForceTouch = false;
+        var isSetup = false;
         Pressure.set(valentines, {
             start: function (event) {
-                if (forceEnded) {
+                if (ended) {
                     return;
                 }
-                // Cancel the no-force-touch functions because force touch is
-                // being used instead.
-                // cancelNoForceTouch();
+                if (!isSetup) {
+                    startForceTouch();
+                }
+                start();
             },
             end: function (event) {
-                if (forceEnded) {
+                if (ended) {
                     return;
                 }
                 styleForceValue(0);
+                reset();
             },
             change: function (forceValue, event) {
-                if (forceEnded) {
+                if (ended) {
                     return;
                 }
                 styleForceValue(forceValue);
                 if (forceValue >= 0.95) {
-                    forceEnded = true;
                     end();
                 }
             },
             unsupported: function () {
                 // Use non-force-touch functions.
-                if (!noForceTouch) {
+                if (!isSetup) {
+                    // Only run once.
                     heartStart();
                     startNoForceTouch();
                 }
-                noForceTouch = true;
+                isSetup = true;
             }
         });
-
     </script>
 
     <script>
