@@ -2,6 +2,7 @@ install:
 	rbenv install --skip-existing
 	gem install bundler
 	bundle install
+	bower install
 
 update:
 	bundle update
