@@ -1,35 +1,35 @@
 -
     title: Code
     icon: github
-    url: http://github.com/henrahmagix
+    url: https://github.com/henrahmagix
     homelist: true
     footerlist: false
     relme: true
 -
     title: Talk
     icon: twitter
-    url: http://twitter.com/henrahmagix
+    url: https://twitter.com/henrahmagix
     homelist: true
     footerlist: true
     relme: true
 -
     title: Music
     icon: soundcloud
-    url: http://soundcloud.com/henryblyth/tracks
+    url: https://soundcloud.com/henryblyth/tracks
     homelist: true
     footerlist: false
     relme: true
 -
     title: Photos
     icon: flickr
-    url: http://flickr.com/photos/henryblyth
+    url: httpss://www.flickr.com/people/henryblyth/
     homelist: true
     footerlist: false
     relme: true
 -
     title: Work
     icon: linkedin
-    url: http://uk.linkedin.com/in/henryblyth
+    url: https://uk.linkedin.com/in/henryblyth
     homelist: true
     footerlist: false
     relme: true
