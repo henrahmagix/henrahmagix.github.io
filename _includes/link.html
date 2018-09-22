@@ -2,7 +2,7 @@
     {% if include.pre %}
         <span class="pre">{{ include.pre }}</span>
     {% endif %}
-    <a rel="me" href="{{ include.url }}">
+    <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}">
         {% if include.icon %}
             <i class="fa fa-{{ include.icon }}"></i>
         {% endif %}

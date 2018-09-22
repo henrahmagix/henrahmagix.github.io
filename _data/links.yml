@@ -4,32 +4,38 @@
     url: http://github.com/henrahmagix
     homelist: true
     footerlist: false
+    relme: true
 -
     title: Talk
     icon: twitter
     url: http://twitter.com/henrahmagix
     homelist: true
     footerlist: true
+    relme: true
 -
     title: Music
     icon: soundcloud
     url: http://soundcloud.com/henryblyth/tracks
     homelist: true
     footerlist: false
+    relme: true
 -
     title: Photos
     icon: flickr
     url: http://flickr.com/photos/henryblyth
     homelist: true
     footerlist: false
+    relme: true
 -
     title: Work
     icon: linkedin
     url: http://uk.linkedin.com/in/henryblyth
     homelist: true
     footerlist: false
+    relme: true
 -
     title: PianosInOxford.uk
     url: http://pianosinoxford.uk
     homelist: true
     footerlist: false
+    relme: true
