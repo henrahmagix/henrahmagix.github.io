@@ -7,41 +7,47 @@
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
-<body>
+<body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
-    <div class="wrapper page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
-        <div class="inner">
+    <header class="page-header h-card">
+        <img class="logo u-photo" src="/images/logo.svg" alt="HjB signature">
+        <!-- {% unless page.path == "index.html" %}
+            {% include home-link.html %}
+        {% endunless %} -->
+        {% if page.path == "index.html" %}
+            <div class="name-wrapper">
+                <a class="p-name u-url h-card" rel="me" href="https://henryblyth.com">
+                    <h1>Henry James Blyth</h1>
+                </a>
+            </div>
+        {% else if %}
+            <div class="name-wrapper">
+                <a class="p-name u-url h-card" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+            </div>
+            <h1 class="page-title">{{ page.title }}</h1>
+        {% endif %}
+        {% if page.subtitle %}
+            <h2 class="page-subtitle">{{ page.subtitle }}</h2>
+        {% endif %}
+    </header>
 
-            <div class="page-header">
-                {% unless page.path == "index.html" %}
-                    {% include home-link.html %}
-                {% endunless %}
-                <h1 class="page-title">{{ page.title }}</h1>
-                {% if page.subtitle %}
-                    <h2 class="page-subtitle">{{ page.subtitle }}</h2>
+    <section class="page-body">
+        {{ content }}
+    </section>
+
+    <footer class="page-footer">
+        <ul class="links">
+            {% for link in site.data.links %}
+                {% if link.footerlist %}
+                    {% include link.html icon=link.icon url=link.url relme=link.relme %}
                 {% endif %}
-            </div>
-
-            <div class="page-body">
-                <div class="page-content">{{ content }}</div>
-            </div>
-
-            <div class="page-footer">
-                <span class="contact">
-                    <i class="first fa fa-envelope-o"></i>
-                    <span class="screenreader">contact me at</span>
-                    henry at henryblyth dot com
-                </span>
-                <ul class="links">
-                    {% for link in site.data.links %}
-                        {% if link.footerlist %}
-                            {% include link.html icon=link.icon url=link.url relme=link.relme %}
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-
-        </div>
+            {% endfor %}
+        </ul>
+        <span class="contact">
+            <i class="first fa fa-envelope-o"></i>
+            <span class="screenreader">contact me at</span>
+            henry at henryblyth dot com
+        </span>
     </div>
 
     <script>

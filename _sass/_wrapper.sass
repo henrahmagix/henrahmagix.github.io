@@ -3,13 +3,6 @@ body
     margin: 0
     padding: 0
 
-html,
-body,
-.wrapper,
-.inner
-    height: 100%
-    width: auto
-
 body
     background-color: $bg-color
     color: $text-color
@@ -18,6 +11,7 @@ body
         size: 100%
         weight: normal
     line-height: 1.4
+    padding: $site-padding-y $site-padding-x
     @include font-smoothing
 
 a
@@ -27,34 +21,37 @@ a
     @include hover
         text-decoration: none
 
-.wrapper
-    display: table
-    width: 100%
-
-.inner
-    display: table-cell
-    padding: 0 $site-padding-x
-    .page-home &
-        vertical-align: middle
-
-.page-header,
-.page-body,
-.page-footer
-    max-width: 700px
-    margin: auto
-
-.page-header,
-.page-footer
-    padding: $site-padding-y 0
-
 .page-header
-    @include border-radius($separator-width)
-    border-top: $separator
+    .logo
+        display: block
+        margin: auto
+        width: 200px
+    .name-wrapper
+        display: flex
+        align-items: center
+        line-height: 1
+        margin: 0 (-$site-padding-x)
+        &::before,
+        &::after
+            content: ''
+            display: block
+            height: 1px
+            flex: 1
+            background-color: $text-color
+        &::before
+            margin-right: 10px
+        &::after
+            margin-left: 10px
+    .p-name
+        font-size: 2em
+        margin: 20px 0
+        text-align: center
+        text-transform: uppercase
+        text-decoration: none
+        @include hover
+            text-decoration: underline
 
 .page-footer
-    @include border-radius($separator-curl)
-    border-bottom: $separator
-    padding-bottom: $separator-curl
 
 .page-title,
 .page-subtitle
@@ -73,20 +70,13 @@ a
     color: $highlight-color
 
 .page-footer
-    position: relative
 
-    .contact,
-    .links
-        position: absolute
-        bottom: 0
     .contact
-        left: 0
         padding-left: $separator-curl * 0.8
         margin-bottom: 5px
         .first
             margin-right: 5px
     .links
-        right: 0
         padding-right: $separator-curl * 0.8
         text-align: right
     .link
@@ -94,40 +84,6 @@ a
         vertical-align: middle
         margin-left: 5px
         font-size: 2em
-
-// >600px wide
-@include media("screen and (min-width: 600px)")
-    body
-        font-size: 16px
-
-// Up to 600px
-@include media("screen and (max-width: 600px)")
-    body
-        font-size: 14px
-    .inner
-        padding: 0 ($site-padding-x / 1.5)
-
-// Up to 530px
-@include media("screen and (max-width: 530px)")
-    body
-        font-size: 12px
-    .page-footer
-        .contact
-            padding-left: $separator-curl * 0.7
-        .links
-            padding-right: $separator-curl * 0.7
-
-// Up to 420px
-@include media("screen and (max-width: 420px)")
-    body
-        font-size: 10px
-    .inner
-        padding: 0 ($site-padding-x / 3)
-    .page-footer
-        .contact
-            padding-left: $separator-curl * 0.6
-        .links
-            padding-right: $separator-curl * 0.6
 
 @-ms-viewport
     width: device-width
