@@ -23,7 +23,7 @@ class: home
     {% comment %}Links{% endcomment %}
     {% for link in site.data.links %}
         {% if link.homelist == true %}
-            {% include link.html title=link.title icon=link.icon url=link.url %}
+            {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
         {% endif %}
     {% endfor %}
 
