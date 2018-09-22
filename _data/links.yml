@@ -15,14 +15,14 @@
 -
     title: Music
     icon: soundcloud
-    url: https://soundcloud.com/henryblyth/tracks
+    url: https://soundcloud.com/henryblyth
     homelist: true
     footerlist: false
     relme: true
 -
     title: Photos
     icon: flickr
-    url: httpss://www.flickr.com/people/henryblyth/
+    url: https://www.flickr.com/people/henryblyth/
     homelist: true
     footerlist: false
     relme: true
