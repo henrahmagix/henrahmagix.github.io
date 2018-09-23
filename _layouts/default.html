@@ -11,10 +11,10 @@
 
     {% if page.image %}
     <meta name="twitter:card" content="summary_large_image"></meta>
-    <meta name="twitter:image:src" content="{{ page.image }}">
+    <meta name="twitter:image:src" content="{{ site.url }}{{ page.image }}">
     {% else if %}
     <meta name="twitter:card" content="summary"></meta>
-    <meta name="twitter:image:src" content="/images/logo.svg">
+    <meta name="twitter:image:src" content="{{ site.url }}/images/logo.svg">
     {% endif %}
     {% if page.title %}
     <meta name="twitter:title" content="{{ page.title }}">
