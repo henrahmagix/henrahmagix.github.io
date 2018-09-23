@@ -27,26 +27,23 @@ a
         height: 200px
         width: 200px
         position: relative
-        perspective: 1000px
-        transition: transform 250ms
-        transform: rotateY(0deg)
-            style: preserve-3d
         img
-            backface-visibility: hidden
-            -webkit-backface-visibility: hidden
-            transform: rotateX(0deg)
             border-radius: 50%
             position: absolute
             height: 100%
             width: 100%
             top: 0
             left: 0
-            z-index: 2
+            z-index: 1
             &.backface
-                transform: rotateX(0deg) rotateY(180deg)
-                z-index: 1
-        &.flipped
-            transform: rotateY(180deg)
+                display: none
+                z-index: 2
+                border: 8px solid #23242C
+                box-sizing: border-box
+        &:hover,
+        &:focus
+            img.backface
+                display: initial
     .strikethrough-wrapper
         h1
             font:
