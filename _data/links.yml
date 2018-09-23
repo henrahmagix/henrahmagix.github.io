@@ -14,14 +14,14 @@
     relme: true
 -
     title: Music
-    icon: fab fa-soundcloud
+    icon: fas fa-music
     url: https://soundcloud.com/henryblyth
     homelist: true
     footerlist: true
     relme: true
 -
     title: Photos
-    icon: fab fa-flickr
+    icon: fas fa-camera-retro
     url: https://www.flickr.com/people/henryblyth/
     homelist: true
     footerlist: true
