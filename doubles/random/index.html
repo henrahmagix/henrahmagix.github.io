@@ -9,7 +9,7 @@ class: doubles
     <a href="/doubles"><i class="fa fa-arrow-left"></i> Back to Double Exposures.</a>
 </p>
 
-<p>Two random images are loaded from <a href="http://lorempixel.com">lorempixel.com</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable. Uses <a href="http://camanjs.com/">CamanJS</a>.</p>
+<p>Two random images are loaded from <a href="https://picsum.photos">picsum.photos</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable. Uses <a href="http://camanjs.com/">CamanJS</a>.</p>
 
 <h4>Options:</h4>
 <ul class="options">
@@ -121,7 +121,7 @@ class: doubles
         img.width = width;
         img.height = height;
         // Without crossOrigin set to anonymous, a security error will be thrown
-        // when calling getImageData() on a canvas context. lorempixel kindly
+        // when calling getImageData() on a canvas context. picsum.photos kindly
         // supplies the correct Access-Control-Allow-Origin header.
         img.crossOrigin = 'anonymous';
         // Append a random number so a new image is requested and the cache isn't used.
@@ -129,7 +129,7 @@ class: doubles
         var heightParam = height + '/';
         var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
         var randomParam = '?' + Math.random();
-        img.src = 'http://lorempixel.com/' + greyscaleParam + widthParam + heightParam + randomParam;
+        img.src = 'https://picsum.photos/' + greyscaleParam + widthParam + heightParam + randomParam;
     };
 
     var generate = function () {
