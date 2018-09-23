@@ -27,17 +27,24 @@ a
         height: 200px
         width: 200px
         position: relative
+        perspective: 1000px
         transition: transform 250ms
         transform: rotateY(0deg)
             style: preserve-3d
         img
             backface-visibility: hidden
+            -webkit-backface-visibility: hidden
+            transform: rotateX(0deg)
             border-radius: 50%
             position: absolute
             height: 100%
             width: 100%
+            top: 0
+            left: 0
+            z-index: 2
             &.backface
-                transform: rotateY(180deg)
+                transform: rotateX(0deg) rotateY(180deg)
+                z-index: 1
         &.flipped
             transform: rotateY(180deg)
     .strikethrough-wrapper
