@@ -14,4 +14,14 @@ layout: default
     {{ content }}
 </div>
 
+{% if page.syndications %}
+    <p>Comment and share?</p>
+    <ul class="links">
+        {% for link in page.syndications %}
+            {% capture title %}On {{link.title}}{% endcapture %}
+            {% include link.html title=title icon=link.icon url=link.url %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {% include back-link.html title="Blog" url=site.data.urls.blog position="bottom" %}
