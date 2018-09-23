@@ -6,7 +6,7 @@ subtitle: That's right, it's back!
 image: /images/double-random-camera.jpg
 syndications:
     -
-        title: Twitter
+        title: Reply on Twitter
         icon: fab fa-twitter
         url: https://twitter.com/henrahmagix/status/1043831106284539904
 ---
