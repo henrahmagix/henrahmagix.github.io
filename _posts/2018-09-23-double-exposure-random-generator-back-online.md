@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Double exposure random generator is back online!
+subtitle: That's right, it's back!
 class: post
 ---
-
-That's right, it's back!
 
 I've replaced [https://lorempixel.com](https://lorempixel.com) with [https://picsum.photos](https://picsum.photos), which serves with CORS headers so the browser will let us play with and display the images through JavaScript.
 
