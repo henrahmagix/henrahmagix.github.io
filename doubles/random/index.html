@@ -11,17 +11,19 @@ class: doubles
 
 <p>Two random images are loaded from <a href="https://picsum.photos">picsum.photos</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable. Uses <a href="http://camanjs.com/">CamanJS</a>.</p>
 
-<h4>Options:</h4>
-<ul class="options">
-    <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
-    <li><label>Height: <input type="text" id="option-height" value="400"></label></li>
-    <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
-</ul>
+<div class="form-wrapper">
+    <h4>Options:</h4>
+    <ul class="options">
+        <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
+        <li><label>Height: <input type="text" id="option-height" value="400"></label></li>
+        <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
+    </ul>
 
-<p>
-    <button id="generate">Generate</button>
-    <span id="loading" style="display:none;">Processing...</span>
-</p>
+    <p>
+        <button id="generate">Generate</button>
+        <span id="loading" style="display:none;">Processing...</span>
+    </p>
+</div>
 
 <div id="images"></div>
 
