@@ -4,7 +4,8 @@
     <title>{% if page.headTitle %}{{ page.headTitle }} – {% else if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
@@ -16,9 +17,9 @@
         {% endunless %} -->
         {% if page.path == "index.html" %}
             <div class="name-wrapper">
-                <a class="p-name u-url h-card" rel="me" href="https://henryblyth.com">
-                    <h1>Henry James Blyth</h1>
-                </a>
+                <h1>
+                    <a class="p-name u-url h-card" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+                </h1>
             </div>
         {% else if %}
             <div class="name-wrapper">
