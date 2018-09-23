@@ -31,13 +31,13 @@
     <header class="page-header h-card">
         <img class="logo u-photo" src="/images/logo.svg" alt="HjB signature">
         {% if page.path == "index.html" %}
-            <div class="name-wrapper">
+            <div class="strikethrough-wrapper">
                 <h1>
                     <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
                 </h1>
             </div>
         {% else if %}
-            <div class="name-wrapper">
+            <div class="strikethrough-wrapper">
                 <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
             </div>
         {% endif %}
@@ -56,13 +56,15 @@
     </section>
 
     <footer class="page-footer">
-        <ul class="links">
-            {% for link in site.data.links %}
-                {% if link.footerlist %}
-                    {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
-                {% endif %}
-            {% endfor %}
-        </ul>
+        <div class="strikethrough-wrapper">
+            <ul class="links">
+                {% for link in site.data.links %}
+                    {% if link.footerlist %}
+                        {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
         <span class="contact">
             <i class="first far fa-envelope"></i>
             <span class="screenreader">contact me at</span>

@@ -26,22 +26,7 @@ a
         display: block
         margin: auto
         width: 200px
-    .name-wrapper
-        display: flex
-        align-items: center
-        line-height: 1
-        margin: 0 (-$site-padding-x)
-        &::before,
-        &::after
-            content: ''
-            display: block
-            height: 1px
-            flex: 1
-            background-color: $text-color
-        &::before
-            margin-right: 10px
-        &::after
-            margin-left: 10px
+    .strikethrough-wrapper
         h1
             font:
                 size: inherit
@@ -53,7 +38,6 @@ a
             size: 2em
             family: "PT Sans Narrow", serif
         margin: 20px 0
-        text-align: center
         text-transform: uppercase
         text-decoration: none
         @include hover
@@ -90,3 +74,22 @@ a
 
 @-ms-viewport
     width: device-width
+
+
+.strikethrough-wrapper
+    display: flex
+    align-items: center
+    line-height: 1
+    margin: 0 (-$site-padding-x)
+    text-align: center
+    &::before,
+    &::after
+        content: ''
+        display: block
+        height: 1px
+        flex: 1
+        background-color: $text-color
+    &::before
+        margin-right: 10px
+    &::after
+        margin-left: 10px
