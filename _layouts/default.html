@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width">
     <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
     <header class="page-header h-card">
         <img class="logo u-photo" src="/images/logo.svg" alt="HjB signature">
-        <!-- {% unless page.path == "index.html" %}
+        {% unless page.path == "index.html" %}
             {% include home-link.html %}
-        {% endunless %} -->
+        {% endunless %}
         {% if page.path == "index.html" %}
             <div class="name-wrapper">
                 <h1>
@@ -40,7 +41,7 @@
         <ul class="links">
             {% for link in site.data.links %}
                 {% if link.footerlist %}
-                    {% include link.html icon=link.icon url=link.url relme=link.relme %}
+                    {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
                 {% endif %}
             {% endfor %}
         </ul>

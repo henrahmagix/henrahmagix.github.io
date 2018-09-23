@@ -2,15 +2,17 @@
     {% if include.pre %}
         <span class="pre">{{ include.pre }}</span>
     {% endif %}
-    <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}">
+    {% assign title = include.title %}
+    {% unless title %}
+        {% assign title = include.icon | slugify %}
+    {% endunless %}
+    <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}" {% if include.title %}aria-label="{{include.title}}"{% endif %}>
         {% if include.icon %}
-            <i class="fa fa-{{ include.icon }}"></i>
+            <i class="{{ include.icon }}" aria-hidden></i>
         {% endif %}
-        {% if include.title %}
-            <span class="title">{{ include.title }}</span>
-        {% else %}
-            <span class="screenreader">{{ include.icon | slugify }}</span>
-        {% endif %}
+        {% unless include.hide_title == true %}
+            <span class="title">{{ title }}</span>
+        {% endunless %}
     </a>
     {% if include.post %}
         <span class="post">{{ include.post }}</span>

@@ -10,7 +10,7 @@ class: posts
             {% capture excerpt %}
                 <span class="excerpt"><span class="screenreader">Excerpt:</span> {{ post.excerpt }}</span>
             {% endcapture %}
-            {% include link.html title=post.title post=excerpt icon="file-text-o" url=post.url %}
+            {% include link.html title=post.title post=excerpt icon="far fa-file-alt" url=post.url %}
         {% endfor %}
     </ul>
 {% else %}
