@@ -22,10 +22,24 @@ a
         text-decoration: none
 
 .page-header
-    .logo
-        display: block
+    .logo-flipper
         margin: auto
+        height: 200px
         width: 200px
+        position: relative
+        transition: transform 250ms
+        transform: rotateY(0deg)
+            style: preserve-3d
+        img
+            backface-visibility: hidden
+            border-radius: 50%
+            position: absolute
+            height: 100%
+            width: 100%
+            &.backface
+                transform: rotateY(180deg)
+        &.flipped
+            transform: rotateY(180deg)
     .strikethrough-wrapper
         h1
             font:

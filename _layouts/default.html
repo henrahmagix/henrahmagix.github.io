@@ -34,7 +34,10 @@
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
     <header class="page-header h-card">
-        <img class="logo u-photo" src="/images/logo.svg" alt="HjB signature">
+        <div class="logo-flipper" ontouchstart="this.classList.toggle('flipped')" onclick="this.classList.toggle('flipped')">
+            <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
+            <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
+        </div>
         {% if page.path == "index.html" %}
             <div class="strikethrough-wrapper">
                 <h1>
