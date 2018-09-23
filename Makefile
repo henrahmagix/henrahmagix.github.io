@@ -13,6 +13,9 @@ update:
 dev:
 	bundle exec jekyll serve --drafts & \
 	compass watch
+devhttps:
+	bundle exec jekyll serve --ssl-cert=.ssl/server.crt --ssl-key=.ssl/server.key --drafts & \
+	compass watch
 dist:
 	bundle exec jekyll serve & \
 	compass watch
