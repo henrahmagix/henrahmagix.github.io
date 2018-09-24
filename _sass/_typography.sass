@@ -9,6 +9,7 @@
         font:
             weight: bold
         margin: 0
+            top: 10px
     h1
         font:
             size: 2em
@@ -38,3 +39,18 @@
         list-style:
             type: disc
             position: inside
+
+    blockquote
+        font-style: italic
+        padding: 5px
+            left: 20px
+        margin: 10px 0
+        position: relative
+        &:before
+            content: ''
+            background-color: $alt-color
+            position: absolute
+            width: 10px
+            height: 100%
+            top: 0
+            left: 0
