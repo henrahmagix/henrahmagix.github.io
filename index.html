@@ -4,20 +4,17 @@ class: home
 
 <ul class="links">
 
-    {% comment %}Latest feature{% endcomment %}
-    <!-- {% include link.html pre="Latest feature:" title="Double exposures" url="/doubles" class="latest" %} -->
+    {% include link.html pre="Feature:" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
 
-    {% comment %}Latest post{% endcomment %}
-    {% for post in site.posts limit:1 %}
+    {% if site.posts[0] %}
+        {% assign post = site.posts[0] %}
         {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
-    {% endfor %}
+    {% endif %}
 
-    {% comment %}Blog{% endcomment %}
     {% if site.posts.size > 0 %}
         {% include link.html title="Blog" url=site.data.urls.blog %}
     {% endif %}
 
-    {% comment %}Links{% endcomment %}
     {% for link in site.data.links %}
         {% if link.homelist == true %}
             {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
