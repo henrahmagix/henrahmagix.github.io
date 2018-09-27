@@ -172,13 +172,13 @@ class: doubles
         var canvas = images.querySelector('canvas');
         var saveCanvas = document.createElement('canvas');
         var imgHeight = Math.max.apply(null, [].map.call(imgs, function (img) {
-            return img.height;
+            return img.naturalHeight / 2;
         }));
-        saveCanvas.height = imgHeight + canvas.height;
-        saveCanvas.width = canvas.width;
         var imgWidth = Math.max.apply(null, [].map.call(imgs, function (img) {
-            return img.width;
+            return img.naturalWidth / 2;
         }));
+        saveCanvas.height = imgHeight * 3;
+        saveCanvas.width = imgWidth * 2;
 
         var context = saveCanvas.getContext('2d');
         context.drawImage(imgs[0], 0, 0, imgWidth, imgHeight);
