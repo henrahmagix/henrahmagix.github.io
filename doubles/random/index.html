@@ -171,19 +171,19 @@ class: doubles
         var imgs = images.querySelectorAll('img');
         var canvas = images.querySelector('canvas');
         var saveCanvas = document.createElement('canvas');
-        var height = Math.max.apply(null, [].map.call(imgs, function (img) {
+        var imgHeight = Math.max.apply(null, [].map.call(imgs, function (img) {
             return img.height;
         }));
-        saveCanvas.height = height + canvas.height;
+        saveCanvas.height = imgHeight + canvas.height;
         saveCanvas.width = canvas.width;
-        var width = Math.max.apply(null, [].map.call(imgs, function (img) {
+        var imgWidth = Math.max.apply(null, [].map.call(imgs, function (img) {
             return img.width;
         }));
 
         var context = saveCanvas.getContext('2d');
-        context.drawImage(imgs[0], 0, 0, width, height);
-        context.drawImage(imgs[1], imgs[1].width, 0, width, height);
-        context.drawImage(canvas, 0, saveCanvas.height - canvas.height);
+        context.drawImage(imgs[0], 0, 0, imgWidth, imgHeight);
+        context.drawImage(imgs[1], imgs[1].width, 0, imgWidth, imgHeight);
+        context.drawImage(canvas, 0, imgHeight);
         var url = saveCanvas.toDataURL('image/jpg');
         saveButton.setAttribute('href', url);
     };
