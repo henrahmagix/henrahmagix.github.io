@@ -18,7 +18,7 @@ var form = document.getElementById('doit');
 var input = document.getElementById('doit-input');
 var image = document.getElementById('doit-image');
 var message = document.createElement('p');
-message.textContent = '🎉it is done🎉';
+message.textContent = '🎉it is done 🎉';
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     image.hidden = false;
