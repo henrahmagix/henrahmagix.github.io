@@ -38,6 +38,6 @@ form.addEventListener('submit', function (event) {
     form.replaceWith(message);
     var imageIndex = Math.floor(Math.random() * (images.length - 1));
     image.src = images[imageIndex];
-    form.parentElement.appendChild(image);
+    message.parentElement.appendChild(image);
 });
 </script>
