@@ -4,8 +4,6 @@ title: Do it for me
 class: post
 ---
 
-## Do it for me
-
 What can I do for you?
 
 <form id="doit">
@@ -19,8 +17,11 @@ What can I do for you?
 var form = document.getElementById('doit');
 var input = document.getElementById('doit-input');
 var image = document.getElementById('doit-image');
+var message = document.createElement('p');
+message.textContent = '🎉it is done🎉';
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     image.hidden = false;
+    form.replaceWith(message);
 });
 </script>
