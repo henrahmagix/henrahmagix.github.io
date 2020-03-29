@@ -64,7 +64,7 @@ body {
   font-size: 100%;
   font-weight: normal;
   line-height: 1.4;
-  padding: 2em 2em;
+  /* padding: 2em 2em; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale
 }
@@ -77,6 +77,14 @@ a {
 a:hover,
 a:focus {
   text-decoration: none
+}
+
+.page-header {
+  padding-top: 1em;
+}
+
+.page-home .page-header {
+  padding-top: 2em;
 }
 
 .page-header .logo-flipper {
@@ -149,6 +157,7 @@ a:focus {
 
 .page-footer {
   margin-top: 2em;
+  padding-bottom: 2em;
   text-align: center
 }
 
@@ -181,7 +190,7 @@ a:focus {
   display: flex;
   align-items: center;
   line-height: 1;
-  margin: 0 -2em;
+  /* margin: 0 -2em; */
   text-align: center
 }
 
@@ -200,6 +209,10 @@ a:focus {
 
 .strikethrough-wrapper::after {
   margin-left: 10px
+}
+
+.page-body {
+  padding: 0 2em;
 }
 
 .page-body h1,
