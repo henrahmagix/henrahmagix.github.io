@@ -3,22 +3,20 @@ class: home
 ---
 
 <ul class="links">
+  {% include link.html pre="Feature:" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
 
-    {% include link.html pre="Feature:" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
+  {% if site.posts[0] %}
+    {% assign post = site.posts[0] %}
+    {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
+  {% endif %}
 
-    {% if site.posts[0] %}
-        {% assign post = site.posts[0] %}
-        {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
+  {% if site.posts.size > 0 %}
+    {% include link.html title="Blog" url=site.data.urls.blog %}
+  {% endif %}
+
+  {% for link in site.data.links %}
+    {% if link.homelist == true %}
+      {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
     {% endif %}
-
-    {% if site.posts.size > 0 %}
-        {% include link.html title="Blog" url=site.data.urls.blog %}
-    {% endif %}
-
-    {% for link in site.data.links %}
-        {% if link.homelist == true %}
-            {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
-        {% endif %}
-    {% endfor %}
-
+  {% endfor %}
 </ul>

@@ -12,18 +12,18 @@ class: doubles
 <p>See some of my favourites in <a href="https://twitter.com/henrahmagix/status/1043861655770333184">this Twitter thread</a></p>
 
 <div class="form-wrapper">
-    <h4>Options:</h4>
-    <ul class="options">
-        <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
-        <li><label>Height: <input type="text" id="option-height" value="400"></label></li>
-        <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
-    </ul>
+  <h4>Options:</h4>
+  <ul class="options">
+    <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
+    <li><label>Height: <input type="text" id="option-height" value="400"></label></li>
+    <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
+  </ul>
 
-    <button id="generate">Generate</button>
-    <span id="loading" style="display:none;">Processing...</span>
-    <br>
-    <br>
-    <a id="save" download="double-exposure.jpg"><button>Save</button></a>
+  <button id="generate">Generate</button>
+  <span id="loading" style="display:none;">Processing...</span>
+  <br>
+  <br>
+  <a id="save" download="double-exposure.jpg"><button>Save</button></a>
 </div>
 
 <div id="images"></div>
@@ -31,165 +31,165 @@ class: doubles
 <script src="/lib/caman/dist/caman.full.min.js"></script>
 <script>
 
-    var widthInput = document.getElementById('option-width');
-    var heightInput = document.getElementById('option-height');
-    var greyscaleCheckbox = document.getElementById('option-greyscale');
-    var generateButton = document.getElementById('generate');
-    var saveButton = document.getElementById('save');
-    var loadingMessage = document.getElementById('loading');
-    var images = document.getElementById('images');
+  var widthInput = document.getElementById('option-width');
+  var heightInput = document.getElementById('option-height');
+  var greyscaleCheckbox = document.getElementById('option-greyscale');
+  var generateButton = document.getElementById('generate');
+  var saveButton = document.getElementById('save');
+  var loadingMessage = document.getElementById('loading');
+  var images = document.getElementById('images');
 
-    var showLoading = function () {
-        loadingMessage.style.display = '';
-    };
-    var hideLoading = function () {
-        loadingMessage.style.display = 'none';
-    };
+  var showLoading = function () {
+    loadingMessage.style.display = '';
+  };
+  var hideLoading = function () {
+    loadingMessage.style.display = 'none';
+  };
+  hideLoading();
+
+  var beforeGenerate = function () {
+    showLoading();
+    // Keep the height of the images container until regenerated.
+    images.style.height = images.clientHeight + 'px';
+  };
+  var afterGenerate = function () {
     hideLoading();
+    images.style.height = '';
+    updateSaveUrl();
+  };
 
-    var beforeGenerate = function () {
-        showLoading();
-        // Keep the height of the images container until regenerated.
-        images.style.height = images.clientHeight + 'px';
-    };
-    var afterGenerate = function () {
-        hideLoading();
-        images.style.height = '';
-        updateSaveUrl();
-    };
+  var getAverageBrightness = function (img) {
+    var colorSum = 0;
+    var width = img.width;
+    var height = img.height;
+    var context = document.createElement('canvas').getContext('2d');
+    context.drawImage(img, 0, 0);
+    var data = context.getImageData(0, 0, width, height).data;
 
-    var getAverageBrightness = function (img) {
-        var colorSum = 0;
-        var width = img.width;
-        var height = img.height;
-        var context = document.createElement('canvas').getContext('2d');
-        context.drawImage(img, 0, 0);
-        var data = context.getImageData(0, 0, width, height).data;
+    var r, g, b, avg;
+    for (var x = 0, len = data.length; x < len; x+=4) {
+      r = data[x];
+      g = data[x+1];
+      b = data[x+2];
 
-        var r, g, b, avg;
-        for (var x = 0, len = data.length; x < len; x+=4) {
-            r = data[x];
-            g = data[x+1];
-            b = data[x+2];
+      avg = Math.floor((r + g + b) / 3);
+      colorSum += avg;
+    }
 
-            avg = Math.floor((r + g + b) / 3);
-            colorSum += avg;
+    var brightness = Math.floor(colorSum / (width * height));
+    return brightness;
+  };
+
+  var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
+    // Clone the first image for use with Caman, so both images can be seen
+    // separately to the combined double-exposure.
+    var camanCanvas = document.createElement('canvas');
+    camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
+    camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
+    camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
+    firstImg.parentElement.appendChild(camanCanvas);
+    Caman(camanCanvas, function () {
+      if (brightnessDiff < 10) {
+        this.brightness(-10);
+      }
+      this.newLayer(function () {
+        this.setBlendingMode('screen');
+        this.context.drawImage(secondImg, 0, 0);
+        this.c.reloadCanvasData.call(this);
+        if (brightnessDiff < 10) {
+          this.filter.brightness(10);
         }
+      });
+      this.render(function () {
+        var width = widthInput.value / 2 + 'px';
+        firstImg.style.maxWidth = width;
+        secondImg.style.maxWidth = width;
+        afterGenerate();
+      });
+    });
+  };
 
-        var brightness = Math.floor(colorSum / (width * height));
-        return brightness;
-    };
+  var onAllImagesLoad = function (aImage, bImage) {
+    var aBrightness = getAverageBrightness(aImage);
+    var bBrightness = getAverageBrightness(bImage);
+    var difference = Math.abs(aBrightness - bBrightness);
+    if (aBrightness < bBrightness) {
+      makeDoubleExposure(aImage, bImage, difference);
+    } else {
+      makeDoubleExposure(bImage, aImage, difference);
+    }
+  };
 
-    var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
-        // Clone the first image for use with Caman, so both images can be seen
-        // separately to the combined double-exposure.
-        var camanCanvas = document.createElement('canvas');
-        camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
-        camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
-        camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
-        firstImg.parentElement.appendChild(camanCanvas);
-        Caman(camanCanvas, function () {
-            if (brightnessDiff < 10) {
-                this.brightness(-10);
-            }
-            this.newLayer(function () {
-                this.setBlendingMode('screen');
-                this.context.drawImage(secondImg, 0, 0);
-                this.c.reloadCanvasData.call(this);
-                if (brightnessDiff < 10) {
-                    this.filter.brightness(10);
-                }
-            });
-            this.render(function () {
-                var width = widthInput.value / 2 + 'px';
-                firstImg.style.maxWidth = width;
-                secondImg.style.maxWidth = width;
-                afterGenerate();
-            });
-        });
-    };
+  var startImageLoad = function (img) {
+    var width = widthInput.value;
+    var height = heightInput.value;
+    img.width = width;
+    img.height = height;
+    // Without crossOrigin set to anonymous, a security error will be thrown
+    // when calling getImageData() on a canvas context. picsum.photos kindly
+    // supplies the correct Access-Control-Allow-Origin header.
+    img.crossOrigin = 'anonymous';
+    // Append a random number so a new image is requested and the cache isn't used.
+    var widthParam = width + '/';
+    var heightParam = height + '/';
+    var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
+    var randomParam = '?' + Math.random();
+    img.src = 'https://picsum.photos/' + greyscaleParam + widthParam + heightParam + randomParam;
+  };
 
-    var onAllImagesLoad = function (aImage, bImage) {
-        var aBrightness = getAverageBrightness(aImage);
-        var bBrightness = getAverageBrightness(bImage);
-        var difference = Math.abs(aBrightness - bBrightness);
-        if (aBrightness < bBrightness) {
-            makeDoubleExposure(aImage, bImage, difference);
-        } else {
-            makeDoubleExposure(bImage, aImage, difference);
-        }
-    };
+  var generate = function () {
+    beforeGenerate();
+    // Remove all images.
+    var numImages = images.children.length;
+    for (var i = 0; i < numImages; i++) {
+      images.removeChild(images.children[0]);
+    }
+    // Make new images.
+    var aImage = new Image();
+    var bImage = new Image();
+    images.appendChild(aImage);
+    images.appendChild(bImage);
+    var aLoaded = false;
+    var bLoaded = false;
+    aImage.addEventListener('load', function () {
+      aLoaded = true;
+      if (bLoaded) {
+        onAllImagesLoad(aImage, bImage);
+      }
+    });
+    bImage.addEventListener('load', function () {
+      bLoaded = true;
+      if (aLoaded) {
+        onAllImagesLoad(aImage, bImage);
+      }
+    });
+    startImageLoad(aImage);
+    startImageLoad(bImage);
+  };
 
-    var startImageLoad = function (img) {
-        var width = widthInput.value;
-        var height = heightInput.value;
-        img.width = width;
-        img.height = height;
-        // Without crossOrigin set to anonymous, a security error will be thrown
-        // when calling getImageData() on a canvas context. picsum.photos kindly
-        // supplies the correct Access-Control-Allow-Origin header.
-        img.crossOrigin = 'anonymous';
-        // Append a random number so a new image is requested and the cache isn't used.
-        var widthParam = width + '/';
-        var heightParam = height + '/';
-        var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
-        var randomParam = '?' + Math.random();
-        img.src = 'https://picsum.photos/' + greyscaleParam + widthParam + heightParam + randomParam;
-    };
+  var updateSaveUrl = function () {
+    var imgs = images.querySelectorAll('img');
+    var canvas = images.querySelector('canvas');
+    var saveCanvas = document.createElement('canvas');
+    var imgHeight = Math.max.apply(null, [].map.call(imgs, function (img) {
+      return img.naturalHeight / 2;
+    }));
+    var imgWidth = Math.max.apply(null, [].map.call(imgs, function (img) {
+      return img.naturalWidth / 2;
+    }));
+    saveCanvas.height = imgHeight * 3;
+    saveCanvas.width = imgWidth * 2;
 
-    var generate = function () {
-        beforeGenerate();
-        // Remove all images.
-        var numImages = images.children.length;
-        for (var i = 0; i < numImages; i++) {
-            images.removeChild(images.children[0]);
-        }
-        // Make new images.
-        var aImage = new Image();
-        var bImage = new Image();
-        images.appendChild(aImage);
-        images.appendChild(bImage);
-        var aLoaded = false;
-        var bLoaded = false;
-        aImage.addEventListener('load', function () {
-            aLoaded = true;
-            if (bLoaded) {
-                onAllImagesLoad(aImage, bImage);
-            }
-        });
-        bImage.addEventListener('load', function () {
-            bLoaded = true;
-            if (aLoaded) {
-                onAllImagesLoad(aImage, bImage);
-            }
-        });
-        startImageLoad(aImage);
-        startImageLoad(bImage);
-    };
+    var context = saveCanvas.getContext('2d');
+    var x1 = 0, x2 = imgWidth;
+    var y1 = 0, y2 = imgHeight;
+    context.drawImage(imgs[0], x1, y1, imgWidth, imgHeight);
+    context.drawImage(imgs[1], x2, y1, imgWidth, imgHeight);
+    context.drawImage(canvas, x1, y2, imgWidth * 2, imgHeight * 2);
+    var url = saveCanvas.toDataURL('image/jpg');
+    saveButton.setAttribute('href', url);
+  };
 
-    var updateSaveUrl = function () {
-        var imgs = images.querySelectorAll('img');
-        var canvas = images.querySelector('canvas');
-        var saveCanvas = document.createElement('canvas');
-        var imgHeight = Math.max.apply(null, [].map.call(imgs, function (img) {
-            return img.naturalHeight / 2;
-        }));
-        var imgWidth = Math.max.apply(null, [].map.call(imgs, function (img) {
-            return img.naturalWidth / 2;
-        }));
-        saveCanvas.height = imgHeight * 3;
-        saveCanvas.width = imgWidth * 2;
-
-        var context = saveCanvas.getContext('2d');
-        var x1 = 0, x2 = imgWidth;
-        var y1 = 0, y2 = imgHeight;
-        context.drawImage(imgs[0], x1, y1, imgWidth, imgHeight);
-        context.drawImage(imgs[1], x2, y1, imgWidth, imgHeight);
-        context.drawImage(canvas, x1, y2, imgWidth * 2, imgHeight * 2);
-        var url = saveCanvas.toDataURL('image/jpg');
-        saveButton.setAttribute('href', url);
-    };
-
-    generateButton.addEventListener('click', generate);
+  generateButton.addEventListener('click', generate);
 
 </script>

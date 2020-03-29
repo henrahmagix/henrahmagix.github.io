@@ -10,9 +10,9 @@ class: doubles
 <p>Have a play with <a href="/doubles/random">a random generator</a>!</p>
 
 <ul>
-    Photo sources:
-    <li><a href="https://www.flickr.com/photos/henryblyth/7338868070/">flickr.com/photos/henryblyth/7338868070</a></li>
-    <li><a href="https://www.flickr.com/photos/henryblyth/7155566185/">flickr.com/photos/henryblyth/7155566185</a></li>
+  Photo sources:
+  <li><a href="https://www.flickr.com/photos/henryblyth/7338868070/">flickr.com/photos/henryblyth/7338868070</a></li>
+  <li><a href="https://www.flickr.com/photos/henryblyth/7155566185/">flickr.com/photos/henryblyth/7155566185</a></li>
 </ul>
 
 <img id="image-a" src="1a.jpg">
@@ -20,14 +20,14 @@ class: doubles
 
 <script src="/lib/caman/dist/caman.full.min.js"></script>
 <script>
-    Caman('#image-a', function () {
-        this.greyscale();
-        this.newLayer(function () {
-            this.setBlendingMode('screen');
-            this.overlayImage('#image-b');
-            this.filter.greyscale();
-            this.filter.contrast(50);
-        });
-        this.render();
+  Caman('#image-a', function () {
+    this.greyscale();
+    this.newLayer(function () {
+      this.setBlendingMode('screen');
+      this.overlayImage('#image-b');
+      this.filter.greyscale();
+      this.filter.contrast(50);
     });
+    this.render();
+  });
 </script>

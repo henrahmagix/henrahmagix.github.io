@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% if page.headTitle %}{{ page.headTitle }} – {% endif %}{% if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <title>{% if page.headTitle %}{{ page.headTitle }} – {% endif %}{% if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
 
-    <link rel="pingback" href="https://webmention.io/henryblyth.com/xmlrpc" />
-    <link rel="webmention" href="https://webmention.io/henryblyth.com/webmention" />
+  <link rel="pingback" href="https://webmention.io/henryblyth.com/xmlrpc" />
+  <link rel="webmention" href="https://webmention.io/henryblyth.com/webmention" />
 
-    {% if page.image %}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
-    {% else %}
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:image" content="{{ site.url }}/images/logo.png">
-    {% endif %}
-    {% if page.title %}
-    <meta name="twitter:title" content="{{ page.title }}">
-    {% else %}
-    <meta name="twitter:title" content="Henry Blyth">
-    {% endif %}
-    <meta name="twitter:site" content="@henrahmagix">
-    <meta name="twitter:creator" content="@henrahmagix">
-    {% if page.subtitle %}
-    <meta name="twitter:description" content="{{ page.subtitle }}">
-    {% endif %}
-
+  {% if page.image %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
+  {% else %}
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="{{ site.url }}/images/logo.png">
+  {% endif %}
+  {% if page.title %}
+  <meta name="twitter:title" content="{{ page.title }}">
+  {% else %}
+  <meta name="twitter:title" content="Henry Blyth">
+  {% endif %}
+  <meta name="twitter:site" content="@henrahmagix">
+  <meta name="twitter:creator" content="@henrahmagix">
+  {% if page.subtitle %}
+  <meta name="twitter:description" content="{{ page.subtitle }}">
+  {% endif %}
 </head>
+
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
-    <header class="page-header h-card">
-        <div class="logo-flipper">
-            <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
-            <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
-        </div>
-        {% if page.path == "index.html" %}
-            <div class="strikethrough-wrapper">
-                <h1>
-                    <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
-                </h1>
-            </div>
-        {% else if %}
-            <div class="strikethrough-wrapper">
-                <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
-            </div>
-        {% endif %}
-    </header>
-
-    <section class="page-body">
-        <article class="hentry">
-            {% if page.title %}
-                <h1 class="page-title entry-title">{{ page.title }}</h1>
-            {% endif %}
-            {% if page.subtitle %}
-                <h2 class="page-subtitle entry-summary">{{ page.subtitle }}</h2>
-            {% endif %}
-            {{ content }}
-        </article>
-    </section>
-
-    <footer class="page-footer">
-        <div class="strikethrough-wrapper">
-            <ul class="links">
-                {% for link in site.data.links %}
-                    {% if link.footerlist %}
-                        {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-        <span class="contact">
-            <i class="first far fa-envelope"></i>
-            <span class="screenreader">contact me at</span>
-            henry at henryblyth dot com
-        </span>
+  <header class="page-header h-card">
+    <div class="logo-flipper">
+      <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
+      <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
     </div>
+    {% if page.path == "index.html" %}
+      <div class="strikethrough-wrapper">
+        <h1>
+          <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+        </h1>
+      </div>
+    {% else if %}
+      <div class="strikethrough-wrapper">
+        <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+      </div>
+    {% endif %}
+  </header>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  <section class="page-body">
+    <article class="hentry">
+      {% if page.title %}
+        <h1 class="page-title entry-title">{{ page.title }}</h1>
+      {% endif %}
+      {% if page.subtitle %}
+        <h2 class="page-subtitle entry-summary">{{ page.subtitle }}</h2>
+      {% endif %}
+      {{ content }}
+    </article>
+  </section>
 
-        ga('create', 'UA-53059920-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+  <footer class="page-footer">
+    <div class="strikethrough-wrapper">
+      <ul class="links">
+        {% for link in site.data.links %}
+          {% if link.footerlist %}
+            {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <span class="contact">
+      <i class="first far fa-envelope"></i>
+      <span class="screenreader">contact me at</span>
+      henry at henryblyth dot com
+    </span>
+  </div>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-53059920-2', 'auto');
+    ga('send', 'pageview');
+  </script>
 
 </body>
 </html>

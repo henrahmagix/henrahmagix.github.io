@@ -11,14 +11,14 @@ layout: default
 {% include back-link.html title="Blog" url=site.data.urls.blog position="top" %}
 
 <div class="entry-content">
-    {{ content }}
+  {{ content }}
 </div>
 
 {% if page.syndications %}
-    <p>Share and respond?</p>
-    <ul class="links">
-        {% for link in page.syndications %}
-            {% include syndication-link.html title=link.title icon=link.icon url=link.url %}
-        {% endfor %}
-    </ul>
+  <p>Share and respond?</p>
+  <ul class="links">
+    {% for link in page.syndications %}
+      {% include syndication-link.html title=link.title icon=link.icon url=link.url %}
+    {% endfor %}
+  </ul>
 {% endif %}

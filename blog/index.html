@@ -5,14 +5,14 @@ class: posts
 ---
 
 {% if site.posts.size > 0 %}
-    <ul class="links posts">
-        {% for post in site.posts %}
-            {% capture excerpt %}
-                <span class="excerpt"><span class="screenreader">Excerpt:</span> {{ post.excerpt }}</span>
-            {% endcapture %}
-            {% include link.html title=post.title post=excerpt icon="far fa-file-alt" url=post.url %}
-        {% endfor %}
-    </ul>
+  <ul class="links posts">
+    {% for post in site.posts %}
+      {% capture excerpt %}
+        <span class="excerpt"><span class="screenreader">Excerpt:</span> {{ post.excerpt }}</span>
+      {% endcapture %}
+      {% include link.html title=post.title post=excerpt icon="far fa-file-alt" url=post.url %}
+    {% endfor %}
+  </ul>
 {% else %}
-    <h2 class="empty">No blog posts</h2>
+  <h2 class="empty">No blog posts</h2>
 {% endif %}

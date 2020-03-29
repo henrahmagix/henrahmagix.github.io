@@ -1,20 +1,20 @@
 <li class="link {{ include.class }} {{ include.title | slugify }} {% unless include.title %}no-title{% endunless %} {% unless include.icon %}no-icon{% endunless %} {% if include.highlight %}highlight{% endif %}">
-    {% if include.pre %}
-        <span class="pre">{{ include.pre }}</span>
+  {% if include.pre %}
+    <span class="pre">{{ include.pre }}</span>
+  {% endif %}
+  {% assign title = include.title %}
+  {% unless title %}
+    {% assign title = include.icon | slugify %}
+  {% endunless %}
+  <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}" {% if include.title %}aria-label="{{include.title}}"{% endif %}>
+    {% if include.icon %}
+      <i class="{{ include.icon }}" aria-hidden></i>
     {% endif %}
-    {% assign title = include.title %}
-    {% unless title %}
-        {% assign title = include.icon | slugify %}
+    {% unless include.hide_title == true %}
+      <span class="title">{{ include.title }}</span>
     {% endunless %}
-    <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}" {% if include.title %}aria-label="{{include.title}}"{% endif %}>
-        {% if include.icon %}
-            <i class="{{ include.icon }}" aria-hidden></i>
-        {% endif %}
-        {% unless include.hide_title == true %}
-            <span class="title">{{ include.title }}</span>
-        {% endunless %}
-    </a>
-    {% if include.post %}
-        <span class="post">{{ include.post }}</span>
-    {% endif %}
+  </a>
+  {% if include.post %}
+    <span class="post">{{ include.post }}</span>
+  {% endif %}
 </li>
