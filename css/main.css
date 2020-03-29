@@ -309,17 +309,17 @@ a:focus {
   font-size: 2em
 }
 
-.page-doubles img,
-.page-doubles canvas {
+.page-doubles .page-body img,
+.page-doubles .page-body canvas {
   margin: .5em auto;
   height: auto
 }
 
-.page-doubles img {
+.page-doubles .page-body img {
   width: 50%
 }
 
-.page-doubles canvas {
+.page-doubles .page-body canvas {
   max-width: 100%
 }
 
@@ -338,11 +338,11 @@ a:focus {
   list-style: none
 }
 
-.page-doubles input {
+.page-doubles .page-body input {
   vertical-align: middle
 }
 
-.page-doubles button {
+.page-doubles .page-body button {
   font-size: 1em;
   cursor: pointer
 }
