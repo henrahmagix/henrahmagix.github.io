@@ -7,3 +7,4 @@ defaults:
 exclude:
     - bower.json
     - Makefile
+    - lib/bundle
