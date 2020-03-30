@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Do it for me
-class: post
 ---
 
 What can I do for you?

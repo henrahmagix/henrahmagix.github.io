@@ -172,7 +172,7 @@ nav ul li:last-child {
 }
 
 .page-footer {
-  margin-top: 2em;
+  margin-top: 4em;
   padding-bottom: 2em;
   text-align: center
 }
@@ -227,7 +227,12 @@ nav ul li:last-child {
 }
 
 .page-body {
+  margin-top: 2em;
   padding: 0 2em;
+}
+
+.page-post .page-body {
+  margin-top: 0;
 }
 
 .page-body h1,
@@ -310,4 +315,20 @@ nav ul li:last-child {
 .link .icon {
   margin-right: 0.25em;
   text-align: left;
+}
+
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.post-top .published {
+  text-align: right;
+  margin: 0;
+}
+
+.post-top .links {
+  margin: 0;
 }

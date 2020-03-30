@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Why is Henry amazing?
-class: post
 ---
 
 What a nice question to ask.
