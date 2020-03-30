@@ -33,22 +33,30 @@
 
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
+  <!-- TODO: add skip to content -->
   <header class="page-header h-card">
-    <div class="logo-flipper">
-      <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
-      <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
+    <div class="logo-and-nav">
+      <div class="logo-flipper">
+        <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
+        <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/music">Music</a></li>
+          <li><a href="/photos">Photos</a></li>
+        </ul>
+      </nav>
     </div>
-    {% if page.path == "index.html" %}
-      <div class="strikethrough-wrapper">
-        <h1>
-          <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
-        </h1>
-      </div>
-    {% else if %}
-      <div class="strikethrough-wrapper">
-        <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
-      </div>
-    {% endif %}
+
+    <div class="strikethrough-wrapper">
+      <!-- TODO: replace with page title when not on home. How should rel="me" work in that case? -->
+      {% if page.path == "index.html" %}<h1>{% endif %}
+      <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+      {% if page.path == "index.html" %}</h1>{% endif %}
+    </div>
   </header>
 
   <section class="page-body">
