@@ -3,47 +3,46 @@
   icon: fas fa-pencil-alt
   url: /blog
   menulist: true
-  homelist: true
   footerlist: false
   relme: false
 -
   title: Code
   icon: fab fa-github
   url: https://github.com/henrahmagix
-  homelist: true
+  menulist: true
   footerlist: true
   relme: true
 -
   title: Talk
   icon: fab fa-twitter
   url: https://twitter.com/henrahmagix
-  homelist: true
+  menulist: false
   footerlist: true
   relme: true
 -
   title: Music
   icon: fas fa-music
   url: https://soundcloud.com/henryblyth
-  homelist: true
+  menulist: true
   footerlist: true
   relme: true
 -
   title: Photos
   icon: fas fa-camera-retro
   url: https://www.flickr.com/people/henryblyth/
-  homelist: true
+  menulist: true
   footerlist: true
   relme: true
 -
   title: Work
   icon: fab fa-linkedin
   url: https://uk.linkedin.com/in/henryblyth
-  homelist: true
+  menulist: true
   footerlist: false
   relme: true
 -
   title: PianosInOxford.uk
   url: https://pianosinoxford.uk
-  homelist: true
+  menulist: false
   footerlist: false
   relme: true

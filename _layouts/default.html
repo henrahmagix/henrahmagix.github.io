@@ -42,11 +42,12 @@
       </a>
 
       <nav>
-        <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/music">Music</a></li>
-          <li><a href="/photos">Photos</a></li>
+        <ul class="links">
+          {% for link in site.data.links %}
+            {% if link.menulist == true %}
+              {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
+            {% endif %}
+          {% endfor %}
         </ul>
       </nav>
     </div>

@@ -9,10 +9,4 @@ class: home
     {% assign post = site.posts[0] %}
     {% include link.html pre="💫 Latest post 💫<br>" title=post.title url=post.url class="latest" %}
   {% endif %}
-
-  {% for link in site.data.links %}
-    {% if link.homelist == true %}
-      {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
-    {% endif %}
-  {% endfor %}
 </ul>
