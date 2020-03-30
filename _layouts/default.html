@@ -36,7 +36,7 @@
   <!-- TODO: add skip to content -->
   <header class="page-header h-card">
     <div class="logo-and-nav content-max-width">
-      <a class="logo-flipper" rel="me" href="{{ site.url }}" title="Home">
+      <a class="logo-flipper {%if page.url == '/' %}u-url{%endif%}" rel="me" href="{{ site.url }}" title="Home">
         <img class="logo u-photo" src="/images/logo.svg" alt="Henry James Blyth signature">
         <img class="logo backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
       </a>
@@ -45,7 +45,7 @@
         <ul class="links">
           {% for link in site.data.links %}
             {% if link.menulist == true %}
-              {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}
+              {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
         </ul>
@@ -53,17 +53,13 @@
     </div>
 
     <div class="strikethrough-wrapper">
-      <!-- TODO: replace with page title when not on home. How should rel="me" work in that case? -->
-      {% if page.path == "index.html" %}
-      <h1>
-        <a class="p-name u-url" rel="me" href="{{ site.url }}">Henry &nbsp; James &nbsp; Blyth</a>
+      <h1 class="p-name">
+        {% if page.url == "/" %}Henry &nbsp; James &nbsp; Blyth
+        {% elsif layout.section != nil %}{{ layout.section }}
+        {% elsif page.section != nil %}{{ page.section }}
+        {% elsif page.title %}{{ page.title }}
+        {% endif %}
       </h1>
-      {% else %}
-      <a class="u-url screenreader" rel="me" href="{{ site.url }}">Henry &nbsp; James &nbsp; Blyth</a>
-      <span class="p-name">
-        {% if layout.section != nil %}{{ layout.section }}{% elsif page.section != nil %}{{ page.section }}{% elsif page.title %}{{ page.title }}{% endif %}
-      </span>
-      {% endif %}
     </div>
   </header>
 

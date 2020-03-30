@@ -2,11 +2,15 @@
 class: home
 ---
 
-<ul class="links">
-  {% include link.html pre="✨ Featured ✨<br>" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
+<section>
+  <h2>✨ Featured ✨</h2>
+  <a href="/doubles/random">Double Exposure Random Generator: The DERG!</a>
+</section>
 
-  {% if site.posts[0] %}
-    {% assign post = site.posts[0] %}
-    {% include link.html pre="💫 Latest post 💫<br>" title=post.title url=post.url class="latest" %}
-  {% endif %}
-</ul>
+{% if site.posts[0] %}
+<section>
+  <h2>💫 Latest post 💫</h2>
+  {% assign post = site.posts[0] %}
+  <a href="{{post.url}}">{{post.title}}</a>
+</section>
+{% endif %}
