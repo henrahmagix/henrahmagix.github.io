@@ -3,11 +3,11 @@ class: home
 ---
 
 <ul class="links">
-  {% include link.html pre="Feature:" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
+  {% include link.html pre="✨ Featured ✨<br>" title="Double Exposure Random Generator: The DERG!" url="/doubles/random" class="latest" %}
 
   {% if site.posts[0] %}
     {% assign post = site.posts[0] %}
-    {% include link.html pre="Latest post:" title=post.title url=post.url class="latest" %}
+    {% include link.html pre="💫 Latest post 💫<br>" title=post.title url=post.url class="latest" %}
   {% endif %}
 
   {% if site.posts.size > 0 %}
