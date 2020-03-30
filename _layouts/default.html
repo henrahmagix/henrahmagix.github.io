@@ -54,7 +54,7 @@
     <div class="strikethrough-wrapper">
       <!-- TODO: replace with page title when not on home. How should rel="me" work in that case? -->
       {% if page.path == "index.html" %}<h1>{% endif %}
-      <a class="p-name u-url" rel="me" href="https://henryblyth.com">Henry James Blyth</a>
+      <a class="p-name u-url" rel="me" href="{{ site.url }}">Henry James Blyth</a>
       {% if page.path == "index.html" %}</h1>{% endif %}
     </div>
   </header>
