@@ -10,10 +10,6 @@ class: home
     {% include link.html pre="💫 Latest post 💫<br>" title=post.title url=post.url class="latest" %}
   {% endif %}
 
-  {% if site.posts.size > 0 %}
-    {% include link.html title="Blog" url=site.data.urls.blog icon="fas fa-pencil-alt" %}
-  {% endif %}
-
   {% for link in site.data.links %}
     {% if link.homelist == true %}
       {% include link.html title=link.title icon=link.icon url=link.url relme=link.relme %}

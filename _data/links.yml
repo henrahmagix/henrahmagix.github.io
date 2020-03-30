@@ -1,4 +1,12 @@
 -
+  title: Blog
+  icon: fas fa-pencil-alt
+  url: /blog
+  menulist: true
+  homelist: true
+  footerlist: false
+  relme: false
+-
   title: Code
   icon: fab fa-github
   url: https://github.com/henrahmagix
