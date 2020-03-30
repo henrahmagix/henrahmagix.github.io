@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% if page.headTitle %}{{ page.headTitle }} – {% endif %}{% if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
+  <title>{% if page.headTitle %}{{ page.headTitle }} &ndash; {% endif %}{% if page.title %}{{ page.title }} – {% endif %}Henry Blyth</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
@@ -53,9 +53,16 @@
 
     <div class="strikethrough-wrapper">
       <!-- TODO: replace with page title when not on home. How should rel="me" work in that case? -->
-      {% if page.path == "index.html" %}<h1>{% endif %}
-      <a class="p-name u-url" rel="me" href="{{ site.url }}">Henry James Blyth</a>
-      {% if page.path == "index.html" %}</h1>{% endif %}
+      {% if page.path == "index.html" %}
+      <h1>
+        <a class="p-name u-url" rel="me" href="{{ site.url }}">Henry &nbsp; James &nbsp; Blyth</a>
+      </h1>
+      {% else %}
+      <a class="u-url screenreader" rel="me" href="{{ site.url }}">Henry &nbsp; James &nbsp; Blyth</a>
+      <span class="p-name">
+        {% if layout.section != nil %}{{ layout.section }}{% elsif page.section != nil %}{{ page.section }}{% elsif page.title %}{{ page.title }}{% endif %}
+      </span>
+      {% endif %}
     </div>
   </header>
 

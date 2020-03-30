@@ -1,10 +1,8 @@
 ---
 layout: default
-title: Why
+title: Why is Henry amazing?
 class: post
 ---
-
-## Why is Henry amazing?
 
 What a nice question to ask.
 

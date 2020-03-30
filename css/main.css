@@ -94,6 +94,7 @@ nav ul li:last-child {
 
 .logo-and-nav {
   padding: 0 0.5em;
+  margin-bottom: 0.625em;
 }
 
 .logo-and-nav nav {
@@ -153,7 +154,7 @@ nav ul li:last-child {
 
 .page-header .p-name {
   display: block;
-  margin: 20px 0;
+  min-width: 2.5em;
 }
 
 .page-title {
@@ -218,11 +219,11 @@ nav ul li:last-child {
 }
 
 .strikethrough-wrapper::before {
-  margin-right: 10px
+  margin-right: 0.625em
 }
 
 .strikethrough-wrapper::after {
-  margin-left: 10px
+  margin-left: 0.625em
 }
 
 .page-body {
