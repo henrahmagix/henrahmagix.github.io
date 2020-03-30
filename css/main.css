@@ -28,7 +28,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  max-width: 1200px;
 }
 
 * {
@@ -84,6 +83,11 @@ a:focus {
 .link.highlight.no-title a:hover,
 .link.highlight.no-title a:focus {
   color: #252525
+}
+
+.content-max-width {
+  max-width: 900px;
+  margin: auto;
 }
 
 .page-header {
