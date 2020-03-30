@@ -48,7 +48,15 @@ article a {
   color: #2F5B83;
 }
 
-.link {
+.avatar {
+  width: 3em;
+  border-radius: 0.5em;
+  /* box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.4); */
+  border: 2px solid #23242C;
+}
+
+.links li,
+.list-reset {
   list-style: none !important
 }
 

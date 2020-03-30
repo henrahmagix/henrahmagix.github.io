@@ -1,16 +1,35 @@
 ---
 class: home
 ---
+<h2>
+  <img class="avatar" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
+  About
+</h2>
+<p>Henry is a Software Engineer from Oxford, UK. He has full-stack skills and pushes for accessibility.</p>
 
 <section>
-  <h2>✨ Featured ✨</h2>
+  <h2>✨ Featured</h2>
   <a href="/doubles/random">Double Exposure Random Generator: The DERG!</a>
 </section>
 
-{% if site.posts[0] %}
 <section>
-  <h2>💫 Latest post 💫</h2>
-  {% assign post = site.posts[0] %}
-  <a href="{{post.url}}">{{post.title}}</a>
+  <h3>💻 Skills</h3>
+  <ul>
+    {% for group in site.data.skills %}
+    <li>
+      {% for skill in group %}
+      {{skill}}
+      {%unless forloop.last%}<small>&&</small>{%endunless%}
+      {% endfor %}
+    </li>
+    {% endfor %}
+  </ul>
 </section>
-{% endif %}
+
+<section>
+  {% if site.posts[0] %}
+    <h2>💫 Latest post</h2>
+    {% assign post = site.posts[0] %}
+    <a href="{{post.url}}">{{post.title}}</a>
+  {% endif %}
+</section>
