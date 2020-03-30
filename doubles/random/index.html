@@ -11,7 +11,48 @@ class: doubles
 
 <p>See some of my favourites in <a href="https://twitter.com/henrahmagix/status/1043861655770333184">this Twitter thread</a></p>
 
-<div class="form-wrapper">
+<style>
+.source-image,
+.generated-canvas {
+  margin: .5em auto;
+  height: auto;
+}
+
+.source-image {
+  width: 50%;
+}
+
+.generated-canvas {
+  max-width: 100%;
+}
+
+form {
+  background-color: #252525;
+  padding: 15px;
+  color: #fcfcfc;
+}
+
+form button,
+form .button {
+  background-color: #fcfcfc;
+  color: #252525;
+  font-size: 1em;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  padding: 0.25em 0.5em;
+}
+
+.options li {
+  list-style: none;
+}
+
+form input {
+  vertical-align: middle;
+}
+</style>
+
+<form id="generate">
   <h4>Options:</h4>
   <ul class="options">
     <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
@@ -19,12 +60,12 @@ class: doubles
     <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
   </ul>
 
-  <button id="generate">Generate</button>
+  <button type="submit">Generate</button>
   <span id="loading" style="display:none;">Processing...</span>
   <br>
   <br>
-  <a id="save" download="double-exposure.jpg"><button>Save</button></a>
-</div>
+  <a id="save" class="button" download="double-exposure.jpg">Save</a>
+</form>
 
 <div id="images"></div>
 
@@ -34,7 +75,7 @@ class: doubles
   var widthInput = document.getElementById('option-width');
   var heightInput = document.getElementById('option-height');
   var greyscaleCheckbox = document.getElementById('option-greyscale');
-  var generateButton = document.getElementById('generate');
+  var form = document.getElementById('generate');
   var saveButton = document.getElementById('save');
   var loadingMessage = document.getElementById('loading');
   var images = document.getElementById('images');
@@ -84,6 +125,7 @@ class: doubles
     // Clone the first image for use with Caman, so both images can be seen
     // separately to the combined double-exposure.
     var camanCanvas = document.createElement('canvas');
+    camanCanvas.className = "generated-canvas"
     camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
     camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
     camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
@@ -147,6 +189,8 @@ class: doubles
     // Make new images.
     var aImage = new Image();
     var bImage = new Image();
+    aImage.className = 'source-image';
+    bImage.className = 'source-image';
     images.appendChild(aImage);
     images.appendChild(bImage);
     var aLoaded = false;
@@ -190,6 +234,9 @@ class: doubles
     saveButton.setAttribute('href', url);
   };
 
-  generateButton.addEventListener('click', generate);
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    generate();
+  });
 
 </script>
