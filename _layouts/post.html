@@ -8,7 +8,7 @@ layout: default
 
 <p>Published on <time class="published" datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
 
-{% include back-link.html title="Blog" url=site.data.urls.blog position="top" %}
+{% include back-link.html title="Blog" url=site.data.urls.blog %}
 
 <div class="entry-content">
   {{ content }}

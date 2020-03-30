@@ -310,28 +310,3 @@ nav ul li:last-child {
   margin-right: 0.25em;
   text-align: left;
 }
-
-.page-post .links {
-  padding: 0
-}
-
-.page-post .links.position-top {
-  margin-bottom: 1em
-}
-
-.page-post .links.position-bottom {
-  margin-top: 1em
-}
-
-.page-posts .posts li>a {
-  font-size: 1.6em
-}
-
-.page-posts .posts .excerpt {
-  display: block;
-  clear: both
-}
-
-.page-posts .empty {
-  font-size: 2em
-}

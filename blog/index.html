@@ -1,8 +1,22 @@
 ---
 layout: default
 title: Blog
-class: posts
 ---
+
+<style>
+.posts li > a {
+  font-size: 1.6em
+}
+
+.posts .excerpt {
+  display: block;
+  clear: both
+}
+
+.empty {
+  font-size: 2em
+}
+</style>
 
 {% if site.posts.size > 0 %}
   <ul class="links posts">
