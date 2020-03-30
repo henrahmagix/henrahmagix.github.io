@@ -49,10 +49,13 @@ article a {
 }
 
 .avatar {
-  width: 3em;
-  border-radius: 0.5em;
-  /* box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.4); */
+  width: 2em;
+  border-radius: 0.25em;
   border: 2px solid #23242C;
+}
+
+.fancy-title:hover > .emoji {
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.4);
 }
 
 .links li,
