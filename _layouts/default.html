@@ -33,7 +33,8 @@
 
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
-  <!-- TODO: add skip to content -->
+  <a href="#content" class="skip-to-content">Skip to main content</a>
+  
   <header class="page-header h-card">
     <div class="logo-and-nav content-max-width">
       <a class="logo-flipper {%if page.url == '/' %}u-url{%endif%}" rel="me" href="{{ site.url }}" title="Home">
@@ -64,9 +65,7 @@
   </header>
 
   <section class="page-body content-max-width">
-    <article class="hentry">
-      {{ content }}
-    </article>
+    {{ content }}
   </section>
 
   <footer class="page-footer">

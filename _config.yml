@@ -3,7 +3,7 @@ defaults:
     scope:
       path: ''
     values:
-      layout: default
+      layout: page
 exclude:
   - bower.json
   - Makefile

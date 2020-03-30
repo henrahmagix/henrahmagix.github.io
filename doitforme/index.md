@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: Do it for me
 ---
 
