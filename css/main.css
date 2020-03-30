@@ -288,9 +288,12 @@ a:focus {
   text-align: left
 }
 
-.page-home .page-body .link .fa {
+.page-home .page-body .link .fa,
+.page-home .page-body .link .fas,
+.page-home .page-body .link .fab {
   float: left;
-  min-width: 1.5em
+  min-width: 1.5em;
+  text-align: left;
 }
 
 .page-home .page-body .link.no-icon {
