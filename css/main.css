@@ -24,7 +24,6 @@ body {
   font-size: 100%;
   font-weight: normal;
   line-height: 1.4;
-  /* padding: 2em 2em; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -35,54 +34,22 @@ body {
 }
 
 a {
-  color: #346492;
-  color: #2F5B83;
+  color: inherit;
   text-decoration: underline;
 }
 
 a:hover,
 a:focus {
+  color: #2F5B83;
   text-decoration: none;
 }
 
-.links a {
-  text-decoration: none
-}
-
-.links a .title {
-  text-decoration: underline
-}
-
-.links a:hover .title,
-.links a:focus .title {
-  text-decoration: none
+article a {
+  color: #2F5B83;
 }
 
 .link {
   list-style: none !important
-}
-
-.link i,
-.link .title {
-  display: inline-block
-}
-
-.link a {
-  color: #252525
-}
-
-.link a:hover,
-.link a:focus {
-  color: #346492
-}
-
-.link.highlight a {
-  color: #346492
-}
-
-.link.highlight.no-title a:hover,
-.link.highlight.no-title a:focus {
-  color: #252525
 }
 
 .content-max-width {
@@ -111,7 +78,6 @@ nav ul {
 nav ul li {
   display: inline-block;
   margin-right: 0.5em;
-  color: #c738a8;
 }
 
 nav ul li:last-child {
@@ -239,7 +205,6 @@ nav ul li:last-child {
   display: flex;
   align-items: center;
   line-height: 1;
-  /* margin: 0 -2em; */
   text-align: center
 }
 
@@ -337,11 +302,12 @@ nav ul li:last-child {
   text-align: left
 }
 
-.page-home .page-body .link .fa,
-.page-home .page-body .link .fas,
-.page-home .page-body .link .fab {
-  float: left;
-  min-width: 1.5em;
+.page-home .page-body .link .icon {
+  min-width: 1.25em;
+}
+
+.link .icon {
+  margin-right: 0.25em;
   text-align: left;
 }
 

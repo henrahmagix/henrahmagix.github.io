@@ -11,7 +11,7 @@ class: home
   {% endif %}
 
   {% if site.posts.size > 0 %}
-    {% include link.html title="Blog" url=site.data.urls.blog %}
+    {% include link.html title="Blog" url=site.data.urls.blog icon="fas fa-pencil-alt" %}
   {% endif %}
 
   {% for link in site.data.links %}
