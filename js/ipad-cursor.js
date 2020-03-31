@@ -34,17 +34,12 @@ function bindCursor() {
   cursor.classList.add('bound');
   cursor.style.height = pos.height + 'px';
   cursor.style.width = pos.width + 'px';
-
-  // var c = getComputedStyle(el).color;
-  // cursor.style.backgroundColor = c;
 }
 
 function unbindCursor() {
   cursor.classList.remove('bound');
   cursor.style.height = '';
   cursor.style.width = '';
-
-  cursor.style.backgroundColor = '';
 }
 
 function positionCursorForMouseEvent(event) {
