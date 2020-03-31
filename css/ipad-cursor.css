@@ -9,7 +9,7 @@
   z-index: 3;
   top: 0;
   left: 0;
-  transition-duration: 100ms;
+  transition-duration: 120ms;
   transition-property: height, width, margin, padding, border-radius, background-color;
   height: 1em;
   width: 1em;

@@ -22,7 +22,7 @@ addEventListener(document, 'mousemove', function (event) {
   positionCursorForMouseEvent(event);
 });
 
-document.querySelectorAll('a, button').forEach(function (el) {
+document.querySelectorAll('nav a, main a, main button').forEach(function (el) {
   addEventListener(el, 'mouseover', function (event) {
     boundPosition = getAbsolutePosition(el);
     bindCursor();
