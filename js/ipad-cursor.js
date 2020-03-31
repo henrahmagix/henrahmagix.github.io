@@ -2,54 +2,46 @@ var cursor = document.createElement('div');
 cursor.id = 'ipad-cursor'
 cursor.style.top = cursor.style.left = 0;
 
-var DISTANCE = 0;
-
-if (document.readyState !== 'loading') {
-  ready();
-} else {
-  window.addEventListener('DOMContentLoaded', ready);
-}
+var DISTANCE = Math.max(document.body.clientHeight);
 
 var boundToClickable = false;
 
-function ready() {
-  DISTANCE = Math.max(document.body.clientHeight);
+unbindCursor();
+document.body.appendChild(cursor);
 
-  unbindCursor();
-  document.body.appendChild(cursor);
+adjustCursorForMouseEvent({ x: 0, y: 0, width: 0, height: 0 }, window.startingCursorPosition || {x: 0, y: 0});
 
-  document.addEventListener('mousemove', function (event) {
-    if (!boundToClickable) {
-      adjustCursorForMouseEvent({x: 0, y: 0, width: 0, height: 0}, event);
+document.addEventListener('mousemove', function (event) {
+  if (!boundToClickable) {
+    adjustCursorForMouseEvent({x: 0, y: 0, width: 0, height: 0}, event);
+  }
+});
+
+document.querySelectorAll('a, button').forEach(function (el) {
+  var pos;
+
+  el.addEventListener('mouseover', function (event) {
+    boundToClickable = true;
+    pos = getAbsolutePosition(el);
+
+    setCursorColourFromElement(el);
+    bindCursor();
+
+    positionCursorOntoElement(pos);
+    adjustCursorForMouseEvent(pos, event);
+  });
+
+  el.addEventListener('mousemove', function (event) {
+    if (boundToClickable) {
+      adjustCursorForMouseEvent(pos, event);
     }
   });
 
-  document.querySelectorAll('a, button').forEach(function (el) {
-    var pos;
-
-    el.addEventListener('mouseover', function (event) {
-      boundToClickable = true;
-      pos = getAbsolutePosition(el);
-
-      setCursorColourFromElement(el);
-      bindCursor();
-
-      positionCursorOntoElement(pos);
-      adjustCursorForMouseEvent(pos, event);
-    });
-
-    el.addEventListener('mousemove', function (event) {
-      if (boundToClickable) {
-        adjustCursorForMouseEvent(pos, event);
-      }
-    });
-
-    el.addEventListener('mouseout', function () {
-      boundToClickable = false;
-      unbindCursor();
-    });
+  el.addEventListener('mouseout', function () {
+    boundToClickable = false;
+    unbindCursor();
   });
-}
+});
 
 function bindCursor() {
   cursor.classList.add('bound');

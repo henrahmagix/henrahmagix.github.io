@@ -98,7 +98,9 @@
 
   <script>
     var ipadButton = document.getElementById('ipad-cursor-button');
-    ipadButton.addEventListener('click', function () {
+    ipadButton.addEventListener('click', function (event) {
+      window.startingCursorPosition = {x: event.x, y: event.y};
+
       var link = document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
