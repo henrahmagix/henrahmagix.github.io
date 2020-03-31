@@ -100,16 +100,31 @@
     var iPadCursorTrigger = document.getElementById('ipad-cursor-input');
     var iPadCursorAssets = [];
 
-    iPadCursorTrigger.addEventListener('change', function (event) {
+    iPadCursorTrigger.addEventListener('change', onCursorTriggerChange, false);
+
+    if (document.cookie.indexOf('hb_ipad_cursor=1') !== -1) {
+      iPadCursorTrigger.checked = true;
+      if ('createEvent' in document) {
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
+        iPadCursorTrigger.dispatchEvent(evt);
+      } else {
+        iPadCursorTrigger.fireEvent('onchange');
+      }
+    }
+
+    function onCursorTriggerChange (event) {
       window.startingCursorPosition = {x: event.x, y: event.y};
 
       if (iPadCursorTrigger.checked) {
+        document.cookie = 'hb_ipad_cursor=1';
         tryIpadCursor();
       } else {
+        document.cookie = 'hb_ipad_cursor=0';
         iPadCursorAssets.forEach(function (a) { a.remove(); });
         window.iPadCursorDestroy();
       }
-    }, false);
+    }
 
     function tryIpadCursor() {
       var script = document.createElement('script');
