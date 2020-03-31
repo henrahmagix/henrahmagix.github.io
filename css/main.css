@@ -57,13 +57,16 @@ body {
   box-sizing: inherit;
 }
 
-a {
+a,
+.button-link {
   color: inherit;
   text-decoration: underline;
 }
 
 a:hover,
-a:focus {
+a:focus,
+.button-link:hover,
+.button-link:focus {
   color: #2F5B83;
   text-decoration: none;
 }
@@ -71,6 +74,22 @@ a:focus {
 article a {
   color: #2F5B83;
   font-weight: 700;
+}
+
+.button-link {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  vertical-align: middle;
+  background-image: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .avatar {

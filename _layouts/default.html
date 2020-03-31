@@ -49,7 +49,7 @@
               {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
-          <li>💡<button id="ipad-cursor">iPad cursor</button></li>
+          <li>💡Try! <button class="button-link" id="ipad-cursor">iPad OS cursor</button></li>
         </ul>
       </nav>
     </div>
@@ -97,9 +97,17 @@
   </script>
 
   <script>
-    document.getElementById('ipad-cursor').addEventListener('click', function () {
+    var ipadButton = document.getElementById('ipad-cursor');
+    ipadButton.addEventListener('click', function () {
       var script = document.createElement('script');
       script.src = '/js/ipad-cursor.js';
+      script.onload = function () {
+        var tick = document.createElement('span');
+        tick.innerText = '✅';
+        tick.style.marginLeft = '0.25em';
+        tick.style.verticalAlign = 'middle';
+        ipadButton.parentElement.appendChild(tick);
+      };
       document.body.appendChild(script);
     });
   </script>
