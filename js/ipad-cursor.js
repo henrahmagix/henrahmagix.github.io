@@ -62,20 +62,18 @@ function unbindCursor() {
 }
 
 function positionCursorForMouseEvent(event) {
-  var mouseAbs = normaliseToScroll(event.x, event.y);
-  var x, y;
+  var mouse = normaliseToScroll(event);
+  // Mouse position by default.
+  var x = mouse.x;
+  var y = mouse.y;
 
   if (boundPosition) {
     var pos = boundPosition;
-    x = pos.x;
-    y = pos.y;
-    x += getElasticDistance(mouseAbs.x - (x + (pos.width / 2)));
-    y += getElasticDistance(mouseAbs.y - (y + (pos.height / 2)));
-  } else {
-    x = mouseAbs.x;
-    y = mouseAbs.y;
+    var midX = pos.x + (pos.width / 2);
+    var midY = pos.y + (pos.height / 2);
+    x = pos.x + getElasticDistance(mouse.x - midX);
+    y = pos.y + getElasticDistance(mouse.y - midY);
   }
-
 
   cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 }
@@ -97,7 +95,7 @@ function getElasticDistance(x) {
 function getAbsolutePosition(el) {
   var r = cursor.getBoundingClientRect();
   var rect = el.getBoundingClientRect();
-  var normalised = normaliseToScroll(rect.left, rect.top);
+  var normalised = normaliseToScroll({x: rect.left, y: rect.top});
   return {
     x: normalised.x,
     y: normalised.y,
@@ -106,10 +104,10 @@ function getAbsolutePosition(el) {
   };
 }
 
-function normaliseToScroll(x, y) {
+function normaliseToScroll(pos) {
   return {
-    x: x + (window.pageXOffset || document.documentElement.scrollLeft || 0),
-    y: y + (window.pageYOffset || document.documentElement.scrollTop || 0)
+    x: pos.x + (window.pageXOffset || document.documentElement.scrollLeft || 0),
+    y: pos.y + (window.pageYOffset || document.documentElement.scrollTop || 0)
   };
 }
 
