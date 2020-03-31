@@ -1,11 +1,6 @@
 var cursor = document.createElement('div');
 cursor.id = 'ipad-cursor'
-cursor.style.position = 'absolute';
-cursor.style.zIndex = 3;
 cursor.style.top = cursor.style.left = 0;
-
-var style = document.createElement('style');
-style.innerText = '.hide-cursor * {cursor: none !important;}';
 
 var DISTANCE = 0;
 
@@ -15,49 +10,59 @@ if (document.readyState !== 'loading') {
   window.addEventListener('DOMContentLoaded', ready);
 }
 
+var boundToClickable = false;
+
 function ready() {
   DISTANCE = Math.max(document.body.clientHeight);
 
-  hideCursor();
-  document.head.appendChild(style);
+  unbindCursor();
   document.body.appendChild(cursor);
 
+  document.addEventListener('mousemove', function (event) {
+    if (!boundToClickable) {
+      adjustCursorForMouseEvent({x: 0, y: 0, width: 0, height: 0}, event);
+    }
+  });
+
   document.querySelectorAll('a, button').forEach(function (el) {
-    var mouseIn = false;
     var pos;
 
     el.addEventListener('mouseover', function (event) {
-      mouseIn = true;
+      boundToClickable = true;
       pos = getAbsolutePosition(el);
 
       setCursorColourFromElement(el);
-      showCursor();
+      bindCursor();
 
       positionCursorOntoElement(pos);
       adjustCursorForMouseEvent(pos, event);
-
     });
 
     el.addEventListener('mousemove', function (event) {
-      if (mouseIn) {
+      if (boundToClickable) {
         adjustCursorForMouseEvent(pos, event);
       }
     });
 
     el.addEventListener('mouseout', function () {
-      mouseIn = false;
-      hideCursor();
+      boundToClickable = false;
+      unbindCursor();
     });
   });
 }
 
-function showCursor() {
-  cursor.style.visibility = 'visible';
-  document.body.classList.add('hide-cursor');
+function bindCursor() {
+  cursor.classList.add('bound');
 }
-function hideCursor() {
-  cursor.style.visibility = 'hidden';
-  document.body.classList.remove('hide-cursor');
+
+function unbindCursor() {
+  cursor.classList.remove('bound');
+
+  cursor.style.top = '';
+  cursor.style.left = '';
+  cursor.style.height = '';
+  cursor.style.width = '';
+  cursor.style.backgroundColor = '';
 }
 
 function positionCursorOntoElement(pos) {
@@ -71,8 +76,10 @@ function adjustCursorForMouseEvent(pos, event) {
   var mouse = normaliseToScroll(event.x, event.y);
   var x = mouse.x - pos.x - (pos.width / 2);
   var y = mouse.y - pos.y - (pos.height / 2);
-  x = getElasticDistance(x);
-  y = getElasticDistance(y);
+  if (boundToClickable) {
+    x = getElasticDistance(x);
+    y = getElasticDistance(y);
+  }
   cursor.style.transform = 'translate3d('+x+'px, '+y+'px, 0)';
 }
 

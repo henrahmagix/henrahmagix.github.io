@@ -1,8 +1,25 @@
+* {
+  cursor: none !important;
+}
+
 #ipad-cursor {
+  background-color: #2F5B83;
   pointer-events: none;
-  border-radius: 0.4em;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  height: 2em;
+  width: 2em;
+  margin-top: -1em;
+  margin-left: -1em;
   opacity: 0.2;
   box-sizing: content-box;
+  border-radius: 100%;
+}
+
+#ipad-cursor.bound {
+  border-radius: 0.4em;
   padding: 0.4em;
   margin-top: -0.4em;
   margin-left: -0.4em;
