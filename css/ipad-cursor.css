@@ -9,10 +9,12 @@
   z-index: 3;
   top: 0;
   left: 0;
-  height: 2em;
-  width: 2em;
-  margin-top: -1em;
-  margin-left: -1em;
+  transition-duration: 100ms;
+  transition-property: height, width, margin, padding, border-radius, background-color;
+  height: 1em;
+  width: 1em;
+  margin-top: -0.5em;
+  margin-left: -0.5em;
   opacity: 0.2;
   box-sizing: content-box;
   border-radius: 100%;
