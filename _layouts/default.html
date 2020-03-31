@@ -34,7 +34,7 @@
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
   <a href="#content" id="skip-to-content">Skip to main content</a>
-  
+
   <header class="page-header h-card">
     <div class="logo-and-nav content-max-width">
       <a class="logo-flipper {%if page.url == '/' %}u-url{%endif%}" rel="me" href="{{ site.url }}" title="Home">
@@ -49,7 +49,7 @@
               {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
-          <li>💡Try! <button class="button-link" id="ipad-cursor">iPad OS cursor</button></li>
+          <li>💡Try! <button class="button-link" id="ipad-cursor-button">iPad OS cursor</button></li>
         </ul>
       </nav>
     </div>
@@ -97,8 +97,14 @@
   </script>
 
   <script>
-    var ipadButton = document.getElementById('ipad-cursor');
+    var ipadButton = document.getElementById('ipad-cursor-button');
     ipadButton.addEventListener('click', function () {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = '/css/ipad-cursor.css';
+      document.head.appendChild(link);
+
       var script = document.createElement('script');
       script.src = '/js/ipad-cursor.js';
       script.onload = function () {

@@ -1,0 +1,9 @@
+#ipad-cursor {
+  pointer-events: none;
+  border-radius: 0.4em;
+  opacity: 0.2;
+  box-sizing: content-box;
+  padding: 0.4em;
+  margin-top: -0.4em;
+  margin-left: -0.4em;
+}

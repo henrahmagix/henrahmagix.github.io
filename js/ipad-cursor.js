@@ -1,14 +1,8 @@
 var cursor = document.createElement('div');
+cursor.id = 'ipad-cursor'
 cursor.style.position = 'absolute';
 cursor.style.zIndex = 3;
 cursor.style.top = cursor.style.left = 0;
-cursor.style.pointerEvents = 'none';
-cursor.style.opacity = 0.2;
-cursor.style.borderRadius = '0.4em';
-cursor.style.padding = '0.4em';
-cursor.style.marginTop = '-0.4em';
-cursor.style.marginLeft = '-0.4em';
-cursor.style.boxSizing = 'content-box';
 
 var style = document.createElement('style');
 style.innerText = '.hide-cursor * {cursor: none !important;}';
