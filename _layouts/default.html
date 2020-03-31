@@ -59,7 +59,7 @@
               {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
-          <li>💡Try! <button class="button-link" id="ipad-cursor-button">iPad OS cursor</button></li>
+          <li>💡Try! iPad OS cursor <input id="ipad-cursor-input" type="checkbox"></li>
         </ul>
       </nav>
     </div>
@@ -97,34 +97,42 @@
   </div>
 
   <script>
-    var ipadButton = document.getElementById('ipad-cursor-button');
-    var done = false;
-    ipadButton.addEventListener('click', function (event) {
-      event.preventDefault();
-      if (done) {
-        return;
-      }
+    var iPadCursorTrigger = document.getElementById('ipad-cursor-input');
+    var iPadCursorAssets = [];
 
+    iPadCursorTrigger.addEventListener('change', function (event) {
       window.startingCursorPosition = {x: event.x, y: event.y};
 
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = '/css/ipad-cursor.css';
-      document.head.appendChild(link);
+      if (iPadCursorTrigger.checked) {
+        tryIpadCursor();
+      } else {
+        iPadCursorAssets.forEach(function (a) { a.remove(); });
+        window.iPadCursorDestroy();
+      }
+    }, false);
 
+    function tryIpadCursor() {
       var script = document.createElement('script');
       script.src = '/js/ipad-cursor.js';
+      script.onerror = function () {
+        var msg = document.createElement('span');
+        msg.innerText = 'oh no? i dont know why something went wrong, soz :(';
+        msg.style.marginLeft = '0.25em';
+        msg.style.verticalAlign = 'middle';
+        iPadCursorTrigger.parentElement.appendChild(msg);
+      };
+
       script.onload = function () {
-        var tick = document.createElement('span');
-        tick.innerText = '✅';
-        tick.style.marginLeft = '0.25em';
-        tick.style.verticalAlign = 'middle';
-        ipadButton.parentElement.appendChild(tick);
-        done = true;
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '/css/ipad-cursor.css';
+        document.head.appendChild(link);
+        iPadCursorAssets.push(link);
       };
       document.body.appendChild(script);
-    });
+      iPadCursorAssets.push(script);
+    }
   </script>
 
 </body>

@@ -1,3 +1,7 @@
+(function(){
+
+var removerFunctions = [];
+
 var cursor = document.createElement('div');
 cursor.id = 'ipad-cursor'
 cursor.style.top = cursor.style.left = 0;
@@ -6,28 +10,43 @@ var boundPosition = null;
 
 unbindCursor();
 document.body.appendChild(cursor);
+removerFunctions.push(function () {
+  document.body.removeChild(cursor);
+});
 
 var DISTANCE = Math.max(document.body.clientHeight);
 
 positionCursorForMouseEvent(window.startingCursorPosition || {x: 0, y: 0});
 
-document.addEventListener('mousemove', function (event) {
+addEventListener(document, 'mousemove', function (event) {
   positionCursorForMouseEvent(event);
 });
 
 document.querySelectorAll('a, button').forEach(function (el) {
-  el.addEventListener('mouseover', function (event) {
+  addEventListener(el, 'mouseover', function (event) {
     boundPosition = getAbsolutePosition(el);
-
     bindCursor();
     positionCursorForMouseEvent(event);
   });
 
-  el.addEventListener('mouseout', function () {
+  addEventListener(el, 'mouseout', function () {
     boundPosition = null;
     unbindCursor();
   });
 });
+
+window.iPadCursorDestroy = function () {
+  removerFunctions.forEach(function (fn) { fn(); })
+};
+
+/* funcs */
+
+function addEventListener(target, name, fn) {
+  target.addEventListener(name, fn);
+  removerFunctions.push(function () {
+    target.removeEventListener(name, fn);
+  });
+}
 
 function bindCursor() {
   var pos = boundPosition;
@@ -93,3 +112,5 @@ function normaliseToScroll(x, y) {
     y: y + (window.pageYOffset || document.documentElement.scrollTop || 0)
   };
 }
+
+}());
