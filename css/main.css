@@ -390,3 +390,63 @@ a .icon {
 .post-top .links {
   margin: 0;
 }
+
+.p-name-wrapper,
+.logo-flipper,
+nav,
+main,
+footer {
+  opacity: 0;
+  animation-duration: 500ms;
+  animation-delay: 100ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+.logo-flipper {
+  animation-duration: 800ms;
+  animation-name: fade-in, scale-in;
+}
+.p-name-wrapper,
+nav,
+main,
+footer {
+  animation-name: fade-in, pull-in;
+}
+.p-name-wrapper {
+  animation-delay: 750ms;
+}
+nav {
+  animation-delay: 220ms;
+}
+main,
+footer {
+  animation-delay: 900ms;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes scale-in {
+    from {
+      transform: scale(0.6);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes pull-in {
+    from {
+      transform: translateY(50px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
