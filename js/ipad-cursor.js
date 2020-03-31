@@ -2,82 +2,68 @@ var cursor = document.createElement('div');
 cursor.id = 'ipad-cursor'
 cursor.style.top = cursor.style.left = 0;
 
-var DISTANCE = Math.max(document.body.clientHeight);
-
-var boundToClickable = false;
+var boundPosition = null;
 
 unbindCursor();
 document.body.appendChild(cursor);
 
-adjustCursorForMouseEvent({ x: 0, y: 0, width: 0, height: 0 }, window.startingCursorPosition || {x: 0, y: 0});
+var DISTANCE = Math.max(document.body.clientHeight);
+
+positionCursorForMouseEvent(window.startingCursorPosition || {x: 0, y: 0});
 
 document.addEventListener('mousemove', function (event) {
-  if (!boundToClickable) {
-    adjustCursorForMouseEvent({x: 0, y: 0, width: 0, height: 0}, event);
-  }
+  positionCursorForMouseEvent(event);
 });
 
 document.querySelectorAll('a, button').forEach(function (el) {
-  var pos;
-
   el.addEventListener('mouseover', function (event) {
-    boundToClickable = true;
-    pos = getAbsolutePosition(el);
+    boundPosition = getAbsolutePosition(el);
 
-    setCursorColourFromElement(el);
     bindCursor();
-
-    positionCursorOntoElement(pos);
-    adjustCursorForMouseEvent(pos, event);
-  });
-
-  el.addEventListener('mousemove', function (event) {
-    if (boundToClickable) {
-      adjustCursorForMouseEvent(pos, event);
-    }
+    positionCursorForMouseEvent(event);
   });
 
   el.addEventListener('mouseout', function () {
-    boundToClickable = false;
+    boundPosition = null;
     unbindCursor();
   });
 });
 
 function bindCursor() {
+  var pos = boundPosition;
   cursor.classList.add('bound');
+  cursor.style.height = pos.height + 'px';
+  cursor.style.width = pos.width + 'px';
+
+  // var c = getComputedStyle(el).color;
+  // cursor.style.backgroundColor = c;
 }
 
 function unbindCursor() {
   cursor.classList.remove('bound');
-
-  cursor.style.top = '';
-  cursor.style.left = '';
   cursor.style.height = '';
   cursor.style.width = '';
+
   cursor.style.backgroundColor = '';
 }
 
-function positionCursorOntoElement(pos) {
-  cursor.style.top = pos.y + 'px';
-  cursor.style.left = pos.x + 'px';
-  cursor.style.height = pos.height + 'px';
-  cursor.style.width = pos.width + 'px';
-}
+function positionCursorForMouseEvent(event) {
+  var mouseAbs = normaliseToScroll(event.x, event.y);
+  var x, y;
 
-function adjustCursorForMouseEvent(pos, event) {
-  var mouse = normaliseToScroll(event.x, event.y);
-  var x = mouse.x - pos.x - (pos.width / 2);
-  var y = mouse.y - pos.y - (pos.height / 2);
-  if (boundToClickable) {
-    x = getElasticDistance(x);
-    y = getElasticDistance(y);
+  if (boundPosition) {
+    var pos = boundPosition;
+    x = pos.x;
+    y = pos.y;
+    x += getElasticDistance(mouseAbs.x - (x + (pos.width / 2)));
+    y += getElasticDistance(mouseAbs.y - (y + (pos.height / 2)));
+  } else {
+    x = mouseAbs.x;
+    y = mouseAbs.y;
   }
-  cursor.style.transform = 'translate3d('+x+'px, '+y+'px, 0)';
-}
 
-function setCursorColourFromElement(el) {
-  var c = getComputedStyle(el).color;
-  cursor.style.backgroundColor = c;
+
+  cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 }
 
 function getElasticDistance(x) {

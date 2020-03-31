@@ -16,8 +16,7 @@
   margin-top: -0.5em;
   margin-left: -0.5em;
   opacity: 0.2;
-  box-sizing: content-box;
-  border-radius: 100%;
+  border-radius: 1em;
 }
 
 #ipad-cursor.bound {
@@ -25,4 +24,5 @@
   padding: 0.4em;
   margin-top: -0.4em;
   margin-left: -0.4em;
+  box-sizing: content-box;
 }
