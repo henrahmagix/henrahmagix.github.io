@@ -98,7 +98,13 @@
 
   <script>
     var ipadButton = document.getElementById('ipad-cursor-button');
+    var done = false;
     ipadButton.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (done) {
+        return;
+      }
+
       window.startingCursorPosition = {x: event.x, y: event.y};
 
       var link = document.createElement('link');
@@ -115,6 +121,7 @@
         tick.style.marginLeft = '0.25em';
         tick.style.verticalAlign = 'middle';
         ipadButton.parentElement.appendChild(tick);
+        done = true;
       };
       document.body.appendChild(script);
     });
