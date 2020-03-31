@@ -49,6 +49,7 @@
               {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
+          <li>💡<button id="ipad-cursor">iPad cursor</button></li>
         </ul>
       </nav>
     </div>
@@ -93,6 +94,14 @@
 
     ga('create', 'UA-53059920-2', 'auto');
     ga('send', 'pageview');
+  </script>
+
+  <script>
+    document.getElementById('ipad-cursor').addEventListener('click', function () {
+      var script = document.createElement('script');
+      script.src = '/js/ipad-cursor.js';
+      document.body.appendChild(script);
+    });
   </script>
 
 </body>
