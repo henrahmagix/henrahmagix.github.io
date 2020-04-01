@@ -1,30 +1,24 @@
-#ipad-cursor {
-  background-color: #2F5B83;
+#ipad-cursor-wrapper {
   pointer-events: none;
   position: fixed;
   z-index: 3;
   top: 0;
   left: 0;
-  transition-duration: 120ms;
-  transition-property: height, width, margin, padding, border-radius, background-color;
-  height: 1.4em;
-  width: 1.4em;
-  margin-top: -0.7em;
-  margin-left: -0.7em;
+  height: 100%;
+  width: 100%;
+}
+
+#ipad-cursor {
+  fill: #2F5B83;
+
+  /* transition-duration: 120ms;
+  transition-property: height, width, margin, padding, border-radius, background-color; */
   opacity: 0.2;
-  border-radius: 1em;
 }
 
 @media (prefers-color-scheme: dark) {
   #ipad-cursor {
-    background-color: #8CB1D4;
+    fill: #8CB1D4;
   }
 }
 
-#ipad-cursor.bound {
-  border-radius: 0.4em;
-  padding: 0.4em;
-  margin-top: -0.4em;
-  margin-left: -0.4em;
-  box-sizing: content-box;
-}

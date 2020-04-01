@@ -2,9 +2,12 @@
 
 var removerFunctions = [];
 
-var cursor = document.createElement('div');
-cursor.id = 'ipad-cursor'
-cursor.style.top = cursor.style.left = 0;
+var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+var cursor = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+svg.appendChild(cursor);
+
+svg.id = 'ipad-cursor-wrapper';
+cursor.id = 'ipad-cursor';
 
 var styles = document.createElement('style');
 styles.innerText = '* { cursor: none!important; }';
@@ -16,10 +19,10 @@ runEventOnce(document, 'mousemove', start);
 function start() {
   unbindCursor();
   document.head.appendChild(styles);
-  document.body.appendChild(cursor);
+  document.body.appendChild(svg);
   removerFunctions.push(function () {
     document.head.removeChild(styles);
-    document.body.removeChild(cursor);
+    document.body.removeChild(svg);
   });
 }
 
@@ -74,17 +77,28 @@ function addEventListener(target, name, fn) {
 }
 
 function bindCursor(el) {
-  var pos = boundPosition = el.getBoundingClientRect();
-  cursor.classList.add('bound');
-  cursor.style.height = pos.height + 'px';
-  cursor.style.width = pos.width + 'px';
+  boundPosition = el.getBoundingClientRect();
 }
 
 function unbindCursor() {
   boundPosition = null;
-  cursor.classList.remove('bound');
-  cursor.style.height = '';
-  cursor.style.width = '';
+}
+
+function drawRoundedRect(moveX, moveY, w, h) {
+  // Move to top center of shape, draw half-width to top-right, clockwise around
+  // to top-left, and z will connect back to the top center.
+  cursor.setAttribute('d',
+    'm'+moveX+','+(moveY-10-h/2)
+    + 'h'+w/2
+    + 'a10,10 0 0 1 10,10'
+    + 'v'+h
+    + 'a10,10 0 0 1 -10,10'
+    + 'h-'+w
+    + 'a10,10 0 0 1 -10,-10'
+    + 'v-'+h
+    + 'a10,10 0 0 1 10,-10'
+    + 'z'
+  );
 }
 
 function positionCursorForMouseEvent(event) {
@@ -93,11 +107,18 @@ function positionCursorForMouseEvent(event) {
   var y = event.y;
 
   if (boundPosition) {
-    var pos = boundPosition;
-    var midX = pos.left + (pos.width / 2);
-    var midY = pos.top + (pos.height / 2);
-    x = pos.x + getElasticDistance(event.x - midX);
-    y = pos.y + getElasticDistance(event.y - midY);
+    var bind = boundPosition;
+    var midX = bind.x + (bind.width / 2) - x;
+    var midY = bind.y + (bind.height / 2) - y;
+    drawRoundedRect(
+      midX - getElasticDistance(midX),
+      midY - getElasticDistance(midY),
+      bind.width,
+      bind.height
+    );
+  } else {
+    // This should produce a circle around the cursor.
+    drawRoundedRect(0, 0, 0, 0);
   }
 
   cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
