@@ -27,10 +27,18 @@ addEventListener(document, 'mousemove', function (event) {
   positionCursorForMouseEvent(event);
 });
 
-document.querySelectorAll('a, button, label, input').forEach(function (el) {
-  var isLabel = el instanceof HTMLLabelElement;
+document.querySelectorAll('a, button, input').forEach(function (el) {
+  addEventListener(el, 'mouseover', function () { bindCursor(el); });
+  addEventListener(el, 'mouseout', unbindCursor);
+});
+
+// Run on labels too, but ignore when on a child input so that can be bound
+// instead. This should maybe be made generic for all cases, i.e. if a bindable
+// element is a child of another bindable element, the child should be bound to
+// differentiate it from the parent.
+document.querySelectorAll('label').forEach(function (el) {
   addEventListener(el, 'mouseover', function (event) {
-    if (isLabel && event.target instanceof HTMLInputElement) {
+    if (event.target instanceof HTMLInputElement) {
       return;
     }
     bindCursor(el);
