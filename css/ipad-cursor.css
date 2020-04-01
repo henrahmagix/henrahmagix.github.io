@@ -1,7 +1,7 @@
 #ipad-cursor {
   background-color: #2F5B83;
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   z-index: 3;
   top: 0;
   left: 0;

@@ -33,17 +33,13 @@ document.querySelectorAll('a, button, label, input').forEach(function (el) {
     if (isLabel && event.target instanceof HTMLInputElement) {
       return;
     }
-
-    boundPosition = getAbsolutePosition(el);
-    bindCursor();
+    bindCursor(el);
   });
 
-  addEventListener(el, 'mouseout', function () {
-    if (isLabel && event.target instanceof HTMLInputElement) {
+  addEventListener(el, 'mouseout', function (event) {
+    if (event.target instanceof HTMLInputElement) {
       return;
     }
-
-    boundPosition = null;
     unbindCursor();
   });
 });
@@ -69,31 +65,31 @@ function addEventListener(target, name, fn) {
   });
 }
 
-function bindCursor() {
-  var pos = boundPosition;
+function bindCursor(el) {
+  var pos = boundPosition = el.getBoundingClientRect();
   cursor.classList.add('bound');
   cursor.style.height = pos.height + 'px';
   cursor.style.width = pos.width + 'px';
 }
 
 function unbindCursor() {
+  boundPosition = null;
   cursor.classList.remove('bound');
   cursor.style.height = '';
   cursor.style.width = '';
 }
 
 function positionCursorForMouseEvent(event) {
-  var mouse = normaliseToScroll(event);
   // Mouse position by default.
-  var x = mouse.x;
-  var y = mouse.y;
+  var x = event.x;
+  var y = event.y;
 
   if (boundPosition) {
     var pos = boundPosition;
-    var midX = pos.x + (pos.width / 2);
-    var midY = pos.y + (pos.height / 2);
-    x = pos.x + getElasticDistance(mouse.x - midX);
-    y = pos.y + getElasticDistance(mouse.y - midY);
+    var midX = pos.left + (pos.width / 2);
+    var midY = pos.top + (pos.height / 2);
+    x = pos.x + getElasticDistance(event.x - midX);
+    y = pos.y + getElasticDistance(event.y - midY);
   }
 
   cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
@@ -111,25 +107,6 @@ function getElasticDistance(x) {
   var d = document.body.clientHeight;
   var c = 0.3;
   return (1.0 - (1.0 / ((x * c / d) + 1.0))) * d;
-}
-
-function getAbsolutePosition(el) {
-  var r = cursor.getBoundingClientRect();
-  var rect = el.getBoundingClientRect();
-  var normalised = normaliseToScroll({x: rect.left, y: rect.top});
-  return {
-    x: normalised.x,
-    y: normalised.y,
-    width: rect.width,
-    height: rect.height
-  };
-}
-
-function normaliseToScroll(pos) {
-  return {
-    x: pos.x + (window.pageXOffset || document.documentElement.scrollLeft || 0),
-    y: pos.y + (window.pageYOffset || document.documentElement.scrollTop || 0)
-  };
 }
 
 }());
