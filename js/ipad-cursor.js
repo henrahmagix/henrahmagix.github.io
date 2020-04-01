@@ -6,17 +6,22 @@ var cursor = document.createElement('div');
 cursor.id = 'ipad-cursor'
 cursor.style.top = cursor.style.left = 0;
 
+var styles = document.createElement('style');
+styles.innerText = '* { cursor: none!important; }';
+
 var boundPosition = null;
 
-unbindCursor();
-document.body.appendChild(cursor);
-removerFunctions.push(function () {
-  document.body.removeChild(cursor);
-});
+runEventOnce(document, 'mousemove', start);
 
-var DISTANCE = Math.max(document.body.clientHeight);
-
-positionCursorForMouseEvent(window.startingCursorPosition || {x: 0, y: 0});
+function start() {
+  unbindCursor();
+  document.head.appendChild(styles);
+  document.body.appendChild(cursor);
+  removerFunctions.push(function () {
+    document.head.removeChild(styles);
+    document.body.removeChild(cursor);
+  });
+}
 
 addEventListener(document, 'mousemove', function (event) {
   positionCursorForMouseEvent(event);
@@ -49,6 +54,14 @@ window.iPadCursorDestroy = function () {
 };
 
 /* funcs */
+
+function runEventOnce(target, name, fn) {
+  var wrapped = function (event) {
+    fn(event);
+    target.removeEventListener(name, wrapped);
+  }
+  addEventListener(target, name, wrapped);
+}
 
 function addEventListener(target, name, fn) {
   target.addEventListener(name, fn);
@@ -96,7 +109,7 @@ function getElasticDistance(x) {
   // the angle of the slider (see setElasticatedDimension). A constant C
   // of 1 allows full movement, whereas 0 stops all movement.
   // See http://squareb.wordpress.com/2013/01/06/31/
-  var d = DISTANCE;
+  var d = document.body.clientHeight;
   var c = 0.3;
   return (1.0 - (1.0 / ((x * c / d) + 1.0))) * d;
 }

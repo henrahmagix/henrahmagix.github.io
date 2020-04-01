@@ -123,8 +123,6 @@
     }
 
     function onCursorTriggerChange (event) {
-      window.startingCursorPosition = {x: event.x, y: event.y};
-
       if (iPadCursorTrigger.checked) {
         document.cookie = 'hb_ipad_cursor=1';
         tryIpadCursor();
