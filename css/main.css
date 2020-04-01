@@ -114,15 +114,27 @@ article a {
 
 .page-header {
   padding-top: 0.5em;
+}
+
+nav ul,
+.p-name {
   font-family: "PT Sans Narrow", serif;
   text-transform: uppercase;
+}
+
+nav {
+  text-align: center;
+}
+
+nav label {
+  display: inline-block;
+  margin: 1em 0;
 }
 
 nav ul {
   list-style: none;
   margin: 0 auto;
   padding: 0;
-  text-align: center;
 }
 
 nav ul li {
@@ -166,17 +178,13 @@ nav ul li:last-child::after {
   nav {
     width: 200px;
     margin-right: -200px;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
+    text-align: left;
   }
   nav ul {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    text-align: left;
     max-width: none;
   }
   nav ul li::after {
