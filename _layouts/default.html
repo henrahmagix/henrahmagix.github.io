@@ -101,7 +101,15 @@
     var iPadCursorTrigger = document.getElementById('ipad-cursor-input');
     var iPadCursorAssets = [];
 
-    iPadCursorTrigger.addEventListener('change', onCursorTriggerChange, false);
+    iPadCursorTrigger.addEventListener('change', function (event) {
+      var action = iPadCursorTrigger.checked ? 'on' : 'off';
+      gtag('event', action, {
+        event_category: 'ipad_cursor',
+        event_label: 'Features'
+      });
+
+      onCursorTriggerChange(event);
+    }, false);
 
     if (document.cookie.indexOf('hb_ipad_cursor=1') !== -1) {
       iPadCursorTrigger.checked = true;
