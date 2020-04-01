@@ -36,7 +36,6 @@ document.querySelectorAll('a, button, label, input').forEach(function (el) {
 
     boundPosition = getAbsolutePosition(el);
     bindCursor();
-    positionCursorForMouseEvent(event);
   });
 
   addEventListener(el, 'mouseout', function () {
