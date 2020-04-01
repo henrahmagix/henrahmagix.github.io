@@ -111,8 +111,8 @@ function positionCursorForMouseEvent(event) {
     var midX = bind.x + (bind.width / 2) - x;
     var midY = bind.y + (bind.height / 2) - y;
     drawRoundedRect(
-      midX - getElasticDistance(midX),
-      midY - getElasticDistance(midY),
+      midX - getElasticDistance(midX, bind.width),
+      midY - getElasticDistance(midY, bind.height),
       bind.width,
       bind.height
     );
@@ -124,7 +124,7 @@ function positionCursorForMouseEvent(event) {
   cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 }
 
-function getElasticDistance(x) {
+function getElasticDistance(x, d) {
   // Use Apple's formula for rubber band scrolling:
   // b = (1.0 – (1.0 / ((x * c / d) + 1.0))) * d
   // where x is the distance from the edge, c is a constant (Apple
@@ -133,7 +133,6 @@ function getElasticDistance(x) {
   // the angle of the slider (see setElasticatedDimension). A constant C
   // of 1 allows full movement, whereas 0 stops all movement.
   // See http://squareb.wordpress.com/2013/01/06/31/
-  var d = document.body.clientHeight;
   var c = 0.3;
   return (1.0 - (1.0 / ((x * c / d) + 1.0))) * d;
 }
