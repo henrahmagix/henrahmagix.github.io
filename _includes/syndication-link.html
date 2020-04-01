@@ -1,4 +1,4 @@
-<li class="link {{ include.class }} {{ include.title | slugify }} {% unless include.title %}no-title{% endunless %} {% unless include.icon %}no-icon{% endunless %} {% if include.highlight %}highlight{% endif %}">
+<li class="link {{ include.class }} {{ include.title | slugify }} {% unless include.title %}no-title{% endunless %} {% unless include.icon %}no-icon{% endunless %}">
   <a class="u-syndication" href="{{ include.url }}">
     {% if include.icon %}
       <i class="{{ include.icon }}" aria-hidden></i>
