@@ -22,14 +22,23 @@ addEventListener(document, 'mousemove', function (event) {
   positionCursorForMouseEvent(event);
 });
 
-document.querySelectorAll('a, button').forEach(function (el) {
+document.querySelectorAll('a, button, label, input').forEach(function (el) {
+  var isLabel = el instanceof HTMLLabelElement;
   addEventListener(el, 'mouseover', function (event) {
+    if (isLabel && event.target instanceof HTMLInputElement) {
+      return;
+    }
+
     boundPosition = getAbsolutePosition(el);
     bindCursor();
     positionCursorForMouseEvent(event);
   });
 
   addEventListener(el, 'mouseout', function () {
+    if (isLabel && event.target instanceof HTMLInputElement) {
+      return;
+    }
+
     boundPosition = null;
     unbindCursor();
   });

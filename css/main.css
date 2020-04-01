@@ -398,3 +398,8 @@ a .icon {
 .post-top .links {
   margin: 0;
 }
+
+#ipad-cursor-input {
+  margin: 0;
+  margin-left: 0.5em;
+}
