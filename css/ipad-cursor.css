@@ -19,6 +19,12 @@
   border-radius: 1em;
 }
 
+@media (prefers-color-scheme: dark) {
+  #ipad-cursor {
+    background-color: #8CB1D4;
+  }
+}
+
 #ipad-cursor.bound {
   border-radius: 0.4em;
   padding: 0.4em;

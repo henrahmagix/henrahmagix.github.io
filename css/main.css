@@ -43,7 +43,7 @@ body {
 
 body {
   background-color: #fcfcfc;
-  color: #252525;
+  color: #23242C;
   font-family: "PT Sans", serif;
   font-size: 100%;
   font-weight: 400;
@@ -51,6 +51,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #23242C;
+    color: #DEDEDE;
+  }
 }
 
 * {
@@ -71,9 +78,25 @@ a:focus,
   text-decoration: none;
 }
 
+@media (prefers-color-scheme: dark) {
+  a:hover,
+  a:focus,
+  .button-link:hover,
+  .button-link:focus {
+    color: #8CB1D4;
+  }
+}
+
+
 article a {
   color: #2F5B83;
   font-weight: 700;
+}
+
+@media (prefers-color-scheme: dark) {
+  article a {
+    color: #8CB1D4;
+  }
 }
 
 .button-link {
@@ -96,6 +119,12 @@ article a {
   width: 2em;
   border-radius: 0.25em;
   border: 2px solid #23242C;
+}
+
+@media (prefers-color-scheme: dark) {
+  .avatar {
+    border: 2px solid #fcfcfc;
+  }
 }
 
 .fancy-title:hover > .emoji {
@@ -145,7 +174,6 @@ nav ul li::after {
   text-align: center;
   padding: 0 0.5em;
 }
-
 nav ul li:last-child::after {
   display: none;
 }
@@ -215,6 +243,12 @@ nav ul li:last-child::after {
   box-sizing: border-box
 }
 
+@media (prefers-color-scheme: dark) {
+  .logo-flipper img {
+    border: 8px solid #dedede !important;
+  }
+}
+
 .logo-flipper:hover img.backface,
 .logo-flipper:focus img.backface {
   display: initial
@@ -235,6 +269,12 @@ nav ul li:last-child::after {
   color: #A80089;
   font-size: 3em;
   line-height: 1
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-title {
+    color: #FF80E8;
+  }
 }
 
 .page-subtitle {
@@ -285,7 +325,14 @@ nav ul li:last-child::after {
   display: block;
   height: 1px;
   flex: 1;
-  background-color: #252525
+  background-color: #23242C;
+}
+
+@media (prefers-color-scheme: dark) {
+  .strikethrough-wrapper::before,
+  .strikethrough-wrapper::after {
+    background-color: #fcfcfc;
+  }
 }
 
 .strikethrough-wrapper::before {
@@ -362,7 +409,7 @@ nav ul li:last-child::after {
 
 .page-body blockquote:before {
   content: "";
-  background-color: #252525;
+  background-color: #23242C;
   position: absolute;
   width: 10px;
   height: 100%;
