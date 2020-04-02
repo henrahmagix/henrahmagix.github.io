@@ -64,6 +64,10 @@ body {
   box-sizing: inherit;
 }
 
+p {
+  margin: 1em 0;
+}
+
 a,
 .button-link {
   color: inherit;
@@ -153,10 +157,6 @@ nav ul,
 
 nav {
   text-align: center;
-}
-
-nav label {
-  display: inline-block;
   margin: 1em 0;
 }
 
@@ -182,9 +182,10 @@ nav ul li:last-child::after {
   display: block;
   margin: 0 auto;
   margin-bottom: 1em;
-  height: 200px;
-  width: 200px;
-  position: relative
+  height: 100px;
+  width: 100px;
+  position: relative;
+  flex-shrink: 0;
 }
 
 .logo-and-nav {
@@ -192,37 +193,24 @@ nav ul li:last-child::after {
   margin-bottom: 1.25em;
 }
 
-.logo-and-nav nav {
-  flex-shrink: 0;
-}
-
 @media screen and (min-width: 600px) {
   .logo-and-nav {
-    padding: 0 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     margin-bottom: 0;
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  nav {
-    width: 200px;
-    margin-right: -200px;
-    text-align: left;
-  }
-  nav ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    max-width: none;
-  }
-  nav ul li::after {
-    display: block;
-    text-align: left;
-    padding: 0.15em 0;
   }
   .logo-flipper {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+    margin-right: -100px;
+  }
+  nav {
+    flex-grow: 1;
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+  nav p:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -233,19 +221,19 @@ nav ul li:last-child::after {
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1
+  z-index: 1;
+  border: 2px solid #23242C;
+  box-sizing: border-box;
 }
 
 .logo-flipper img.backface {
   display: none;
   z-index: 2;
-  border: 8px solid #23242C;
-  box-sizing: border-box
 }
 
 @media (prefers-color-scheme: dark) {
   .logo-flipper img {
-    border: 8px solid #dedede !important;
+    border-color: #dedede !important;
   }
 }
 
