@@ -115,7 +115,14 @@ function drawRoundedRect(moveX, moveY, w, h) {
 }
 
 var animating = null;
-function animate(a, b, fn) {
+function animate(easeInOrOut, a, b, fn) {
+  var easeFn = easeInOut;
+  if (easeInOrOut === 'in') {
+    easeFn = easeIn;
+  } else if (easeInOrOut === 'out') {
+    easeFn = easeOut;
+  }
+
   if (animating) {
     cancelAnimationFrame(animating);
   }
@@ -136,7 +143,7 @@ function animate(a, b, fn) {
     }
 
     var args = a.map(function (aa, i) {
-      return animateBetween(aa, b[i], time, duration);
+      return animateBetween(aa, b[i], time, duration, easeFn);
     });
     fn.apply(null, args);
 
@@ -146,21 +153,24 @@ function animate(a, b, fn) {
 }
 
 var animateBetweenCache = {};
-function animateBetween(a, b, timePosition, timeTotal) {
+function animateBetween(a, b, timePosition, timeTotal, easeFn) {
   var key = Array.prototype.join.call(arguments, '');
   if (animateBetweenCache.hasOwnProperty(key)) {
     return animateBetweenCache[key];
   }
-  var n = easeInOut(timePosition / timeTotal);
+  var n = easeFn(timePosition / timeTotal);
   return animateBetweenCache[key] = a + (n * (b - a));
 }
 
+// https://gist.github.com/gre/1650294
+function easeIn(n) {
+  return n*n*n; // cubic
+}
+function easeOut(n) {
+  return (--n)*n*n+1; // cubic
+}
 function easeInOut(n) {
-  // https://gist.github.com/gre/1650294
-  // return n<.5 ? 2*n*n : -1+(4-2*n)*n; // quad
   return n<.5 ? 4*n*n*n : (n-1)*(2*n-2)*(2*n-2)+1; // cubic
-  return n<.5 ? 8*n*n*n*n : 1-8*(--n)*n*n*n; // quart
-  return n<.5 ? 16*n*n*n*n*n : 1+16*(--n)*n*n*n*n; // quint
 }
 
 var lastAnim = null;
@@ -182,13 +192,13 @@ function positionCursorForMouseEvent(event) {
       bind.height
     ];
 
-    animate(start, end, function(x, y, w, h) {
+    animate('in', start, end, function(x, y, w, h) {
       lastAnim = [x, y, w, h];
       drawRoundedRect(x, y, w, h);
     });
   } else if (lastTransition) {
     // This should produce a circle around the cursor.
-    animate(lastAnim || [0, 0, 0, 0], [0, 0, 0, 0], function(x, y, w, h) {
+    animate('out', lastAnim || [0, 0, 0, 0], [0, 0, 0, 0], function(x, y, w, h) {
       drawRoundedRect(x, y, w, h);
     });
   }
