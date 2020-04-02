@@ -66,13 +66,18 @@
     </div>
 
     <div class="p-name-wrapper strikethrough-wrapper">
-      <h1 class="p-name">
+      {% if page.title %}
+        {% assign p_name_el = "span" %}
+      {% else %}
+        {% assign p_name_el = "h1" %}
+      {% endif %}
+      <{{p_name_el}} class="p-name">
         {% if page.url == "/" %}Henry &nbsp; James &nbsp; Blyth
         {% elsif layout.section != nil %}{{ layout.section }}
         {% elsif page.section != nil %}{{ page.section }}
         {% elsif page.title %}{{ page.title }}
         {% endif %}
-      </h1>
+      </{{p_name_el}}>
     </div>
   </header>
 
