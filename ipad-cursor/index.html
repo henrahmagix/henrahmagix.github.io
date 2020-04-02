@@ -1,0 +1,57 @@
+---
+layout: playground
+title: iPad cursor testbed
+subtitle: Turn on the iPad Cursor and move your cursor around this page
+back_to: playground
+---
+
+<p>
+  How about some links?
+  <a>There</a>
+  <a>we</a>
+  <a>go!</a>
+  <a>How</a>
+  <a>lovely!</a>
+</p>
+
+<div class="scrunch-up">
+  <button>And</button>
+  <button>here</button>
+  <button>are</button>
+  <br>
+  <button>some</button>
+  <button>short</button>
+  <button>buttons</button>
+  <br>
+  <button>in a</button>
+  <button>grid</button>
+  <button>for you</button>
+</div>
+
+<p>And finally, some lovely big boxy things!</p>
+<div class="boxy-things">
+  {% for i in (1..15) %}
+    <a>🎉</a>
+    {% assign mod = i|modulo:5 %}
+    {% if mod == 0 %}<br>{% endif %}
+  {% endfor %}
+</div>
+
+<style>
+.scrunch-up {
+  line-height: 1;
+}
+
+.boxy-things {
+  font-size: 0;
+}
+
+.boxy-things a {
+  text-decoration: none;
+  padding: 10px;
+  font-size: 20px;
+  display: inline-block;
+  border: 2px solid #23242C;
+  border-radius: 5px;
+}
+</style>

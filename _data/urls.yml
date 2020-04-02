@@ -1,2 +1,7 @@
-home: '/'
-blog: '/blog'
+home: /
+blog: /blog
+playground: /playground
+doubles: /doubles
+ipad_cursor: /ipad-cursor
+doitforme: /doitforme
+howhighcanyoucount: /howhighcanyoucount
