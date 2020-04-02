@@ -77,7 +77,54 @@
   </header>
 
   <main class="page-body content-max-width">
-    {{ content }}
+
+    <img hidden class="logo u-photo" src="/images/logo.png" alt="Henry James Blyth signature">
+    <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
+    <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
+
+    {% if page.back_to %}
+      {% assign back_to = page.back_to %}
+    {% elsif layout.back_to %}
+      {% assign back_to = layout.back_to %}
+    {% endif %}
+    {% assign back_to_url = site.data.urls[back_to] %}
+    {% assign back_to_title = back_to|capitalize %}
+
+    {% if back_to or page.date %}
+    <div class="post-top">
+      {% if back_to %}
+        {% include back-link.html url=back_to_url title=back_to_title %}
+      {% else %}
+        &nbsp;
+      {% endif %}
+      {% if page.date %}
+        <p class="published">Published on <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <article id="content" class="hentry">
+      {% if page.title %}
+      <h1 class="page-title entry-title">{{ page.title }}</h1>
+      {% endif %}
+      {% if page.subtitle %}
+      <h2 class="page-subtitle entry-summary">{{ page.subtitle }}</h2>
+      {% endif %}
+
+      <article class="entry-content">
+        {{ content }}
+      </article>
+    </article>
+
+    {% if page.syndications %}
+      <p>Share and respond?</p>
+      <ul class="links">
+        {% for link in page.syndications %}
+          {% include syndication-link.html title=link.title icon=link.icon url=link.url %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
   </main>
 
   <footer class="page-footer">

@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Why is Henry amazing?
 ---
 

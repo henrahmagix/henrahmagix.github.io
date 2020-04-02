@@ -1,35 +1,6 @@
 ---
-layout: default
 section: Blog
+back_to: blog
 ---
 
-<img hidden class="logo u-photo" src="/images/logo.png" alt="Henry James Blyth signature">
-<a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
-<a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
-
-<div class="post-top">
-  {% include back-link.html title="Blog" url=site.data.urls.blog %}
-  <p class="published">Published on <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
-</div>
-
-<article id="content" class="hentry">
-  {% if page.title %}
-  <h1 class="page-title entry-title">{{ page.title }}</h1>
-  {% endif %}
-  {% if page.subtitle %}
-  <h2 class="page-subtitle entry-summary">{{ page.subtitle }}</h2>
-  {% endif %}
-
-  <article class="entry-content">
-    {{ content }}
-  </article>
-</article>
-
-{% if page.syndications %}
-  <p>Share and respond?</p>
-  <ul class="links">
-    {% for link in page.syndications %}
-      {% include syndication-link.html title=link.title icon=link.icon url=link.url %}
-    {% endfor %}
-  </ul>
-{% endif %}
+{{content}}
