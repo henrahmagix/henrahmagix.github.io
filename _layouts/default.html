@@ -111,7 +111,9 @@
       onCursorTriggerChange(event);
     }, false);
 
-    if (document.cookie.indexOf('hb_ipad_cursor=1') !== -1) {
+    var localStorage = window.localStorage;
+
+    if (localStorage && localStorage.getItem('hb_ipad_cursor') === '1') {
       iPadCursorTrigger.checked = true;
       if ('createEvent' in document) {
         var evt = document.createEvent('HTMLEvents');
@@ -124,10 +126,10 @@
 
     function onCursorTriggerChange (event) {
       if (iPadCursorTrigger.checked) {
-        document.cookie = 'hb_ipad_cursor=1';
+        localStorage.setItem('hb_ipad_cursor', '1');
         tryIpadCursor();
       } else {
-        document.cookie = 'hb_ipad_cursor=0';
+        localStorage.setItem('hb_ipad_cursor', '0');
         iPadCursorAssets.forEach(function (a) { a.remove(); });
         window.iPadCursorDestroy();
       }
