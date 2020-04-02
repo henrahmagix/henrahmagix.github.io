@@ -61,7 +61,7 @@ window.iPadCursorDestroy = function () {
 
 var PAD = 10;
 
-var duration = 120;
+var duration = 70;
 var lastTransition;
 
 /* funcs */
