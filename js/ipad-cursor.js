@@ -116,7 +116,7 @@ function drawRoundedRect(moveX, moveY, w, h) {
 
 var animating = null;
 function animate(a, b, fn) {
-  if (animating || !lastTransition) {
+  if (animating) {
     cancelAnimationFrame(animating);
   }
 
@@ -186,14 +186,16 @@ function positionCursorForMouseEvent(event) {
       lastAnim = [x, y, w, h];
       drawRoundedRect(x, y, w, h);
     });
-  } else {
+  } else if (lastTransition) {
     // This should produce a circle around the cursor.
     animate(lastAnim || [0, 0, 0, 0], [0, 0, 0, 0], function(x, y, w, h) {
       drawRoundedRect(x, y, w, h);
     });
   }
 
-  cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+  requestAnimationFrame(function () {
+    cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+  });
 }
 
 function getElasticDistance(x, d) {
