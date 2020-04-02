@@ -185,9 +185,10 @@ function positionCursorForMouseEvent(event) {
     var midY = bind.y + (bind.height / 2) - y;
     var start = [0, 0, 0, 0];
     var end = [
-      // Adjust distance from mid to cursor by a range of 0 to PAD.
-      midX - getElasticDistance(PAD * midX / (bind.width / 2), bind.width),
-      midY - getElasticDistance(PAD * midY / (bind.height / 2), bind.height),
+      // Adjust distance from mid to cursor by a range of 0 to PAD. Change the
+      // pad multiplier and elastic constant to tune the "stickiness".
+      midX - getElasticDistance(PAD*2 * midX / (bind.width / 2), bind.width),
+      midY - getElasticDistance(PAD*2 * midY / (bind.height / 2), bind.height),
       bind.width,
       bind.height
     ];
@@ -217,7 +218,7 @@ function getElasticDistance(x, d) {
   // the angle of the slider (see setElasticatedDimension). A constant C
   // of 1 allows full movement, whereas 0 stops all movement.
   // See http://squareb.wordpress.com/2013/01/06/31/
-  var c = 0.3;
+  var c = 0.2;
   return (1.0 - (1.0 / ((x * c / d) + 1.0))) * d;
 }
 
