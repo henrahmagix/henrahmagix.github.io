@@ -61,7 +61,7 @@ window.iPadCursorDestroy = function () {
 
 var PAD = 10;
 
-var duration = 80;
+var duration = 120;
 var lastTransition;
 
 /* funcs */
@@ -151,7 +151,16 @@ function animateBetween(a, b, timePosition, timeTotal) {
   if (animateBetweenCache.hasOwnProperty(key)) {
     return animateBetweenCache[key];
   }
-  return animateBetweenCache[key] = a + (timePosition / timeTotal * (b - a));
+  var n = easeInOut(timePosition / timeTotal);
+  return animateBetweenCache[key] = a + (n * (b - a));
+}
+
+function easeInOut(n) {
+  // https://gist.github.com/gre/1650294
+  // return n<.5 ? 2*n*n : -1+(4-2*n)*n; // quad
+  return n<.5 ? 4*n*n*n : (n-1)*(2*n-2)*(2*n-2)+1; // cubic
+  return n<.5 ? 8*n*n*n*n : 1-8*(--n)*n*n*n; // quart
+  return n<.5 ? 16*n*n*n*n*n : 1+16*(--n)*n*n*n*n; // quint
 }
 
 var lastAnim = null;
