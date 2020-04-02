@@ -59,6 +59,8 @@ window.iPadCursorDestroy = function () {
   removerFunctions.forEach(function (fn) { fn(); })
 };
 
+var PAD = 10;
+
 /* funcs */
 
 function runEventOnce(target, name, fn) {
@@ -84,19 +86,25 @@ function unbindCursor() {
   boundPosition = null;
 }
 
+var ARC_START = 'a'+PAD+','+PAD+' 0 0 1';
+var ARC_TOP_RIGHT =    ARC_START+' '+PAD+ ','+PAD;
+var ARC_BOTTOM_RIGHT = ARC_START+' -'+PAD+','+PAD;
+var ARC_BOTTOM_LEFT =  ARC_START+' -'+PAD+',-'+PAD;
+var ARC_TOP_LEFT =     ARC_START+' '+PAD+ ',-'+PAD;
+
 function drawRoundedRect(moveX, moveY, w, h) {
   // Move to top center of shape, draw half-width to top-right, clockwise around
   // to top-left, and z will connect back to the top center.
   cursor.setAttribute('d',
-    'm'+moveX+','+(moveY-10-h/2)
+    'm'+moveX+','+(moveY-PAD-h/2)
     + 'h'+w/2
-    + 'a10,10 0 0 1 10,10'
+    + ARC_TOP_RIGHT
     + 'v'+h
-    + 'a10,10 0 0 1 -10,10'
+    + ARC_BOTTOM_RIGHT
     + 'h-'+w
-    + 'a10,10 0 0 1 -10,-10'
+    + ARC_BOTTOM_LEFT
     + 'v-'+h
-    + 'a10,10 0 0 1 10,-10'
+    + ARC_TOP_LEFT
     + 'z'
   );
 }
@@ -111,8 +119,9 @@ function positionCursorForMouseEvent(event) {
     var midX = bind.x + (bind.width / 2) - x;
     var midY = bind.y + (bind.height / 2) - y;
     drawRoundedRect(
-      midX - getElasticDistance(midX, bind.width),
-      midY - getElasticDistance(midY, bind.height),
+      // Adjust distance from mid to cursor by a range of 0 to PAD.
+      midX - getElasticDistance(PAD * midX / (bind.width / 2), bind.width),
+      midY - getElasticDistance(PAD * midY / (bind.height / 2), bind.height),
       bind.width,
       bind.height
     );
