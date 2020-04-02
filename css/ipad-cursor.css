@@ -10,9 +10,6 @@
 
 #ipad-cursor {
   fill: #2F5B83;
-
-  /* transition-duration: 120ms;
-  transition-property: height, width, margin, padding, border-radius, background-color; */
   opacity: 0.2;
 }
 

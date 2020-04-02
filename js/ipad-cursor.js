@@ -61,6 +61,9 @@ window.iPadCursorDestroy = function () {
 
 var PAD = 10;
 
+var duration = 80;
+var lastTransition;
+
 /* funcs */
 
 function runEventOnce(target, name, fn) {
@@ -80,10 +83,12 @@ function addEventListener(target, name, fn) {
 
 function bindCursor(el) {
   boundPosition = el.getBoundingClientRect();
+  lastTransition = Date.now();
 }
 
 function unbindCursor() {
   boundPosition = null;
+  lastTransition = Date.now();
 }
 
 var ARC_START = 'a'+PAD+','+PAD+' 0 0 1';
@@ -109,6 +114,47 @@ function drawRoundedRect(moveX, moveY, w, h) {
   );
 }
 
+var animating = null;
+function animate(a, b, fn) {
+  if (animating || !lastTransition) {
+    cancelAnimationFrame(animating);
+  }
+
+  var anim = function () {
+    if (!lastTransition) {
+      animating = null;
+      fn.apply(null, b);
+      return;
+    }
+
+    var time = Date.now() - lastTransition;
+    if (time >= duration) {
+      lastTransition = null;
+      animating = null;
+      fn.apply(null, b);
+      return;
+    }
+
+    var args = a.map(function (aa, i) {
+      return animateBetween(aa, b[i], time, duration);
+    });
+    fn.apply(null, args);
+
+    animating = requestAnimationFrame(anim);
+  };
+  animating = requestAnimationFrame(anim);
+}
+
+var animateBetweenCache = {};
+function animateBetween(a, b, timePosition, timeTotal) {
+  var key = Array.prototype.join.call(arguments, '');
+  if (animateBetweenCache.hasOwnProperty(key)) {
+    return animateBetweenCache[key];
+  }
+  return animateBetweenCache[key] = a + (timePosition / timeTotal * (b - a));
+}
+
+var lastAnim = null;
 function positionCursorForMouseEvent(event) {
   // Mouse position by default.
   var x = event.x;
@@ -118,16 +164,24 @@ function positionCursorForMouseEvent(event) {
     var bind = boundPosition;
     var midX = bind.x + (bind.width / 2) - x;
     var midY = bind.y + (bind.height / 2) - y;
-    drawRoundedRect(
+    var start = [0, 0, 0, 0];
+    var end = [
       // Adjust distance from mid to cursor by a range of 0 to PAD.
       midX - getElasticDistance(PAD * midX / (bind.width / 2), bind.width),
       midY - getElasticDistance(PAD * midY / (bind.height / 2), bind.height),
       bind.width,
       bind.height
-    );
+    ];
+
+    animate(start, end, function(x, y, w, h) {
+      lastAnim = [x, y, w, h];
+      drawRoundedRect(x, y, w, h);
+    });
   } else {
     // This should produce a circle around the cursor.
-    drawRoundedRect(0, 0, 0, 0);
+    animate(lastAnim || [0, 0, 0, 0], [0, 0, 0, 0], function(x, y, w, h) {
+      drawRoundedRect(x, y, w, h);
+    });
   }
 
   cursor.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
