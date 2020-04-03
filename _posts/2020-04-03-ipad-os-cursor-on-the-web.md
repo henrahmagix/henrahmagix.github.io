@@ -3,8 +3,8 @@ layout: post
 class: post
 title: iPadOS cursor on the web
 subtitle: just because it's fun!
-image: /images/ipad-cursor-preview-minimal.png
-# image: /images/ipad-cursor-preview.jpg
+# image: /images/ipad-cursor-preview-minimal.png
+image: /images/ipad-cursor-preview.jpg
 # syndications:
 #     -
 #         title: Reply on Twitter
