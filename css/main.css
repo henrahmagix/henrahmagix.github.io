@@ -269,10 +269,15 @@ nav ul li:last-child::after {
   font-size: 1.5em
 }
 
+.full-height {
+  min-height: calc(100vh - 7.5em);
+}
+
 .page-footer {
-  margin-top: 4em;
+  margin: 0;
   padding-bottom: 2em;
-  text-align: center
+  text-align: center;
+  height: 7.5em;
 }
 
 .page-footer .contact {
@@ -334,6 +339,7 @@ nav ul li:last-child::after {
 .page-body {
   margin-top: 2em;
   padding: 0 2em;
+  padding-bottom: 2em;
 }
 
 .page-post .page-body {
