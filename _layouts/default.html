@@ -20,7 +20,7 @@
 
 {%- comment -%} Meta Description {%- endcomment -%}
 {% if page.excerpt %}
-  {% assign meta_desc = page.excerpt|strip_html %}
+  {% assign meta_desc = page.excerpt|strip_html|strip %}
 {% elsif page.subtitle %}
   {% assign meta_desc = page.subtitle %}
 {% endif %}
