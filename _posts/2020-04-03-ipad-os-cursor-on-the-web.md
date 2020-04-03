@@ -27,7 +27,7 @@ I think it looks kinda cool! Honestly though, I have no idea if it will be usefu
 
 I'd rather not try to answer such lofty questions as were posed above 😅 So, let's *have some useless fun* by trying to emulate the iPadOS Cursor in the browser! You can turn it on at the top of the page** and at the bottom of this post is an example gif recorded on the [iPadOS cursor testbed page]({{site.data.urls.ipad_cursor}}).
 
-Please do have a read of the code if it interests you – I certainly haven't taken care to make it _nice_... yet! Let's keep the refactoring for a later post 🙃
+Please do have a read of the code if it interests you – I certainly haven't taken care to make it _nice_... yet! I'll write up an explanation of it soon, and then also go through a refactor and blog that too.
 
 [JavaScript](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/js/ipad-cursor.js "iPadOS cursor JavaScript source code")
 |
