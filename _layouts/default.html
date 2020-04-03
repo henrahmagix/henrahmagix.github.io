@@ -1,10 +1,10 @@
 {%- comment -%} Meta Title {%- endcomment -%}
 {% if page.title %}
-  {% capture meta_title %}{{ page.title }} &ndash; Henry James Blyth"{% endcapture %}
+  {% capture meta_title %}{{ page.title }} &ndash; Henry James Blyth{% endcapture %}
 {% elsif page.section %}
-  {% capture meta_title %}{{ page.section|capitalize }} &ndash; Henry James Blyth"{% endcapture %}
+  {% capture meta_title %}{{ page.section|capitalize }} &ndash; Henry James Blyth{% endcapture %}
 {% elsif layout.section %}
-  {% capture meta_title %}{{ layout.section|capitalize }} &ndash; Henry James Blyth"{% endcapture %}
+  {% capture meta_title %}{{ layout.section|capitalize }} &ndash; Henry James Blyth{% endcapture %}
 {% else %}
   {% assign meta_title = "Henry James Blyth" %}
 {% endif %}
