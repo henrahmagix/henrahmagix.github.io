@@ -409,7 +409,7 @@ nav ul li:last-child::after {
   margin: 2em 0;
 }
 
-a .icon {
+.page-body a .icon {
   margin-right: 0.25em;
   text-align: left;
 }

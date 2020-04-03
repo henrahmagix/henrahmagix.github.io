@@ -55,8 +55,9 @@
 
       <nav>
         <ul class="links">
-          {% for link in site.data.links %}
-            {% if link.menulist == true %}
+          {% for link_hash in site.data.links %}
+          {% assign link = link_hash[1] %}
+            {% if link.url %}
               {% include link.html title=link.title url=link.url relme=link.relme %}
             {% endif %}
           {% endfor %}
@@ -138,9 +139,10 @@
   <footer class="page-footer">
     <div class="strikethrough-wrapper">
       <ul class="links">
-        {% for link in site.data.links %}
-          {% if link.footerlist %}
-            {% include link.html title=link.title hide_title=true icon=link.icon url=link.url relme=link.relme %}
+        {% for link_hash in site.data.links %}
+          {% assign link = link_hash[1] %}
+          {% if link.ext_url and link.hide_footer != true %}
+            {% include link.html title=link.title hide_title=true icon=link.icon url=link.ext_url relme=link.relme %}
           {% endif %}
         {% endfor %}
       </ul>

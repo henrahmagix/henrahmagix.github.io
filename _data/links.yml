@@ -1,48 +1,39 @@
--
+blog:
   title: Blog
   icon: fas fa-pencil-alt
   url: /blog
-  menulist: true
-  footerlist: false
   relme: false
--
+code:
   title: Code
   icon: fab fa-github
-  url: https://github.com/henrahmagix
-  menulist: true
-  footerlist: true
+  url: /code
+  ext_url: https://github.com/henrahmagix
   relme: true
--
+talk:
   title: Talk
   icon: fab fa-twitter
-  url: https://twitter.com/henrahmagix
-  menulist: false
-  footerlist: true
+  ext_url: https://twitter.com/henrahmagix
   relme: true
--
+music:
   title: Music
   icon: fas fa-music
-  url: https://soundcloud.com/henryblyth
-  menulist: true
-  footerlist: true
+  url: /music
+  ext_url: https://soundcloud.com/henryblyth
   relme: true
--
+photos:
   title: Photos
-  icon: fas fa-camera-retro
-  url: https://www.flickr.com/people/henryblyth/
-  menulist: true
-  footerlist: true
+  icon: fas fa-camera
+  # url: /photos
+  ext_url: https://www.flickr.com/people/henryblyth/
   relme: true
--
+work:
   title: Work
   icon: fab fa-linkedin
-  url: https://uk.linkedin.com/in/henryblyth
-  menulist: true
-  footerlist: false
+  # url: /work
+  ext_url: https://uk.linkedin.com/in/henryblyth
   relme: true
--
+pianosinoxford.uk:
   title: PianosInOxford.uk
-  url: https://pianosinoxford.uk
-  menulist: false
-  footerlist: false
+  ext_url: https://pianosinoxford.uk
+  hide_footer: true
   relme: true
