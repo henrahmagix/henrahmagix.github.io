@@ -22,19 +22,20 @@ From <https://support.apple.com/en-us/HT211008>:
 
 >When the cursor hovers over various parts of iPadOS, they also change appearance and use subtle animation to help you navigate. For example, toolbar buttons in apps change color, and app icons on the Home screen get bigger...
 >
->The cursor disappears after a few seconds of inactivity. To make it appear again, just move the mouse or touch the trackpad.
+>The cursor disappears after a few seconds of inactivity. To make it appear again, just move the mouse or touch the trackpad.*
 
 I think it looks kinda cool! Honestly though, I have no idea if it will be useful 💁‍♂️
 
-I'd rather not try to answer such lofty questions as were posed above 😅 So, let's *have some useless fun* by trying to emulate the iPadOS Cursor in the browser! You can turn it on at the top of the page* and at the bottom of this post is an example gif recorded on the [iPadOS cursor testbed page]({{site.data.urls.ipad_cursor}}).
+I'd rather not try to answer such lofty questions as were posed above 😅 So, let's *have some useless fun* by trying to emulate the iPadOS Cursor in the browser! You can turn it on at the top of the page** and at the bottom of this post is an example gif recorded on the [iPadOS cursor testbed page]({{site.data.urls.ipad_cursor}}).
 
 Please do have a read of the code if it interests you – I certainly haven't taken care to make it _nice_... yet! Let's keep the refactoring for a later post 🙃
 
-[JavaScript](https://github.com/henrahmagix/henrahmagix.github.io/blob/678e153adfbd16a0477314172e49f34329b44f12/js/ipad-cursor.js "iPadOS cursor JavaScript source code")
+[JavaScript](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/js/ipad-cursor.js "iPadOS cursor JavaScript source code")
 |
-[Styles](https://github.com/henrahmagix/henrahmagix.github.io/blob/678e153adfbd16a0477314172e49f34329b44f12/css/ipad-cursor.css "iPadOS cursor CSS source code")
+[Styles](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/css/ipad-cursor.css "iPadOS cursor CSS source code")
 
-<small>* the on/off value persists in localStorage, named `hb_ipad_cursor`</small>
+<small>* I've guessed my own fade-away timeout, I don't care about matching Apple, because we're all about being useless here, right??</small>
+<small>** the on/off value persists in localStorage, named `hb_ipad_cursor`</small>
 
 ![iPadOS cursor example](/images/ipad-os-cursor-demo-minimal.gif)
 

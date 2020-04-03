@@ -11,6 +11,12 @@
 #ipad-cursor {
   fill: #2F5B83;
   opacity: 0.2;
+  transition: opacity 120ms ease-in-out;
+}
+
+#ipad-cursor[hidden="true"] {
+  opacity: 0;
+  transition-duration: 400ms;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +24,3 @@
     fill: #8CB1D4;
   }
 }
-

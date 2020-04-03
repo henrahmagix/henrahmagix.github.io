@@ -26,8 +26,16 @@ function start() {
   });
 }
 
+var fadeTimeout;
 addEventListener(document, 'mousemove', function (event) {
+  cursor.setAttribute('hidden', false);
+  clearTimeout(fadeTimeout);
+
   positionCursorForMouseEvent(event);
+
+  fadeTimeout = setTimeout(function () {
+    cursor.setAttribute('hidden', true);
+  }, 3000);
 });
 
 document.querySelectorAll('a, button, input').forEach(function (el) {
