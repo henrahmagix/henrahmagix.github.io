@@ -25,8 +25,7 @@ export class Admin {
     this.handleLogin(Boolean(loggedIn));
   }
 
-  async login() {
-    const token = prompt('Enter GitHub access token');
+  async login(token) {
     if (!token) {
       this.loggedIn = false;
       this.handleError(Error('Access token must not be empty'));

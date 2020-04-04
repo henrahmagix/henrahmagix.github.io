@@ -13,6 +13,7 @@ permalink: /admin
   });
 
   var loadingElement = document.getElementById('loading');
+  document.getElementById('loginForm').onsubmit = submit;
 
   window.admin = new Admin({
     handleLoading,
@@ -27,9 +28,18 @@ permalink: /admin
   function handleLogin(loggedIn) {
     alert(`logged in: ${loggedIn}`);
   }
+
+  function submit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    window.admin.login(data.get('token'));
+  }
 </script>
 
-<button onclick="admin.login()">Login</button>
+<form id="loginForm">
+  <input name="token" type="password">
+  <button type="submit">Login</button>
+</form>
 
 <div id="loading" hidden>
   <i class="fas fa-spinner fa-pulse"></i>
