@@ -1,28 +1,20 @@
 ---
 section: Admin
 permalink: /admin
+css: /admin/admin.css
 ---
 
 <script type="module">
   import { Admin } from '/admin/admin.js';
 
-  window.onerror = err => alert(err);
-  window.addEventListener('unhandledrejection', event => {
-    event.preventDefault();
-    window.onerror(event.reason);
-  });
-
-  var loadingElement = document.getElementById('loading');
   var loginForm = document.getElementById('login-form');
   var adminInterface = document.getElementById('admin-interface');
 
   window.admin = new Admin({
-    handleLoading: (isLoading) => loadingElement.hidden = !isLoading,
     handleLogin: (loggedIn) => {
       loginForm.hidden = loggedIn;
       adminInterface.hidden = !loggedIn;
-    },
-    handleError: window.onerror
+    }
   });
 
   loginForm.onsubmit = (event) => {
@@ -42,31 +34,3 @@ permalink: /admin
 <form id="admin-interface" hidden>
   <p>This is the admin interface</p>
 </form>
-
-<div id="loading" hidden>
-  <i class="fas fa-spinner fa-pulse"></i>
-</div>
-
-<style>
-#loading,
-#loading i {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#loading[hidden] {
-  display: none;
-}
-#loading {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-#loading i {
-  color: white;
-  font-size: min(50vh, 100px);
-}
-</style>

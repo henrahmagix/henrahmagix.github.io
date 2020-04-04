@@ -1,22 +1,33 @@
+function noop() { }
+function handleError(err) {
+  alert(err);
+}
+
+window.onerror = handleError;
+window.addEventListener('unhandledrejection', event => {
+  event.preventDefault();
+  window.onerror(event.reason);
+});
+
 const USER = 'henrahmagix';
-const REPO = 'henrahmagix.github.io';
-const API_URL = `https://api.github.com/repos/${USER}/${REPO}`;
+const API_URL = `https://api.github.com/repos/${USER}/henrahmagix.github.io`;
 const API_URL_AUTH_TEST = API_URL + '/keys';
 
 const TOKEN_KEY = 'gh_token';
 
-function noop() {}
-function defaultErrorHandler(err) { throw err; }
+const loadingElement = document.createElement('div');
+loadingElement.id = 'loading';
+loadingElement.hidden = true;
+const loadingIcon = document.createElement('i');
+loadingIcon.className = 'fas fa-spinner fa-pulse';
+loadingElement.appendChild(loadingIcon);
+document.body.appendChild(loadingElement);
 
 export class Admin {
   constructor({
-    handleLoading,
     handleLogin,
-    handleError,
   }) {
-    this.handleLoading = handleLoading || noop;
     this.handleLogin = handleLogin || noop;
-    this.handleError = handleError || defaultErrorHandler;
 
     const existingToken = localStorage.getItem(TOKEN_KEY);
     if (existingToken) {
@@ -25,7 +36,7 @@ export class Admin {
   }
 
   set loading(isLoading) {
-    this.handleLoading(isLoading);
+    loadingElement.hidden = !isLoading;
   }
 
   set loggedIn(loggedIn) {
@@ -43,7 +54,7 @@ export class Admin {
   async login(token) {
     if (!token) {
       this.loggedIn = false;
-      this.handleError(Error('Access token must not be empty'));
+      handleError(Error('Access token must not be empty'));
       return;
     }
 
@@ -56,7 +67,7 @@ export class Admin {
       localStorage.setItem(TOKEN_KEY, token);
     } catch (err) {
       this.loggedIn = false;
-      this.handleError(Error(`failed to login: ${err}`));
+      handleError(Error(`failed to login: ${err}`));
     } finally {
       this.loading = false;
     }
