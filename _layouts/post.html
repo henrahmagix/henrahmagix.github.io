@@ -5,12 +5,21 @@ back_to: blog
 ---
 
 <script>
-  if (localStorage.getItem('gh_token')) {
-    var script = document.createElement('script');
-    script.type = 'module';
-    script.src = '/admin/post-edit.js';
-    document.body.appendChild(script);
+(function(){
+  if (!localStorage.getItem('gh_token')) {
+    return;
   }
+
+  var script = document.createElement('script');
+  script.type = 'module';
+  script.src = '/admin/post-edit.js';
+  document.body.appendChild(script);
+
+  window.githubData = {
+    build_revision: '{{site.github.build_revision}}',
+    source_branch: '{{site.github.source.branch}}'
+  };
+}());
 </script>
 
 {{content}}
