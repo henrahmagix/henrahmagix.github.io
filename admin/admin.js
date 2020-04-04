@@ -3,6 +3,8 @@ const REPO = 'henrahmagix.github.io';
 const API_URL = `https://api.github.com/repos/${USER}/${REPO}`;
 const API_URL_AUTH_TEST = API_URL + '/keys';
 
+const TOKEN_KEY = 'gh_token';
+
 function noop() {}
 function defaultErrorHandler(err) { throw err; }
 
@@ -15,6 +17,11 @@ export class Admin {
     this.handleLoading = handleLoading || noop;
     this.handleLogin = handleLogin || noop;
     this.handleError = handleError || defaultErrorHandler;
+
+    const existingToken = localStorage.getItem(TOKEN_KEY);
+    if (existingToken) {
+      this.login(existingToken);
+    }
   }
 
   set loading(isLoading) {
@@ -22,7 +29,15 @@ export class Admin {
   }
 
   set loggedIn(loggedIn) {
+    if (!loggedIn) {
+      localStorage.setItem(TOKEN_KEY, '');
+    }
+
     this.handleLogin(Boolean(loggedIn));
+  }
+
+  logout() {
+    this.loggedIn = false;
   }
 
   async login(token) {
@@ -38,6 +53,7 @@ export class Admin {
     try {
       await this.api.fetch(API_URL_AUTH_TEST);
       this.loggedIn = true;
+      localStorage.setItem(TOKEN_KEY, token);
     } catch (err) {
       this.loggedIn = false;
       this.handleError(Error(`failed to login: ${err}`));

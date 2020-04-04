@@ -13,32 +13,34 @@ permalink: /admin
   });
 
   var loadingElement = document.getElementById('loading');
-  document.getElementById('loginForm').onsubmit = submit;
+  var loginForm = document.getElementById('login-form');
+  var adminInterface = document.getElementById('admin-interface');
 
   window.admin = new Admin({
-    handleLoading,
-    handleLogin,
+    handleLoading: (isLoading) => loadingElement.hidden = !isLoading,
+    handleLogin: (loggedIn) => {
+      loginForm.hidden = loggedIn;
+      adminInterface.hidden = !loggedIn;
+    },
     handleError: window.onerror
   });
 
-  function handleLoading(isLoading) {
-    loadingElement.hidden = !isLoading;
-  }
-
-  function handleLogin(loggedIn) {
-    alert(`logged in: ${loggedIn}`);
-  }
-
-  function submit(event) {
+  loginForm.onsubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
     window.admin.login(data.get('token'));
-  }
+  };
 </script>
 
-<form id="loginForm">
+<form id="login-form">
   <input name="token" type="password">
   <button type="submit">Login</button>
+</form>
+
+<button onclick="admin.logout()">Logout</button>
+
+<form id="admin-interface" hidden>
+  <p>This is the admin interface</p>
 </form>
 
 <div id="loading" hidden>
