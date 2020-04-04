@@ -1,0 +1,60 @@
+---
+section: Admin
+permalink: /admin
+---
+
+<script type="module">
+  import { Admin } from './admin.js';
+
+  window.onerror = err => alert(err);
+  window.addEventListener('unhandledrejection', event => {
+    event.preventDefault();
+    window.onerror(event.reason);
+  });
+
+  var loadingElement = document.getElementById('loading');
+
+  window.admin = new Admin({
+    handleLoading,
+    handleLogin,
+    handleError: window.onerror
+  });
+
+  function handleLoading(isLoading) {
+    loadingElement.hidden = !isLoading;
+  }
+
+  function handleLogin(loggedIn) {
+    console.log('logged in', loggedIn);
+  }
+</script>
+
+<button onclick="admin.login()">Login</button>
+
+<div id="loading" hidden>
+  <i class="fas fa-spinner fa-pulse"></i>
+</div>
+
+<style>
+#loading,
+#loading i {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#loading[hidden] {
+  display: none;
+}
+#loading {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+#loading i {
+  color: white;
+  font-size: min(50vh, 100px);
+}
+</style>
