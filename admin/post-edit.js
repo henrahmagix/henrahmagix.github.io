@@ -6,11 +6,21 @@ const originalContent = content.innerHTML;
 
 class EditPost {
   constructor() {
-    this.el = createHTML('<a href="#"><i class="icon fas"></i>Text</a>');
-    this.icon = this.el.childNodes.item(0);
-    this.text = this.el.childNodes.item(1);
+    this.el = createHTML(`
+    <div class="edit-wrapper">
+      <a href="#" class="edit-toggle"><i class="icon fas"></i>Text</a>
+      <a href="#" class="edit-submit"><i class="icon fas fa-check"></i>Submit</a>
+    </div>
+    `);
 
-    this.el.onclick = () => this.click();
+    this.toggle = this.el.children.item(0);
+    this.icon = this.toggle.childNodes.item(0);
+    this.text = this.toggle.childNodes.item(1);
+
+    this.submit = this.el.children.item(1);
+
+    this.toggle.onclick = () => this.onclick();
+    this.submit.onclick = () => this.onsubmit();
 
     this.texts = ['Edit', 'Cancel'];
     this.iconClasses = ['fa-pencil-alt', 'fa-times'];
@@ -18,12 +28,16 @@ class EditPost {
     this.editing = false;
   }
 
-  click() {
+  onclick() {
     this.editing = !this.editing;
     if (!this.editing) {
       // Cancelling.
       content.innerHTML = originalContent;
     }
+  }
+
+  onsubmit() {
+    console.log('submit');
   }
 
   insertBefore(target) {
@@ -32,9 +46,11 @@ class EditPost {
 
   get editing() { return this._editing; }
   set editing(isEditing) {
-    this._editing = Boolean(isEditing);
+    isEditing = Boolean(isEditing);
+    this._editing = isEditing;
 
-    content.contentEditable = this._editing;
+    content.contentEditable = isEditing;
+    this.submit.hidden = !isEditing;
 
     if (isEditing) {
       this.text.data = this.texts[1];
