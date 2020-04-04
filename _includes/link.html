@@ -1,6 +1,6 @@
 <li class="link {{ include.class }} {{ include.title | slugify }} {% unless include.title %}no-title{% endunless %} {% unless include.icon %}no-icon{% endunless %}">
   {% if include.pre %}
-    <span class="pre">{{ include.pre }}</span>
+    <span class="pre-anchor">{{ include.pre }}</span>
   {% endif %}
   {% assign title = include.title %}
   {% unless title %}
@@ -10,6 +10,6 @@
     {% if include.icon %}<i class="icon {{ include.icon }}" aria-hidden></i>{% endif %}{% unless include.hide_title == true %}<span class="title">{{ include.title }}</span>{% endunless %}
   </a>
   {% if include.post %}
-    <span class="post">{{ include.post }}</span>
+    <span class="post-anchor">{{ include.post }}</span>
   {% endif %}
 </li>

@@ -5,7 +5,7 @@ ul.posts {
   margin-right: -1em;
 }
 
-ul.posts li {
+.posts li {
   flex-basis: 20em;
   padding: 1em;
   flex-grow: 1;
@@ -13,18 +13,22 @@ ul.posts li {
 }
 
 /* Empty item to ensure even total so last item doesn't stretch full width */
-ul.posts.odd::after {
+.posts.odd::after {
   content: '';
   display: block;
   width: 50%;
 }
 
-ul.posts li > a {
+.posts li > a {
   font-size: 1.6em;
 }
 
-ul.posts .excerpt {
+.posts .excerpt {
   display: block;
+}
+
+.posts .excerpt img {
+  max-width: 100%;
 }
 
 .empty {
