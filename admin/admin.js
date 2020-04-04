@@ -44,7 +44,11 @@ export class Admin {
       localStorage.setItem(TOKEN_KEY, '');
     }
 
-    this.handleLogin(Boolean(loggedIn));
+    try {
+      this.handleLogin(Boolean(loggedIn));
+    } catch (err) {
+      handleError(err);
+    }
   }
 
   logout() {
