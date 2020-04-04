@@ -1,41 +1,7 @@
 ---
 section: Blog
+css: /css/posts.css
 ---
-
-<style>
-ul.posts {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -1em;
-  margin-right: -1em;
-}
-
-ul.posts li {
-  flex-basis: 20em;
-  padding: 1em;
-  flex-grow: 1;
-  word-break: break-word;
-}
-
-/* Empty item to ensure even total so last item doesn't stretch full width */
-ul.posts.odd::after {
-  content: '';
-  display: block;
-  width: 50%;
-}
-
-ul.posts li > a {
-  font-size: 1.6em;
-}
-
-ul.posts .excerpt {
-  display: block;
-}
-
-.empty {
-  font-size: 2em;
-}
-</style>
 
 {% if site.posts.size > 0 %}
   {% assign odd = site.posts|size|modulo:2 %}
