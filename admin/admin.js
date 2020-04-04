@@ -1,3 +1,5 @@
+import { createHTML } from '/admin/utils.js';
+
 function noop() { }
 function handleError(err) {
   alert(err);
@@ -15,12 +17,7 @@ const API_URL_AUTH_TEST = API_URL + '/keys';
 
 const TOKEN_KEY = 'gh_token';
 
-const loadingElement = document.createElement('div');
-loadingElement.id = 'loading';
-loadingElement.hidden = true;
-const loadingIcon = document.createElement('i');
-loadingIcon.className = 'fas fa-spinner fa-pulse';
-loadingElement.appendChild(loadingIcon);
+const loadingElement = createHTML('<div id="loading" hidden><i class="fas fa-spinner fa-pulse"></i></div>');
 document.body.appendChild(loadingElement);
 
 export class Admin {

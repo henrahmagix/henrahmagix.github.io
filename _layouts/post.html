@@ -4,4 +4,13 @@ section: Blog
 back_to: blog
 ---
 
+<script>
+  if (localStorage.getItem('gh_token')) {
+    var script = document.createElement('script');
+    script.type = 'module';
+    script.src = '/admin/post-edit.js';
+    document.body.appendChild(script);
+  }
+</script>
+
 {{content}}
