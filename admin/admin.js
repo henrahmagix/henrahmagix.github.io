@@ -3,6 +3,7 @@ import { createHTML } from '/admin/utils.js';
 function noop() { }
 function handleError(err) {
   alert(err);
+  console.error(err);
 }
 
 window.onerror = handleError;
