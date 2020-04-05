@@ -49,6 +49,10 @@ export class PostFile {
     localStorage.setItem(this.storageKey, base64.encode(this.newContent));
   }
 
+  clearStorage() {
+    localStorage.removeItem(this.storageKey);
+  }
+
   async fetch() {
     this.data = await this.api.fetch(`/contents/${this.path}`);
     this.oldContent = base64.decode(this.data.content);
@@ -61,6 +65,8 @@ export class PostFile {
       if (existingContent !== this.oldContent) {
         if (confirm('Keep local changes?')) {
           lines = existingContent.split('\n');
+        } else {
+          this.clearStorage();
         }
       }
     }
@@ -92,7 +98,7 @@ export class PostFile {
     base64.encode(this.newContent); // for update call
     alert('TODO: commit to github');
     this.oldContent = this.newContent;
-    localStorage.removeItem(this.storageKey);
+    this.clearStorage();
   }
 
   diff() {
