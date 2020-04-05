@@ -2,7 +2,7 @@ import { Admin } from '/admin/admin.js';
 import { createHTML, base64 } from '/admin/utils.js';
 
 const contentWrapper = document.getElementById('content');
-const originalContent = content.innerHTML;
+let originalContent = contentWrapper.innerHTML;
 
 class PostFile {
   constructor({
@@ -30,45 +30,15 @@ class PostFile {
     this.contents = s;
   }
 
-  async save() {
-    const newContent = this.frontMatter + '\n' + this.contents.replace(/\n+$/, '\n');
-    // console.log(newContent);
-    base64.encode(newContent); // for update call
-
-    const base = difflib.stringAsLines(base64.decode(this.data.content));
-    const newtxt = difflib.stringAsLines(newContent);
-    const diff = new difflib.SequenceMatcher(base, newtxt);
-    document.querySelectorAll('table.diff').forEach(el => el.remove());
-    const opcodes = diff.get_opcodes();
-    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
-
-    if (hasDiff) {
-      const diffEl = diffview.buildView({
-        baseTextLines: base,
-        newTextLines: newtxt,
-        opcodes: opcodes,
-        baseTextName: 'base',
-        newTextName: 'new',
-        contextSize: 3,
-        viewType: 1, // inline
-      });
-      document.body.appendChild(diffEl);
-      alert('TODO: submit after review');
-      diffEl.scrollIntoView();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   async fetch() {
     this.data = await this.api.fetch(`/contents/${window.github_data.page_path}`);
+    this.oldContent = base64.decode(this.data.content);
 
     this.frontMatter = [];
     this.contents = [];
 
     let frontMatterMatches = 0;
-    base64.decode(this.data.content).split('\n').forEach(line => {
+    this.oldContent.split('\n').forEach(line => {
       if (frontMatterMatches < 2) {
         this.frontMatter.push(line);
       } else {
@@ -81,6 +51,39 @@ class PostFile {
 
     this.frontMatter = this.frontMatter.join('\n');
     this.contents = this.contents.join('\n');
+  }
+
+  get newContent() {
+    return this.frontMatter + '\n' + this.contents.replace(/\n+$/, '\n');
+  }
+
+  async save() {
+    base64.encode(this.newContent); // for update call
+    alert('TODO: commit to github');
+    this.oldContent = this.newContent;
+  }
+
+  diff() {
+    const base = difflib.stringAsLines(this.oldContent);
+    const newtxt = difflib.stringAsLines(this.newContent);
+    const diff = new difflib.SequenceMatcher(base, newtxt);
+    document.querySelectorAll('table.diff').forEach(el => el.remove());
+    const opcodes = diff.get_opcodes();
+    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
+
+    if (!hasDiff) {
+      return false;
+    }
+
+    return diffview.buildView({
+      baseTextLines: base,
+      newTextLines: newtxt,
+      opcodes: opcodes,
+      baseTextName: 'base',
+      newTextName: 'new',
+      contextSize: 3,
+      viewType: 1, // inline
+    });
   }
 }
 
@@ -105,52 +108,70 @@ class EditPost {
 
     this.toggleButton.onclick = () => this.onclick();
     // this.previewButton.onclick = () => this.onpreview();
-    this.submitButton.onclick = () => this.onsubmit();
+    this.submitButton.onclick = () => {
+      if (!this.reviewing) {
+        this.reviewing = true;
+        this.onreview();
+      } else {
+        this.onsubmit();
+      }
+    }
 
     this.texts = ['Edit', 'Cancel'];
     this.iconClasses = ['fa-pencil-alt', 'fa-times'];
 
     this.editing = false;
 
+    this.titleEl.onkeyup = this.titleEl.onkeydown = this.subtitleEl.onkeyup = this.subtitleEl.onkeydown = event => {
+      if (event.code === 'Enter') {
+        event.preventDefault();
+      }
+    };
+
     this.postFile = new PostFile(window.github_data.page_path);
     this.readyPromise = this.postFile.fetch();
   }
 
-  get titleEl() { return content.querySelector('.entry-title'); }
-  get subtitleEl() { return content.querySelector('.entry-summary'); }
-  get contentEl() { return content.querySelector('.entry-content'); }
+  get titleEl() { return contentWrapper.querySelector('.entry-title'); }
+  get subtitleEl() { return contentWrapper.querySelector('.entry-summary'); }
+  get contentEl() { return contentWrapper.querySelector('.entry-content'); }
 
   onclick() {
-    this.editing = !this.editing;
+    this.reviewing = false;
     if (this.editing) {
-      this.contentEl.innerText = this.postFile.contents;
-      this.contentEl.style.whiteSpace = 'pre-wrap';
+      contentWrapper.innerHTML = originalContent;
+      this.editing = false;
     } else {
-      // Cancelling.
-      content.innerHTML = originalContent;
-      this.contentEl.style.whiteSpace = '';
+      this.editing = true;
     }
   }
 
-  onsubmit() {
+  onreview() {
     if (this.titleEl) {
       this.postFile.setTitle(this.titleEl.innerText);
     }
     if (this.subtitleEl) {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
-    const newContent = this.contentEl.innerText;
-    this.postFile.setContent(newContent);
+    this.postFile.setContent(this.contentEl.innerText);
 
+    this.diffEl = this.postFile.diff();
+    if (this.diffEl) {
+      contentWrapper.before(this.diffEl);
+    } else {
+      alert('No changes');
+      this.toggleButton.click();
+    }
+  }
+
+  onsubmit() {
     this.postFile.save()
-      .then(success => {
-        if (success) {
-          alert('TODO: wait for build then refresh');
-          // And render markdown into html.
-        } else {
-          alert('No changes');
-          this.editing = false;
-        }
+      .then(() => {
+        alert('TODO: wait for build then refresh');
+        this.reviewing = false;
+        this.contentEl.innerHTML = marked(this.contentEl.innerText);
+        this.diffEl.remove();
+        this.editing = false;
       });
   }
 
@@ -172,15 +193,6 @@ class EditPost {
     this.titleEl.contentEditable = isEditing;
     this.subtitleEl.contentEditable = isEditing;
     this.contentEl.contentEditable = isEditing;
-    if (isEditing) {
-      document.execCommand('defaultParagraphSeparator', false, 'p');
-
-      this.titleEl.onkeyup = this.titleEl.onkeydown = this.subtitleEl.onkeyup = this.subtitleEl.onkeydown = event => {
-        if (event.code === 'Enter') {
-          event.preventDefault();
-        }
-      };
-    }
 
     this.submitButton.hidden = !isEditing;
     // this.previewButton.hidden = !isEditing;
@@ -189,10 +201,18 @@ class EditPost {
       this.textEl.data = this.texts[1];
       this.iconEl.classList.remove(this.iconClasses[0]);
       this.iconEl.classList.add(this.iconClasses[1]);
+
+      this.contentEl.innerText = this.postFile.contents;
+      this.contentEl.style.whiteSpace = 'pre-wrap';
+
+      document.execCommand('defaultParagraphSeparator', false, 'p');
     } else {
       this.textEl.data = this.texts[0];
       this.iconEl.classList.remove(this.iconClasses[1]);
       this.iconEl.classList.add(this.iconClasses[0]);
+
+      this.contentEl.style.whiteSpace = '';
+      originalContent = contentWrapper.innerHTML;
     }
   }
 }
