@@ -20,6 +20,10 @@
   font-size: min(50vh, 100px);
 }
 
+.edit-wrapper {
+  margin-bottom: 1em;
+}
+
 .edit-wrapper button {
   margin-right: 1em;
 }
@@ -28,11 +32,14 @@ table.diff {
   width: 100%;
   table-layout: fixed;
   overflow-wrap: break-word;
+  color: black;
+  background: white;
 }
 
 table.diff:not(.inlinediff) th:nth-child(odd),
 table.diff.inlinediff th:nth-child(1),
 table.diff.inlinediff th:nth-child(2) {
-  width: 3em;
+  width: 2em;
   box-sizing: content-box;
+  padding-left: 0;
 }
