@@ -2,26 +2,28 @@ import { PostFile } from '/admin/post-file.js';
 import { createHTML } from '/admin/utils.js';
 
 export class EditPost {
-  el = createHTML(`
-  <div class="edit-wrapper">
-    <button class="button-link edit-toggle"><i class="icon fas"></i>Text</button>
-    <button hidden class="button-link edit-preview"><i class="icon fas fa-eye"></i>Preview</button>
-    <button class="button-link edit-submit"><i class="icon fas fa-check"></i>Submit</button>
-  </div>
-  `);
-
-  toggleButton = this.el.children.item(0);
-  iconEl = this.toggleButton.childNodes.item(0);
-  textEl = this.toggleButton.childNodes.item(1);
-
-  previewButton = this.el.children.item(1);
-  submitButton = this.el.children.item(2);
-
   constructor(contentWrapper) {
     this.contentWrapper = contentWrapper;
     this.originalContent = contentWrapper.innerHTML;
 
     this.contentWrapper.addEventListener('input', () => this.onchange());
+
+    this.el = createHTML(`
+    <div class="edit-wrapper">
+      <button class="button-link edit-toggle"><i class="icon fas"></i>Text</button>
+      <button hidden class="button-link edit-preview"><i class="icon fas fa-eye"></i>Preview</button>
+      <button class="button-link edit-submit"><i class="icon fas fa-check"></i>Submit</button>
+    </div>
+    `);
+
+    this.textarea = createHTML('<textarea class="edit-textarea">');
+
+    this.toggleButton = this.el.children.item(0);
+    this.iconEl = this.toggleButton.childNodes.item(0);
+    this.textEl = this.toggleButton.childNodes.item(1);
+
+    this.previewButton = this.el.children.item(1);
+    this.submitButton = this.el.children.item(2);
 
     this.toggleButton.addEventListener('click', () => this.onclick());
     // this.previewButton.addEventListener('click', () => this.onpreview());
