@@ -6,6 +6,8 @@ export class EditPost {
     this.contentWrapper = contentWrapper;
     this.originalContent = contentWrapper.innerHTML;
 
+    this.contentWrapper.addEventListener('input', () => this.onchange());
+
     this.el = createHTML(`
     <div class="edit-wrapper">
       <button class="button-link edit-toggle"><i class="icon fas"></i>Text</button>
@@ -45,8 +47,19 @@ export class EditPost {
       }
     };
 
-    this.postFile = new PostFile(window.github_data.page_path);
+    this.postFile = new PostFile({
+      path: window.github_data.page_path,
+    });
     this.readyPromise = this.postFile.fetch();
+    this.readyPromise.then(() => {
+      if (this.titleEl) {
+        this.titleEl.innerText = this.postFile.getTitle();
+      }
+      if (this.subtitleEl) {
+        this.subtitleEl.innerText = this.postFile.getSubtitle();
+      }
+      this.contentEl.innerHTML = marked(this.postFile.getContent());
+    });
   }
 
   get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
@@ -63,7 +76,7 @@ export class EditPost {
     }
   }
 
-  onreview() {
+  onchange() {
     if (this.titleEl) {
       this.postFile.setTitle(this.titleEl.innerText);
     }
@@ -71,7 +84,9 @@ export class EditPost {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
     this.postFile.setContent(this.contentEl.innerText);
+  }
 
+  onreview() {
     this.diffEl = this.postFile.diff();
     if (this.diffEl) {
       this.contentWrapper.before(this.diffEl);

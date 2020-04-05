@@ -6,48 +6,82 @@ export class PostFile {
     path,
   }) {
     this.path = path;
+    this.storageKey = `gh_post_${path}`;
     this.api = new Api();
+
+    window.onbeforeunload = event => {
+      if (this.diff()) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
   }
 
+  rTitle = /(\ntitle: )([^\n]*)/;
+  getTitle() {
+    const m = this.frontMatter.match(this.rTitle);
+    return m ? m[2] : '';
+  }
   setTitle(s) {
-    this.frontMatter = this.frontMatter.replace(
-      /\ntitle: [^\n]*/,
-      `\ntitle: ${s}`,
-    );
+    this.frontMatter = this.frontMatter.replace(this.rTitle, (_, m1, m2) => m1 + s);
+    this.onchange();
   }
 
+  rSubtitle = /(\nsubtitle: )([^\n]*)/;
+  getSubtitle() {
+    const m = this.frontMatter.match(this.rSubtitle);
+    return m ? m[2] : '';
+  }
   setSubtitle(s) {
-    this.frontMatter = this.frontMatter.replace(
-      /\nsubtitle: [^\n]*/,
-      `\nsubtitle: ${s}`,
-    );
+    this.frontMatter = this.frontMatter.replace(this.rSubtitle, (_, m1, m2) => m1 + s);
+    this.onchange();
   }
 
+  getContent() {
+    return this.contents;
+  }
   setContent(s) {
     this.contents = s;
+    this.onchange();
+  }
+
+  onchange() {
+    localStorage.setItem(this.storageKey, base64.encode(this.newContent));
   }
 
   async fetch() {
-    this.data = await this.api.fetch(`/contents/${window.github_data.page_path}`);
+    this.data = await this.api.fetch(`/contents/${this.path}`);
     this.oldContent = base64.decode(this.data.content);
 
-    this.frontMatter = [];
-    this.contents = [];
+    let lines = this.oldContent.split('\n');
+
+    let existingContent = localStorage.getItem(this.storageKey);
+    if (existingContent) {
+      existingContent = base64.decode(existingContent);
+      if (existingContent !== this.oldContent) {
+        if (confirm('Keep local changes?')) {
+          lines = existingContent.split('\n');
+        }
+      }
+    }
+
+    const frontMatterLines = [];
+    const contentsLines = [];
 
     let frontMatterMatches = 0;
-    this.oldContent.split('\n').forEach(line => {
+    lines.forEach(line => {
       if (frontMatterMatches < 2) {
-        this.frontMatter.push(line);
+        frontMatterLines.push(line);
       } else {
-        this.contents.push(line);
+        contentsLines.push(line);
       }
       if (line.match(/---+/)) {
         frontMatterMatches++;
       }
     });
 
-    this.frontMatter = this.frontMatter.join('\n');
-    this.contents = this.contents.join('\n');
+    this.frontMatter = frontMatterLines.join('\n');
+    this.contents = contentsLines.join('\n');
   }
 
   get newContent() {
@@ -58,6 +92,7 @@ export class PostFile {
     base64.encode(this.newContent); // for update call
     alert('TODO: commit to github');
     this.oldContent = this.newContent;
+    localStorage.removeItem(this.storageKey);
   }
 
   diff() {
