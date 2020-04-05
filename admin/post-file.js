@@ -15,9 +15,11 @@ export class PostFile {
         event.returnValue = '';
       }
     });
+
+    this.rTitle = /(\ntitle: )([^\n]*)/;
+    this.rSubtitle = /(\nsubtitle: )([^\n]*)/;
   }
 
-  rTitle = /(\ntitle: )([^\n]*)/;
   getTitle() {
     const m = this.frontMatter.match(this.rTitle);
     return m ? m[2] : '';
@@ -27,7 +29,6 @@ export class PostFile {
     this.onchange();
   }
 
-  rSubtitle = /(\nsubtitle: )([^\n]*)/;
   getSubtitle() {
     const m = this.frontMatter.match(this.rSubtitle);
     return m ? m[2] : '';
