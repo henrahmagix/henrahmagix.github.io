@@ -89,7 +89,9 @@ export class Api {
     return `Basic ${auth}`;
   }
 
-  async fetch(url, method = 'GET', body = null) {
+  async fetch(url, method, body) {
+    method = method || 'GET';
+
     const headers = new Headers();
     headers.set('Authorization', this.authHeader);
 
