@@ -25,27 +25,31 @@ export class EditPost {
     this.previewButton = this.el.children.item(1);
     this.submitButton = this.el.children.item(2);
 
-    this.toggleButton.onclick = () => this.onclick();
-    // this.previewButton.onclick = () => this.onpreview();
-    this.submitButton.onclick = () => {
+    this.toggleButton.addEventListener('click', () => this.onclick());
+    // this.previewButton.addEventListener('click', () => this.onpreview());
+    this.submitButton.addEventListener('click', () => {
       if (!this.reviewing) {
         this.reviewing = true;
         this.onreview();
       } else {
         this.onsubmit();
       }
-    }
+    });
 
     this.texts = ['Edit', 'Cancel'];
     this.iconClasses = ['fa-pencil-alt', 'fa-times'];
 
     this.editing = false;
 
-    this.titleEl.onkeyup = this.titleEl.onkeydown = this.subtitleEl.onkeyup = this.subtitleEl.onkeydown = event => {
+    [this.titleEl, this.subtitleEl].forEach(el => {
+      el.addEventListener('keyup', preventEnterKey);
+      el.addEventListener('keydown', preventEnterKey);
+    });
+    function preventEnterKey(event) {
       if (event.code === 'Enter') {
         event.preventDefault();
       }
-    };
+    }
 
     this.postFile = new PostFile({
       path: window.github_data.page_path,

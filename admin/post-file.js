@@ -9,12 +9,12 @@ export class PostFile {
     this.storageKey = `gh_post_${path}`;
     this.api = new Api();
 
-    window.onbeforeunload = event => {
+    window.addEventListener('beforeunload', event => {
       if (this.diff()) {
         event.preventDefault();
         event.returnValue = '';
       }
-    };
+    });
   }
 
   rTitle = /(\ntitle: )([^\n]*)/;

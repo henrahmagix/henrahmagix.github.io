@@ -9,7 +9,7 @@ function handleError(err) {
 window.onerror = handleError;
 window.addEventListener('unhandledrejection', event => {
   event.preventDefault();
-  window.onerror(event.reason);
+  handleError(event.reason);
 });
 
 const USER = 'henrahmagix';
