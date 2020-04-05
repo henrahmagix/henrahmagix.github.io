@@ -1,0 +1,37 @@
+<script>
+  (function(){
+    if (!localStorage.getItem('gh_token')) {
+      return;
+    }
+
+    addScript('/admin/post-edit.js', 'module');
+    addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js');
+    addStyle('/admin/admin.css');
+
+    addScript('http://cemerick.github.io/jsdifflib/diffview.js');
+    addScript('http://cemerick.github.io/jsdifflib/difflib.js');
+    addStyle('http://cemerick.github.io/jsdifflib/diffview.css');
+
+    window.github_data = {
+      build_revision: '{{site.github.build_revision}}',
+      source_branch: '{{site.github.source.branch}}',
+      page_path: '{{page.path}}',
+    };
+
+    function addScript(src, type) {
+      var script = document.createElement('script');
+      script.src = src;
+      if (type) {
+        script.type = type;
+      }
+      document.body.appendChild(script);
+    }
+
+    function addStyle(href) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+  }());
+</script>

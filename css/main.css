@@ -415,7 +415,8 @@ nav ul li:last-child::after {
   margin: 2em 0;
 }
 
-.page-body a .icon {
+.page-body a .icon,
+.page-body .button-link .icon {
   margin-right: 0.25em;
   text-align: left;
 }

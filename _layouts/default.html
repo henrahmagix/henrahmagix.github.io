@@ -243,5 +243,9 @@
     }
   </script>
 
+  {% if page.layout == 'post' %}
+  {% include post-scripts.html %}
+  {% endif %}
+
 </body>
 </html>

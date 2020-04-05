@@ -13,7 +13,6 @@ window.addEventListener('unhandledrejection', event => {
 
 const USER = 'henrahmagix';
 const API_URL = `https://api.github.com/repos/${USER}/henrahmagix.github.io`;
-const API_URL_AUTH_TEST = API_URL + '/keys';
 
 const TOKEN_KEY = 'gh_token';
 
@@ -63,7 +62,7 @@ export class Admin {
 
     this.loading = true;
     try {
-      await this.api.fetch(API_URL_AUTH_TEST);
+      await this.api.fetch('/keys'); // fails for anonymous
       this.loggedIn = true;
       localStorage.setItem(TOKEN_KEY, token);
     } catch (err) {
@@ -78,6 +77,7 @@ export class Admin {
 class Api {
   constructor(token) {
     this.token = token;
+    this.apiUrl = API_URL;
   }
 
   get authHeader() {
@@ -88,11 +88,11 @@ class Api {
     return `Basic ${auth}`;
   }
 
-  async fetch(url) {
+  async fetch(url, method = 'GET', body = null) {
     const headers = new Headers();
     headers.set('Authorization', this.authHeader);
 
-    const res = await fetch(url, { headers });
+    const res = await fetch(this.apiUrl + url, { headers, method, body });
     if (!res.ok) {
       throw new Error(`fetch failed: ${res.status} body=${await res.text()}`);
     }
