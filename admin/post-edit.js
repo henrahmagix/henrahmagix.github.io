@@ -49,7 +49,8 @@ class PostFile {
         opcodes: opcodes,
         baseTextName: 'base',
         newTextName: 'new',
-        viewType: 1,
+        contextSize: 3,
+        viewType: 1, // inline
       });
       document.body.appendChild(diffEl);
       alert('TODO: submit after review');
