@@ -31,7 +31,7 @@ class PostFile {
   }
 
   async save() {
-    const newContent = this.frontMatter + '\n' + this.contents;
+    const newContent = this.frontMatter + '\n' + this.contents.replace(/\n+$/, '\n');
     // console.log(newContent);
     base64.encode(newContent); // for update call
 
