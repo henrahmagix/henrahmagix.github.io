@@ -1,94 +1,11 @@
-import { Admin } from '/admin/admin.js';
-import { createHTML, base64 } from '/admin/utils.js';
+import { PostFile } from '/admin/post-file.js';
+import { createHTML } from '/admin/utils.js';
 
-const contentWrapper = document.getElementById('content');
-let originalContent = contentWrapper.innerHTML;
+export class EditPost {
+  constructor(contentWrapper) {
+    this.contentWrapper = contentWrapper;
+    this.originalContent = contentWrapper.innerHTML;
 
-class PostFile {
-  constructor({
-    path,
-  }) {
-    this.path = path;
-    this.api = window.admin.api;
-  }
-
-  setTitle(s) {
-    this.frontMatter = this.frontMatter.replace(
-      /\ntitle: [^\n]*/,
-      `\ntitle: ${s}`,
-    );
-  }
-
-  setSubtitle(s) {
-    this.frontMatter = this.frontMatter.replace(
-      /\nsubtitle: [^\n]*/,
-      `\nsubtitle: ${s}`,
-    );
-  }
-
-  setContent(s) {
-    this.contents = s;
-  }
-
-  async fetch() {
-    this.data = await this.api.fetch(`/contents/${window.github_data.page_path}`);
-    this.oldContent = base64.decode(this.data.content);
-
-    this.frontMatter = [];
-    this.contents = [];
-
-    let frontMatterMatches = 0;
-    this.oldContent.split('\n').forEach(line => {
-      if (frontMatterMatches < 2) {
-        this.frontMatter.push(line);
-      } else {
-        this.contents.push(line);
-      }
-      if (line.match(/---+/)) {
-        frontMatterMatches++;
-      }
-    });
-
-    this.frontMatter = this.frontMatter.join('\n');
-    this.contents = this.contents.join('\n');
-  }
-
-  get newContent() {
-    return this.frontMatter + '\n' + this.contents.replace(/\n+$/, '\n');
-  }
-
-  async save() {
-    base64.encode(this.newContent); // for update call
-    alert('TODO: commit to github');
-    this.oldContent = this.newContent;
-  }
-
-  diff() {
-    const base = difflib.stringAsLines(this.oldContent);
-    const newtxt = difflib.stringAsLines(this.newContent);
-    const diff = new difflib.SequenceMatcher(base, newtxt);
-    document.querySelectorAll('table.diff').forEach(el => el.remove());
-    const opcodes = diff.get_opcodes();
-    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
-
-    if (!hasDiff) {
-      return false;
-    }
-
-    return diffview.buildView({
-      baseTextLines: base,
-      newTextLines: newtxt,
-      opcodes: opcodes,
-      baseTextName: 'base',
-      newTextName: 'new',
-      contextSize: 3,
-      viewType: 1, // inline
-    });
-  }
-}
-
-class EditPost {
-  constructor() {
     this.el = createHTML(`
     <div class="edit-wrapper">
       <button class="button-link edit-toggle"><i class="icon fas"></i>Text</button>
@@ -132,14 +49,14 @@ class EditPost {
     this.readyPromise = this.postFile.fetch();
   }
 
-  get titleEl() { return contentWrapper.querySelector('.entry-title'); }
-  get subtitleEl() { return contentWrapper.querySelector('.entry-summary'); }
-  get contentEl() { return contentWrapper.querySelector('.entry-content'); }
+  get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
+  get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
+  get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
 
   onclick() {
     this.reviewing = false;
     if (this.editing) {
-      contentWrapper.innerHTML = originalContent;
+      this.contentWrapper.innerHTML = this.originalContent;
       this.editing = false;
     } else {
       this.editing = true;
@@ -157,7 +74,7 @@ class EditPost {
 
     this.diffEl = this.postFile.diff();
     if (this.diffEl) {
-      contentWrapper.before(this.diffEl);
+      this.contentWrapper.before(this.diffEl);
     } else {
       alert('No changes');
       this.toggleButton.click();
@@ -212,16 +129,7 @@ class EditPost {
       this.iconEl.classList.add(this.iconClasses[0]);
 
       this.contentEl.style.whiteSpace = '';
-      originalContent = contentWrapper.innerHTML;
+      this.originalContent = this.contentWrapper.innerHTML;
     }
-  }
-}
-
-window.admin = new Admin({ handleLogin });
-const edit = new EditPost();
-
-function handleLogin(loggedIn) {
-  if (loggedIn) {
-    edit.insertBefore(content);
   }
 }

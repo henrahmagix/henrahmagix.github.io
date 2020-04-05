@@ -74,9 +74,9 @@ export class Admin {
   }
 }
 
-class Api {
+export class Api {
   constructor(token) {
-    this.token = token;
+    this.token = token || localStorage.getItem(TOKEN_KEY);
     this.apiUrl = API_URL;
   }
 
