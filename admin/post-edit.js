@@ -149,6 +149,10 @@ export class EditPost {
 
       this.contentEl.style.whiteSpace = '';
       this.originalContent = this.contentWrapper.innerHTML;
+
+      if (this.diffEl) {
+        this.diffEl.remove();
+      }
     }
   }
 }
