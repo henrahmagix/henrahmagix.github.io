@@ -411,6 +411,12 @@ nav ul li:last-child::after {
   left: 0
 }
 
+@media (prefers-color-scheme: dark) {
+  .page-body blockquote:before {
+    background-color: #dedede;
+  }
+}
+
 .page-home .page-body section {
   margin: 2em 0;
 }
