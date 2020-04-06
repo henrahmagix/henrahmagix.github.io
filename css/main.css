@@ -87,7 +87,7 @@ a:hover,
 a:focus,
 .button-link:hover,
 .button-link:focus {
-  color: #2F5B83;
+  color: #A80084;
   text-decoration: none;
 }
 
@@ -96,19 +96,19 @@ a:focus,
   a:focus,
   .button-link:hover,
   .button-link:focus {
-    color: #8CB1D4;
+    color: #FF80E8;
   }
 }
 
 
 article a {
-  color: #2F5B83;
+  color: #A80084;
   font-weight: 700;
 }
 
 @media (prefers-color-scheme: dark) {
   article a {
-    color: #8CB1D4;
+    color: #FF80E8;
   }
 }
 
@@ -281,7 +281,7 @@ nav ul li:last-child::after {
 }
 
 .page-title {
-  color: #A80089;
+  color: #A80084;
   font-size: 3em;
   line-height: 1
 }
