@@ -1,9 +1,13 @@
+pre.highlight {
+  margin: 1em 0;
+  padding-bottom: 1em;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* bundle exec rougify style bw */
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
-.highlight, .highlight .w {
-  color: #000000;
-  background-color: #ffffff;
-}
 .highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
   font-style: italic;
 }
