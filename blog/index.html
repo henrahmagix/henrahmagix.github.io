@@ -8,7 +8,10 @@ css: /css/posts.css
   <ul class="links posts {% if odd == 1 %}odd{% else %}even{% endif %}">
     {% for post in site.posts %}
       {% capture excerpt %}
-        <span class="excerpt"><span class="screenreader">Excerpt:</span> {{ post.excerpt }}</span>
+        {% if post.subtitle %}
+          <h3>{{post.subtitle}}</h3>
+        {% endif %}
+        <span class="screenreader">Excerpt:</span> {{ post.excerpt }}
       {% endcapture %}
       {% include link.html title_element="h2" title=post.title post=excerpt icon="far fa-file-alt" url=post.url %}
     {% endfor %}

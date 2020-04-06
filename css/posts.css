@@ -19,20 +19,15 @@ ul.posts {
   width: 50%;
 }
 
-.posts li > a {
-  font-size: 1.6em;
+.posts li > a .icon {
+  font-size: 1.75em;
 }
 
 .posts li > a .title {
-  font-size: 1em;
   display: inline;
 }
 
-.posts .excerpt {
-  display: block;
-}
-
-.posts .excerpt img {
+.posts .post-anchor img {
   max-width: 100%;
 }
 
