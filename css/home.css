@@ -1,13 +1,14 @@
 section {
   display: flex;
   flex-wrap: wrap;
-  margin: 2em 0;
+  margin: 1em -1em;
 }
 
 section article {
-  flex-basis: 20em;
+  flex-basis: 17em;
   flex-grow: 1;
-  margin-bottom: 1em;
+  margin: 1em 0;
+  padding: 0 1em;
 }
 
 .logo-flipper {
