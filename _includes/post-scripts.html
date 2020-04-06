@@ -4,8 +4,24 @@
       return;
     }
 
+    addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js', null, function () {
+        window.marked.setOptions({
+          gfm: true // github-flavoured markdown
+        });
+
+        // Fix code highlighting after editing.
+        var oldMarked = window.marked;
+        window.marked = function (s) {
+          var holder = document.createElement('div');
+          holder.innerHTML = oldMarked(s);
+          holder.querySelectorAll('pre').forEach(function (el) {
+            el.classList.add('highlight');
+          });
+          return holder.innerHTML;
+        };
+    });
+
     addScript('/admin/post-admin.js', 'module');
-    addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js');
     addStyle('/admin/admin.css');
 
     addScript('https://cemerick.github.io/jsdifflib/diffview.js');
@@ -18,11 +34,15 @@
       page_path: '{{page.path}}'
     };
 
-    function addScript(src, type) {
+    function addScript(src, type, onload) {
       var script = document.createElement('script');
       script.src = src;
+      script.async = false;
       if (type) {
         script.type = type;
+      }
+      if (typeof onload === 'function') {
+        script.onload = onload;
       }
       document.body.appendChild(script);
     }
