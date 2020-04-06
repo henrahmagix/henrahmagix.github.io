@@ -2,12 +2,19 @@
   {% if include.pre %}
     <span class="pre-anchor">{{ include.pre }}</span>
   {% endif %}
+
+  {% assign title_element = "span" %}
+  {% if include.title_element %}
+    {% assign title_element = include.title_element %}
+  {% endif %}
+
   {% assign title = include.title %}
   {% unless title %}
     {% assign title = include.icon | slugify %}
   {% endunless %}
+
   <a {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}" {% if include.title and include.hide_title == true %}aria-label="{{include.title}}" title="{{include.title}}"{% endif %}>
-    {% if include.icon %}<i class="icon {{ include.icon }}" aria-hidden></i>{% endif %}{% unless include.hide_title == true %}<span class="title">{{ include.title }}</span>{% endunless %}
+    {% if include.icon %}<i class="icon {{ include.icon }}" aria-hidden></i>{% endif %}{% unless include.hide_title == true %}<{{title_element}} class="title">{{ include.title }}</{{title_element}}>{% endunless %}
   </a>
   {% if include.post %}
     <span class="post-anchor">{{ include.post }}</span>
