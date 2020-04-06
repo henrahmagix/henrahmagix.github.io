@@ -4,36 +4,42 @@ css: /css/home.css
 ---
 
 <section>
-  <h2 class="fancy-title"><span class="emoji">✨</span> Featured</h2>
-  <a href="/doubles/random">Double Exposure Random Generator: The DERG!</a>
+  <article>
+    <h2 class="fancy-title"><span class="emoji">✨</span> Featured</h2>
+    <a href="/doubles/random">Double Exposure Random Generator: The DERG!</a>
+  </article>
+
+  <article>
+    {% if site.posts[0] %}
+      <h2 class="fancy-title"><span class="emoji">💫</span> Latest post</h2>
+      {% assign post = site.posts[0] %}
+      <a href="{{post.url}}">{{post.title}}</a>
+    {% endif %}
+  </article>
 </section>
 
 <hr>
 
 <section>
-  <h2 class="fancy-title">
-    {%- comment -%} <img class="avatar" src="/images/me.jpg" alt="profile photo of Henry James Blyth"> {%- endcomment -%}
-    <span class="emoji">👋</span> About
-  </h2>
-  <p>Henry is a Software Engineer from Oxford, UK. He has full-stack skills and pushes for accessibility.</p>
+  <article>
+    <h2 class="fancy-title">
+      {%- comment -%} <img class="avatar" src="/images/me.jpg" alt="profile photo of Henry James Blyth"> {%- endcomment -%}
+      <span class="emoji">👋</span> About
+    </h2>
+    <p>Henry is a Software Engineer from Oxford, UK. He has full-stack skills and pushes for accessibility.</p>
+  </article>
 
-  <h3 class="fancy-title"><span class="emoji">💻</span> Skills</h3>
-  <ul>
-    {% for group in site.data.skills %}
-    <li>
-      {% for skill in group %}
-      {{skill}}
-      {%unless forloop.last%}<small>&&</small>{%endunless%}
+  <article>
+    <h3 class="fancy-title"><span class="emoji">💻</span> Skills</h3>
+    <ul>
+      {% for group in site.data.skills %}
+      <li>
+        {% for skill in group %}
+        {{skill}}
+        {%unless forloop.last%}<small>&&</small>{%endunless%}
+        {% endfor %}
+      </li>
       {% endfor %}
-    </li>
-    {% endfor %}
-  </ul>
-</section>
-
-<section>
-  {% if site.posts[0] %}
-    <h2 class="fancy-title"><span class="emoji">💫</span> Latest post</h2>
-    {% assign post = site.posts[0] %}
-    <a href="{{post.url}}">{{post.title}}</a>
-  {% endif %}
+    </ul>
+  </article>
 </section>

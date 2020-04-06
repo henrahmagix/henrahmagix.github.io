@@ -375,7 +375,7 @@ nav ul li:last-child::after {
 .page-body h6 {
   font-weight: bold;
   margin: 0;
-  margin-top: 10px
+  margin-bottom: 0.625em;
 }
 
 .page-body h1 {
@@ -436,10 +436,6 @@ nav ul li:last-child::after {
   .page-body blockquote:before {
     background-color: #dedede;
   }
-}
-
-.page-home .page-body section {
-  margin: 2em 0;
 }
 
 .page-body a .icon,

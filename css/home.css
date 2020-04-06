@@ -1,3 +1,15 @@
+section {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2em 0;
+}
+
+section article {
+  flex-basis: 20em;
+  flex-grow: 1;
+  margin-bottom: 1em;
+}
+
 .logo-flipper {
   height: 200px;
   width: 200px;

@@ -19,14 +19,6 @@ ul.posts {
   width: 50%;
 }
 
-.posts li > a .icon {
-  font-size: 1.75em;
-}
-
-.posts li > a .title {
-  display: inline;
-}
-
 .posts .post-anchor img {
   max-width: 100%;
 }
