@@ -133,8 +133,6 @@ export class EditPostView {
   }
 
   updatePost() {
-    this.renderState();
-
     if (this.titleEl) {
       this.postFile.setTitle(this.titleEl.innerText);
     }
@@ -142,6 +140,8 @@ export class EditPostView {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
     this.postFile.setContent(this.contentEl.innerText);
+
+    this.renderState();
   }
 
   showDiff() {
