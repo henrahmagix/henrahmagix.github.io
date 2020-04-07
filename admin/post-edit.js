@@ -11,7 +11,14 @@ export class EditPostView {
   get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
   get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
 
-  constructor(contentWrapper) {
+  constructor(
+    contentWrapper,
+    {
+      afterSubmit,
+    }
+  ) {
+    this.afterSubmit = afterSubmit;
+
     function buttonHTML({text, type, classname, icon}) {
       type = type || 'button';
       return `<button type="${type}" class="button-link ${classname}"><i class="icon ${icon}"></i>${text}</button>`;
@@ -90,7 +97,9 @@ export class EditPostView {
   }
   clickSubmit() {
     this.submitPost().then(() => {
-      alert('TODO: fully done now?');
+      if (typeof this.afterSubmit === 'function') {
+        this.afterSubmit(this.postFile.commit);
+      }
     });
   }
 
@@ -147,7 +156,7 @@ export class EditPostView {
   showDiff() {
     this.diffEl = this.postFile.diff();
     this.bottomEl.after(this.diffEl);
-    this.diffEl.scrollIntoView();
+    this.bottomEl.scrollIntoView();
   }
 
   needsReview() {
@@ -162,7 +171,6 @@ export class EditPostView {
   async submitPost() {
     await this.postFile.commit()
       .then(() => {
-        alert('TODO: refresh "build waiting"');
         this.state.reset();
       });
   }

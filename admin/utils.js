@@ -24,6 +24,9 @@ export const base64 = {
 };
 
 export function show(el, visible) {
+  if (visible == null) {
+    visible = true;
+  }
   return el.hidden = !visible;
 }
 export function showing(el) {
