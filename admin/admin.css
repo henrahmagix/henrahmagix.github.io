@@ -28,6 +28,11 @@
   margin-right: 1em;
 }
 
+.entry-content[contenteditable=true] {
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
 table.diff {
   width: 100%;
   table-layout: fixed;

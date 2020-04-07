@@ -129,10 +129,8 @@ export class EditPostView {
 
     if (this.state.editing) {
       this.contentEl.innerText = this.postFile.getContent();
-      this.contentEl.style.whiteSpace = 'pre-wrap';
     } else {
       this.contentEl.innerHTML = this.renderMarkdown(this.postFile.getContent());
-      this.contentEl.style.whiteSpace = '';
     }
   }
 
