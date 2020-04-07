@@ -103,6 +103,9 @@ export class Api {
       throw new Error(`fetch failed: ${res.status} body=${await res.text()}`);
     }
 
-    return res.json();
+    if (res.headers.get('Content-Type').includes('json')) {
+      return await res.json();
+    }
+    return await res.text();
   }
 }
