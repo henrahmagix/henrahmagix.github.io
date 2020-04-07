@@ -9,44 +9,37 @@ export class PostFile {
     this.storageKey = `gh_post_${path}`;
     this.api = new Api();
 
-    window.addEventListener('beforeunload', event => {
-      if (this.diff()) {
-        event.preventDefault();
-        event.returnValue = '';
-      }
-    });
-
     this.rTitle = /(\ntitle: )([^\n]*)/;
     this.rSubtitle = /(\nsubtitle: )([^\n]*)/;
   }
 
   getTitle() {
-    const m = this.frontMatter.match(this.rTitle);
+    const m = this.postFrontMatter.match(this.rTitle);
     return m ? m[2] : '';
   }
   setTitle(s) {
-    this.frontMatter = this.frontMatter.replace(this.rTitle, (_, m1, m2) => m1 + s);
-    this.onchange();
+    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1, m2) => m1 + s);
+    this.onChange();
   }
 
   getSubtitle() {
-    const m = this.frontMatter.match(this.rSubtitle);
+    const m = this.postFrontMatter.match(this.rSubtitle);
     return m ? m[2] : '';
   }
   setSubtitle(s) {
-    this.frontMatter = this.frontMatter.replace(this.rSubtitle, (_, m1, m2) => m1 + s);
-    this.onchange();
+    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1, m2) => m1 + s);
+    this.onChange();
   }
 
   getContent() {
-    return this.contents;
+    return this.postContent;
   }
   setContent(s) {
-    this.contents = s;
-    this.onchange();
+    this.postContent = s;
+    this.onChange();
   }
 
-  onchange() {
+  onChange() {
     localStorage.setItem(this.storageKey, base64.encode(this.newContent));
   }
 
@@ -56,27 +49,30 @@ export class PostFile {
 
   async fetch() {
     this.data = await this.api.fetch(`/contents/${this.path}`);
-    this.oldContent = base64.decode(this.data.content);
 
-    let lines = this.oldContent.split('\n');
-
-    let existingContent = localStorage.getItem(this.storageKey);
-    if (existingContent) {
-      existingContent = base64.decode(existingContent);
-      if (existingContent !== this.oldContent) {
+    const existingContentStore = localStorage.getItem(this.storageKey);
+    if (existingContentStore) {
+      const existingContent = base64.decode(existingContentStore);
+      if (existingContent !== this.currentContent) {
         if (confirm('Keep local changes?')) {
-          lines = existingContent.split('\n');
-        } else {
-          this.clearStorage();
+          this.buildContent(existingContent);
+          return;
         }
       }
     }
+
+    this.buildContent(this.originalContent);
+    this.clearStorage();
+  }
+
+  buildContent(content) {
+    this.currentContent = content;
 
     const frontMatterLines = [];
     const contentsLines = [];
 
     let frontMatterMatches = 0;
-    lines.forEach(line => {
+    content.split('\n').forEach(line => {
       if (frontMatterMatches < 2) {
         frontMatterLines.push(line);
       } else {
@@ -87,37 +83,47 @@ export class PostFile {
       }
     });
 
-    this.frontMatter = frontMatterLines.join('\n');
-    this.contents = contentsLines.join('\n');
+    this.postFrontMatter = frontMatterLines.join('\n');
+    this.postContent = contentsLines.join('\n');
+  }
+
+  get originalContent() {
+    return base64.decode(this.data.content);
   }
 
   get newContent() {
-    return this.frontMatter + '\n' + this.contents.replace(/\n+$/, '\n');
+    return this.postFrontMatter + '\n' + this.postContent.replace(/\n+$/, '\n'); // trim trailing newlines
   }
 
-  async save() {
-    base64.encode(this.newContent); // for update call
-    alert('TODO: commit to github');
-    this.oldContent = this.newContent;
+  save() {
+    this.currentContent = this.newContent;
+  }
+
+  reset() {
+    this.buildContent(this.originalContent);
     this.clearStorage();
   }
 
+  hasChanges() {
+    return this.newContent !== this.originalContent;
+  }
+
+  async commit() {
+    if (alert('TODO: commit to github')) {
+      this.clearStorage();
+    }
+  }
+
   diff() {
-    const base = difflib.stringAsLines(this.oldContent);
+    const base = difflib.stringAsLines(this.originalContent);
     const newtxt = difflib.stringAsLines(this.newContent);
     const diff = new difflib.SequenceMatcher(base, newtxt);
-    document.querySelectorAll('table.diff').forEach(el => el.remove());
-    const opcodes = diff.get_opcodes();
-    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
-
-    if (!hasDiff) {
-      return false;
-    }
+    console.log('diff', diff);
 
     return diffview.buildView({
       baseTextLines: base,
       newTextLines: newtxt,
-      opcodes: opcodes,
+      opcodes: diff.get_opcodes(),
       baseTextName: 'base',
       newTextName: 'new',
       contextSize: 3,

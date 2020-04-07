@@ -34,6 +34,7 @@ table.diff {
   overflow-wrap: break-word;
   color: black;
   background: white;
+  margin: 1em 0;
 }
 
 table.diff:not(.inlinediff) th:nth-child(odd),

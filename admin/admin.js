@@ -2,6 +2,7 @@ import { createHTML } from '/admin/utils.js';
 
 function noop() { }
 function handleError(err) {
+  // TODO: print error in DOM so it can be seen on mobile.
   alert(err);
   console.error(err);
 }

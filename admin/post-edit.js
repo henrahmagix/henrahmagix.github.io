@@ -1,45 +1,46 @@
 import { PostFile } from '/admin/post-file.js';
-import { createHTML } from '/admin/utils.js';
+import { createHTML, show, showing } from '/admin/utils.js';
 
-export class EditPost {
+export class EditPostView {
+  get editButton() { return this.el.querySelector('.button-edit'); }
+  get cancelButton() { return this.el.querySelector('.button-cancel'); }
+  get submitButton() { return this.el.querySelector('.button-submit'); }
+
+  get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
+  get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
+  get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
+
   constructor(contentWrapper) {
-    this.contentWrapper = contentWrapper;
-    this.originalContent = contentWrapper.innerHTML;
-
-    this.contentWrapper.addEventListener('input', () => this.onchange());
-
+    const buttonsHTML = [
+      {text: 'Edit', class: 'button-edit', icon: 'fas fa-pencil-alt'},
+      {text: 'Cancel', class: 'button-cancel', icon: 'fas fa-times'},
+      {text: 'Submit', class: 'button-submit', icon: 'fas fa-check'},
+    ].map(b => {
+      return `<button class="button-link ${b.class}"><i class="icon ${b.icon}"></i>${b.text}</button>`;
+    }).join('');
     this.el = createHTML(`
-    <div class="edit-wrapper">
-      <button class="button-link edit-toggle"><i class="icon fas"></i>Text</button>
-      <button hidden class="button-link edit-preview"><i class="icon fas fa-eye"></i>Preview</button>
-      <button class="button-link edit-submit"><i class="icon fas fa-check"></i>Submit</button>
-    </div>
+      <div class="edit-wrapper">
+        ${buttonsHTML}
+      </div>
     `);
 
-    this.textarea = createHTML('<textarea class="edit-textarea">');
+    this.contentWrapper = contentWrapper;
+    this.contentWrapper.addEventListener('input', () => this.updatePost());
 
-    this.toggleButton = this.el.children.item(0);
-    this.iconEl = this.toggleButton.childNodes.item(0);
-    this.textEl = this.toggleButton.childNodes.item(1);
+    this.state = new EditPostState();
+    this.renderState();
+    this.state.addChangeListener(() => this.renderState());
 
-    this.previewButton = this.el.children.item(1);
-    this.submitButton = this.el.children.item(2);
-
-    this.toggleButton.addEventListener('click', () => this.onclick());
-    // this.previewButton.addEventListener('click', () => this.onpreview());
-    this.submitButton.addEventListener('click', () => {
-      if (!this.reviewing) {
-        this.reviewing = true;
-        this.onreview();
-      } else {
-        this.onsubmit();
-      }
+    this.postFile = new PostFile({
+      path: window.github_data.page_path,
+    });
+    this.readyPromise = this.postFile.fetch().then(() => {
+      this.renderContent();
     });
 
-    this.texts = ['Edit', 'Cancel'];
-    this.iconClasses = ['fa-pencil-alt', 'fa-times'];
-
-    this.editing = false;
+    this.editButton.addEventListener('click', () => this.clickEdit());
+    this.cancelButton.addEventListener('click', () => this.clickCancel());
+    this.submitButton.addEventListener('click', () => this.clickSubmit());
 
     [this.titleEl, this.subtitleEl].forEach(el => {
       el.addEventListener('keyup', preventEnterKey);
@@ -51,36 +52,91 @@ export class EditPost {
       }
     }
 
-    this.postFile = new PostFile({
-      path: window.github_data.page_path,
-    });
-    this.readyPromise = this.postFile.fetch();
-    this.readyPromise.then(() => {
-      if (this.titleEl) {
-        this.titleEl.innerText = this.postFile.getTitle();
+    window.addEventListener('beforeunload', event => {
+      if (this.needsReview()) {
+        event.preventDefault();
+        event.returnValue = '';
       }
-      if (this.subtitleEl) {
-        this.subtitleEl.innerText = this.postFile.getSubtitle();
-      }
-      this.contentEl.innerHTML = marked(this.postFile.getContent());
     });
   }
 
-  get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
-  get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
-  get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
+  insertBefore(target) {
+    this.readyPromise.then(() => {
+      target.before(this.el);
+    });
+  }
 
-  onclick() {
-    this.reviewing = false;
-    if (this.editing) {
-      this.contentWrapper.innerHTML = this.originalContent;
-      this.editing = false;
+  renderMarkdown(md) {
+    return window.marked(md);
+  }
+
+  renderState() {
+    const isEditing = this.state.editing || this.state.reviewing;
+
+    this.titleEl.contentEditable = isEditing;
+    this.subtitleEl.contentEditable = isEditing;
+    this.contentEl.contentEditable = isEditing;
+    // When contenteditable changes, run execCommands to work on the editable areas.
+    document.execCommand('defaultParagraphSeparator', false, 'p');
+
+    show(this.editButton, !isEditing);
+    show(this.cancelButton, !showing(this.editButton));
+    show(this.submitButton, !showing(this.editButton));
+  }
+
+  clickEdit() {
+    this.state.moveToEdit();
+    this.renderContent();
+  }
+  clickCancel() {
+    if (this.needsReview() && !confirm('You will lose unsaved changes. Are you sure')) {
+      return;
+    }
+
+    this.reset();
+    this.renderContent();
+  }
+  clickSubmit() {
+    if (this.state.reviewing) {
+      this.submitPost().then(() => {
+        this.renderContent();
+        if (this.diffEl) {
+          this.diffEl.remove();
+        }
+      });
+      return;
+    }
+
+    if (this.needsReview()) {
+      this.state.moveToReview();
+      this.diffEl = this.postFile.diff();
+      this.contentWrapper.before(this.diffEl);
+      return;
+    }
+
+    alert('No changes');
+    this.state.reset();
+    this.renderContent();
+  }
+
+  renderContent() {
+    if (this.titleEl) {
+      this.titleEl.innerText = this.postFile.getTitle();
+    }
+    if (this.subtitleEl) {
+      this.subtitleEl.innerText = this.postFile.getSubtitle();
+    }
+
+    if (this.state.editing) {
+      this.contentEl.innerText = this.postFile.getContent();
+      this.contentEl.style.whiteSpace = 'pre-wrap';
     } else {
-      this.editing = true;
+      this.contentEl.innerHTML = this.renderMarkdown(this.postFile.getContent());
+      this.contentEl.style.whiteSpace = '';
     }
   }
 
-  onchange() {
+  updatePost() {
     if (this.titleEl) {
       this.postFile.setTitle(this.titleEl.innerText);
     }
@@ -90,69 +146,65 @@ export class EditPost {
     this.postFile.setContent(this.contentEl.innerText);
   }
 
-  onreview() {
-    this.diffEl = this.postFile.diff();
-    if (this.diffEl) {
-      this.contentWrapper.before(this.diffEl);
-    } else {
-      alert('No changes');
-      this.toggleButton.click();
-    }
+  needsReview() {
+    return this.postFile.hasChanges();
   }
 
-  onsubmit() {
-    this.postFile.save()
+  reset() {
+    this.state.reset();
+    this.postFile.reset();
+  }
+
+  async submitPost() {
+    this.postFile.save();
+    await this.postFile.commit()
       .then(() => {
         alert('TODO: wait for build then refresh');
-        this.reviewing = false;
-        this.contentEl.innerHTML = marked(this.contentEl.innerText);
-        this.diffEl.remove();
-        this.editing = false;
+        this.state.reset();
+        this.renderContent();
       });
   }
+}
 
-  // onpreview() {
-  //   this.contentEl.innerHTML = window.marked(this.contentEl.innerText);
-  // }
+class EditPostState {
+  constructor() {
+    this._listeners = [];
 
-  insertBefore(target) {
-    this.readyPromise.then(() => {
-      target.before(this.el);
-    });
+    this.reset();
   }
 
-  get editing() { return this._editing; }
-  set editing(isEditing) {
-    isEditing = Boolean(isEditing);
-    this._editing = isEditing;
+  get editing() {
+    return this.state === 'edit';
+  }
+  get reviewing() {
+    return this.state === 'review';
+  }
 
-    this.titleEl.contentEditable = isEditing;
-    this.subtitleEl.contentEditable = isEditing;
-    this.contentEl.contentEditable = isEditing;
+  get state() {
+    return this._state;
+  }
+  set state(s) {
+    this._state = s;
+    this._callChangeListeners();
+  }
 
-    this.submitButton.hidden = !isEditing;
-    // this.previewButton.hidden = !isEditing;
+  _callChangeListeners() {
+    this._listeners.forEach(fn => fn());
+  }
 
-    if (isEditing) {
-      this.textEl.data = this.texts[1];
-      this.iconEl.classList.remove(this.iconClasses[0]);
-      this.iconEl.classList.add(this.iconClasses[1]);
+  addChangeListener(fn) {
+    this._listeners.push(fn);
+  }
 
-      this.contentEl.innerText = this.postFile.contents;
-      this.contentEl.style.whiteSpace = 'pre-wrap';
+  reset() {
+    this.state = '';
+  }
 
-      document.execCommand('defaultParagraphSeparator', false, 'p');
-    } else {
-      this.textEl.data = this.texts[0];
-      this.iconEl.classList.remove(this.iconClasses[1]);
-      this.iconEl.classList.add(this.iconClasses[0]);
+  moveToEdit() {
+    this.state = 'edit';
+  }
 
-      this.contentEl.style.whiteSpace = '';
-      this.originalContent = this.contentWrapper.innerHTML;
-
-      if (this.diffEl) {
-        this.diffEl.remove();
-      }
-    }
+  moveToReview() {
+    this.state = 'review';
   }
 }

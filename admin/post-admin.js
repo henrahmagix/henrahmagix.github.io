@@ -1,5 +1,5 @@
 import { Admin } from '/admin/admin.js';
-import { EditPost } from '/admin/post-edit.js';
+import { EditPostView } from '/admin/post-edit.js';
 import { createHTML } from '/admin/utils.js';
 
 const contentElement = document.getElementById('content');
@@ -10,7 +10,7 @@ contentElement.before(buildWaiting);
 const admin = new Admin({
   handleLogin(loggedIn) {
     if (loggedIn) {
-      const edit = new EditPost(contentElement);
+      const edit = new EditPostView(contentElement);
       edit.insertBefore(contentElement);
 
       admin.api.fetch('/pages/builds').then(res => {

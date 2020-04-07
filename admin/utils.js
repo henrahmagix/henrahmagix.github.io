@@ -22,3 +22,10 @@ export const base64 = {
     }).join(''));
   },
 };
+
+export function show(el, visible) {
+  return el.hidden = !visible;
+}
+export function showing(el) {
+  return !el.hidden;
+}
