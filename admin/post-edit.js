@@ -12,17 +12,16 @@ export class EditPostView {
   get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
 
   constructor(contentWrapper) {
-    const buttonsHTML = [
-      {text: 'Edit', class: 'button-edit', icon: 'fas fa-pencil-alt'},
-      {text: 'Cancel', class: 'button-cancel', icon: 'fas fa-times'},
-      {text: 'Review', class: 'button-review', icon: 'fas fa-eye'},
-      {text: 'Submit', class: 'button-submit', icon: 'fas fa-check'},
-    ].map(b => {
-      return `<button class="button-link ${b.class}"><i class="icon ${b.icon}"></i>${b.text}</button>`;
-    }).join('');
+    function buttonHTML({text, type, classname, icon}) {
+      type = type || 'button';
+      return `<button type="${type}" class="button-link ${classname}"><i class="icon ${icon}"></i>${text}</button>`;
+    }
     this.el = createHTML(`
       <div class="edit-wrapper">
-        ${buttonsHTML}
+        ${buttonHTML({text: 'Edit', classname: 'button-edit', icon: 'fas fa-pencil-alt'})}
+        ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
+        ${buttonHTML({text: 'Review', classname: 'button-review', icon: 'fas fa-eye'})}
+        ${buttonHTML({text: 'Submit', type: 'submit', classname: 'button-submit', icon: 'fas fa-check'})}
       </div>
     `);
     this.bottomEl = createHTML('<button class="button-link">Back to top</button>')
