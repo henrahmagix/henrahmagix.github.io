@@ -64,7 +64,7 @@ export class Admin {
 
     this.loading = true;
     try {
-      await this.api.fetch('/keys'); // fails for anonymous
+      await this.api.makeRequest('/keys'); // fails for anonymous
       this.loggedIn = true;
       localStorage.setItem(TOKEN_KEY, token);
     } catch (err) {
@@ -90,13 +90,13 @@ export class Api {
     return `Basic ${auth}`;
   }
 
-  async fetch(url, method, body) {
-    method = method || 'GET';
+  async makeRequest(url, opts) {
+    opts = opts || {};
+    opts.method = opts.method || 'GET';
+    opts.headers = opts.headers || new Headers();
+    opts.headers.set('Authorization', this.authHeader);
 
-    const headers = new Headers();
-    headers.set('Authorization', this.authHeader);
-
-    const res = await fetch(this.apiUrl + url, { headers, method, body });
+    const res = await fetch(this.apiUrl + url, opts);
     if (!res.ok) {
       throw new Error(`fetch failed: ${res.status} body=${await res.text()}`);
     }

@@ -48,7 +48,7 @@ export class PostFile {
   }
 
   async fetch() {
-    this.data = await this.api.fetch(`/contents/${this.path}`);
+    this.data = await this.api.makeRequest(`/contents/${this.path}`);
 
     const existingContentStore = localStorage.getItem(this.storageKey);
     if (existingContentStore) {

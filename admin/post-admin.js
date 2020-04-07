@@ -13,7 +13,7 @@ const admin = new Admin({
       const edit = new EditPostView(contentElement);
       edit.insertBefore(contentElement);
 
-      admin.api.fetch('/pages/builds').then(res => {
+      admin.api.makeRequest('/pages/builds').then(res => {
         if (window.github_data.build_revision === res[0].commit) {
           buildWaiting.hidden = true;
         }
