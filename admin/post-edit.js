@@ -55,6 +55,9 @@ export class EditPostView {
     this.submitButton.addEventListener('click', () => this.clickSubmit());
 
     [this.titleEl, this.subtitleEl].forEach(el => {
+      if (!el) {
+        return;
+      }
       el.addEventListener('keyup', preventEnterKey);
       el.addEventListener('keydown', preventEnterKey);
     });
