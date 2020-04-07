@@ -4,6 +4,7 @@ import { createHTML, show, showing } from '/admin/utils.js';
 export class EditPostView {
   get editButton() { return this.el.querySelector('.button-edit'); }
   get cancelButton() { return this.el.querySelector('.button-cancel'); }
+  get reviewButton() { return this.el.querySelector('.button-review'); }
   get submitButton() { return this.el.querySelector('.button-submit'); }
 
   get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
@@ -14,6 +15,7 @@ export class EditPostView {
     const buttonsHTML = [
       {text: 'Edit', class: 'button-edit', icon: 'fas fa-pencil-alt'},
       {text: 'Cancel', class: 'button-cancel', icon: 'fas fa-times'},
+      {text: 'Review', class: 'button-review', icon: 'fas fa-eye'},
       {text: 'Submit', class: 'button-submit', icon: 'fas fa-check'},
     ].map(b => {
       return `<button class="button-link ${b.class}"><i class="icon ${b.icon}"></i>${b.text}</button>`;
@@ -23,23 +25,25 @@ export class EditPostView {
         ${buttonsHTML}
       </div>
     `);
+    this.bottomEl = createHTML('<button class="button-link">Back to top</button>')
 
     this.contentWrapper = contentWrapper;
     this.contentWrapper.addEventListener('input', () => this.updatePost());
 
     this.state = new EditPostState();
-    this.renderState();
-    this.state.addChangeListener(() => this.renderState());
+    this.state.addChangeListener(() => this.render());
 
     this.postFile = new PostFile({
       path: window.github_data.page_path,
     });
     this.readyPromise = this.postFile.fetch().then(() => {
-      this.renderContent();
+      this.render();
     });
 
+    this.bottomEl.addEventListener('click', () => this.el.scrollIntoView());
     this.editButton.addEventListener('click', () => this.clickEdit());
     this.cancelButton.addEventListener('click', () => this.clickCancel());
+    this.reviewButton.addEventListener('click', () => this.clickReview());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
 
     [this.titleEl, this.subtitleEl].forEach(el => {
@@ -63,30 +67,16 @@ export class EditPostView {
   insertBefore(target) {
     this.readyPromise.then(() => {
       target.before(this.el);
+      target.after(this.bottomEl);
     });
   }
 
-  renderMarkdown(md) {
+  markdownToHTML(md) {
     return window.marked(md);
-  }
-
-  renderState() {
-    const isEditing = this.state.editing || this.state.reviewing;
-
-    this.titleEl.contentEditable = isEditing;
-    this.subtitleEl.contentEditable = isEditing;
-    this.contentEl.contentEditable = isEditing;
-    // When contenteditable changes, run execCommands to work on the editable areas.
-    document.execCommand('defaultParagraphSeparator', false, 'p');
-
-    show(this.editButton, !isEditing);
-    show(this.cancelButton, !showing(this.editButton));
-    show(this.submitButton, !showing(this.editButton));
   }
 
   clickEdit() {
     this.state.moveToEdit();
-    this.renderContent();
   }
   clickCancel() {
     if (this.needsReview() && !confirm('You will lose unsaved changes. Are you sure')) {
@@ -94,32 +84,41 @@ export class EditPostView {
     }
 
     this.reset();
-    this.renderContent();
+  }
+  clickReview() {
+    this.state.moveToReview();
+    this.showDiff();
   }
   clickSubmit() {
-    if (this.state.reviewing) {
-      this.submitPost().then(() => {
-        this.renderContent();
-        if (this.diffEl) {
-          this.diffEl.remove();
-        }
-      });
-      return;
-    }
-
-    if (this.needsReview()) {
-      this.state.moveToReview();
-      this.diffEl = this.postFile.diff();
-      this.contentWrapper.before(this.diffEl);
-      return;
-    }
-
-    alert('No changes');
-    this.state.reset();
-    this.renderContent();
+    this.submitPost().then(() => {
+      alert('TODO: fully done now?');
+    });
   }
 
-  renderContent() {
+  renderState() {
+    const editing = this.state.editing;
+    const reviewing = this.state.reviewing;
+
+    this.titleEl.contentEditable =
+      this.subtitleEl.contentEditable =
+      this.contentEl.contentEditable =
+      editing;
+    // When contenteditable changes, run execCommands to work on the editable areas.
+    document.execCommand('defaultParagraphSeparator', false, 'p');
+
+    show(this.editButton, !editing);
+    show(this.cancelButton, editing);
+    show(this.reviewButton, editing && this.needsReview());
+    show(this.submitButton, reviewing);
+  }
+
+  render() {
+    this.renderState();
+
+    if (!this.state.reviewing && this.diffEl) {
+      this.diffEl.remove();
+    }
+
     if (this.titleEl) {
       this.titleEl.innerText = this.postFile.getTitle();
     }
@@ -130,11 +129,13 @@ export class EditPostView {
     if (this.state.editing) {
       this.contentEl.innerText = this.postFile.getContent();
     } else {
-      this.contentEl.innerHTML = this.renderMarkdown(this.postFile.getContent());
+      this.contentEl.innerHTML = this.markdownToHTML(this.postFile.getContent());
     }
   }
 
   updatePost() {
+    this.renderState();
+
     if (this.titleEl) {
       this.postFile.setTitle(this.titleEl.innerText);
     }
@@ -142,6 +143,12 @@ export class EditPostView {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
     this.postFile.setContent(this.contentEl.innerText);
+  }
+
+  showDiff() {
+    this.diffEl = this.postFile.diff();
+    this.bottomEl.after(this.diffEl);
+    this.diffEl.scrollIntoView();
   }
 
   needsReview() {
@@ -159,7 +166,6 @@ export class EditPostView {
       .then(() => {
         alert('TODO: wait for build then refresh');
         this.state.reset();
-        this.renderContent();
       });
   }
 }

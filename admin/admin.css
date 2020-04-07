@@ -1,3 +1,9 @@
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 #loading,
 #loading i {
   position: fixed;
@@ -24,8 +30,9 @@
   margin-bottom: 1em;
 }
 
-.edit-wrapper button {
+.edit-wrapper > * {
   margin-right: 1em;
+  vertical-align: middle;
 }
 
 .entry-content[contenteditable=true] {

@@ -118,7 +118,6 @@ export class PostFile {
     const base = difflib.stringAsLines(this.originalContent);
     const newtxt = difflib.stringAsLines(this.newContent);
     const diff = new difflib.SequenceMatcher(base, newtxt);
-    console.log('diff', diff);
 
     return diffview.buildView({
       baseTextLines: base,
