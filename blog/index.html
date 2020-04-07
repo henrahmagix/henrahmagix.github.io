@@ -6,7 +6,8 @@ css: /css/posts.css
 {% if site.posts.size > 0 %}
   {% assign odd = site.posts|size|modulo:2 %}
   <ul class="links posts {% if odd == 1 %}odd{% else %}even{% endif %}">
-    {% for post in site.posts %}
+    {% assign posts = site.posts|where_exp:"post", "post.test != true" %}
+    {% for post in posts %}
       {% capture excerpt %}
         {% if post.subtitle %}
           <h3>{{post.subtitle}}</h3>
