@@ -6,6 +6,7 @@ export class EditPostView {
   get cancelButton() { return this.el.querySelector('.button-cancel'); }
   get reviewButton() { return this.el.querySelector('.button-review'); }
   get submitButton() { return this.el.querySelector('.button-submit'); }
+  get spinnerEl() { return this.el.querySelector('.spinner'); }
 
   get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
   get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
@@ -29,6 +30,7 @@ export class EditPostView {
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
         ${buttonHTML({text: 'Review', classname: 'button-review', icon: 'fas fa-eye'})}
         ${buttonHTML({text: 'Submit', type: 'submit', classname: 'button-submit', icon: 'fas fa-check'})}
+        <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
       </div>
     `);
     this.bottomEl = createHTML('<button class="button-link">Back to top</button>')
@@ -96,6 +98,7 @@ export class EditPostView {
     this.showDiff();
   }
   clickSubmit() {
+    this.state.moveToSubmit();
     this.submitPost().then(() => {
       if (typeof this.afterSubmit === 'function') {
         this.afterSubmit(this.postFile.commit);
@@ -104,8 +107,9 @@ export class EditPostView {
   }
 
   renderState() {
-    const editing = this.state.editing;
-    const reviewing = this.state.reviewing;
+    const submitting = this.state.submitting;
+    const editing = this.state.editing && !submitting;
+    const reviewing = this.state.reviewing && !submitting;
 
     this.titleEl.contentEditable =
       this.subtitleEl.contentEditable =
@@ -114,10 +118,11 @@ export class EditPostView {
     // When contenteditable changes, run execCommands to work on the editable areas.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
-    show(this.editButton, !editing);
+    show(this.editButton, !editing && !submitting);
     show(this.cancelButton, editing);
     show(this.reviewButton, editing && this.needsReview());
     show(this.submitButton, reviewing);
+    show(this.spinnerEl, submitting);
   }
 
   render() {
@@ -189,6 +194,9 @@ class EditPostState {
   get reviewing() {
     return this.state === 'review';
   }
+  get submitting() {
+    return this.state === 'submit';
+  }
 
   get state() {
     return this._state;
@@ -216,5 +224,9 @@ class EditPostState {
 
   moveToReview() {
     this.state = 'review';
+  }
+
+  moveToSubmit() {
+    this.state = 'submit';
   }
 }
