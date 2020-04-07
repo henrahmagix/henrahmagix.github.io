@@ -33,7 +33,7 @@ export class EditPostView {
     this.state.addChangeListener(() => this.render());
 
     this.postFile = new PostFile({
-      path: window.github_data.page_path,
+      filepath: window.github_data.page_path,
     });
     this.readyPromise = this.postFile.fetch().then(() => {
       this.render();
@@ -160,10 +160,9 @@ export class EditPostView {
   }
 
   async submitPost() {
-    this.postFile.save();
     await this.postFile.commit()
       .then(() => {
-        alert('TODO: wait for build then refresh');
+        alert('TODO: refresh "build waiting"');
         this.state.reset();
       });
   }

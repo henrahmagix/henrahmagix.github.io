@@ -3,10 +3,10 @@ import { base64 } from '/admin/utils.js';
 
 export class PostFile {
   constructor({
-    path,
+    filepath,
   }) {
-    this.path = path;
-    this.storageKey = `gh_post_${path}`;
+    this.filepath = filepath;
+    this.storageKey = `gh_post_${filepath}`;
     this.api = new Api();
 
     this.rTitle = /(\ntitle: )([^\n]*)/;
@@ -48,12 +48,14 @@ export class PostFile {
   }
 
   async fetch() {
-    this.data = await this.api.makeRequest(`/contents/${this.path}`);
+    const res = await this.api.makeRequest(`/contents/${this.filepath}`);
+    this.content = res.content;
+    this.sha = res.sha;
 
     const existingContentStore = localStorage.getItem(this.storageKey);
     if (existingContentStore) {
       const existingContent = base64.decode(existingContentStore);
-      if (existingContent !== this.currentContent) {
+      if (existingContent !== this.originalContent) {
         if (confirm('Keep local changes?')) {
           this.buildContent(existingContent);
           return;
@@ -66,8 +68,6 @@ export class PostFile {
   }
 
   buildContent(content) {
-    this.currentContent = content;
-
     const frontMatterLines = [];
     const contentsLines = [];
 
@@ -88,15 +88,11 @@ export class PostFile {
   }
 
   get originalContent() {
-    return base64.decode(this.data.content);
+    return base64.decode(this.content);
   }
 
   get newContent() {
     return this.postFrontMatter + '\n' + this.postContent.replace(/\n+$/, '\n'); // trim trailing newlines
-  }
-
-  save() {
-    this.currentContent = this.newContent;
   }
 
   reset() {
@@ -109,9 +105,19 @@ export class PostFile {
   }
 
   async commit() {
-    if (alert('TODO: commit to github')) {
-      this.clearStorage();
-    }
+    const content = base64.encode(this.newContent);
+    const res = await this.api.makeRequest(`/contents/${this.filepath}`, {
+      method: 'PUT',
+      body: {
+        message: `Edit ${this.filepath}`,
+        content,
+        sha: this.sha,
+        branch: 'master',
+      },
+    });
+    this.content = content;
+    this.sha = res.content.sha;
+    this.clearStorage();
   }
 
   diff() {

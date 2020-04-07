@@ -93,6 +93,8 @@ export class Api {
   async makeRequest(url, opts) {
     opts = opts || {};
     opts.method = opts.method || 'GET';
+    opts.body = opts.body && JSON.stringify(opts.body);
+
     opts.headers = opts.headers || new Headers();
     opts.headers.set('Authorization', this.authHeader);
 
