@@ -196,9 +196,12 @@
       onCursorTriggerChange(event);
     }, false);
 
-    var localStorage = window.localStorage;
+    window.localStorage = window.localStorage || {
+      getItem: function(){},
+      setItem: function(){}
+    };
 
-    if (localStorage && localStorage.getItem('hb_ipad_cursor') === '1') {
+    if (localStorage.getItem('hb_ipad_cursor') === '1') {
       iPadCursorTrigger.checked = true;
       if ('createEvent' in document) {
         var evt = document.createEvent('HTMLEvents');
