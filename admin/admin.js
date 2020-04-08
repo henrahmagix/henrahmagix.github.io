@@ -65,8 +65,8 @@ export class Admin {
     this.loading = true;
     try {
       await this.api.makeRequest('/keys'); // fails for anonymous
-      this.loggedIn = true;
       localStorage.setItem(TOKEN_KEY, token);
+      this.loggedIn = true;
     } catch (err) {
       this.loggedIn = false;
       handleError(Error(`failed to login: ${err}`));
