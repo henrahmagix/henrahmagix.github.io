@@ -4,6 +4,11 @@ export function createHTML(s) {
   return holder.children.item(0);
 }
 
+export function slugify(s) {
+  // Use GitHub-flavoured Markdown's title id setting.
+  return createHTML(window.markdownToHTML(`# ${s}`)).id;
+}
+
 // https://stackoverflow.com/a/30106551/3150057
 export const base64 = {
   encode(str) {

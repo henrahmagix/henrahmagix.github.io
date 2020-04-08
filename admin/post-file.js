@@ -1,12 +1,13 @@
 import { Api } from '/admin/admin.js';
-import { base64, createHTML } from '/admin/utils.js';
+import { base64, createHTML, slugify } from '/admin/utils.js';
 
 export class PostFile {
   constructor({
     filepath,
   }) {
+    this.isNew = filepath.includes('admin/edit');
     this.filepath = filepath;
-    this.storageKey = `gh_post_${filepath}`;
+    this.storageKey = `gh_post_${this.isNew ? 'new' : filepath}`;
     this.api = new Api();
 
     this.rTitle = /(\ntitle:) *([^\n]*)/;
@@ -105,6 +106,11 @@ export class PostFile {
   }
 
   async commit() {
+    if (this.isNew) {
+      this.filepath = slugify(this.getTitle());
+      this.isNew = false;
+    }
+
     const content = base64.encode(this.newContent);
     const res = await this.api.makeRequest(`/contents/${this.filepath}`, {
       method: 'PUT',

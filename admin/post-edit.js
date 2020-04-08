@@ -77,6 +77,8 @@ export class EditPostView {
 
     this.viewForm.addEventListener('change', () => this.render());
 
+    show(this.titleEl, true);
+    show(this.subtitleEl, true);
     this.titleEl.setAttribute('placeholder', 'Title');
     this.subtitleEl.setAttribute('placeholder', 'Subitle');
 
