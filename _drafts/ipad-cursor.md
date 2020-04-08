@@ -1,8 +1,8 @@
 ---
 layout: post
 class: post
-title:
-subtitle:
+title: here is a title
+subtitle: 
 ---
 
 ![wefwef](/images/ipad-cursor-preview.jpg)
