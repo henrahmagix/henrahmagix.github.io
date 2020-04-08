@@ -77,6 +77,10 @@ p {
   margin: 1em 0;
 }
 
+address {
+  font-style: normal;
+}
+
 a,
 .button-link {
   color: inherit;
