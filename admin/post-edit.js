@@ -96,10 +96,21 @@ export class EditPostView {
       el.addEventListener('keyup', preventEnterKey);
       el.addEventListener('keydown', preventEnterKey);
     });
+    [this.titleEl, this.subtitleEl, this.contentEl].forEach(el => {
+      el.addEventListener('paste', pasteWithoutFormatting);
+    });
     function preventEnterKey(event) {
       if (event.code === 'Enter') {
         event.preventDefault();
       }
+    }
+    function pasteWithoutFormatting(event) {
+      // cancel paste
+      event.preventDefault();
+      // get text representation of clipboard
+      var text = event.clipboardData.getData('text/plain');
+      // insert text manually
+      document.execCommand('insertHTML', false, text);
     }
 
     window.addEventListener('beforeunload', event => {
