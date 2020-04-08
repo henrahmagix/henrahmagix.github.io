@@ -58,6 +58,7 @@ export class PostFile {
       const existingContent = base64.decode(existingContentStore);
       if (existingContent !== this.originalContent) {
         if (confirm('Keep local changes?')) {
+          this.hasLocalChanges = true;
           this.buildContent(existingContent);
           return;
         }
@@ -130,6 +131,7 @@ export class PostFile {
     this.lastCommit = res.commit.sha;
 
     this.isNew = false;
+    this.hasLocalChanges = false;
     this.clearStorage();
   }
 

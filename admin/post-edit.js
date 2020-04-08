@@ -65,7 +65,10 @@ export class EditPostView {
 
     this.postFile = new PostFile({ filepath });
     this.readyPromise = this.postFile.fetch().then(() => {
-      this.render();
+      this.renderState();
+      if (this.postFile.hasLocalChanges) {
+        this.state.moveToEdit();
+      }
     });
 
     this.editButton.addEventListener('click', () => this.clickEdit());
