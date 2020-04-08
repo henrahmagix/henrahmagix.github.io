@@ -15,7 +15,7 @@ const admin = new Admin({
           buildWaiting.checkForCommit(newCommit);
           if (location.pathname.includes('admin/edit')) {
             const url = new URL(location);
-            url.searchParams.set('filename', edit.postFile.filepath);
+            url.searchParams.set('filepath', edit.postFile.filepath);
             window.history.replaceState(null, null, url);
           }
         }
