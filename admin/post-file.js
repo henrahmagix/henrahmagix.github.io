@@ -49,7 +49,7 @@ export class PostFile {
   }
 
   async fetch() {
-    const res = await this.api.makeRequest(`/contents/${this.filepath}`);
+    const res = await this.api.makeRequest(`/contents/${this.filepath}?ref=master`);
     this.content = res.content;
     this.sha = res.sha;
 
