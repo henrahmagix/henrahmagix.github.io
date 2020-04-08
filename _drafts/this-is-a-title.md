@@ -2,7 +2,7 @@
 layout: post
 class: post
 title: Now it has a title
-subtitle: and a subtitle
+subtitle: wweeeeeeffffff
 ---
 i guess there should be content
 
