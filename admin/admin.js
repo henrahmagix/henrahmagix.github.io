@@ -5,9 +5,10 @@ function handleError(err) {
   // TODO: print error in DOM so it can be seen on mobile.
   alert(err);
   console.error(err);
+  return true;
 }
 
-window.onerror = handleError;
+window.onerror = (msg, src, lineno, colno, err) => handleError(err);
 window.addEventListener('unhandledrejection', event => {
   event.preventDefault();
   handleError(event.reason);
