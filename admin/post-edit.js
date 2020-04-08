@@ -22,7 +22,7 @@ export class EditPostView {
 
     function buttonHTML({text, type, classname, icon}) {
       type = type || 'button';
-      return `<button type="${type}" class="button-link ${classname}"><i class="icon ${icon}"></i>${text}</button>`;
+      return `<button type="${type}" class="${classname}"><i class="icon ${icon}"></i>${text}</button>`;
     }
     this.el = createHTML(`
       <div class="edit-wrapper">

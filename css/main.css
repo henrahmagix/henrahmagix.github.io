@@ -439,7 +439,7 @@ nav ul li:last-child::after {
 }
 
 .page-body a .icon,
-.page-body .button-link .icon {
+.page-body button .icon {
   margin-right: 0.25em;
   text-align: left;
 }
