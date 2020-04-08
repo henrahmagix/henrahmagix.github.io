@@ -100,12 +100,21 @@ export class Api {
 
     const res = await fetch(this.apiUrl + url, opts);
     if (!res.ok) {
-      throw new Error(`fetch failed: ${res.status} body=${await res.text()}`);
+      throw new Api.ResponseError('fetch failed', {status: res.status, body: await res.text()});
     }
 
     if (res.headers.get('Content-Type').includes('json')) {
       return await res.json();
     }
     return await res.text();
+  }
+}
+
+Api.ResponseError = class extends Error {
+  constructor(message, {status, body}) {
+    super(`${message}: ${status} ${body}`);
+    this.name = 'ApiResponseError';
+    this.status = status;
+    this.body = body;
   }
 }
