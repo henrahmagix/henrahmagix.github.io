@@ -117,6 +117,9 @@ export class EditPostView {
     this.reset();
   }
   clickSubmit() {
+    if (!this.postFile.getTitle()) {
+      throw new Error('Post must have a title');
+    }
     this.state.moveToSubmitting();
     this.submitPost().then(() => {
       if (typeof this.afterCommit === 'function') {
