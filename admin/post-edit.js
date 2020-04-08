@@ -21,6 +21,7 @@ export class EditPostView {
     contentWrapper,
     {
       afterSubmit,
+      filepath,
     }
   ) {
     this.afterSubmit = afterSubmit;
@@ -63,9 +64,7 @@ export class EditPostView {
     this.state = new EditPostState();
     this.state.addChangeListener(() => this.render());
 
-    this.postFile = new PostFile({
-      filepath: window.github_data.page_path,
-    });
+    this.postFile = new PostFile({ filepath });
     this.readyPromise = this.postFile.fetch().then(() => {
       this.render();
     });

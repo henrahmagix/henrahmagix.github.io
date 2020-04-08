@@ -27,12 +27,10 @@
     addScript('https://cemerick.github.io/jsdifflib/difflib.js');
     addStyle('https://cemerick.github.io/jsdifflib/diffview.css');
 
-    var filepath = new URLSearchParams(location.search).get('filepath') || '{{page.path}}';
-
     window.github_data = {
       build_revision: '{{site.github.build_revision}}',
       source_branch: '{{site.github.source.branch}}',
-      page_path: filepath
+      page_path: '{{page.path}}'
     };
 
     function addScript(src, type, onload) {

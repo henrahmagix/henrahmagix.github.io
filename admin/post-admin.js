@@ -10,6 +10,7 @@ const admin = new Admin({
       const buildWaiting = new PageBuildStatus();
 
       const edit = new EditPostView(contentElement, {
+        filepath: new URLSearchParams(location.search).get('filepath') || window.github_data.page_path,
         afterSubmit(newCommit) {
           buildWaiting.checkForCommit(newCommit);
         }
