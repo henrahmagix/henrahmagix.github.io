@@ -66,6 +66,11 @@ export class EditPostView {
     this.postFile = new PostFile({ filepath });
     this.readyPromise = this.postFile.fetch().then(() => {
       this.renderState();
+
+      if (this.postFile.isDraft) {
+        this.render();
+      }
+
       if (this.postFile.hasLocalChanges) {
         this.state.moveToEdit();
       }

@@ -106,6 +106,10 @@ export class PostFile {
     return this.newContent !== this.originalContent;
   }
 
+  get isDraft() {
+    return /^_drafts\//.test(this.filepath);
+  }
+
   async commit() {
     if (!this.getTitle()) {
       throw new Error('Post must have a title');
