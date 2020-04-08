@@ -117,7 +117,7 @@ export class PostFile {
     });
     this.content = content;
     this.sha = res.content.sha;
-    this.commit = res.commit.sha;
+    this.lastCommit = res.commit.sha;
     this.clearStorage();
   }
 

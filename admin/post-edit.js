@@ -123,7 +123,7 @@ export class EditPostView {
     this.state.moveToSubmitting();
     this.submitPost().then(() => {
       if (typeof this.afterSubmit === 'function') {
-        this.afterSubmit(this.postFile.commit);
+        this.afterSubmit(this.postFile.lastCommit);
       }
     });
   }
