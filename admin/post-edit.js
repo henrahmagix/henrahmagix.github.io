@@ -128,25 +128,40 @@ export class EditPostView {
     });
   }
 
-  render() {
-    const submitting = this.state.submitting;
-    const editing = this.state.editing && !submitting;
-    const writing = editing && this.viewStyle === 'write';
-
+  get submitting() {
+    return this.state.submitting;
+  }
+  get editing () {
+    return this.state.editing && !this.submitting;
+  }
+  get writing() {
+    return this.editing && this.viewStyle === 'write';
+  }
+  get diffing() {
+    return this.editing && this.viewStyle === 'diff';
+  }
+  get canSubmit() {
+    return this.editing && this.needsReview();
+  }
+  renderState() {
     this.titleEl.contentEditable =
       this.subtitleEl.contentEditable =
       this.contentEl.contentEditable =
-      writing;
+      this.writing;
     // When contenteditable changes, run execCommands to work on the editable areas.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
-    show(this.editButton, !editing && !submitting);
-    show(this.cancelButton, editing);
-    show(this.submitButton, editing);
-    show(this.spinnerEl, submitting);
-    show(this.viewForm, editing);
+    show(this.editButton, !this.editing && !this.submitting);
+    show(this.cancelButton, this.editing);
+    show(this.submitButton, this.canSubmit);
+    show(this.spinnerEl, this.submitting);
+    show(this.viewForm, this.editing);
+  }
 
-    if (editing && this.viewStyle === 'diff') {
+  render() {
+    this.renderState();
+
+    if (this.diffing) {
       this.diffEl = this.postFile.diff();
       this.contentWrapper.before(this.diffEl);
     } else if (this.diffEl) {
@@ -160,7 +175,7 @@ export class EditPostView {
       this.subtitleEl.innerText = this.postFile.getSubtitle();
     }
 
-    if (writing) {
+    if (this.writing) {
       this.contentEl.innerText = this.postFile.getContent();
     } else {
       this.contentEl.innerHTML = this.markdownToHTML(this.postFile.getContent());
@@ -175,6 +190,8 @@ export class EditPostView {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
     this.postFile.setContent(this.contentEl.innerText);
+
+    this.renderState();
   }
 
   needsReview() {
