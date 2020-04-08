@@ -35,7 +35,8 @@ export class PageBuildStatus {
     show(this.latestDiffButton);
 
     this.api.makeRequest('/pages/builds').then(res => {
-      show(this.waitingEl, this.commit !== res[0].commit);
+      const latest = res[0];
+      show(this.waitingEl, latest.status !== 'built' || this.commit !== latest.commit);
     });
   }
 
