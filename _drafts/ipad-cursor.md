@@ -1,7 +1,7 @@
 ---
 layout: post
 class: post
-title:
+title:here is a title
 subtitle:
 ---
 
