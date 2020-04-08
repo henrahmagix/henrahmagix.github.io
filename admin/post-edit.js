@@ -163,9 +163,9 @@ export class EditPostView {
 
     if (this.diffing) {
       this.diffEl = this.postFile.diff();
-      this.contentWrapper.before(this.diffEl);
+      this.contentWrapper.replaceWith(this.diffEl);
     } else if (this.diffEl) {
-      this.diffEl.remove();
+      this.diffEl.replaceWith(this.contentWrapper);
     }
 
     this.titleEl.innerText = this.postFile.getTitle();
