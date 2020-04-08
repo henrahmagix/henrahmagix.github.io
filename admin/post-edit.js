@@ -20,11 +20,11 @@ export class EditPostView {
   constructor(
     contentWrapper,
     {
-      afterSubmit,
       filepath,
+      afterCommit,
     }
   ) {
-    this.afterSubmit = afterSubmit;
+    this.afterCommit = afterCommit;
 
     function buttonHTML({text, type, classname, icon}) {
       type = type || 'button';
@@ -119,8 +119,8 @@ export class EditPostView {
   clickSubmit() {
     this.state.moveToSubmitting();
     this.submitPost().then(() => {
-      if (typeof this.afterSubmit === 'function') {
-        this.afterSubmit(this.postFile.lastCommit);
+      if (typeof this.afterCommit === 'function') {
+        this.afterCommit(this.postFile.lastCommit);
       }
     });
   }

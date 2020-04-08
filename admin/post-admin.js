@@ -11,8 +11,13 @@ const admin = new Admin({
 
       const edit = new EditPostView(contentElement, {
         filepath: new URLSearchParams(location.search).get('filepath') || window.github_data.page_path,
-        afterSubmit(newCommit) {
+        afterCommit(newCommit) {
           buildWaiting.checkForCommit(newCommit);
+          if (location.pathname.includes('admin/edit')) {
+            const url = new URL(location);
+            url.searchParams.set('filename', edit.postFile.filepath);
+            window.history.replaceState(null, null, url);
+          }
         }
       });
 
