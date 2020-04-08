@@ -1,5 +1,5 @@
 import { Api } from '/admin/admin.js';
-import { createHTML, show } from '/admin/utils.js';
+import { createHTML } from '/admin/utils.js';
 
 export class PageBuildStatus {
   get waitingEl() { return this.el.querySelector('.waiting'); }
@@ -20,11 +20,10 @@ export class PageBuildStatus {
   }
 
   async checkForCommit(commit) {
-    this.commit = commit;
+    const res = await this.api.makeRequest('/pages/builds')
+    const latest = res[0];
+    const buildWaiting = latest.status !== 'built' || latest.commit !== commit;
 
-    this.api.makeRequest('/pages/builds').then(res => {
-      const latest = res[0];
-      show(this.waitingEl, latest.status !== 'built' || this.commit !== latest.commit);
-    });
+    return buildWaiting;
   }
 }
