@@ -2,7 +2,7 @@
 layout: post
 class: post
 title: Class getters vs methods in vanilla JS
-subtitle: when debugging them
+subtitle: when debugging
 image: /images/class-getter.png
 syndications:
     -
