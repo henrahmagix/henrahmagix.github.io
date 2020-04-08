@@ -57,7 +57,7 @@ export class Admin {
   async login(token) {
     if (!token) {
       this.loggedIn = false;
-      handleError(Error('Access token must not be empty'));
+      handleError(new Error('Access token must not be empty'));
       return;
     }
 
@@ -70,7 +70,7 @@ export class Admin {
       this.loggedIn = true;
     } catch (err) {
       this.loggedIn = false;
-      handleError(Error(`failed to login: ${err}`));
+      handleError(new Error(`failed to login: ${err}`));
     } finally {
       this.loading = false;
     }
