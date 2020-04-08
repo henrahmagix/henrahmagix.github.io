@@ -107,8 +107,8 @@ export class PostFile {
 
   async commit() {
     if (this.isNew) {
-      this.filepath = slugify(this.getTitle());
-      this.isNew = false;
+      const name = slugify(this.getTitle());
+      this.filepath = `_drafts/${name}.md`;
     }
 
     const content = base64.encode(this.newContent);
@@ -124,6 +124,8 @@ export class PostFile {
     this.content = content;
     this.sha = res.content.sha;
     this.lastCommit = res.commit.sha;
+
+    this.isNew = false;
     this.clearStorage();
   }
 
