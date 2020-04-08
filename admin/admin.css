@@ -26,6 +26,10 @@
   font-size: min(50vh, 100px);
 }
 
+#content {
+  margin: 1em 0;
+}
+
 .edit-wrapper {
   margin-bottom: 1em;
 }
