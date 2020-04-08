@@ -106,6 +106,10 @@ export class PostFile {
   }
 
   async commit() {
+    if (!this.getTitle()) {
+      throw new Error('Post must have a title');
+    }
+
     if (this.isNew) {
       const name = slugify(this.getTitle());
       this.filepath = `_drafts/${name}.md`;
