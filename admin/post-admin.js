@@ -16,13 +16,11 @@ const admin = new Admin({
         filepath,
         afterCommit: async (newCommit) => {
           checkPageStatus(newCommit);
-
-          if (location.pathname.includes('admin/edit')) {
-            const url = new URL(location);
-            url.searchParams.set('filepath', edit.postFile.filepath);
-            window.history.replaceState(null, null, url);
-          }
-        }
+          changeURLFilepath(edit.postFile.filepath);
+        },
+        afterPublish: async (publishedPath) => {
+          changeURLFilepath(publishedPath);
+        },
       });
 
       // First check if any editing should be shown.
@@ -35,6 +33,16 @@ const admin = new Admin({
         const pageOutOfDate = window.github_data.production && await buildWaiting.checkForCommit(commit);
         show(buildWaiting.el, pageOutOfDate);
         show(edit.el, !pageOutOfDate);
+      }
+
+      function changeURLFilepath(path) {
+        if (!location.pathname.includes('admin/edit')) {
+          return;
+        }
+
+        const url = new URL(location);
+        url.searchParams.set('filepath', path);
+        window.history.replaceState(null, null, url);
       }
     }
   },

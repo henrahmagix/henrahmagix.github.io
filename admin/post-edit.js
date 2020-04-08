@@ -6,6 +6,7 @@ export class EditPostView {
   get cancelButton() { return this.el.querySelector('.button-cancel'); }
   get reviewButton() { return this.el.querySelector('.button-review'); }
   get submitButton() { return this.el.querySelector('.button-submit'); }
+  get publishButton() { return this.el.querySelector('.button-publish'); }
   get spinnerEl() { return this.el.querySelector('.spinner'); }
   get viewForm() { return this.el.querySelector('form[name="view"]'); }
 
@@ -22,9 +23,11 @@ export class EditPostView {
     {
       filepath,
       afterCommit,
+      afterPublish,
     }
   ) {
     this.afterCommit = afterCommit;
+    this.afterPublish = afterPublish;
 
     function buttonHTML({text, type, classname, icon}) {
       type = type || 'button';
@@ -35,6 +38,7 @@ export class EditPostView {
         ${buttonHTML({text: 'Edit', classname: 'button-edit', icon: 'fas fa-pencil-alt'})}
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
         ${buttonHTML({text: 'Submit', type: 'submit', classname: 'button-submit', icon: 'fas fa-check'})}
+        ${buttonHTML({text: 'Publish', classname: 'button-publish', icon: 'fas fa-cloud-upload-alt'})}
         <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
 
         <form hidden name="view" class="view-wrapper" onsubmit="return false;">
@@ -79,6 +83,7 @@ export class EditPostView {
     this.editButton.addEventListener('click', () => this.clickEdit());
     this.cancelButton.addEventListener('click', () => this.clickCancel());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
+    this.publishButton.addEventListener('click', () => this.clickPublish());
 
     this.viewForm.addEventListener('change', () => this.render());
 
@@ -126,18 +131,24 @@ export class EditPostView {
       throw new Error('Post must have a title');
     }
     this.state.moveToSubmitting();
-    this.submitPost().then(() => {
-      if (typeof this.afterCommit === 'function') {
-        this.afterCommit(this.postFile.lastCommit);
-      }
-    });
+    this.submitPost();
+  }
+  clickPublish() {
+    this.state.moveToPublishing();
+    this.publishPost();
   }
 
+  get waiting() {
+    return this.submitting || this.publishing;
+  }
   get submitting() {
     return this.state.submitting;
   }
+  get publishing() {
+    return this.state.publishing;
+  }
   get editing () {
-    return this.state.editing && !this.submitting;
+    return this.state.editing && !this.waiting;
   }
   get writing() {
     return this.editing && this.viewStyle === 'write';
@@ -148,6 +159,9 @@ export class EditPostView {
   get canSubmit() {
     return this.editing && this.needsReview();
   }
+  get canPublish() {
+    return !this.editing && !this.waiting && this.postFile.isDraft;
+  }
   renderState() {
     this.titleEl.contentEditable =
       this.subtitleEl.contentEditable =
@@ -156,10 +170,11 @@ export class EditPostView {
     // When contenteditable changes, run execCommands to work on the editable areas.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
-    show(this.editButton, !this.editing && !this.submitting);
+    show(this.editButton, !this.editing && !this.waiting);
     show(this.cancelButton, this.editing);
     show(this.submitButton, this.canSubmit);
-    show(this.spinnerEl, this.submitting);
+    show(this.publishButton, this.canPublish);
+    show(this.spinnerEl, this.waiting);
     show(this.viewForm, this.editing);
   }
 
@@ -202,16 +217,27 @@ export class EditPostView {
   }
 
   async submitPost() {
-    await this.postFile.commit()
-      .then(() => {
-        this.state.reset();
-      });
+    await this.postFile.commit();
+
+    this.state.reset();
+    if (typeof this.afterCommit === 'function') {
+      this.afterCommit(this.postFile.lastCommit);
+    }
+  }
+
+  async publishPost() {
+    await this.postFile.publish();
+
+    this.state.reset();
+    if (typeof this.afterPublish === 'function') {
+      this.afterPublish(this.postFile.filepath);
+    }
   }
 }
 
 class EditPostState {
   constructor() {
-    this._state = new State('view', 'edit', 'submitting');
+    this._state = new State('view', 'edit', 'submitting', 'publishing');
   }
 
   get editing() {
@@ -219,6 +245,9 @@ class EditPostState {
   }
   get submitting() {
     return this._state.is('submitting');
+  }
+  get publishing() {
+    return this._state.is('publishing');
   }
 
   addChangeListener(fn) {
@@ -235,5 +264,9 @@ class EditPostState {
 
   moveToSubmitting() {
     this._state.moveTo('submitting');
+  }
+
+  moveToPublishing() {
+    this._state.moveTo('publishing');
   }
 }

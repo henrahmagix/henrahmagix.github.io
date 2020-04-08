@@ -139,6 +139,84 @@ export class PostFile {
     this.clearStorage();
   }
 
+  async publish() {
+    if (this.isNew || !this.isDraft) {
+      throw new Error('Cannot publish new draft or existing post: must be submitted draft');
+    }
+
+    // Get tree for this file.
+    const rootBranch = await this.api.makeRequest(`/branches/master`);
+    const rootTree = await this.api.makeRequest(`/git/trees/${rootBranch.commit.sha}`);
+
+    const draftsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_drafts').sha}`);
+    const postsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_posts').sha}`);
+
+    const filename = this.filepath.replace('_drafts/', '');
+    console.log('filename', filename);
+    const file = draftsTree.tree.find(t => t.path === filename);
+
+    if (!file) {
+      // if (rootTree.truncated) {
+      //   throw new Error(`TODO: fetch individual trees because recursive was truncated`);
+      // }
+      throw new Error(`Cannot find tree blog for ${this.filepath}`);
+    }
+
+    const ymd = new Date().toISOString().split('T')[0];
+    const newFilename = `${ymd}-${filename}`;
+
+    // Create new trees:
+    // - _drafts without file
+    // - _posts with renamed file
+    // - root with changed _drafts and _posts
+    const postTree = async (base_tree, tree) => {
+      return await this.api.makeRequest(`/git/trees?recursive=1`, {
+        method: 'POST',
+        // body: { base_tree, tree },
+        // Don't include base_tree, else files cannot be deleted.
+        body: { tree },
+      });
+    }
+    const newDraftsTree = await postTree(draftsTree.sha,
+      draftsTree.tree.filter(t => t.path !== filename),
+    );
+    const newPostsTree = await postTree(postsTree.sha, [
+      ...postsTree.tree,
+      { ...file, path: newFilename },
+    ]);
+    const newRootTree = await postTree(rootTree.sha,
+      rootTree.tree.map(t => {
+        if (t.path === '_drafts') {
+          return { ...t, sha: newDraftsTree.sha };
+        }
+        if (t.path === '_posts') {
+          return { ...t, sha: newPostsTree.sha };
+        }
+        return t;
+      }),
+    );
+
+    // Commit:
+    // - make a commit on the branch pointing to the new root tree
+    // - point the branch to the commit
+    const commit = await this.api.makeRequest(`/git/commits`, {
+      method: 'POST',
+      body: {
+        message: `Publish ${newFilename}`,
+        tree: newRootTree.sha,
+        parents: [rootBranch.commit.sha],
+      },
+    });
+    await this.api.makeRequest(`/git/refs/heads/${rootBranch.name}`, {
+      method: 'PATCH',
+      body: {
+        sha: commit.sha,
+      },
+    });
+
+    this.filepath = `_posts/${newFilename}`;
+  }
+
   diff() {
     const base = difflib.stringAsLines(this.originalContent);
     const newtxt = difflib.stringAsLines(this.newContent);
