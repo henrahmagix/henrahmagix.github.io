@@ -29,10 +29,22 @@
 .edit-wrapper {
   margin-bottom: 1em;
 }
-
 .edit-wrapper > * {
   margin-right: 1em;
+  margin-bottom: 1em;
   vertical-align: middle;
+}
+
+.view-wrapper input[type="radio"] {
+  display: none;
+}
+.view-wrapper input + span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.view-wrapper input:checked + span {
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .entry-content[contenteditable=true] {

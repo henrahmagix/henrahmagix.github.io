@@ -7,10 +7,15 @@ export class EditPostView {
   get reviewButton() { return this.el.querySelector('.button-review'); }
   get submitButton() { return this.el.querySelector('.button-submit'); }
   get spinnerEl() { return this.el.querySelector('.spinner'); }
+  get viewForm() { return this.el.querySelector('form[name="view"]'); }
 
   get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
   get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
   get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
+
+  get viewStyle() {
+    return new FormData(this.viewForm).get('style');
+  }
 
   constructor(
     contentWrapper,
@@ -28,9 +33,26 @@ export class EditPostView {
       <div class="edit-wrapper">
         ${buttonHTML({text: 'Edit', classname: 'button-edit', icon: 'fas fa-pencil-alt'})}
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
-        ${buttonHTML({text: 'Review', classname: 'button-review', icon: 'fas fa-eye'})}
         ${buttonHTML({text: 'Submit', type: 'submit', classname: 'button-submit', icon: 'fas fa-check'})}
         <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
+
+        <form hidden name="view" class="view-wrapper" onsubmit="return false;">
+          View:
+          <label>
+            <input type="radio" name="style" value="write" checked>
+            <span>Write</span>
+          </label>
+          |
+          <label>
+            <input type="radio" name="style" value="preview">
+            <span>Preview</span>
+          </label>
+          |
+          <label>
+            <input type="radio" name="style" value="diff">
+            <span>Diff</span>
+          </label>
+        </form>
       </div>
     `);
     this.bottomEl = createHTML('<button class="button-link">Back to top</button>')
@@ -51,8 +73,9 @@ export class EditPostView {
     this.bottomEl.addEventListener('click', () => this.el.scrollIntoView());
     this.editButton.addEventListener('click', () => this.clickEdit());
     this.cancelButton.addEventListener('click', () => this.clickCancel());
-    this.reviewButton.addEventListener('click', () => this.clickReview());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
+
+    this.viewForm.addEventListener('change', () => this.render());
 
     [this.titleEl, this.subtitleEl].forEach(el => {
       if (!el) {
@@ -96,12 +119,8 @@ export class EditPostView {
 
     this.reset();
   }
-  clickReview() {
-    this.state.moveToReview();
-    this.showDiff();
-  }
   clickSubmit() {
-    this.state.moveToSubmit();
+    this.state.moveToSubmitting();
     this.submitPost().then(() => {
       if (typeof this.afterSubmit === 'function') {
         this.afterSubmit(this.postFile.commit);
@@ -109,29 +128,28 @@ export class EditPostView {
     });
   }
 
-  renderState() {
+  render() {
     const submitting = this.state.submitting;
     const editing = this.state.editing && !submitting;
-    const reviewing = this.state.reviewing && !submitting;
+    const writing = editing && this.viewStyle === 'write';
 
     this.titleEl.contentEditable =
       this.subtitleEl.contentEditable =
       this.contentEl.contentEditable =
-      editing;
+      writing;
     // When contenteditable changes, run execCommands to work on the editable areas.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
     show(this.editButton, !editing && !submitting);
     show(this.cancelButton, editing);
-    show(this.reviewButton, editing && this.needsReview());
-    show(this.submitButton, reviewing);
+    show(this.submitButton, editing);
     show(this.spinnerEl, submitting);
-  }
+    show(this.viewForm, editing);
 
-  render() {
-    this.renderState();
-
-    if (!this.state.reviewing && this.diffEl) {
+    if (this.viewStyle === 'diff') {
+      this.diffEl = this.postFile.diff();
+      this.contentWrapper.before(this.diffEl);
+    } else if (this.diffEl) {
       this.diffEl.remove();
     }
 
@@ -142,7 +160,7 @@ export class EditPostView {
       this.subtitleEl.innerText = this.postFile.getSubtitle();
     }
 
-    if (this.state.editing) {
+    if (writing) {
       this.contentEl.innerText = this.postFile.getContent();
     } else {
       this.contentEl.innerHTML = this.markdownToHTML(this.postFile.getContent());
@@ -157,14 +175,6 @@ export class EditPostView {
       this.postFile.setSubtitle(this.subtitleEl.innerText);
     }
     this.postFile.setContent(this.contentEl.innerText);
-
-    this.renderState();
-  }
-
-  showDiff() {
-    this.diffEl = this.postFile.diff();
-    this.bottomEl.after(this.diffEl);
-    this.bottomEl.scrollIntoView();
   }
 
   needsReview() {
@@ -186,17 +196,14 @@ export class EditPostView {
 
 class EditPostState {
   constructor() {
-    this._state = new State('', 'edit', 'review', 'submit');
+    this._state = new State('view', 'edit', 'submitting');
   }
 
   get editing() {
     return this._state.is('edit');
   }
-  get reviewing() {
-    return this._state.is('review');
-  }
   get submitting() {
-    return this._state.is('submit');
+    return this._state.is('submitting');
   }
 
   addChangeListener(fn) {
@@ -204,18 +211,14 @@ class EditPostState {
   }
 
   reset() {
-    this._state.moveTo('');
+    this._state.moveTo('view');
   }
 
   moveToEdit() {
     this._state.moveTo('edit');
   }
 
-  moveToReview() {
-    this._state.moveTo('review');
-  }
-
-  moveToSubmit() {
-    this._state.moveTo('submit');
+  moveToSubmitting() {
+    this._state.moveTo('submitting');
   }
 }

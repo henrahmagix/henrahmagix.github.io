@@ -1,5 +1,5 @@
 import { Api } from '/admin/admin.js';
-import { base64 } from '/admin/utils.js';
+import { base64, createHTML } from '/admin/utils.js';
 
 export class PostFile {
   constructor({
@@ -124,12 +124,19 @@ export class PostFile {
   diff() {
     const base = difflib.stringAsLines(this.originalContent);
     const newtxt = difflib.stringAsLines(this.newContent);
+
     const diff = new difflib.SequenceMatcher(base, newtxt);
+    const opcodes = diff.get_opcodes();
+
+    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
+    if (!hasDiff) {
+      return createHTML('<p>No changes</p>');
+    }
 
     return diffview.buildView({
       baseTextLines: base,
       newTextLines: newtxt,
-      opcodes: diff.get_opcodes(),
+      opcodes,
       baseTextName: 'base',
       newTextName: 'new',
       contextSize: 3,
