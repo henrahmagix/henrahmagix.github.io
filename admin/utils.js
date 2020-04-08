@@ -32,3 +32,57 @@ export function show(el, visible) {
 export function showing(el) {
   return !el.hidden;
 }
+
+export class State {
+  constructor(/*...states*/) {
+    this._states = arguments;
+    this._state = this._states[0];
+    this._listeners = [];
+
+    if (!this._states || this._states.length < 2) {
+      throw new Error('States must have more than 1 states');
+    }
+  }
+
+  is(s) {
+    return this._state === s;
+  }
+  moveTo(to) {
+    const from = this._state;
+    this._state = to;
+    this._callChangeListeners(from, to);
+  }
+
+  _callChangeListeners(from, to) {
+    this._listeners.forEach(l => {
+      if (typeof l === 'function') {
+        l();
+        return;
+      }
+
+      if (l.from === from && l.to === to) {
+        l.fn();
+        return;
+      }
+    });
+  }
+
+  addChangeListener() {
+    let listener = arguments[0];
+    if (
+      arguments.length === 3
+      && Boolean(typeof arguments[0])
+      && Boolean(typeof arguments[1])
+      && typeof arguments[2] !== 'function'
+    ) {
+      listener = {
+        from: arguments[0],
+        to: arguments[1],
+        fn: arguments[2],
+      };
+    } else if (typeof listener !== 'function') {
+      throw new TypeError(`addChangeListener args must be just function, or from:string to:string callback:function, but was ${arguments}`);
+    }
+    this._listeners.push(listener);
+  }
+}

@@ -1,5 +1,5 @@
 import { PostFile } from '/admin/post-file.js';
-import { createHTML, show, showing } from '/admin/utils.js';
+import { createHTML, show, State } from '/admin/utils.js';
 
 export class EditPostView {
   get editButton() { return this.el.querySelector('.button-edit'); }
@@ -186,50 +186,36 @@ export class EditPostView {
 
 class EditPostState {
   constructor() {
-    this._listeners = [];
-
-    this.reset();
+    this._state = new State('', 'edit', 'review', 'submit');
   }
 
   get editing() {
-    return this.state === 'edit';
+    return this._state.is('edit');
   }
   get reviewing() {
-    return this.state === 'review';
+    return this._state.is('review');
   }
   get submitting() {
-    return this.state === 'submit';
-  }
-
-  get state() {
-    return this._state;
-  }
-  set state(s) {
-    this._state = s;
-    this._callChangeListeners();
-  }
-
-  _callChangeListeners() {
-    this._listeners.forEach(fn => fn());
+    return this._state.is('submit');
   }
 
   addChangeListener(fn) {
-    this._listeners.push(fn);
+    this._state.addChangeListener(fn);
   }
 
   reset() {
-    this.state = '';
+    this._state.moveTo('');
   }
 
   moveToEdit() {
-    this.state = 'edit';
+    this._state.moveTo('edit');
   }
 
   moveToReview() {
-    this.state = 'review';
+    this._state.moveTo('review');
   }
 
   moveToSubmit() {
-    this.state = 'submit';
+    this._state.moveTo('submit');
   }
 }
