@@ -146,7 +146,7 @@ export class EditPostView {
     show(this.spinnerEl, submitting);
     show(this.viewForm, editing);
 
-    if (this.viewStyle === 'diff') {
+    if (editing && this.viewStyle === 'diff') {
       this.diffEl = this.postFile.diff();
       this.contentWrapper.before(this.diffEl);
     } else if (this.diffEl) {
@@ -182,8 +182,9 @@ export class EditPostView {
   }
 
   reset() {
-    this.state.reset();
     this.postFile.reset();
+    this.viewForm.reset();
+    this.state.reset();
   }
 
   async submitPost() {
