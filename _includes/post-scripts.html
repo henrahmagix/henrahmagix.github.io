@@ -5,20 +5,19 @@
     }
 
     addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js', null, function () {
-        window.marked.setOptions({
-          gfm: true // github-flavoured markdown
-        });
+      window.marked.setOptions({
+        gfm: true // github-flavoured markdown
+      });
 
+      window.markdownToHTML = function (md) {
         // Fix code highlighting after editing.
-        var oldMarked = window.marked;
-        window.marked = function (s) {
-          var holder = document.createElement('div');
-          holder.innerHTML = oldMarked(s);
-          holder.querySelectorAll('pre').forEach(function (el) {
-            el.classList.add('highlight');
-          });
-          return holder.innerHTML;
-        };
+        var holder = document.createElement('div');
+        holder.innerHTML = marked(md);
+        holder.querySelectorAll('pre').forEach(function (el) {
+          el.classList.add('highlight');
+        });
+        return holder.innerHTML;
+      }
     });
 
     addScript('/admin/post-admin.js', 'module');

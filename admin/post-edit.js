@@ -105,10 +105,6 @@ export class EditPostView {
     });
   }
 
-  markdownToHTML(md) {
-    return window.marked(md);
-  }
-
   clickEdit() {
     this.state.moveToEdit();
   }
@@ -174,7 +170,7 @@ export class EditPostView {
     if (this.writing) {
       this.contentEl.innerText = this.postFile.getContent();
     } else {
-      this.contentEl.innerHTML = this.markdownToHTML(this.postFile.getContent());
+      this.contentEl.innerHTML = window.markdownToHTML(this.postFile.getContent());
     }
   }
 
