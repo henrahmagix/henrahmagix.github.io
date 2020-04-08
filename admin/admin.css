@@ -47,6 +47,15 @@
   text-decoration: none;
 }
 
+[placeholder][contenteditable=true]:empty::before {
+    content: attr(placeholder);
+    opacity: 0.5;
+    cursor: text;
+}
+[placeholder][contenteditable=true]:empty:focus::before {
+    content: '';
+}
+
 .entry-content[contenteditable=true] {
   white-space: pre-wrap;
   font-family: monospace;

@@ -31,7 +31,7 @@
     window.github_data = {
       build_revision: '{{site.github.build_revision}}',
       source_branch: '{{site.github.source.branch}}',
-      page_path: '{{page.path}}'
+      page_path: new URLSearchParams(location.search).get('filepath') || '{{page.path}}'
     };
 
     function addScript(src, type, onload) {

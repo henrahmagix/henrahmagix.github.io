@@ -77,10 +77,10 @@ export class EditPostView {
 
     this.viewForm.addEventListener('change', () => this.render());
 
+    this.titleEl.setAttribute('placeholder', 'Title');
+    this.subtitleEl.setAttribute('placeholder', 'Subitle');
+
     [this.titleEl, this.subtitleEl].forEach(el => {
-      if (!el) {
-        return;
-      }
       el.addEventListener('keyup', preventEnterKey);
       el.addEventListener('keydown', preventEnterKey);
     });
@@ -168,12 +168,8 @@ export class EditPostView {
       this.diffEl.remove();
     }
 
-    if (this.titleEl) {
-      this.titleEl.innerText = this.postFile.getTitle();
-    }
-    if (this.subtitleEl) {
-      this.subtitleEl.innerText = this.postFile.getSubtitle();
-    }
+    this.titleEl.innerText = this.postFile.getTitle();
+    this.subtitleEl.innerText = this.postFile.getSubtitle();
 
     if (this.writing) {
       this.contentEl.innerText = this.postFile.getContent();
@@ -183,12 +179,8 @@ export class EditPostView {
   }
 
   updatePost() {
-    if (this.titleEl) {
-      this.postFile.setTitle(this.titleEl.innerText);
-    }
-    if (this.subtitleEl) {
-      this.postFile.setSubtitle(this.subtitleEl.innerText);
-    }
+    this.postFile.setTitle(this.titleEl.innerText);
+    this.postFile.setSubtitle(this.subtitleEl.innerText);
     this.postFile.setContent(this.contentEl.innerText);
 
     this.renderState();

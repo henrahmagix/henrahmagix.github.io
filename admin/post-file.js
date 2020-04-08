@@ -9,8 +9,8 @@ export class PostFile {
     this.storageKey = `gh_post_${filepath}`;
     this.api = new Api();
 
-    this.rTitle = /(\ntitle: )([^\n]*)/;
-    this.rSubtitle = /(\nsubtitle: )([^\n]*)/;
+    this.rTitle = /(\ntitle:) *([^\n]*)/;
+    this.rSubtitle = /(\nsubtitle:) *([^\n]*)/;
   }
 
   getTitle() {
@@ -18,7 +18,7 @@ export class PostFile {
     return m ? m[2] : '';
   }
   setTitle(s) {
-    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1, m2) => m1 + s);
+    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1, m2) => `${m1} ${s}`);
     this.onChange();
   }
 
@@ -27,7 +27,7 @@ export class PostFile {
     return m ? m[2] : '';
   }
   setSubtitle(s) {
-    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1, m2) => m1 + s);
+    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1, m2) => `${m1} ${s}`);
     this.onChange();
   }
 
