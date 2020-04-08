@@ -1,8 +1,8 @@
 ---
 layout: post
 class: post
-title: this is a title
-subtitle: 
+title: 
+subtitle: but no title?
 ---
 i guess there should be content
 
