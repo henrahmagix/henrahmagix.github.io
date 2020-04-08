@@ -56,7 +56,6 @@ export class EditPostView {
         </form>
       </div>
     `);
-    this.bottomEl = createHTML('<button class="button-link">Back to top</button>')
 
     this.contentWrapper = contentWrapper;
     this.contentWrapper.addEventListener('input', () => this.updatePost());
@@ -69,7 +68,6 @@ export class EditPostView {
       this.render();
     });
 
-    this.bottomEl.addEventListener('click', () => this.el.scrollIntoView());
     this.editButton.addEventListener('click', () => this.clickEdit());
     this.cancelButton.addEventListener('click', () => this.clickCancel());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
@@ -102,7 +100,6 @@ export class EditPostView {
   insertBefore(target) {
     this.readyPromise.then(() => {
       target.before(this.el);
-      target.after(this.bottomEl);
     });
   }
 
