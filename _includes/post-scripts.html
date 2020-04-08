@@ -28,10 +28,18 @@
     addScript('https://cemerick.github.io/jsdifflib/difflib.js');
     addStyle('https://cemerick.github.io/jsdifflib/diffview.css');
 
+    var filepath = new URLSearchParams(location.search).get('filepath') || '{{page.path}}';
+    console.log('filepath', filepath);
+    if (filepath.includes('admin/edit.html')) {
+      alert('Not allowed to edit /admin/edit.html');
+      window.location = '/admin';
+      return;
+    }
+
     window.github_data = {
       build_revision: '{{site.github.build_revision}}',
       source_branch: '{{site.github.source.branch}}',
-      page_path: new URLSearchParams(location.search).get('filepath') || '{{page.path}}'
+      page_path: filepath
     };
 
     function addScript(src, type, onload) {
