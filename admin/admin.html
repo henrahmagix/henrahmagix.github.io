@@ -15,19 +15,18 @@ css: /admin/admin.css
   const draftsList = createHTML('<ul>Drafts:</ul>');
   adminInterface.appendChild(draftsList);
 
-  PostDraft.list().then(drafts => {
-    drafts.forEach(d => {
-      const li = createHTML('<li></li>');
-      li.appendChild(d.el);
-      draftsList.appendChild(li);
-    });
-  });
-
-
   window.admin = new Admin({
     handleLogin: (loggedIn) => {
       loginForm.hidden = loggedIn;
       adminInterface.hidden = !loggedIn;
+
+      PostDraft.list().then(drafts => {
+        drafts.forEach(d => {
+          const li = createHTML('<li></li>');
+          li.appendChild(d.el);
+          draftsList.appendChild(li);
+        });
+      });
     }
   });
 
