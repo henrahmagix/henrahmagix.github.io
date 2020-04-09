@@ -94,6 +94,7 @@ export class EditPostView {
     show(this.subtitleEl, true);
     this.titleEl.setAttribute('placeholder', 'Title');
     this.subtitleEl.setAttribute('placeholder', 'Subitle');
+    this.contentEl.setAttribute('placeholder', 'Content');
 
     [this.titleEl, this.subtitleEl].forEach(el => {
       el.addEventListener('keyup', preventEnterKey);
