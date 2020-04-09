@@ -1,57 +1,14 @@
-<script>
-  (function(){
-    if (!localStorage.getItem('gh_token')) {
-      return;
-    }
-
-    addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js', null, function () {
-      window.marked.setOptions({
-        gfm: true // github-flavoured markdown
+<script type="module">
+  if (localStorage.getItem('gh_token')) {
+    import('/admin/post-admin.js').then(module => {
+      module.addPostAdmin({
+        contentElement: document.getElementById('content'),
+        currentCommit: '{{site.github.build_revision}}',
+        filepath: '{{page.path}}',
+        env: {
+          production: '{{ jekyll.environment }}' === 'production',
+        },
       });
-
-      window.markdownToHTML = function (md) {
-        // Fix code highlighting after editing.
-        var holder = document.createElement('div');
-        holder.innerHTML = marked(md);
-        holder.querySelectorAll('pre').forEach(function (el) {
-          el.classList.add('highlight');
-        });
-        return holder.innerHTML;
-      }
     });
-
-    addScript('/admin/post-admin.js', 'module');
-    addStyle('/admin/admin.css');
-
-    addScript('https://cemerick.github.io/jsdifflib/diffview.js');
-    addScript('https://cemerick.github.io/jsdifflib/difflib.js');
-    addStyle('https://cemerick.github.io/jsdifflib/diffview.css');
-
-    window.github_data = {
-      build_revision: '{{site.github.build_revision}}',
-      source_branch: '{{site.github.source.branch}}',
-      page_path: '{{page.path}}',
-      production: '{{ jekyll.environment }}' === 'production'
-    };
-
-    function addScript(src, type, onload) {
-      var script = document.createElement('script');
-      script.src = src;
-      script.async = false;
-      if (type) {
-        script.type = type;
-      }
-      if (typeof onload === 'function') {
-        script.onload = onload;
-      }
-      document.body.appendChild(script);
-    }
-
-    function addStyle(href) {
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = href;
-      document.head.appendChild(link);
-    }
-  }());
+  }
 </script>

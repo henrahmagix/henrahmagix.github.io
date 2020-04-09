@@ -1,12 +1,15 @@
 import { Api } from './admin.js';
-import { base64, createHTML, slugify, yamlString } from './utils.js';
+import { base64, slugify, yamlString } from './utils.js';
 
 export class PostFile {
   constructor({
+    diffBuilder,
     filepath,
   }) {
-    this.isNew = filepath.includes('admin/edit');
+    this.diffBuilder = diffBuilder;
     this.filepath = filepath;
+
+    this.isNew = filepath.includes('admin/edit');
     this.storageKey = `gh_post_${this.isNew ? 'new' : filepath}`;
     this.api = new Api();
   }
@@ -269,25 +272,9 @@ export class PostFile {
   }
 
   diff() {
-    const base = difflib.stringAsLines(this.originalContent);
-    const newtxt = difflib.stringAsLines(this.newContent);
-
-    const diff = new difflib.SequenceMatcher(base, newtxt);
-    const opcodes = diff.get_opcodes();
-
-    const hasDiff = opcodes.length > 1 || (opcodes[0] && opcodes[0][0] !== 'equal');
-    if (!hasDiff) {
-      return createHTML('<p>No changes</p>');
-    }
-
-    return diffview.buildView({
-      baseTextLines: base,
-      newTextLines: newtxt,
-      opcodes,
-      baseTextName: 'base',
-      newTextName: 'new',
-      contextSize: 3,
-      viewType: 1, // inline
-    });
+    return this.diffBuilder.buildView(
+      'base', this.originalContent,
+      'new', this.newContent,
+    );
   }
 }

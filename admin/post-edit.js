@@ -1,4 +1,3 @@
-import { PostFile } from './post-file.js';
 import { createHTML, show, State } from './utils.js';
 
 export class EditPostView {
@@ -18,16 +17,33 @@ export class EditPostView {
     return new FormData(this.viewForm).get('style');
   }
 
+  setFile(postFile) {
+    this.postFile = postFile;
+    this.renderState();
+
+    if (postFile.isDraft) {
+      this.render();
+    }
+
+    if (postFile.isNew || postFile.hasLocalChanges) {
+      this.state.moveToEdit();
+    }
+  }
+
   constructor(
     contentWrapper,
     {
-      filepath,
+      markdownRenderer,
       afterCommit,
       afterPublish,
     }
   ) {
+    this.contentWrapper = contentWrapper;
+    this.markdownRenderer = markdownRenderer;
     this.afterCommit = afterCommit;
     this.afterPublish = afterPublish;
+
+    this.state = new EditPostState();
 
     function buttonHTML({text, type, classname, icon}) {
       type = type || 'button';
@@ -64,24 +80,9 @@ export class EditPostView {
       </div>
     `);
 
-    this.contentWrapper = contentWrapper;
     this.contentWrapper.addEventListener('input', () => this.updatePost());
 
-    this.state = new EditPostState();
     this.state.addChangeListener(() => this.render());
-
-    this.postFile = new PostFile({ filepath });
-    this.readyPromise = this.postFile.fetch().then(() => {
-      this.renderState();
-
-      if (this.postFile.isDraft) {
-        this.render();
-      }
-
-      if (this.postFile.isNew || this.postFile.hasLocalChanges) {
-        this.state.moveToEdit();
-      }
-    });
 
     this.editButton.addEventListener('click', () => this.clickEdit());
     this.cancelButton.addEventListener('click', () => this.clickCancel());
@@ -121,11 +122,6 @@ export class EditPostView {
         event.returnValue = '';
       }
     });
-  }
-
-  async insertBefore(target) {
-    await this.readyPromise;
-    target.before(this.el);
   }
 
   clickEdit() {
@@ -206,8 +202,16 @@ export class EditPostView {
     if (this.writing) {
       this.contentEl.innerText = this.postFile.getContent();
     } else {
-      this.contentEl.innerHTML = window.markdownToHTML(this.postFile.getContent());
+      this.setHTML(this.contentEl, this.postFile.getContent())
     }
+  }
+
+  setHTML(target, markdown) {
+    target.innerHTML = this.markdownRenderer.markdownToHTML(markdown);
+    // Fix code highlighting after editing.
+    target.querySelectorAll('pre').forEach(function (el) {
+      el.classList.add('highlight');
+    });
   }
 
   updatePost() {
