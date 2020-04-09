@@ -1,7 +1,7 @@
-import { Admin } from '/admin/admin.js';
-import { EditPostView } from '/admin/post-edit.js';
-import { PageBuildStatus } from '/admin/page-builds.js';
-import { show } from '/admin/utils.js';
+import { Admin } from './admin.js';
+import { EditPostView } from './post-edit.js';
+import { PageBuildStatus } from './page-builds.js';
+import { show } from './utils.js';
 
 const contentElement = document.getElementById('content');
 

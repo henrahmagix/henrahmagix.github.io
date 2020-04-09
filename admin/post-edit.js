@@ -1,5 +1,5 @@
-import { PostFile } from '/admin/post-file.js';
-import { createHTML, show, State } from '/admin/utils.js';
+import { PostFile } from './post-file.js';
+import { createHTML, show, State } from './utils.js';
 
 export class EditPostView {
   get editButton() { return this.el.querySelector('.button-edit'); }

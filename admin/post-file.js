@@ -1,5 +1,5 @@
-import { Api } from '/admin/admin.js';
-import { base64, createHTML, slugify, yamlString } from '/admin/utils.js';
+import { Api } from './admin.js';
+import { base64, createHTML, slugify, yamlString } from './utils.js';
 
 export class PostFile {
   constructor({

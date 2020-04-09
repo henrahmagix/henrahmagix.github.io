@@ -1,5 +1,5 @@
-import { Api } from '/admin/admin.js';
-import { createHTML } from '/admin/utils.js';
+import { Api } from './admin.js';
+import { createHTML } from './utils.js';
 
 export class PageBuildStatus {
   get waitingEl() { return this.el.querySelector('.waiting'); }
