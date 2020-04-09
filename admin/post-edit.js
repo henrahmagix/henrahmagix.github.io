@@ -99,8 +99,6 @@ export class EditPostView {
     [this.titleEl, this.subtitleEl].forEach(el => {
       el.addEventListener('keyup', preventEnterKey);
       el.addEventListener('keydown', preventEnterKey);
-    });
-    [this.titleEl, this.subtitleEl, this.contentEl].forEach(el => {
       el.addEventListener('paste', pasteWithoutFormatting);
     });
     function preventEnterKey(event) {
