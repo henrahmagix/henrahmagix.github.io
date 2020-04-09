@@ -19,7 +19,9 @@ export class PostFile {
     return m ? m[2] : '';
   }
   setTitle(s) {
-    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1, m2) => `${m1} ${s}`);
+    s = s.trim();
+    s = s && ' ' + s;
+    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1) => m1 + s);
     this.onChange();
   }
 
@@ -28,7 +30,9 @@ export class PostFile {
     return m ? m[2] : '';
   }
   setSubtitle(s) {
-    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1, m2) => `${m1} ${s}`);
+    s = s.trim();
+    s = s && ' ' + s;
+    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1) => m1 + s);
     this.onChange();
   }
 
@@ -36,7 +40,7 @@ export class PostFile {
     return this.postContent;
   }
   setContent(s) {
-    this.postContent = s;
+    this.postContent = s.trim();
     this.onChange();
   }
 
@@ -94,7 +98,13 @@ export class PostFile {
   }
 
   get newContent() {
-    return this.postFrontMatter + '\n' + this.postContent.replace(/\n+$/, '\n'); // trim trailing newlines
+    const frontMatter = this.postFrontMatter.trim() + '\n';
+    const content = this.postContent.trim();
+
+    if (!content) {
+      return frontMatter;
+    }
+    return frontMatter + '\n' + content + '\n';
   }
 
   reset() {
