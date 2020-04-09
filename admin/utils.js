@@ -9,6 +9,21 @@ export function slugify(s) {
   return createHTML(window.markdownToHTML(`# ${s}`)).id;
 }
 
+export const yamlString = {
+  toYaml(s) {
+    // Quote to avoid yaml problems.
+    return JSON.stringify(s);
+  },
+  toString(s) {
+    // Unquote.
+    try {
+      return JSON.parse(s);
+    } catch (err) {
+      return s;
+    }
+  },
+};
+
 // https://stackoverflow.com/a/30106551/3150057
 export const base64 = {
   encode(str) {

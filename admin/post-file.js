@@ -1,5 +1,5 @@
 import { Api } from '/admin/admin.js';
-import { base64, createHTML, slugify } from '/admin/utils.js';
+import { base64, createHTML, slugify, yamlString } from '/admin/utils.js';
 
 export class PostFile {
   constructor({
@@ -9,30 +9,72 @@ export class PostFile {
     this.filepath = filepath;
     this.storageKey = `gh_post_${this.isNew ? 'new' : filepath}`;
     this.api = new Api();
+  }
 
-    this.rTitle = /(\ntitle:) *([^\n]*)/;
-    this.rSubtitle = /(\nsubtitle:) *([^\n]*)/;
+  rFrontMatter(key) {
+    return new RegExp(`\n${key}: *([^\n]*)`);
+  }
+  getFrontMatter(key) {
+    const m = this.postFrontMatter.match(this.rFrontMatter(key));
+    return m && yamlString.toString(m[1]);
+  }
+  setFrontMatter(key, s) {
+    if (this.getFrontMatter(key) == null) {
+      return false;
+    }
+
+    s = yamlString.toYaml(s.trim());
+    s = s && ` ${s}`; // separate from yaml colon if non-empty
+    this.postFrontMatter = this.postFrontMatter.replace(
+      this.rFrontMatter(key),
+      `\n${key}:${s}`,
+    );
+    return true;
+  }
+  addFrontMatter(key, s, opts) {
+    s = yamlString.toYaml(s.trim());
+    s = s && ` ${s}`; // separate from yaml colon if non-empty
+
+    let { before, after } = opts || {};
+    if (before) {
+      before = this.rFrontMatter(before);
+    } else if (after) {
+      after = this.rFrontMatter(after);
+    } else {
+      before = new RegExp('\n---+$');
+    }
+
+    const rInsert = new RegExp(before || after);
+    if (!rInsert.test(this.postFrontMatter)) {
+      throw new Error(`addFrontMatter cannot find line to insert: ${rInsert}`);
+    }
+
+    const newLine = `\n${key}:${s}`;
+    this.postFrontMatter = this.postFrontMatter.replace(
+      rInsert, // must be a RegExp to allow function replacing
+      (l) => before ? newLine + l : l + newLine,
+    );
   }
 
   getTitle() {
-    const m = this.postFrontMatter.match(this.rTitle);
-    return m ? m[2] : '';
+    return this.getFrontMatter('title');
   }
   setTitle(s) {
-    s = s.trim();
-    s = s && ' ' + s;
-    this.postFrontMatter = this.postFrontMatter.replace(this.rTitle, (_, m1) => m1 + s);
+    const isSet = this.setFrontMatter('title', s);
+    if (!isSet) {
+      this.addFrontMatter('title', s);
+    }
     this.onChange();
   }
 
   getSubtitle() {
-    const m = this.postFrontMatter.match(this.rSubtitle);
-    return m ? m[2] : '';
+    return this.getFrontMatter('subtitle');
   }
   setSubtitle(s) {
-    s = s.trim();
-    s = s && ' ' + s;
-    this.postFrontMatter = this.postFrontMatter.replace(this.rSubtitle, (_, m1) => m1 + s);
+    const isSet = this.setFrontMatter('subtitle', s);
+    if (!isSet) {
+      this.addFrontMatter('subtitle', s, { after: 'title' });
+    }
     this.onChange();
   }
 
@@ -162,7 +204,6 @@ export class PostFile {
     const postsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_posts').sha}`);
 
     const filename = this.filepath.replace('_drafts/', '');
-    console.log('filename', filename);
     const file = draftsTree.tree.find(t => t.path === filename);
 
     if (!file) {
