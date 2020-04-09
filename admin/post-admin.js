@@ -26,7 +26,7 @@ const admin = new Admin({
       // First check if any editing should be shown.
       await checkPageStatus(window.github_data.build_revision);
 
-      edit.insertBefore(contentElement);
+      await edit.insertBefore(contentElement);
       contentElement.before(buildWaiting.el);
 
       async function checkPageStatus(commit) {

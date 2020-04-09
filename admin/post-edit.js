@@ -125,10 +125,9 @@ export class EditPostView {
     });
   }
 
-  insertBefore(target) {
-    this.readyPromise.then(() => {
-      target.before(this.el);
-    });
+  async insertBefore(target) {
+    await this.readyPromise;
+    target.before(this.el);
   }
 
   clickEdit() {
