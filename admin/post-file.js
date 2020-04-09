@@ -131,8 +131,8 @@ export class PostFile {
       }
     });
 
-    this.postFrontMatter = frontMatterLines.join('\n');
-    this.postContent = contentsLines.join('\n');
+    this.postFrontMatter = frontMatterLines.join('\n').trim();
+    this.postContent = contentsLines.join('\n').trim();
   }
 
   get originalContent() {
