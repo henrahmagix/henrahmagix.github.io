@@ -78,7 +78,7 @@ export class EditPostView {
         this.render();
       }
 
-      if (this.postFile.hasLocalChanges) {
+      if (this.postFile.isNew || this.postFile.hasLocalChanges) {
         this.state.moveToEdit();
       }
     });
