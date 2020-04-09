@@ -1,8 +1,8 @@
 ---
 layout: post
 class: post
-title: here is a title
-subtitle: 
+title: "How I built the iPadOS Cursor for the Web"
+subtitle: ""
 ---
 
 ![wefwef](/images/ipad-cursor-preview.jpg)

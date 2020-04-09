@@ -1,9 +1,10 @@
 ---
 layout: post
 class: post
-title: TODO: admin edit
-subtitle: 
+title: "TODO: admin edit"
+subtitle: ""
 ---
+
 Add tweet button after publishing
 Change html editing to rendered html, not the content markdown
 
