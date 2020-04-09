@@ -11,7 +11,7 @@
   {%- comment -%} icon and title must be next to each other without whitespace {%- endcomment -%}
 
   {% if include.icon %}
-    {% capture icon %}<i class="icon {{ include.icon }}" aria-hidden></i>{% endcapture %}
+    {% capture icon %}<i class="icon {{ include.icon }}" aria-hidden="true"></i>{% endcapture %}
   {% endif %}
 
   {% if include.hide_title == true %}
