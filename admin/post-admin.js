@@ -80,16 +80,22 @@ export async function addPostAdminView({
 }
 
 async function setupLib() {
-  await addScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js');
+  await addScript('https://unpkg.com/showdown/dist/showdown.min.js');
 
-  window.marked.setOptions({
-    gfm: true // github-flavoured markdown
+  window.showdown.setFlavor('github');
+  window.showdown.setOption('smoothLivePreview', true);
+  const showdown = new window.showdown.Converter({
+    extensions: [
+    ],
   });
 
   /** @type {lib.markdownRenderer} */
   const markdownRenderer = {
     markdownToHTML: function (md) {
-      return window.marked(md);
+      return showdown.makeHtml(md);
+    },
+    htmlToMarkdown: function (html) {
+      return showdown.makeMarkdown(html);
     },
   };
 

@@ -1,5 +1,5 @@
 {
   "devDependencies": {
-    "@types/marked": "^0.7.3"
+    "@types/showdown": "^1.9.3"
   }
 }

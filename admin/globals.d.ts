@@ -51,6 +51,7 @@ declare namespace github {
 declare namespace lib {
   interface markdownRenderer {
     markdownToHTML: (md: string) => string;
+    htmlToMarkdown: (html: string) => string;
   }
   interface diffBuilder {
     buildView(baseName: string, baseString: string, newName: string, newString: string): HTMLElement;
