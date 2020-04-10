@@ -250,7 +250,9 @@
   </script>
 
   {% if page.layout == 'post' %}
-  {% include post-scripts.html %}
+    {% include post-scripts.html %}
+  {% elsif page.add_admin_scripts %}
+    {% include admin-scripts.html %}
   {% endif %}
 
 </body>

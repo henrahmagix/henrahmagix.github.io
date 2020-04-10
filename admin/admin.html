@@ -6,36 +6,13 @@ css: /admin/admin.css
 
 <script type="module">
   import { Admin } from './admin.js';
-  import { createHTML, show } from './utils.js';
-  import { PostDraft } from './post-draft.js';
+  import { show } from './utils.js';
 
   const loginForm = document.getElementById('login-form');
-  const adminInterface = document.getElementById('admin-interface');
-  const draftsList = document.getElementById('drafts');
 
   window.admin = new Admin({
     handleLogin: (loggedIn) => {
       show(loginForm, !loggedIn);
-      show(adminInterface, loggedIn);
-
-      if (!loggedIn) {
-        return;
-        loginForm.reset();
-      }
-
-      PostDraft.list().then(drafts => {
-        if (!drafts || !drafts.length) {
-          draftsList.innerText = 'none';
-          return;
-        }
-
-        draftsList.innerText = '';
-        drafts.forEach(d => {
-          const li = createHTML('<li></li>');
-          li.appendChild(d.el);
-          draftsList.appendChild(li);
-        });
-      });
     }
   });
 
@@ -52,11 +29,3 @@ css: /admin/admin.css
 </form>
 
 <button onclick="admin.logout()">Logout</button>
-
-<section id="admin-interface" hidden>
-  <p>This is the admin interface</p>
-
-  <h2>Drafts</h2>
-  <a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a>
-  <ul id="drafts"></ul>
-</section>

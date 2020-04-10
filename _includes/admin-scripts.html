@@ -1,0 +1,9 @@
+<script type="module">
+  if (localStorage.getItem('gh_token')) {
+    import('/admin/post-list-admin.js').then(module => {
+      module.addPostListAdminView({
+        contentElement: document.getElementById('content'),
+      });
+    });
+  }
+</script>

@@ -6,7 +6,7 @@ import { PostFile } from './post-file.js';
 
 addStyle('/admin/admin.css');
 
-export async function addPostAdmin({
+export async function addPostAdminView({
   contentElement,
   markdownRenderer,
   diffBuilder,

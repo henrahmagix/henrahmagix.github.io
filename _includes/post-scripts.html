@@ -1,7 +1,7 @@
 <script type="module">
   if (localStorage.getItem('gh_token')) {
     import('/admin/post-admin.js').then(module => {
-      module.addPostAdmin({
+      module.addPostAdminView({
         contentElement: document.getElementById('content'),
         currentCommit: '{{site.github.build_revision}}',
         filepath: '{{page.path}}',
