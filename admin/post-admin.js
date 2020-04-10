@@ -54,9 +54,9 @@ export async function addPostAdminView({
 
       // Render when file is ready.
       await postFile.fetch();
-      editView.setFile(postFile);
       contentElement.before(editView.el);
       contentElement.before(buildWaiting.el);
+      editView.setFile(postFile);
 
       /** @param {string} commit */
       async function checkPageStatus(commit) {

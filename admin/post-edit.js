@@ -32,7 +32,6 @@ export class EditPostView {
   /** @param {PostFile} postFile */
   setFile(postFile) {
     this.postFile = postFile;
-    this.renderState();
 
     if (postFile.isDraft) {
       this.render();
@@ -87,13 +86,13 @@ export class EditPostView {
         <form hidden name="view" class="view-wrapper" onsubmit="return false;">
           View:
           <label>
-            <input type="radio" name="style" value="write" checked>
-            <span>Write</span>
+            <input type="radio" name="style" value="raw" checked>
+            <span>Raw</span>
           </label>
           |
           <label>
-            <input type="radio" name="style" value="preview">
-            <span>Preview</span>
+            <input type="radio" name="style" value="html">
+            <span>HTML</span>
           </label>
           |
           <label>
@@ -103,6 +102,15 @@ export class EditPostView {
         </form>
       </div>
     `);
+
+    this.textarea = document.createElement('textarea');
+    this.textarea.addEventListener('input', () => {
+      this.fixTextareaHeight();
+      this.updatePost();
+    });
+
+    /** @type {HTMLElement} */
+    this.diffEl = document.createElement('div'); // so it always exists
 
     this.contentWrapper.addEventListener('input', () => this.updatePost());
 
@@ -126,6 +134,11 @@ export class EditPostView {
       el.addEventListener('keydown', preventEnterKey);
       el.addEventListener('paste', pasteWithoutFormatting);
     });
+    this.contentEl.addEventListener('paste', (event) => {
+      if (this.writingHTML) {
+        pasteWithoutFormatting(event);
+      }
+    });
 
     window.addEventListener('beforeunload', event => {
       if (this.needsReview()) {
@@ -133,6 +146,12 @@ export class EditPostView {
         event.returnValue = '';
       }
     });
+  }
+
+  fixTextareaHeight() {
+    this.textarea.style.lineHeight = '1.2';
+    this.textarea.style.height = this.postFile.getRaw().split('\n').length * Number(this.textarea.style.lineHeight) + 'em';
+    this.textarea.style.height = this.textarea.scrollHeight + 'px';
   }
 
   clickEdit() {
@@ -169,8 +188,14 @@ export class EditPostView {
   get editing () {
     return this.state.editing && !this.waiting;
   }
+  get writingRaw() {
+    return this.editing && this.viewStyle === 'raw';
+  }
+  get writingHTML() {
+    return this.editing && this.viewStyle === 'html';
+  }
   get writing() {
-    return this.editing && this.viewStyle === 'write';
+    return this.writingRaw || this.writingHTML;
   }
   get diffing() {
     return this.editing && this.viewStyle === 'diff';
@@ -181,13 +206,20 @@ export class EditPostView {
   get canPublish() {
     return !this.editing && !this.waiting && this.postFile.isDraft;
   }
+
+  render() {
+    this.renderContent();
+    this.renderState();
+  }
+
   renderState() {
-    this.titleEl.contentEditable =
-      this.subtitleEl.contentEditable =
-      this.contentEl.contentEditable =
-      String(this.writing);
-    // When contenteditable changes, run execCommands to work on the editable areas.
-    document.execCommand('defaultParagraphSeparator', false, 'p');
+    let contentEditable = 'false';
+    if (this.writingHTML) {
+      contentEditable = 'true';
+    } else if (this.writingRaw) {
+      contentEditable = 'plaintext-only';
+    }
+    this.setContentEditable(contentEditable);
 
     show(this.editButton, !this.editing && !this.waiting);
     show(this.cancelButton, this.editing);
@@ -197,23 +229,34 @@ export class EditPostView {
     show(this.viewForm, this.editing);
   }
 
-  render() {
-    this.renderState();
-
+  renderContent() {
     if (this.diffing) {
       this.diffEl = this.postFile.diff();
       this.contentWrapper.replaceWith(this.diffEl);
-    } else if (this.diffEl) {
-      this.diffEl.replaceWith(this.contentWrapper);
-    }
-
-    this.titleEl.innerText = this.postFile.getTitle();
-    this.subtitleEl.innerText = this.postFile.getSubtitle();
-
-    if (this.writing) {
-      this.contentEl.innerText = this.postFile.getContent();
+      this.textarea.replaceWith(this.diffEl);
     } else {
-      this.setHTML(this.contentEl, this.postFile.getContent())
+      if (this.writingRaw) {
+        this.textarea.value = this.postFile.getRaw();
+
+        this.contentWrapper.replaceWith(this.textarea);
+        this.diffEl.replaceWith(this.textarea);
+        this.fixTextareaHeight();
+      } else {
+        this.titleEl.innerText = this.postFile.getTitle();
+        this.subtitleEl.innerText = this.postFile.getSubtitle();
+        this.setHTML(this.contentEl, this.postFile.getContent());
+
+        this.textarea.replaceWith(this.contentWrapper);
+        this.diffEl.replaceWith(this.contentWrapper);
+      }
+    }
+  }
+
+  /** @param {string} value */
+  setContentEditable(value) {
+    this.titleEl.contentEditable = this.subtitleEl.contentEditable = value;
+    if (this.contentEl) {
+      this.contentEl.contentEditable = value;
     }
   }
 
@@ -230,9 +273,13 @@ export class EditPostView {
   }
 
   updatePost() {
-    this.postFile.setTitle(this.titleEl.innerText);
-    this.postFile.setSubtitle(this.subtitleEl.innerText);
-    this.postFile.setContent(this.contentEl.innerText);
+    if (this.writingRaw) {
+      this.postFile.setRaw(this.textarea.value);
+    } else {
+      this.postFile.setTitle(this.titleEl.innerText);
+      this.postFile.setSubtitle(this.subtitleEl.innerText);
+      this.postFile.setContent(this.contentEl.innerText);
+    }
 
     this.renderState();
   }

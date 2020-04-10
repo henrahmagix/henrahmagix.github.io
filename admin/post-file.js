@@ -35,7 +35,7 @@ export class PostFile {
    * @param {string} key
    * @returns {string|null}
    */
-  getFrontMatter(key) {
+  getFrontMatterValue(key) {
     const m = this.postFrontMatter.match(this.rFrontMatter(key));
     return m && yamlString.toString(m[1]);
   }
@@ -45,7 +45,7 @@ export class PostFile {
    * @returns {boolean}
    */
   setFrontMatter(key, s) {
-    if (this.getFrontMatter(key) == null) {
+    if (this.getFrontMatterValue(key) == null) {
       return false;
     }
 
@@ -83,7 +83,7 @@ export class PostFile {
   }
 
   getTitle() {
-    return this.getFrontMatter('title');
+    return this.getFrontMatterValue('title');
   }
   /** @param {string} s */
   setTitle(s) {
@@ -95,7 +95,7 @@ export class PostFile {
   }
 
   getSubtitle() {
-    return this.getFrontMatter('subtitle');
+    return this.getFrontMatterValue('subtitle');
   }
   /** @param {string} s */
   setSubtitle(s) {
@@ -112,6 +112,15 @@ export class PostFile {
   /** @param {string} s */
   setContent(s) {
     this.postContent = s.trim();
+    this.onChange();
+  }
+
+  getRaw() {
+    return this.newContent;
+  }
+  /** @param {string} s */
+  setRaw(s) {
+    this.buildContent(s);
     this.onChange();
   }
 
