@@ -17,3 +17,5 @@ Simplify syndications list to set specific types, so I only need to give a twitt
 ### Help it become a useable module for others
 
 Show admin interface on blogs list page instead of /admin
+
+Use `data-editable="my-frontmatter-key"` to match editable elements to frontmatter or content, then EditPost can be entirely generic: on load it queries all data-editable elements and, if logged in, allows editing.
