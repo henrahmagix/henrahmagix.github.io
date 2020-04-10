@@ -4,8 +4,6 @@ import { PageBuildStatus } from './page-builds.js';
 import { show, createHTML } from './utils.js';
 import { PostFile } from './post-file.js';
 
-addStyle('/admin/admin.css');
-
 /**
  * @param {object} opts
  * @param {HTMLElement} opts.contentElement
@@ -20,6 +18,8 @@ export async function addPostAdminView({
   filepath,
   env,
 }) {
+  addStyle('/admin/admin.css');
+
   // Allow overriding jekyll filepath with query param exists.
   filepath = new URLSearchParams(location.search).get('filepath') || filepath;
 
@@ -140,7 +140,7 @@ async function setupLib() {
  * @param {string} [type]
  * @returns {Promise<void>}
  */
-async function addScript(src, type) {
+export async function addScript(src, type) {
   const script = document.createElement('script');
   script.src = src;
   script.async = false;
@@ -156,7 +156,7 @@ async function addScript(src, type) {
  * @param {string} href
  * @returns {Promise<void>}
  */
-async function addStyle(href) {
+export async function addStyle(href) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = href;

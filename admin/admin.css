@@ -92,3 +92,11 @@ table.diff.inlinediff th:nth-child(2) {
   box-sizing: content-box;
   padding-left: 0;
 }
+
+.side-by-side {
+  display: flex;
+  flex-wrap: wrap;
+}
+.side-by-side > * {
+  margin-right: 1em !important;
+}
