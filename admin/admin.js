@@ -5,7 +5,11 @@ function noop() { }
 /** @param {Error} err */
 function handleError(err) {
   // TODO: print error in DOM so it can be seen on mobile.
-  alert(err);
+  if (err.hasOwnProperty('stack') && err.stack.includes(err.toString())) {
+    alert(err.stack);
+  } else {
+    alert(err);
+  }
   console.error(err);
   return true;
 }
