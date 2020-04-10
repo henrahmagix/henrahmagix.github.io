@@ -10,3 +10,4 @@ exclude:
   - bower.json
   - Makefile
   - lib/bundle
+  - '*.ts'

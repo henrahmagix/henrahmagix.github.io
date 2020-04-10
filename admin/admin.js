@@ -1,6 +1,8 @@
 import { createHTML, show } from './utils.js';
 
 function noop() { }
+
+/** @param {Error} err */
 function handleError(err) {
   // TODO: print error in DOM so it can be seen on mobile.
   alert(err);
@@ -23,6 +25,10 @@ const loadingElement = createHTML('<div id="loading"><i class="fas fa-spinner fa
 document.body.appendChild(loadingElement);
 
 export class Admin {
+  /**
+   * @param {object} opts
+   * @param {(loggedIn: boolean) => void} opts.handleLogin
+   */
   constructor({
     handleLogin,
   }) {
@@ -36,6 +42,7 @@ export class Admin {
     }
   }
 
+  /** @param {boolean} loggedIn */
   set loggedIn(loggedIn) {
     if (!loggedIn) {
       localStorage.setItem(TOKEN_KEY, '');
@@ -52,6 +59,7 @@ export class Admin {
     this.loggedIn = false;
   }
 
+  /** @param {string} token */
   async login(token) {
     if (!token) {
       this.loggedIn = false;
@@ -59,10 +67,8 @@ export class Admin {
       return;
     }
 
-    this.api = new Api(token);
-
     try {
-      await this.api.makeRequest('/keys'); // fails for anonymous
+      await new Api(token).makeRequest('/keys'); // fails for anonymous
       localStorage.setItem(TOKEN_KEY, token);
       this.loggedIn = true;
     } catch (err) {
@@ -73,15 +79,21 @@ export class Admin {
 }
 
 export class Api {
+  /** @param {string} [token] */
   constructor(token) {
     this.token = token || localStorage.getItem(TOKEN_KEY);
     this.apiUrl = API_URL;
   }
 
+  /** @param {boolean} isLoading */
   set loading(isLoading) {
     show(loadingElement, isLoading);
   }
 
+  /**
+   * @readonly
+   * @returns {string}
+   */
   get authHeader() {
     if (!this.token) {
       throw new Error('Access token is empty');
@@ -90,12 +102,16 @@ export class Api {
     return `Basic ${auth}`;
   }
 
+  /**
+   * @param {string} url
+   * @param {RequestInit} [opts]
+   * @returns {Promise<any|Api.ResponseError>}
+   */
   async makeRequest(url, opts) {
     opts = opts || {};
     opts.method = opts.method || 'GET';
-    opts.body = opts.body && JSON.stringify(opts.body);
 
-    opts.headers = opts.headers || new Headers();
+    opts.headers = new Headers(opts.headers);
     opts.headers.set('Authorization', this.authHeader);
 
     this.loading = true;
@@ -116,6 +132,10 @@ export class Api {
 }
 
 Api.ResponseError = class extends Error {
+  /**
+   * @param {string} message
+   * @param {{status:number, body:string}} body
+   */
   constructor(message, {status, body}) {
     super(`${message}: ${status} ${body}`);
     this.name = 'ApiResponseError';

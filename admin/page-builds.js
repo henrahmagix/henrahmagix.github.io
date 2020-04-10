@@ -19,6 +19,10 @@ export class PageBuildStatus {
     `);
   }
 
+  /**
+   * @param {string} commit
+   * @returns {Promise<boolean>}
+   */
   async checkForCommit(commit) {
     const res = await this.api.makeRequest('/pages/builds')
     const latest = res[0];

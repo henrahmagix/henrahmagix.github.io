@@ -2,25 +2,48 @@ import { Api } from './admin.js';
 import { base64, slugify, yamlString } from './utils.js';
 
 export class PostFile {
+  /**
+   * @param {object} opts
+   * @param {lib.diffBuilder} opts.diffBuilder
+   * @param {string} opts.filepath
+   */
   constructor({
     diffBuilder,
     filepath,
   }) {
     this.diffBuilder = diffBuilder;
+    /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
     this.filepath = filepath;
+
+    /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
+    this.postFrontMatter = '';
+    this.postContent = '';
 
     this.isNew = filepath.includes('admin/edit');
     this.storageKey = `gh_post_${this.isNew ? 'new' : filepath}`;
     this.api = new Api();
   }
 
+  /**
+   * @param {string} key
+   * @returns {RegExp}
+   */
   rFrontMatter(key) {
     return new RegExp(`\n${key}: *([^\n]*)`);
   }
+  /**
+   * @param {string} key
+   * @returns {string|null}
+   */
   getFrontMatter(key) {
     const m = this.postFrontMatter.match(this.rFrontMatter(key));
     return m && yamlString.toString(m[1]);
   }
+  /**
+   * @param {string} key
+   * @param {string} s
+   * @returns {boolean}
+   */
   setFrontMatter(key, s) {
     if (this.getFrontMatter(key) == null) {
       return false;
@@ -34,20 +57,20 @@ export class PostFile {
     );
     return true;
   }
+  /**
+   * @param {string} key
+   * @param {string} s
+   * @param {object} [opts]
+   * @param {string} [opts.before]
+   * @param {string} [opts.after]
+   */
   addFrontMatter(key, s, opts) {
     s = yamlString.toYaml(s.trim());
     s = s && ` ${s}`; // separate from yaml colon if non-empty
 
     let { before, after } = opts || {};
-    if (before) {
-      before = this.rFrontMatter(before);
-    } else if (after) {
-      after = this.rFrontMatter(after);
-    } else {
-      before = new RegExp('\n---+$');
-    }
 
-    const rInsert = new RegExp(before || after);
+    const rInsert = new RegExp(before || after || '\n---+$');
     if (!rInsert.test(this.postFrontMatter)) {
       throw new Error(`addFrontMatter cannot find line to insert: ${rInsert}`);
     }
@@ -62,6 +85,7 @@ export class PostFile {
   getTitle() {
     return this.getFrontMatter('title');
   }
+  /** @param {string} s */
   setTitle(s) {
     const isSet = this.setFrontMatter('title', s);
     if (!isSet) {
@@ -73,6 +97,7 @@ export class PostFile {
   getSubtitle() {
     return this.getFrontMatter('subtitle');
   }
+  /** @param {string} s */
   setSubtitle(s) {
     const isSet = this.setFrontMatter('subtitle', s);
     if (!isSet) {
@@ -84,6 +109,7 @@ export class PostFile {
   getContent() {
     return this.postContent;
   }
+  /** @param {string} s */
   setContent(s) {
     this.postContent = s.trim();
     this.onChange();
@@ -98,6 +124,7 @@ export class PostFile {
   }
 
   async fetch() {
+    /** @type {github.GetContentFileResponse} */
     const res = await this.api.makeRequest(`/contents/${this.filepath}?ref=master`);
     this.content = res.content;
     this.sha = res.sha;
@@ -118,8 +145,11 @@ export class PostFile {
     this.clearStorage();
   }
 
+  /** @param {string} content */
   buildContent(content) {
+    /** @type {string[]} */
     const frontMatterLines = [];
+    /** @type {string[]} */
     const contentsLines = [];
 
     let frontMatterMatches = 0;
@@ -176,14 +206,15 @@ export class PostFile {
     }
 
     const content = base64.encode(this.newContent);
+    /** @type {github.PutContentFileResponse} */
     const res = await this.api.makeRequest(`/contents/${this.filepath}`, {
       method: 'PUT',
-      body: {
+      body: JSON.stringify({
         message: `Edit ${this.filepath}`,
         content,
         sha: this.sha,
         branch: 'master',
-      },
+      }),
     });
     this.content = content;
     this.sha = res.content.sha;
@@ -200,10 +231,14 @@ export class PostFile {
     }
 
     // Get tree for this file.
+    /** @type {github.GetBranchResponse} */
     const rootBranch = await this.api.makeRequest(`/branches/master`);
+    /** @type {github.GetTreeResponse} */
     const rootTree = await this.api.makeRequest(`/git/trees/${rootBranch.commit.sha}`);
 
+    /** @type {github.GetTreeResponse} */
     const draftsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_drafts').sha}`);
+    /** @type {github.GetTreeResponse} */
     const postsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_posts').sha}`);
 
     const filename = this.filepath.replace('_drafts/', '');
@@ -223,23 +258,32 @@ export class PostFile {
     // - _drafts without file
     // - _posts with renamed file
     // - root with changed _drafts and _posts
-    const postTree = async (base_tree, tree) => {
+    /**
+     * @param {github.PostTreeRequest} request
+     * @returns {Promise<github.PostTreeResponse>}
+    */
+    const postTree = async ({base_tree, tree}) => {
       return await this.api.makeRequest(`/git/trees?recursive=1`, {
         method: 'POST',
         // body: { base_tree, tree },
         // Don't include base_tree, else files cannot be deleted.
-        body: { tree },
+        body: JSON.stringify({ tree }),
       });
     }
-    const newDraftsTree = await postTree(draftsTree.sha,
-      draftsTree.tree.filter(t => t.path !== filename),
-    );
-    const newPostsTree = await postTree(postsTree.sha, [
-      ...postsTree.tree,
-      { ...file, path: newFilename },
-    ]);
-    const newRootTree = await postTree(rootTree.sha,
-      rootTree.tree.map(t => {
+    const newDraftsTree = await postTree({
+      base_tree: draftsTree.sha,
+      tree: draftsTree.tree.filter(t => t.path !== filename),
+    });
+    const newPostsTree = await postTree({
+      base_tree: postsTree.sha,
+      tree: [
+        ...postsTree.tree,
+        { ...file, path: newFilename },
+      ]
+    });
+    const newRootTree = await postTree({
+      base_tree: rootTree.sha,
+      tree: rootTree.tree.map(t => {
         if (t.path === '_drafts') {
           return { ...t, sha: newDraftsTree.sha };
         }
@@ -248,24 +292,29 @@ export class PostFile {
         }
         return t;
       }),
-    );
+    });
 
     // Commit:
     // - make a commit on the branch pointing to the new root tree
     // - point the branch to the commit
+    /** @type {github.PostCommitRequest} */
+    const commitBody = {
+      message: `Publish ${newFilename}`,
+      tree: newRootTree.sha,
+      parents: [rootBranch.commit.sha],
+    };
     const commit = await this.api.makeRequest(`/git/commits`, {
       method: 'POST',
-      body: {
-        message: `Publish ${newFilename}`,
-        tree: newRootTree.sha,
-        parents: [rootBranch.commit.sha],
-      },
+      body: JSON.stringify(commitBody),
     });
+
+    /** @type {github.PatchRefsHeadsRequest} */
+    const refHeadBody = {
+      sha: commit.sha,
+    };
     await this.api.makeRequest(`/git/refs/heads/${rootBranch.name}`, {
       method: 'PATCH',
-      body: {
-        sha: commit.sha,
-      },
+      body: JSON.stringify(refHeadBody),
     });
 
     this.filepath = `_posts/${newFilename}`;

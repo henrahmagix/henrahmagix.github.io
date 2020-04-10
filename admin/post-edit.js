@@ -1,23 +1,35 @@
 import { createHTML, show, State } from './utils.js';
+import { PostFile } from './post-file.js';
 
 export class EditPostView {
+  /** @returns {HTMLButtonElement} */
   get editButton() { return this.el.querySelector('.button-edit'); }
+  /** @returns {HTMLButtonElement} */
   get cancelButton() { return this.el.querySelector('.button-cancel'); }
+  /** @returns {HTMLButtonElement} */
   get reviewButton() { return this.el.querySelector('.button-review'); }
+  /** @returns {HTMLButtonElement} */
   get submitButton() { return this.el.querySelector('.button-submit'); }
+  /** @returns {HTMLButtonElement} */
   get publishButton() { return this.el.querySelector('.button-publish'); }
+
+  /** @returns {HTMLElement} */
   get spinnerEl() { return this.el.querySelector('.spinner'); }
   /** @returns {HTMLFormElement} */
   get viewForm() { return this.el.querySelector('form[name="view"]'); }
 
-  get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
-  get subtitleEl() { return this.contentWrapper.querySelector('.entry-summary'); }
-  get contentEl() { return this.contentWrapper.querySelector('.entry-content'); }
+  /** @returns {HTMLElement} */
+  get titleEl() { return (this.contentWrapper.querySelector('.entry-title')); }
+  /** @returns {HTMLElement} */
+  get subtitleEl() { return (this.contentWrapper.querySelector('.entry-summary')); }
+  /** @returns {HTMLElement} */
+  get contentEl() { return (this.contentWrapper.querySelector('.entry-content')); }
 
   get viewStyle() {
     return new FormData(this.viewForm).get('style');
   }
 
+  /** @param {PostFile} postFile */
   setFile(postFile) {
     this.postFile = postFile;
     this.renderState();
@@ -31,6 +43,13 @@ export class EditPostView {
     }
   }
 
+  /**
+   * @param {HTMLElement} contentWrapper
+   * @param {object} opts
+   * @param {lib.markdownRenderer} opts.markdownRenderer
+   * @param {(commit: string) => void} opts.afterCommit
+   * @param {(filepath: string) => void} opts.afterPublish
+   */
   constructor(
     contentWrapper,
     {
@@ -46,15 +65,21 @@ export class EditPostView {
 
     this.state = new EditPostState();
 
-    function buttonHTML({text, type, classname, icon}) {
-      type = type || 'button';
-      return `<button type="${type}" class="${classname}"><i class="icon ${icon}"></i>${text}</button>`;
+    /**
+     * @param {object} opts
+     * @param {string} opts.text
+     * @param {string} opts.classname
+     * @param {string} opts.icon
+     * @returns {string}
+     */
+    function buttonHTML({text, classname, icon}) {
+      return `<button class="${classname}"><i class="icon ${icon}"></i>${text}</button>`;
     }
     this.el = createHTML(`
       <div class="edit-wrapper">
         ${buttonHTML({text: 'Edit', classname: 'button-edit', icon: 'fas fa-pencil-alt'})}
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
-        ${buttonHTML({text: 'Submit', type: 'submit', classname: 'button-submit', icon: 'fas fa-check'})}
+        ${buttonHTML({text: 'Submit', classname: 'button-submit', icon: 'fas fa-check'})}
         ${buttonHTML({text: 'Publish', classname: 'button-publish', icon: 'fas fa-cloud-upload-alt'})}
 
         <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
@@ -101,19 +126,6 @@ export class EditPostView {
       el.addEventListener('keydown', preventEnterKey);
       el.addEventListener('paste', pasteWithoutFormatting);
     });
-    function preventEnterKey(event) {
-      if (event.code === 'Enter') {
-        event.preventDefault();
-      }
-    }
-    function pasteWithoutFormatting(event) {
-      // cancel paste
-      event.preventDefault();
-      // get text representation of clipboard
-      var text = event.clipboardData.getData('text/plain');
-      // insert text manually
-      document.execCommand('insertHTML', false, text);
-    }
 
     window.addEventListener('beforeunload', event => {
       if (this.needsReview()) {
@@ -173,7 +185,7 @@ export class EditPostView {
     this.titleEl.contentEditable =
       this.subtitleEl.contentEditable =
       this.contentEl.contentEditable =
-      this.writing;
+      String(this.writing);
     // When contenteditable changes, run execCommands to work on the editable areas.
     document.execCommand('defaultParagraphSeparator', false, 'p');
 
@@ -205,6 +217,10 @@ export class EditPostView {
     }
   }
 
+  /**
+   * @param {HTMLElement} target
+   * @param {string} markdown
+   */
   setHTML(target, markdown) {
     target.innerHTML = this.markdownRenderer.markdownToHTML(markdown);
     // Fix code highlighting after editing.
@@ -265,6 +281,7 @@ class EditPostState {
     return this._state.is('publishing');
   }
 
+  /** @param {() => void} fn */
   addChangeListener(fn) {
     this._state.addChangeListener(fn);
   }
@@ -284,4 +301,20 @@ class EditPostState {
   moveToPublishing() {
     this._state.moveTo('publishing');
   }
+}
+
+/** @param {KeyboardEvent} event */
+function preventEnterKey(event) {
+  if (event.code === 'Enter') {
+    event.preventDefault();
+  }
+}
+/** @param {ClipboardEvent} event */
+function pasteWithoutFormatting(event) {
+  // cancel paste
+  event.preventDefault();
+  // get text representation of clipboard
+  var text = event.clipboardData.getData('text/plain');
+  // insert text manually
+  document.execCommand('insertHTML', false, text);
 }

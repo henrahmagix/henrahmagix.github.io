@@ -6,10 +6,16 @@ import { PostFile } from './post-file.js';
 
 addStyle('/admin/admin.css');
 
+/**
+ * @param {object} opts
+ * @param {HTMLElement} opts.contentElement
+ * @param {string} opts.currentCommit
+ * @param {string} opts.filepath
+ * @param {object} opts.env
+ * @param {boolean} opts.env.production
+ */
 export async function addPostAdminView({
   contentElement,
-  markdownRenderer,
-  diffBuilder,
   currentCommit,
   filepath,
   env,
@@ -52,19 +58,21 @@ export async function addPostAdminView({
       contentElement.before(editView.el);
       contentElement.before(buildWaiting.el);
 
+      /** @param {string} commit */
       async function checkPageStatus(commit) {
         const pageOutOfDate = env.production && await buildWaiting.checkForCommit(commit);
         show(buildWaiting.el, pageOutOfDate);
         show(editView.el, !pageOutOfDate);
       }
 
-      function changeURLFilepath(path) {
+      /** @param {string} filepath */
+      function changeURLFilepath(filepath) {
         if (!window.location.pathname.includes('admin/edit')) {
           return;
         }
 
         const url = new URL(window.location.href);
-        url.searchParams.set('filepath', path);
+        url.searchParams.set('filepath', filepath);
         window.history.replaceState(null, null, url.toString());
       }
     },
@@ -77,6 +85,8 @@ async function setupLib() {
   window.marked.setOptions({
     gfm: true // github-flavoured markdown
   });
+
+  /** @type {lib.markdownRenderer} */
   const markdownRenderer = {
     markdownToHTML: function (md) {
       return window.marked(md);
@@ -87,6 +97,7 @@ async function setupLib() {
   await addScript('https://cemerick.github.io/jsdifflib/diffview.js');
   await addScript('https://cemerick.github.io/jsdifflib/difflib.js');
 
+  /** @type {lib.diffBuilder} */
   const diffBuilder = {
     buildView(baseName, baseString, newName, newString) {
       const baseLines = window.difflib.stringAsLines(baseString);
@@ -118,6 +129,11 @@ async function setupLib() {
   };
 }
 
+/**
+ * @param {string} src
+ * @param {string} [type]
+ * @returns {Promise<void>}
+ */
 async function addScript(src, type) {
   const script = document.createElement('script');
   script.src = src;
@@ -130,6 +146,10 @@ async function addScript(src, type) {
   return onload;
 }
 
+/**
+ * @param {string} href
+ * @returns {Promise<void>}
+ */
 async function addStyle(href) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
@@ -139,6 +159,10 @@ async function addStyle(href) {
   return onload;
 }
 
+/**
+ * @param {HTMLElement} el
+ * @returns {Promise<any>}
+ */
 function resourcePromise(el) {
   return new Promise((resolve, reject) => {
     el.onload = resolve;

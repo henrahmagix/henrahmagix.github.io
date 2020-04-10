@@ -2,6 +2,10 @@ import { Admin } from './admin.js';
 import { createHTML, show } from './utils.js';
 import { PostDraft } from './post-draft.js';
 
+/**
+ * @param {object} opts
+ * @param {HTMLElement} opts.contentElement
+ */
 export function addPostListAdminView({
   contentElement,
 }) {
