@@ -76,7 +76,7 @@ export class EditPostView {
       return `<button class="${classname}"><i class="icon ${icon}"></i>${text}</button>`;
     }
     this.el = createHTML(`
-      <div class="edit-wrapper">
+      <div id="admin-post-edit">
         ${buttonHTML({text: 'Edit', classname: 'button-edit', icon: 'fas fa-pencil-alt'})}
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
         ${buttonHTML({text: 'Submit', classname: 'button-submit', icon: 'fas fa-check'})}

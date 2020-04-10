@@ -10,19 +10,21 @@ export function addPostListAdminView({
   contentElement,
 }) {
   const adminInterface = createHTML(`
-    <section>
-      <p>This is the admin interface</p>
+    <section id="admin-post-list">
+      <h2>Blog Admin</h2>
 
-      <ul id="drafts">
+      <ul>
         Drafts:
         <li data-keep><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
         <li><i class="icon fas fa-spinner fa-pulse"></i></li>
       </ul>
+
+      <hr>
     </section>
   `);
   contentElement.before(adminInterface);
 
-  const draftsList = adminInterface.querySelector('#drafts');
+  const draftsList = adminInterface.querySelector('ul');
 
   new Admin({
     handleLogin: (loggedIn) => {
