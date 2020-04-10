@@ -1,4 +1,4 @@
-import { createHTML } from './utils.js';
+import { createHTML, show } from './utils.js';
 
 function noop() { }
 function handleError(err) {
@@ -19,7 +19,7 @@ const API_URL = `https://api.github.com/repos/${USER}/henrahmagix.github.io`;
 
 const TOKEN_KEY = 'gh_token';
 
-const loadingElement = createHTML('<div id="loading" hidden><i class="fas fa-spinner fa-pulse"></i></div>');
+const loadingElement = createHTML('<div id="loading"><i class="fas fa-spinner fa-pulse"></i></div>');
 document.body.appendChild(loadingElement);
 
 export class Admin {
@@ -31,11 +31,9 @@ export class Admin {
     const existingToken = localStorage.getItem(TOKEN_KEY);
     if (existingToken) {
       this.login(existingToken);
+    } else {
+      show(loadingElement, false);
     }
-  }
-
-  set loading(isLoading) {
-    loadingElement.hidden = !isLoading;
   }
 
   set loggedIn(loggedIn) {
@@ -63,7 +61,6 @@ export class Admin {
 
     this.api = new Api(token);
 
-    this.loading = true;
     try {
       await this.api.makeRequest('/keys'); // fails for anonymous
       localStorage.setItem(TOKEN_KEY, token);
@@ -71,8 +68,6 @@ export class Admin {
     } catch (err) {
       this.loggedIn = false;
       handleError(new Error(`failed to login: ${err}`));
-    } finally {
-      this.loading = false;
     }
   }
 }
@@ -81,6 +76,10 @@ export class Api {
   constructor(token) {
     this.token = token || localStorage.getItem(TOKEN_KEY);
     this.apiUrl = API_URL;
+  }
+
+  set loading(isLoading) {
+    show(loadingElement, isLoading);
   }
 
   get authHeader() {
@@ -99,15 +98,20 @@ export class Api {
     opts.headers = opts.headers || new Headers();
     opts.headers.set('Authorization', this.authHeader);
 
-    const res = await fetch(this.apiUrl + url, opts);
-    if (!res.ok) {
-      throw new Api.ResponseError('fetch failed', {status: res.status, body: await res.text()});
-    }
+    this.loading = true;
+    try {
+      const res = await fetch(this.apiUrl + url, opts);
+      if (!res.ok) {
+        throw new Api.ResponseError('fetch failed', {status: res.status, body: await res.text()});
+      }
 
-    if (res.headers.get('Content-Type').includes('json')) {
-      return await res.json();
+      if (res.headers.get('Content-Type').includes('json')) {
+        return await res.json();
+      }
+      return await res.text();
+    } finally {
+      this.loading = false;
     }
-    return await res.text();
   }
 }
 
