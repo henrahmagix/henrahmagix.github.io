@@ -13,6 +13,10 @@ css: /admin/admin.css
   window.admin = new Admin({
     handleLogin: (loggedIn) => {
       show(loginForm, !loggedIn);
+
+      if (loggedIn) {
+        window.location.pathname = '/blog';
+      }
     }
   });
 
