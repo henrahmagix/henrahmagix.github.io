@@ -7,6 +7,7 @@ export class EditPostView {
   get submitButton() { return this.el.querySelector('.button-submit'); }
   get publishButton() { return this.el.querySelector('.button-publish'); }
   get spinnerEl() { return this.el.querySelector('.spinner'); }
+  /** @returns {HTMLFormElement} */
   get viewForm() { return this.el.querySelector('form[name="view"]'); }
 
   get titleEl() { return this.contentWrapper.querySelector('.entry-title'); }
