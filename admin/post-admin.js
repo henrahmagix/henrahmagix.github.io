@@ -43,7 +43,7 @@ export async function addPostAdminView({
         markdownRenderer: lib.markdownRenderer,
         afterCommit: async (newCommit) => {
           checkPageStatus(newCommit);
-          changeURLFilepath(editView.postFile.filepath);
+          changeURLFilepath(postFile.filepath);
         },
         afterPublish: async (publishedPath) => {
           changeURLFilepath(publishedPath);
