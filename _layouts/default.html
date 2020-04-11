@@ -151,9 +151,8 @@
       </article>
     </article>
 
-    {% if page.syndications %}
+    {% if page.layout == 'post' %}
       <hr>
-      <p>Share and respond?</p>
       {% include syndications.html %}
     {% endif %}
 
