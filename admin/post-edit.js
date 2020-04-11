@@ -13,6 +13,8 @@ export class EditPostView {
   /** @returns {HTMLButtonElement} */
   get publishButton() { return this.el.querySelector('.button-publish'); }
   /** @returns {HTMLButtonElement} */
+  get unpublishButton() { return this.el.querySelector('.button-unpublish'); }
+  /** @returns {HTMLButtonElement} */
   get tweetButton() { return this.el.querySelector('.button-tweet'); }
 
   /** @returns {HTMLElement} */
@@ -51,6 +53,7 @@ export class EditPostView {
    * @param {lib.markdownRenderer} opts.markdownRenderer
    * @param {(commit: string) => void} opts.afterCommit
    * @param {(filepath: string) => void} opts.afterPublish
+   * @param {(filepath: string) => void} opts.afterUnpublish
    */
   constructor(
     contentWrapper,
@@ -58,12 +61,14 @@ export class EditPostView {
       markdownRenderer,
       afterCommit,
       afterPublish,
+      afterUnpublish,
     }
   ) {
     this.contentWrapper = contentWrapper;
     this.markdownRenderer = markdownRenderer;
     this.afterCommit = afterCommit;
     this.afterPublish = afterPublish;
+    this.afterUnpublish = afterUnpublish;
 
     this.state = new EditPostState();
 
@@ -83,6 +88,7 @@ export class EditPostView {
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
         ${buttonHTML({text: 'Submit', classname: 'button-submit', icon: 'fas fa-check'})}
         ${buttonHTML({text: 'Publish', classname: 'button-publish', icon: 'fas fa-cloud-upload-alt'})}
+        ${buttonHTML({text: 'Unpublish', classname: 'button-unpublish', icon: 'fas fa-cloud-download-alt'})}
         ${buttonHTML({text: 'Tweet', classname: 'button-tweet', icon: 'fab fa-twitter'})}
 
         <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
@@ -124,6 +130,7 @@ export class EditPostView {
     this.cancelButton.addEventListener('click', () => this.clickCancel());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
     this.publishButton.addEventListener('click', () => this.clickPublish());
+    this.unpublishButton.addEventListener('click', () => this.clickUnpublish());
     this.tweetButton.addEventListener('click', () => this.clickTweet());
 
     this.viewForm.addEventListener('change', () => this.render());
@@ -183,6 +190,10 @@ export class EditPostView {
     this.state.moveToPublishing();
     this.publishPost();
   }
+  clickUnpublish() {
+    this.state.moveToUnpublishing();
+    this.unpublishPost();
+  }
   clickTweet() {
     this.state.moveToTweeting();
     const tweetUrl = new URL('https://twitter.com/intent/tweet');
@@ -224,6 +235,9 @@ export class EditPostView {
   get canPublish() {
     return !this.editing && !this.waiting && this.postFile.isDraft;
   }
+  get canUnpublish() {
+    return !this.editing && !this.waiting && !this.postFile.isDraft && !this.postFile.isNew;
+  }
   get canTweet() {
     return !this.editing && !this.waiting && !this.postFile.isDraft && !this.postFile.hasSyndication('twitter');
   }
@@ -246,6 +260,7 @@ export class EditPostView {
     show(this.cancelButton, this.editing);
     show(this.submitButton, this.canSubmit);
     show(this.publishButton, this.canPublish);
+    show(this.unpublishButton, this.canUnpublish);
     show(this.tweetButton, this.canTweet);
     show(this.spinnerEl, this.waiting);
     show(this.viewForm, this.editing);
@@ -327,11 +342,20 @@ export class EditPostView {
       this.afterPublish(this.postFile.filepath);
     }
   }
+
+  async unpublishPost() {
+    await this.postFile.unpublish();
+
+    this.state.reset();
+    if (typeof this.afterUnpublish === 'function') {
+      this.afterUnpublish(this.postFile.filepath);
+    }
+  }
 }
 
 class EditPostState {
   constructor() {
-    this._state = new State('view', 'edit', 'submitting', 'publishing', 'tweeting');
+    this._state = new State('view', 'edit', 'submitting', 'publishing', 'unpublishing', 'tweeting');
   }
 
   get editing() {
@@ -342,6 +366,9 @@ class EditPostState {
   }
   get publishing() {
     return this._state.is('publishing');
+  }
+  get unpublishing() {
+    return this._state.is('unpublishing');
   }
   get tweeting() {
     return this._state.is('tweeting');
@@ -366,6 +393,10 @@ class EditPostState {
 
   moveToPublishing() {
     this._state.moveTo('publishing');
+  }
+
+  moveToUnpublishing() {
+    this._state.moveTo('unpublishing');
   }
 
   moveToTweeting() {

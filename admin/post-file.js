@@ -209,6 +209,39 @@ export class PostFile {
       throw new Error('Cannot publish new draft or existing post: must be submitted draft');
     }
 
+    const filename = this.filepath.replace('_drafts/', '');
+    const ymd = new Date().toISOString().split('T')[0];
+    const newFilename = `${ymd}-${filename}`;
+
+    return this.moveFolder('Publish',
+      '_drafts', filename,
+      '_posts', newFilename,
+    );
+  }
+
+  async unpublish() {
+    if (this.isNew || this.isDraft) {
+      throw new Error('Cannot unpublish draft post: must be published post');
+    }
+
+    const filename = this.filepath.replace('_posts/', '');
+    const newFilename = filename.replace(/\d{4}-\d{2}-\d{2}-/, '');
+
+    return this.moveFolder('Unpublish',
+      '_posts', filename,
+      '_drafts', newFilename,
+    );
+  }
+
+  /**
+   * @private
+   * @param {string} message
+   * @param {string} srcFolder
+   * @param {string} srcFile
+   * @param {string} dstFolder
+   * @param {string} dstFile
+   */
+  async moveFolder(message, srcFolder, srcFile, dstFolder, dstFile) {
     // Get tree for this file.
     /** @type {github.GetBranchResponse} */
     const rootBranch = await this.api.makeRequest(`/branches/master`);
@@ -216,27 +249,20 @@ export class PostFile {
     const rootTree = await this.api.makeRequest(`/git/trees/${rootBranch.commit.sha}`);
 
     /** @type {github.GetTreeResponse} */
-    const draftsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_drafts').sha}`);
+    const srcTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === srcFolder).sha}`);
     /** @type {github.GetTreeResponse} */
-    const postsTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === '_posts').sha}`);
+    const dstTree = await this.api.makeRequest(`/git/trees/${rootTree.tree.find(t=>t.path === dstFolder).sha}`);
 
-    const filename = this.filepath.replace('_drafts/', '');
-    const file = draftsTree.tree.find(t => t.path === filename);
+    const file = srcTree.tree.find(t => t.path === srcFile);
 
     if (!file) {
-      // if (rootTree.truncated) {
-      //   throw new Error(`TODO: fetch individual trees because recursive was truncated`);
-      // }
-      throw new Error(`Cannot find tree blog for ${this.filepath}`);
+      throw new Error(`Cannot find tree blob for ${this.filepath}`);
     }
 
-    const ymd = new Date().toISOString().split('T')[0];
-    const newFilename = `${ymd}-${filename}`;
-
     // Create new trees:
-    // - _drafts without file
-    // - _posts with renamed file
-    // - root with changed _drafts and _posts
+    // - src without file
+    // - dst with renamed file
+    // - root with changed src and dst
     /**
      * @param {github.PostTreeRequest} request
      * @returns {Promise<github.PostTreeResponse>}
@@ -249,25 +275,25 @@ export class PostFile {
         body: JSON.stringify({ tree }),
       });
     }
-    const newDraftsTree = await postTree({
-      base_tree: draftsTree.sha,
-      tree: draftsTree.tree.filter(t => t.path !== filename),
+    const newSrcTree = await postTree({
+      base_tree: srcTree.sha,
+      tree: srcTree.tree.filter(t => t.path !== srcFile),
     });
-    const newPostsTree = await postTree({
-      base_tree: postsTree.sha,
+    const newDstTree = await postTree({
+      base_tree: dstTree.sha,
       tree: [
-        ...postsTree.tree,
-        { ...file, path: newFilename },
+        ...dstTree.tree,
+        { ...file, path: dstFile },
       ]
     });
     const newRootTree = await postTree({
       base_tree: rootTree.sha,
       tree: rootTree.tree.map(t => {
-        if (t.path === '_drafts') {
-          return { ...t, sha: newDraftsTree.sha };
+        if (t.path === srcFolder) {
+          return { ...t, sha: newSrcTree.sha };
         }
-        if (t.path === '_posts') {
-          return { ...t, sha: newPostsTree.sha };
+        if (t.path === dstFolder) {
+          return { ...t, sha: newDstTree.sha };
         }
         return t;
       }),
@@ -278,7 +304,7 @@ export class PostFile {
     // - point the branch to the commit
     /** @type {github.PostCommitRequest} */
     const commitBody = {
-      message: `Publish ${newFilename}`,
+      message: `${message} ${dstFile}`,
       tree: newRootTree.sha,
       parents: [rootBranch.commit.sha],
     };
@@ -296,7 +322,7 @@ export class PostFile {
       body: JSON.stringify(refHeadBody),
     });
 
-    this.filepath = `_posts/${newFilename}`;
+    this.filepath = `${dstFolder}/${dstFile}`;
   }
 
   diff() {
