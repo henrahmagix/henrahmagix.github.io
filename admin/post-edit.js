@@ -7,8 +7,6 @@ export class EditPostView {
   /** @returns {HTMLButtonElement} */
   get cancelButton() { return this.el.querySelector('.button-cancel'); }
   /** @returns {HTMLButtonElement} */
-  get reviewButton() { return this.el.querySelector('.button-review'); }
-  /** @returns {HTMLButtonElement} */
   get submitButton() { return this.el.querySelector('.button-submit'); }
   /** @returns {HTMLButtonElement} */
   get publishButton() { return this.el.querySelector('.button-publish'); }
