@@ -256,21 +256,26 @@ export class EditPostView {
       this.diffEl = this.postFile.diff();
       this.contentWrapper.replaceWith(this.diffEl);
       this.textarea.replaceWith(this.diffEl);
+      return;
+    }
+
+    if (this.writingRaw) {
+      this.textarea.value = this.postFile.getRaw();
+
+      this.contentWrapper.replaceWith(this.textarea);
+      this.diffEl.replaceWith(this.textarea);
+      this.fixTextareaHeight();
     } else {
-      if (this.writingRaw) {
-        this.textarea.value = this.postFile.getRaw();
+      this.titleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getTitle());
+      this.subtitleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getSubtitle());
+      this.contentEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getContent());
+      // Fix code highlighting after editing.
+      this.contentEl.querySelectorAll('pre').forEach(function (el) {
+        el.classList.add('highlight');
+      });
 
-        this.contentWrapper.replaceWith(this.textarea);
-        this.diffEl.replaceWith(this.textarea);
-        this.fixTextareaHeight();
-      } else {
-        this.titleEl.innerText = this.postFile.getTitle();
-        this.subtitleEl.innerText = this.postFile.getSubtitle();
-        this.setHTML(this.contentEl, this.postFile.getContent());
-
-        this.textarea.replaceWith(this.contentWrapper);
-        this.diffEl.replaceWith(this.contentWrapper);
-      }
+      this.textarea.replaceWith(this.contentWrapper);
+      this.diffEl.replaceWith(this.contentWrapper);
     }
   }
 
@@ -280,27 +285,16 @@ export class EditPostView {
     if (this.contentEl) {
       this.contentEl.contentEditable = value;
     }
-  }
-
-  /**
-   * @param {HTMLElement} target
-   * @param {string} markdown
-   */
-  setHTML(target, markdown) {
-    target.innerHTML = this.markdownRenderer.markdownToHTML(markdown);
-    // Fix code highlighting after editing.
-    target.querySelectorAll('pre').forEach(function (el) {
-      el.classList.add('highlight');
-    });
+    document.execCommand('defaultParagraphSeparator', false, 'p');
   }
 
   updatePost() {
     if (this.writingRaw) {
       this.postFile.setRaw(this.textarea.value);
     } else {
-      this.postFile.setTitle(this.titleEl.innerText);
-      this.postFile.setSubtitle(this.subtitleEl.innerText);
-      this.postFile.setContent(this.contentEl.innerText);
+      this.postFile.setTitle(this.markdownRenderer.htmlToMarkdown(this.titleEl.innerHTML));
+      this.postFile.setSubtitle(this.markdownRenderer.htmlToMarkdown(this.subtitleEl.innerHTML));
+      this.postFile.setContent(this.markdownRenderer.htmlToMarkdown(this.contentEl.innerHTML));
     }
 
     this.renderState();
