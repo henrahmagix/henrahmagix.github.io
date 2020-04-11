@@ -23,9 +23,9 @@ export class PostFile {
 
     /**
      * @private
-     * @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893
+     * @type {post.frontmatter}
      */
-    this.postFrontMatter = '';
+    this._postFrontMatter = {title: '', subtitle: '', syndications: {}};
     /** @private */
     this.postContent = '';
 
@@ -36,92 +36,38 @@ export class PostFile {
     this.api = new Api();
   }
 
-  /**
-   * @param {string} key
-   * @returns {RegExp}
-   */
-  rFrontMatter(key) {
-    return new RegExp(`\n${key}: *([^\n]*)`);
+  /** @private */
+  get postFrontMatter() {
+    return '---\n' + this.yaml.toYaml(this._postFrontMatter).trim() + '\n---';
   }
-  /**
-   * @param {string} key
-   * @returns {string|null}
-   */
-  getFrontMatterValue(key) {
-    const m = this.postFrontMatter.match(this.rFrontMatter(key));
-    return m && yamlString.toString(m[1]);
-  }
-  /**
-   * @param {string} key
-   * @param {string} s
-   * @returns {boolean}
-   */
-  setFrontMatterValue(key, s) {
-    if (this.getFrontMatterValue(key) == null) {
-      return false;
-    }
-
-    s = yamlString.toYaml(s.trim());
-    s = s && ` ${s}`; // separate from yaml colon if non-empty
-    this.postFrontMatter = this.postFrontMatter.replace(
-      this.rFrontMatter(key),
-      `\n${key}:${s}`,
-    );
-    return true;
-  }
-  /**
-   * @param {string} key
-   * @param {string} s
-   * @param {object} [opts]
-   * @param {string} [opts.before]
-   * @param {string} [opts.after]
-   */
-  addFrontMatterValue(key, s, opts) {
-    s = yamlString.toYaml(s.trim());
-    s = s && ` ${s}`; // separate from yaml colon if non-empty
-
-    let { before, after } = opts || {};
-
-    const rInsert = new RegExp(before || after || '\n---+$');
-    if (!rInsert.test(this.postFrontMatter)) {
-      throw new Error(`addFrontMatterValue cannot find line to insert: ${rInsert}`);
-    }
-
-    const newLine = `\n${key}:${s}`;
-    this.postFrontMatter = this.postFrontMatter.replace(
-      rInsert, // must be a RegExp to allow function replacing
-      (l) => before ? newLine + l : l + newLine,
-    );
+  /** @private */
+  set postFrontMatter(s) {
+    this._postFrontMatter = this.yaml.toJS(s)[0];
   }
 
   /** @param {string} name */
   hasSyndication(name) {
-    /** @type {post.frontmatter} */
-    const data = this.yaml.toJS(this.postFrontMatter)[0];
-    return data.syndications && data.syndications.hasOwnProperty(name);
+    if (!this._postFrontMatter.syndications) {
+      return false;
+    }
+    return this._postFrontMatter.syndications.hasOwnProperty(name);
   }
 
   getTitle() {
-    return this.getFrontMatterValue('title');
+    return this._postFrontMatter.title;
   }
   /** @param {string} s */
   setTitle(s) {
-    const isSet = this.setFrontMatterValue('title', s);
-    if (!isSet) {
-      this.addFrontMatterValue('title', s);
-    }
+    this._postFrontMatter.title = s.trim();
     this.onChange();
   }
 
   getSubtitle() {
-    return this.getFrontMatterValue('subtitle');
+    return this._postFrontMatter.subtitle;
   }
   /** @param {string} s */
   setSubtitle(s) {
-    const isSet = this.setFrontMatterValue('subtitle', s);
-    if (!isSet) {
-      this.addFrontMatterValue('subtitle', s, { after: 'title' });
-    }
+    this._postFrontMatter.subtitle = s.trim();
     this.onChange();
   }
 
