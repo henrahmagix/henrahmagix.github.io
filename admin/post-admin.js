@@ -64,9 +64,7 @@ export async function addPostAdminView({
 
       /** @param {string} commit */
       async function checkPageStatus(commit) {
-        const pageOutOfDate = env.production && await buildWaiting.checkForCommit(commit);
-        show(buildWaiting.el, pageOutOfDate);
-        show(editView.el, !pageOutOfDate);
+        show(buildWaiting.el, env.production && await buildWaiting.checkForCommit(commit));
       }
 
       /** @param {string} filepath */
