@@ -10,8 +10,6 @@ update:
 ENV=`cat .env`
 
 dev:
-	env $(ENV) bundle exec jekyll serve --drafts
+	env $(ENV) bundle exec jekyll serve
 devhttps:
 	bundle exec jekyll serve --ssl-cert=.ssl/server.crt --ssl-key=.ssl/server.key --drafts
-dist:
-	bundle exec jekyll serve
