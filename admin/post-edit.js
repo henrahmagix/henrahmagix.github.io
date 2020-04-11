@@ -32,6 +32,7 @@ export class EditPostView {
   /** @param {PostFile} postFile */
   setFile(postFile) {
     this.postFile = postFile;
+    this.renderState();
 
     if (postFile.isDraft) {
       this.render();
