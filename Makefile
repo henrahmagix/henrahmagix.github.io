@@ -7,8 +7,10 @@ install:
 update:
 	bundle update
 
+ENV=`cat .env`
+
 dev:
-	bundle exec jekyll serve --drafts
+	env $(ENV) bundle exec jekyll serve --drafts
 devhttps:
 	bundle exec jekyll serve --ssl-cert=.ssl/server.crt --ssl-key=.ssl/server.key --drafts
 dist:

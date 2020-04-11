@@ -2,3 +2,4 @@ _site
 lib
 .ssl
 node_modules
+.env
