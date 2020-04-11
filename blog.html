@@ -11,7 +11,7 @@ add_admin_scripts: true
     {% for post in posts %}
       {% capture excerpt %}
         {% if post.subtitle %}
-          <h3>{{post.subtitle}}</h3>
+          <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
         {% endif %}
         <span class="screenreader">Excerpt:</span> {{ post.excerpt }}
       {% endcapture %}
