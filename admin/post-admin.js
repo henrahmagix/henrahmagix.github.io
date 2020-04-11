@@ -36,6 +36,7 @@ export async function addPostAdminView({
       const postFile = new PostFile({
         filepath,
         diffBuilder: lib.diffBuilder,
+        yaml: lib.yaml,
       });
 
       const editView = new EditPostView(contentElement, {
@@ -129,9 +130,22 @@ async function setupLib() {
     },
   };
 
+  await addScript('https://unpkg.com/js-yaml/dist/js-yaml.min.js');
+
+  /** @type {lib.yaml} */
+  const yaml = {
+    toYaml(js) {
+      return window.jsyaml.dump(js);
+    },
+    toJS(yaml) {
+      return window.jsyaml.loadAll(yaml);
+    },
+  };
+
   return {
     markdownRenderer,
     diffBuilder,
+    yaml,
   };
 }
 

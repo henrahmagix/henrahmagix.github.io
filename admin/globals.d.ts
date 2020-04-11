@@ -1,3 +1,11 @@
+declare namespace post {
+  interface frontmatter {
+    title: string;
+    subtitle: string;
+    syndications: { [key: string]: string };
+  }
+}
+
 declare namespace github {
   interface GetContentFileResponse {
     name: string;
@@ -55,6 +63,10 @@ declare namespace lib {
   }
   interface diffBuilder {
     buildView(baseName: string, baseString: string, newName: string, newString: string): HTMLElement;
+  }
+  interface yaml {
+    toYaml(js: any): string;
+    toJS(yaml: string): any[];
   }
 }
 

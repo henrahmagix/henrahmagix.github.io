@@ -5,13 +5,16 @@ export class PostFile {
   /**
    * @param {object} opts
    * @param {lib.diffBuilder} opts.diffBuilder
+   * @param {lib.yaml} opts.yaml
    * @param {string} opts.filepath
    */
   constructor({
     diffBuilder,
+    yaml,
     filepath,
   }) {
     this.diffBuilder = diffBuilder;
+    this.yaml = yaml;
     /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
     this.filepath = filepath;
 
@@ -44,7 +47,7 @@ export class PostFile {
    * @param {string} s
    * @returns {boolean}
    */
-  setFrontMatter(key, s) {
+  setFrontMatterValue(key, s) {
     if (this.getFrontMatterValue(key) == null) {
       return false;
     }
@@ -64,7 +67,7 @@ export class PostFile {
    * @param {string} [opts.before]
    * @param {string} [opts.after]
    */
-  addFrontMatter(key, s, opts) {
+  addFrontMatterValue(key, s, opts) {
     s = yamlString.toYaml(s.trim());
     s = s && ` ${s}`; // separate from yaml colon if non-empty
 
@@ -72,7 +75,7 @@ export class PostFile {
 
     const rInsert = new RegExp(before || after || '\n---+$');
     if (!rInsert.test(this.postFrontMatter)) {
-      throw new Error(`addFrontMatter cannot find line to insert: ${rInsert}`);
+      throw new Error(`addFrontMatterValue cannot find line to insert: ${rInsert}`);
     }
 
     const newLine = `\n${key}:${s}`;
@@ -82,14 +85,21 @@ export class PostFile {
     );
   }
 
+  /** @param {string} name */
+  hasSyndication(name) {
+    /** @type {post.frontmatter} */
+    const data = this.yaml.toJS(this.postFrontMatter)[0];
+    return data.syndications && data.syndications.hasOwnProperty(name);
+  }
+
   getTitle() {
     return this.getFrontMatterValue('title');
   }
   /** @param {string} s */
   setTitle(s) {
-    const isSet = this.setFrontMatter('title', s);
+    const isSet = this.setFrontMatterValue('title', s);
     if (!isSet) {
-      this.addFrontMatter('title', s);
+      this.addFrontMatterValue('title', s);
     }
     this.onChange();
   }
@@ -99,9 +109,9 @@ export class PostFile {
   }
   /** @param {string} s */
   setSubtitle(s) {
-    const isSet = this.setFrontMatter('subtitle', s);
+    const isSet = this.setFrontMatterValue('subtitle', s);
     if (!isSet) {
-      this.addFrontMatter('subtitle', s, { after: 'title' });
+      this.addFrontMatterValue('subtitle', s, { after: 'title' });
     }
     this.onChange();
   }

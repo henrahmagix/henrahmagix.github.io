@@ -12,6 +12,8 @@ export class EditPostView {
   get submitButton() { return this.el.querySelector('.button-submit'); }
   /** @returns {HTMLButtonElement} */
   get publishButton() { return this.el.querySelector('.button-publish'); }
+  /** @returns {HTMLButtonElement} */
+  get tweetButton() { return this.el.querySelector('.button-tweet'); }
 
   /** @returns {HTMLElement} */
   get spinnerEl() { return this.el.querySelector('.spinner'); }
@@ -81,6 +83,7 @@ export class EditPostView {
         ${buttonHTML({text: 'Cancel', classname: 'button-cancel', icon: 'fas fa-times'})}
         ${buttonHTML({text: 'Submit', classname: 'button-submit', icon: 'fas fa-check'})}
         ${buttonHTML({text: 'Publish', classname: 'button-publish', icon: 'fas fa-cloud-upload-alt'})}
+        ${buttonHTML({text: 'Tweet', classname: 'button-tweet', icon: 'fab fa-twitter'})}
 
         <span class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
 
@@ -121,6 +124,7 @@ export class EditPostView {
     this.cancelButton.addEventListener('click', () => this.clickCancel());
     this.submitButton.addEventListener('click', () => this.clickSubmit());
     this.publishButton.addEventListener('click', () => this.clickPublish());
+    this.tweetButton.addEventListener('click', () => this.clickTweet());
 
     this.viewForm.addEventListener('change', () => this.render());
 
@@ -176,15 +180,25 @@ export class EditPostView {
     this.state.moveToPublishing();
     this.publishPost();
   }
+  clickTweet() {
+    this.state.moveToTweeting();
+    const tweetUrl = new URL('https://twitter.com/intent/tweet');
+    tweetUrl.searchParams.set('text', 'New blog post!');
+    tweetUrl.searchParams.set('url', window.location.href);
+    window.location.href = tweetUrl.toString();
+  }
 
   get waiting() {
-    return this.submitting || this.publishing;
+    return this.submitting || this.publishing || this.tweeting;
   }
   get submitting() {
     return this.state.submitting;
   }
   get publishing() {
     return this.state.publishing;
+  }
+  get tweeting() {
+    return this.state.tweeting;
   }
   get editing () {
     return this.state.editing && !this.waiting;
@@ -207,6 +221,9 @@ export class EditPostView {
   get canPublish() {
     return !this.editing && !this.waiting && this.postFile.isDraft;
   }
+  get canTweet() {
+    return !this.editing && !this.waiting && !this.postFile.isDraft && !this.postFile.hasSyndication('twitter');
+  }
 
   render() {
     this.renderContent();
@@ -226,6 +243,7 @@ export class EditPostView {
     show(this.cancelButton, this.editing);
     show(this.submitButton, this.canSubmit);
     show(this.publishButton, this.canPublish);
+    show(this.tweetButton, this.canTweet);
     show(this.spinnerEl, this.waiting);
     show(this.viewForm, this.editing);
   }
@@ -316,7 +334,7 @@ export class EditPostView {
 
 class EditPostState {
   constructor() {
-    this._state = new State('view', 'edit', 'submitting', 'publishing');
+    this._state = new State('view', 'edit', 'submitting', 'publishing', 'tweeting');
   }
 
   get editing() {
@@ -327,6 +345,9 @@ class EditPostState {
   }
   get publishing() {
     return this._state.is('publishing');
+  }
+  get tweeting() {
+    return this._state.is('tweeting');
   }
 
   /** @param {() => void} fn */
@@ -348,6 +369,10 @@ class EditPostState {
 
   moveToPublishing() {
     this._state.moveTo('publishing');
+  }
+
+  moveToTweeting() {
+    this._state.moveTo('tweeting');
   }
 }
 
