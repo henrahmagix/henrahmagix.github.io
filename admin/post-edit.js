@@ -87,13 +87,13 @@ export class EditPostView {
         <form hidden name="view" class="view-wrapper" onsubmit="return false;">
           View:
           <label>
-            <input type="radio" name="style" value="raw" checked>
-            <span>Raw</span>
+            <input type="radio" name="style" value="html" checked>
+            <span>HTML</span>
           </label>
           |
           <label>
-            <input type="radio" name="style" value="html">
-            <span>HTML</span>
+            <input type="radio" name="style" value="raw">
+            <span>Raw</span>
           </label>
           |
           <label>
