@@ -422,11 +422,11 @@ nav ul li:last-child::after {
   font-style: italic;
   padding: 5px;
   padding-left: 20px;
-  margin: 10px 0;
+  margin: 1em 0;
   position: relative
 }
 
-.page-body blockquote:before {
+.page-body blockquote::before {
   content: "";
   background-color: #23242C;
   position: absolute;
@@ -434,6 +434,11 @@ nav ul li:last-child::after {
   height: 100%;
   top: 0;
   left: 0
+}
+.page-body blockquote.twitter-tweet::before {
+  content: 'Tweet:';
+  white-space: nowrap;
+  text-indent: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
