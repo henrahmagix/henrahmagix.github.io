@@ -5,10 +5,7 @@ title: Listening to all of my Spotify Starred playlist
 subtitle: 1,118 songs, 83 hrs 48 mins
 image: /images/spotify-starred.jpg
 syndications:
-    -
-        title: Reply on Twitter
-        icon: fab fa-twitter
-        url: https://twitter.com/henrahmagix/status/1045277345857392640
+  twitter: https://twitter.com/henrahmagix/status/1045277345857392640
 ---
 
 A month or two ago, I decided to embark on listening to every song in my ⭐️starred⭐️ playlist from most recent to the very first.

@@ -1,0 +1,12 @@
+{% capture view_history_url %}{{site.github.repository_url}}/commits/{{site.github.source.branch}}/{{page.path}}{% endcapture %}
+
+<ul class="links">
+  {% for synd_hash in page.syndications %}
+    {% capture title %}Reply on {{synd_hash[0]|capitalize}}{% endcapture %}
+    {% capture icon %}fab fa-{{synd_hash[0]}}{% endcapture %}
+    {% assign url = synd_hash[1] %}
+    {% include link.html anchor_class="u-syndication" title=title icon=icon url=url %}
+  {% endfor %}
+
+  {% include link.html title="View history" icon="fas fa-history" url=view_history_url %}
+</ul>

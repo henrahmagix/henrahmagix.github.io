@@ -154,13 +154,7 @@
     {% if page.syndications %}
       <hr>
       <p>Share and respond?</p>
-      <ul class="links">
-        {% for link in page.syndications %}
-          {% include syndication-link.html title=link.title icon=link.icon url=link.url %}
-        {% endfor %}
-        {% capture url %}{{site.github.repository_url}}/commits/{{site.github.source.branch}}/{{page.path}}{% endcapture %}
-        {% include link.html title="View history" icon="fas fa-history" url=url %}
-      </ul>
+      {% include syndications.html %}
     {% endif %}
 
   </main>

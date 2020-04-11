@@ -5,10 +5,7 @@ title: Class getters vs methods in vanilla JS
 subtitle: when debugging them
 image: /images/class-getter.png
 syndications:
-    -
-        title: Reply on Twitter
-        icon: fab fa-twitter
-        url: https://twitter.com/henrahmagix/status/1247124024745918470
+  twitter: https://twitter.com/henrahmagix/status/1247124024745918470
 ---
 
 Using class getters is really easy with the help of TypeScript. Kinda makes me feel like I'm writing Ruby!
