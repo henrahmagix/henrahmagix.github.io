@@ -154,9 +154,12 @@ export class EditPostView {
   }
 
   fixTextareaHeight() {
-    this.textarea.style.lineHeight = '1.2';
-    this.textarea.style.height = this.postFile.getRaw().split('\n').length * Number(this.textarea.style.lineHeight) + 'em';
-    this.textarea.style.height = this.textarea.scrollHeight + 'px';
+    cancelAnimationFrame(this.fixTextareaHeightRAF);
+    this.fixTextareaHeightRAF = requestAnimationFrame(() => {
+      this.textarea.style.lineHeight = '1.2';
+      this.textarea.style.height = this.postFile.getRaw().match(/\n/g).length * Number(this.textarea.style.lineHeight) + 'em';
+      this.textarea.style.height = this.textarea.scrollHeight + 'px';
+    });
   }
 
   clickEdit() {
