@@ -2,7 +2,7 @@
 layout: post
 class: post
 title: Double exposure random generator is back online!
-subtitle: "That's right, it's back!"
+subtitle: 'That''s right, it''s back!'
 image: /images/double-random-camera.jpg
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1043831106284539904'
