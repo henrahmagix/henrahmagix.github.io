@@ -13,17 +13,26 @@ export class PostFile {
     yaml,
     filepath,
   }) {
+    /** @private */
     this.diffBuilder = diffBuilder;
+    /** @private */
     this.yaml = yaml;
+
     /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
     this.filepath = filepath;
 
-    /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
+    /**
+     * @private
+     * @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893
+     */
     this.postFrontMatter = '';
+    /** @private */
     this.postContent = '';
 
-    this.isNew = filepath.includes('admin/edit');
+    this.isNew = filepath === 'admin/edit.html';
+    /** @private */
     this.storageKey = `gh_post_${this.isNew ? 'new' : filepath}`;
+    /** @private */
     this.api = new Api();
   }
 
@@ -134,10 +143,12 @@ export class PostFile {
     this.onChange();
   }
 
+  /** @private */
   onChange() {
     localStorage.setItem(this.storageKey, base64.encode(this.newContent));
   }
 
+  /** @private */
   clearStorage() {
     localStorage.removeItem(this.storageKey);
   }
@@ -164,7 +175,10 @@ export class PostFile {
     this.clearStorage();
   }
 
-  /** @param {string} content */
+  /**
+   * @private
+   * @param {string} content
+   */
   buildContent(content) {
     /** @type {string[]} */
     const frontMatterLines = [];
