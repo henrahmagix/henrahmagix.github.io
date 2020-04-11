@@ -5,7 +5,7 @@ title: iPadOS cursor on the web
 subtitle: just because it's fun!
 image: /images/ipad-cursor-preview.jpg
 syndications:
-  twitter: https://twitter.com/henrahmagix/status/1246157354942504960
+  twitter: 'https://twitter.com/henrahmagix/status/1246157354942504960'
 ---
 
 Are Apple good at designing UIs (User Interfaces)? Should a touch device _only_ be a touch device? Or is it time for more precision and control that doesn't cost over £100 and isn't a pencil?

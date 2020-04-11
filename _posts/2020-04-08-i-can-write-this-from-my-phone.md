@@ -1,10 +1,10 @@
 ---
 layout: post
 class: post
-title: "I can write this from my phone"
-subtitle: "And it is _amazing_"
+title: I can write this from my phone
+subtitle: And it is _amazing_
 syndications:
-  twitter: https://twitter.com/henrahmagix/status/1247981344061362178
+  twitter: 'https://twitter.com/henrahmagix/status/1247981344061362178'
 ---
 
 But I don’t know if Markdown works in the subtitle 🤔
