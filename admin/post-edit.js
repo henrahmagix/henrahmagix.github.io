@@ -196,10 +196,24 @@ export class EditPostView {
   }
   clickTweet() {
     this.state.moveToTweeting();
-    const tweetUrl = new URL('https://twitter.com/intent/tweet');
-    tweetUrl.searchParams.set('text', 'New blog post!');
-    tweetUrl.searchParams.set('url', window.location.href);
-    window.location.href = tweetUrl.toString();
+    const newTweetUrl = new URL('https://twitter.com/intent/tweet');
+    newTweetUrl.searchParams.set('text', 'New blog post!');
+    newTweetUrl.searchParams.set('url', window.location.href);
+
+    // Delay the next steps on this page so the prompt opens in the background,
+    // ready for user input when focus returns.
+    setTimeout(() => {
+      // Get posted tweet url and save to the file.
+      const tweet = prompt('Enter tweet url');
+      this.postFile.setSyndication('twitter', tweet);
+      // View the diff so it can be submitted.
+      this.clickEdit();
+      Array.from(this.viewForm.querySelectorAll('input'))
+        .find(i => i.value === 'diff')
+        .click();
+    }, 1000);
+    // Open a new tab/window so the above next steps can occur.
+    window.open(newTweetUrl.toString(), '_blank');
   }
 
   get waiting() {

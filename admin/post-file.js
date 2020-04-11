@@ -52,6 +52,16 @@ export class PostFile {
     }
     return this._postFrontMatter.syndications.hasOwnProperty(name);
   }
+  /**
+   * @param {string} name
+   * @param {string} value
+   */
+  setSyndication(name, value) {
+    if (!this._postFrontMatter.syndications) {
+      this._postFrontMatter.syndications = {};
+    }
+    this._postFrontMatter.syndications[name] = value;
+  }
 
   getTitle() {
     return this._postFrontMatter.title;
