@@ -51,9 +51,9 @@ export class EditPostView {
    * @param {HTMLElement} contentWrapper
    * @param {object} opts
    * @param {lib.markdownRenderer} opts.markdownRenderer
-   * @param {(commit: string) => void} opts.afterCommit
-   * @param {(filepath: string) => void} opts.afterPublish
-   * @param {(filepath: string) => void} opts.afterUnpublish
+   * @param {(commit: string) => void} [opts.afterCommit]
+   * @param {(filepath: string) => void} [opts.afterPublish]
+   * @param {(filepath: string) => void} [opts.afterUnpublish]
    */
   constructor(
     contentWrapper,

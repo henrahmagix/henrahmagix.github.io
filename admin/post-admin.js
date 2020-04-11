@@ -48,6 +48,9 @@ export async function addPostAdminView({
         afterPublish: async (publishedPath) => {
           changeURLFilepath(publishedPath);
         },
+        afterUnpublish: async (draftPath) => {
+          changeURLFilepath(draftPath);
+        },
       });
 
       // First check if any editing should be shown.
@@ -68,13 +71,15 @@ export async function addPostAdminView({
 
       /** @param {string} filepath */
       function changeURLFilepath(filepath) {
-        if (!window.location.pathname.includes('admin/edit')) {
-          return;
-        }
-
         const url = new URL(window.location.href);
         url.searchParams.set('filepath', filepath);
+
+        if (!window.location.pathname.includes('admin/edit')) {
+          url.pathname = '/admin/edit';
+        }
+
         window.history.replaceState(null, null, url.toString());
+        window.location.reload();
       }
     },
   });
