@@ -20,6 +20,7 @@ export class PostFile {
 
     /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
     this.filepath = filepath;
+    this.lastCommit = '';
 
     /**
      * @private

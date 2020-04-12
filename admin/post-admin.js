@@ -41,15 +41,19 @@ export async function addPostAdminView({
 
       const editView = new EditPostView(contentElement, {
         markdownRenderer: lib.markdownRenderer,
-        afterCommit: async (newCommit) => {
-          checkPageStatus(newCommit);
+        afterCommit: async () => {
+          checkPageStatus(postFile.lastCommit);
+          if (postFile.isDraft) {
+            changeURLFilepath(postFile.filepath);
+          }
+        },
+        afterPublish: async () => {
           changeURLFilepath(postFile.filepath);
+          window.location.reload();
         },
-        afterPublish: async (publishedPath) => {
-          changeURLFilepath(publishedPath);
-        },
-        afterUnpublish: async (draftPath) => {
-          changeURLFilepath(draftPath);
+        afterUnpublish: async () => {
+          changeURLFilepath(postFile.filepath);
+          window.location.reload();
         },
       });
 
@@ -71,13 +75,8 @@ export async function addPostAdminView({
       function changeURLFilepath(filepath) {
         const url = new URL(window.location.href);
         url.searchParams.set('filepath', filepath);
-
-        if (!window.location.pathname.includes('admin/edit')) {
-          url.pathname = '/admin/edit';
-        }
-
+        url.pathname = '/admin/edit';
         window.history.replaceState(null, null, url.toString());
-        window.location.reload();
       }
     },
   });
