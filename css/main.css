@@ -69,17 +69,17 @@ body {
   }
 }
 
+/* Reset */
+
 * {
   box-sizing: inherit;
-}
-
-p {
-  margin: 1em 0;
 }
 
 address {
   font-style: normal;
 }
+
+/* Links */
 
 a,
 .button-link {
@@ -116,6 +116,12 @@ article a {
   }
 }
 
+a .icon,
+button .icon {
+  margin-right: 0.25em;
+  text-align: left;
+}
+
 .button-link {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -132,35 +138,12 @@ article a {
   margin: 0;
 }
 
-.avatar {
-  width: 2em;
-  border-radius: 0.25em;
-  border: 2px solid #23242C;
-}
-
-@media (prefers-color-scheme: dark) {
-  .avatar {
-    border: 2px solid #fcfcfc;
-  }
-}
-
-.fancy-title:hover > .emoji {
-  text-shadow: 2px 2px 1px rgba(0,0,0,0.4);
-}
-
 .links li,
 .list-reset {
   list-style: none !important
 }
 
-.content-max-width {
-  max-width: 900px;
-  margin: auto;
-}
-
-.page-header {
-  padding-top: 0.5em;
-}
+/* Header */
 
 nav ul,
 .p-name {
@@ -181,6 +164,7 @@ nav ul {
 
 nav ul li {
   display: inline-block;
+  margin: 0;
 }
 nav ul li::after {
   content: '•';
@@ -191,7 +175,7 @@ nav ul li:last-child::after {
   display: none;
 }
 
-.logo-flipper {
+.logo {
   display: block;
   margin: 0 auto;
   margin-bottom: 1em;
@@ -201,7 +185,31 @@ nav ul li:last-child::after {
   flex-shrink: 0;
 }
 
+.logo img {
+  border-radius: 50%;
+  border: 2px solid #23242C;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-flipper img {
+    border-color: #dedede !important;
+  }
+}
+
 /* Structure */
+
+.content-max-width {
+  max-width: 900px;
+  margin: auto;
+}
+
+.page-header {
+  padding-top: 0.5em;
+}
 
 .logo-and-nav,
 .page-body {
@@ -231,7 +239,7 @@ nav ul li:last-child::after {
     align-items: center;
     margin-bottom: 0;
   }
-  .logo-flipper {
+  .logo {
     margin: 0;
     margin-right: -100px;
   }
@@ -245,49 +253,42 @@ nav ul li:last-child::after {
   }
 }
 
+/* Logo interaction */
+
 .logo-flipper img {
-  border-radius: 50%;
   position: absolute;
-  height: 100%;
-  width: 100%;
   top: 0;
   left: 0;
   z-index: 1;
-  border: 2px solid #23242C;
-  box-sizing: border-box;
 }
 
-.logo-flipper img.backface {
+img.backface {
   display: none;
   z-index: 2;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo-flipper img {
-    border-color: #dedede !important;
-  }
-}
-
 .logo-flipper:hover img.backface,
 .logo-flipper:focus img.backface {
-  display: initial
+  display: block
 }
 
-.page-header .strikethrough-wrapper h1 {
-  font-weight: normal;
-  margin: 0
-}
+/* Page title/subtitle */
 
 .page-header .p-name {
   display: block;
   font-size: 2em;
   min-width: 2.5em;
+  font-weight: normal;
+  margin: 0;
+}
+
+.page-title,
+.page-subtitle {
+  line-height: 1.2;
 }
 
 .page-title {
   color: #A80084;
-  font-size: 3em;
-  line-height: 1
 }
 
 @media (prefers-color-scheme: dark) {
@@ -296,9 +297,7 @@ nav ul li:last-child::after {
   }
 }
 
-.page-subtitle {
-  font-size: 1.5em
-}
+/* Footer */
 
 .full-height {
   min-height: calc(100vh - 7.5em);
@@ -371,54 +370,56 @@ nav ul li:last-child::after {
   margin-top: 0;
 }
 
-.page-body h1,
-.page-body h2,
-.page-body h3,
-.page-body h4,
-.page-body h5,
-.page-body h6 {
+/* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.625em;
 }
 
-.page-body h1 {
+h1 {
   font-size: 2em
 }
 
-.page-body h2 {
+h2 {
   font-size: 1.75em
 }
 
-.page-body h3 {
+h3 {
   font-size: 1.6em
 }
 
-.page-body h4 {
+h4 {
   font-size: 1.4em
 }
 
-.page-body h5 {
+h5 {
   font-size: 1.3em
 }
 
-.page-body h6 {
+h6 {
   font-size: 1.2em
 }
 
-.page-body p,
-.page-body ul {
+p,
+ul {
   margin: 1em 0;
   padding: 0
 }
 
-.page-body li {
+li {
   margin: .5em 0;
   list-style-type: disc;
   list-style-position: inside
 }
 
-.page-body blockquote {
+blockquote {
   font-style: italic;
   padding: 5px;
   padding-left: 20px;
@@ -426,7 +427,7 @@ nav ul li:last-child::after {
   position: relative
 }
 
-.page-body blockquote::before {
+blockquote::before {
   content: "";
   background-color: #23242C;
   position: absolute;
@@ -435,22 +436,32 @@ nav ul li:last-child::after {
   top: 0;
   left: 0
 }
-.page-body blockquote.twitter-tweet::before {
+blockquote.twitter-tweet::before {
   content: 'Tweet:';
   white-space: nowrap;
   text-indent: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
-  .page-body blockquote:before {
+  blockquote:before {
     background-color: #dedede;
   }
 }
 
-.page-body a .icon,
-.page-body button .icon {
-  margin-right: 0.25em;
-  text-align: left;
+.avatar {
+  width: 2em;
+  border-radius: 0.25em;
+  border: 2px solid #23242C;
+}
+
+@media (prefers-color-scheme: dark) {
+  .avatar {
+    border: 2px solid #fcfcfc;
+  }
+}
+
+.fancy-title:hover > .emoji {
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.4);
 }
 
 .post-top {
