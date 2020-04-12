@@ -53,7 +53,7 @@ body {
 body {
   background-color: #fcfcfc;
   color: #23242C;
-  font-family: "PT Sans", serif;
+  font-family: "PT Sans", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-size: 100%;
   font-weight: 400;
   font-style: normal;
