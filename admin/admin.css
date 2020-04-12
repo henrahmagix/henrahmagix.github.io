@@ -2,12 +2,6 @@
   color: red;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
 #loading,
 #loading i {
   position: fixed;
@@ -28,10 +22,6 @@
 #loading i {
   color: white;
   font-size: min(50vh, 100px);
-}
-
-#content {
-  margin: 1em 0;
 }
 
 #admin-post-edit {
