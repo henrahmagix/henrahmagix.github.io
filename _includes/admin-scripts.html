@@ -1,8 +1,13 @@
 <script type="module">
+  // @ts-check
   if (localStorage.getItem('gh_token')) {
-    import('/admin/post-list-admin.js').then(module => {
-      customElements.define('blog-list-admin', module.PostListAdminView);
-      document.getElementById('content').before(document.createElement('blog-list-admin'));
-    });
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '/admin/component.js';
+    document.body.appendChild(script);
+
+    const el = document.createElement('html-import');
+    el.setAttribute('data-href', '/admin/post-list-admin.component.html');
+    document.getElementById('content').before(el);
   }
 </script>

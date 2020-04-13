@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="/admin/admin.css">
+
+<template>
+  <section hidden id="admin-post-list">
+    <h2>Blog Admin</h2>
+
+    <div class="side-by-side">
+      <ul class="drafts">
+        Drafts:
+        <li data-keep><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
+        <li><i class="icon fas fa-spinner fa-pulse"></i></li>
+      </ul>
+
+      <ul class="unsaved">
+        Unsaved changes:
+      </ul>
+    </div>
+
+    <hr>
+  </section>
+</template>
+
+<script type="module">
+  // @ts-check
+  export class View {
+    constructor(shadowRoot, {
+      utils: {
+        show,
+        createHTML,
+      },
+      admin: {
+        Admin,
+      },
+      'post-draft': {
+        PostDraft,
+      },
+    }) {
+
+      document.head.querySelectorAll('link[rel=stylesheet]').forEach(link => {
+        shadowRoot.appendChild(link.cloneNode());
+      });
+
+      const el = shadowRoot.getElementById('admin-post-list');
+
+      const draftsList = el.querySelector('ul.drafts');
+      const unsavedList = el.querySelector('ul.unsaved');
+
+      new Admin({
+        handleLogin: (loggedIn) => {
+          if (!loggedIn) {
+            return;
+          }
+
+          show(el, true);
+
+          for (let i = 0; i < localStorage.length; i++) {
+            const keyParts = localStorage.key(i).match(/^gh_post_(.*)/)
+            const filepath = keyParts && keyParts[1];
+            if (!filepath || filepath === 'new') {
+              // This is accessible in the drafts list already.
+              continue;
+            }
+
+            const params = new URLSearchParams();
+            params.set('filepath', filepath);
+            unsavedList.appendChild(createHTML(`<li><a href="/admin/edit?${params}">${filepath}</a></li>`));
+          }
+
+          PostDraft.list().then(drafts => {
+            draftsList.querySelectorAll('li').forEach(li => {
+              if (li.dataset.hasOwnProperty('keep')) {
+                return;
+              }
+              li.remove();
+            });
+            drafts.forEach(d => {
+              const li = createHTML('<li></li>');
+              li.appendChild(d.el);
+              draftsList.appendChild(li);
+            });
+          });
+        }
+      });
+    }
+  }
+</script>

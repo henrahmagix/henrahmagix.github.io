@@ -142,3 +142,46 @@ export class State {
     throw new TypeError(`addChangeListener args must be just function, or from:string to:string callback:function, but was ${arguments}`);
   }
 }
+
+/**
+ * @param {string} a
+ * @param {string} b
+ * @returns {string}
+ */
+// https://gist.github.com/zmmbreeze/7747971
+export function resolvePath(a, b) {
+  try {
+    const url = new URL(a);
+    // treat a like a url
+    return url.origin + resolvePath(url.pathname, b);
+  } catch (err) {
+    // treat a like a path, carry on
+  }
+
+  if (b.charAt(0) === '/') {
+    return b;
+  }
+  const aParts = a.split('/');
+  const bParts = b.split('/');
+
+  aParts[aParts.length - 1] = '';
+
+  let part, i = 0;
+  while (typeof (part = bParts[i]) === 'string') {
+    if (part === '..') {
+      aParts.pop();
+      aParts.pop();
+      aParts.push('');
+    } else if (part !== '.') {
+      aParts.pop();
+      aParts.push(part);
+      aParts.push('');
+    }
+    i++;
+  }
+
+  if (aParts[aParts.length - 1] === '') {
+    aParts.pop();
+  }
+  return aParts.join('/');
+}
