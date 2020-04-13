@@ -44,6 +44,8 @@ a[href^="#footnote-"]::before {
   display: none
 }
 
+/* Reset */
+
 html,
 body {
   margin: 0;
@@ -70,14 +72,16 @@ body {
   }
 }
 
-/* Reset */
-
 * {
   box-sizing: inherit;
 }
 
 address {
   font-style: normal;
+}
+
+img {
+  max-width: 100%;
 }
 
 /* Links */
@@ -370,6 +374,11 @@ img.backface {
 
 .page-post .page-body {
   margin-top: 0;
+}
+
+.page-post .entry-content img {
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
+  border-radius: 10px;
 }
 
 /* Typography */

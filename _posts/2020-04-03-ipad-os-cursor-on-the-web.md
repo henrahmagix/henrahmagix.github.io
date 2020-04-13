@@ -41,9 +41,3 @@ Please do have a read of the code if it interests you – I certainly haven't ta
 
 From the same Apple information page as above:
 >As it moves across different elements on the screen, the cursor changes shape. For example, it turns into an I-beam over text, indicating that you can insert the cursor into a text document or highlight and copy words from a webpage
-
-<style>
-  #content img {
-    border: 2px solid #23242C;
-  }
-</style>
