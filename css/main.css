@@ -55,7 +55,7 @@ body {
 body {
   background-color: #fcfcfc;
   color: #23242C;
-  font-family: "PT Sans", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", "HelveticaNeue", sans-serif;
   font-size: 100%;
   font-weight: 400;
   font-style: normal;
@@ -153,7 +153,7 @@ button .icon {
 
 nav ul,
 .p-name {
-  font-family: "PT Sans Narrow", serif;
+  font-family: "PT Sans Narrow", sans-serif;
   text-transform: uppercase;
 }
 
@@ -390,6 +390,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "PT Sans", "HelveticaNeue", sans-serif;
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.625em;
