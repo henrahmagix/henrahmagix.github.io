@@ -4,6 +4,11 @@ defaults:
       path: ''
     values:
       layout: default
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: true
+  gfm_quirks: [paragraph_end, no_auto_typographic]
 plugins:
   - jekyll-github-metadata
 exclude:
