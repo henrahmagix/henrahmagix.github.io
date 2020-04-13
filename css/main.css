@@ -511,13 +511,14 @@ blockquote.twitter-tweet::before {
 code {
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   font-size: 85%;
-  border-radius: 3px;
 }
 code {
   background-color: rgba(27,31,35,0.05);
   padding: .2em .4em;
+  border-radius: 3px;
 }
 pre.highlight {
+  border-radius: 10px;
   margin: 1em 0;
   padding: 1em;
   line-height: 1.4;

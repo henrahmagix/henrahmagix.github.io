@@ -12,7 +12,7 @@ def pad(s, size, char)
   s[0...size].rjust(size, char);
 end
 
-css_light = Rouge::Theme.find('github').render
+css_light = Rouge::Theme.find('github').render(scope: 'pre.highlight')
 css_dark = css_light.gsub(/#\w{3,6}/) do |hex|
   hex = hex[1..-1]
   if hex.length == 3
