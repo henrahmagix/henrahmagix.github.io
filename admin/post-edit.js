@@ -293,8 +293,8 @@ export class EditPostView {
       this.diffEl.replaceWith(this.textarea);
       this.fixTextareaHeight();
     } else {
-      this.titleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getTitle());
-      this.subtitleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getSubtitle());
+      this.titleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getTitle()).replace(/^<p>|<\/p>$/g, '');
+      this.subtitleEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getSubtitle()).replace(/^<p>|<\/p>$/g, '');
       this.contentEl.innerHTML = this.markdownRenderer.markdownToHTML(this.postFile.getContent());
       // Fix code highlighting after editing.
       this.contentEl.querySelectorAll('pre').forEach(function (el) {
