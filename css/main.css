@@ -505,3 +505,28 @@ blockquote.twitter-tweet::before {
   cursor: pointer;
   margin: 0 0.5em;
 }
+
+.highlight pre,
+code {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-size: 85%;
+  border-radius: 3px;
+}
+code {
+  background-color: rgba(27,31,35,0.05);
+  padding: .2em .4em;
+}
+pre.highlight {
+  margin: 1em 0;
+  padding: 1em;
+  line-height: 1.4;
+  /* stop hidden scrollbars getting in the way regardless of rest of padding */
+  padding-bottom: 1em;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+pre.highlight code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
