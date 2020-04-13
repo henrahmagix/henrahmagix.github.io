@@ -149,6 +149,13 @@
     </div>
     {% endif %}
 
+    {% if page.link_code %}
+      <p>The code discussed on this page can be found here: <a title="The code discussed on this page" href="{{page.link_code}}">{{page.link_code}}</a></p>
+    {% endif %}
+    {% if page.link_example %}
+      <p>Here is an example of the code discussed on this page: <a title="An example of this discussion" href="{{page.link_example}}">{{page.link_example}}</a></p>
+    {% endif %}
+
     <article id="content" class="hentry">
       <h1 {% unless page.title %}hidden{% endunless %} class="page-title entry-title">{{ page.title|markdownify|remove:'<p>'|remove:'</p>' }}</h1>
       <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle entry-summary">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>

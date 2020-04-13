@@ -1,0 +1,17 @@
+<template>
+  <p>This is a lovely component</p>
+</template>
+
+<style>
+  p {
+    color: red;
+  }
+</style>
+
+<script type="module">
+  export class View {
+    constructor(el) {
+      el.querySelector('p').innerText = 'The view has initialised!';
+    }
+  }
+</script>

@@ -4,6 +4,7 @@ class: post
 title: lol I made my own component framework
 subtitle: why did I do this (oh yeah because of the pandemic)
 syndications: {}
+link_example: /examples/lol-web-components
 ---
 
 This website is a playground for me, so I decided to rewrite my [Blog Admin code][] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
