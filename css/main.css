@@ -194,6 +194,7 @@ nav ul li:last-child::after {
 .logo img {
   border-radius: 50%;
   border: 2px solid #23242C;
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   box-sizing: border-box;
   height: 100%;
   width: 100%;
