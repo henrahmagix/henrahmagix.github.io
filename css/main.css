@@ -139,9 +139,10 @@ button .icon {
   margin: 0;
 }
 
-.links li,
+.links,
 .list-reset {
-  list-style: none !important
+  list-style: none !important;
+  padding: 0;
 }
 
 /* Header */
@@ -409,15 +410,24 @@ h6 {
 }
 
 p,
-ul {
+ul,
+ol {
   margin: 1em 0;
-  padding: 0
+}
+
+ul,
+ol {
+  padding: 0;
+  padding-left: 1em;
+  list-style-position: inside;
+}
+
+ul {
+  list-style-type: disc;
 }
 
 li {
   margin: .5em 0;
-  list-style-type: disc;
-  list-style-position: inside
 }
 
 blockquote {
