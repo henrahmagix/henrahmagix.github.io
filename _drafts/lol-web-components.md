@@ -10,7 +10,7 @@ This website is a playground for me, so I decided to rewrite my [Blog Admin code
 
 <details markdown="1">
 <summary>Table of contents</summary>
-We will:
+In this article, we will:
 
 1. [Design our own component HTML file](#component-html-file-design)
 2. [Create a Web Component that imports the component HTML file](#how-do-we-import-a-html-file)
@@ -20,9 +20,10 @@ We will:
 6. [Turn the script into an importable module](#turn-the-script-into-an-importable-module)
 7. [Import and initialise the `View` class with the `ShadowRoot`](#import-and-initialise-the-view-class-with-the-shadowroot)
 8. [Change the template dynamically](#change-the-template-dynamically-in-the-view-class)
+9. [Notes](#notes)
 </details>
 
-### That sounds like the HTML Imports spec?
+### That sounds like the HTML Imports spec
 
 ([HTML Imports explained beautifully on html5rocks.com](https://www.html5rocks.com/en/tutorials/webcomponents/imports/))
 
@@ -45,12 +46,14 @@ They're great! Easy! Convenient! Well supported and fantastic browser compatibil
 
 However, I wanted to keep my website free of a frontend build step, so I could write and commit HTML, CSS, and JavaScript anywhere at any time. This is a Jekyll site, but that compilation is handled for me by GitHub Pages, so I can commit via git or the GitHub file editor.
 
+If you don't mind a build step, that's great! You can probably get a lot more functionality out of something from ["The Simplest Ways to Handle HTML Includes" on css-tricks.com][css-tricks.com ways to include HTML] than this weird little mismash of code that you're about to see here 🙃
+
 ### "_...because writing something custom will be painful, no doubt_ 😅"
 
 We're here for fun, so let's do it anyway!
 
-What do we want? "HTML and JavaScript defined in the same file"
-~~When~~ Where do we want it? "in the same file"
+What do we want? _HTML and JavaScript defined in the same file!_
+~~When~~ Where do we want it? _!n the same file!_
 
 ### Component HTML file design
 So something like this then?
@@ -73,7 +76,7 @@ So something like this then?
 
 👉<i class="fab fa-vuejs" aria-label="Vue JS"></i> 👈👀
 
-lol yes ok, we could use VueJS (or Svelte) – but again, that would require a build step ❌
+lol yes ok, this is pretty much a [Vue single-file component][]. We could use VueJS (or Svelte) – but again, that would require a build step, so ❌ (_buzzer sound_)
 
 Anyway, this can very easily go into a Web Component: we have the `<template>`, and everything else is regular HTML ✅
 
@@ -142,7 +145,7 @@ The `<style>` is working, but there was no alert: the `<script>` didn't run 🤔
 Oh: the [HTML5 spec on innerHTML][] says
 >Note: script elements inserted using innerHTML do not execute when they are inserted.
 
-<small>Thanks to Daniel Crabtree's blogpost: [Gotchas with dynamically adding script tags to HTML][]</small>
+<small>Thanks to Daniel Crabtree's article: [Gotchas with dynamically adding script tags to HTML][]</small>
 
 But we _can_ execute inline JavaScript as long as we use `document.createElement('script')`, then we can insert the contents with `innerHTML`:
 ```js
@@ -274,7 +277,7 @@ Hhmmm. This sounds like [HTML Imports Problem No.3](#html-imports-problems):
 
 _/me searches "inline script module export" … … … a-ha!_
 
-I found an [example of "Inlining ECMAScript Modules in HTML"][stackoverflow inline module] on StackOverflow[&dagger;](#ft-stackoverflow-merits). In it, the contents of the script can be turned into an "Object URL", which we can use to import!
+I found an [example of "Inlining ECMAScript Modules in HTML"][stackoverflow inline module] on StackOverflow<sup>[&dagger;](#ft-stackoverflow-merits)</sup>. In it, the contents of the script can be turned into an "Object URL", which we can use to import!
 
 So let's do that before adding the script to the `shadowRoot`:
 ```js
@@ -306,7 +309,7 @@ Let's change our view to act on the element:
 <script type="module">
   export class View {
     constructor(el) {
-      el.appendChild(document.createTextNode('The view has initialised!'));
+      el.querySelector('p').innerText = 'The view has initialised!';
     }
   }
 </script>
@@ -314,23 +317,24 @@ Let's change our view to act on the element:
 
 ![Browser showing "The view has initialised!" text appended to our component](/images/lol-web-components-test-with-view.png)
 
-All done _dusts off hands_
+All done!
+_dusts off hands_
 
 <p style="text-align:center; font-size: 3em;">🎉 🎉 🎉</p>
 
 ### Notes
 
-This example was not intended for good (or even average!) performance or browser compatibility. I'm the only person using code like this, on two very specific devices. Other users of my site don't even receive this code: it's an Admin interface that is only loaded if I'm logged-in – see my other post ["I can write this from my phone"]({% post_url 2020-04-08-i-can-write-this-from-my-phone %}).
+This example was not intended for good (or even average!) performance or browser compatibility. I'm the only person using code like this, on two very specific devices. Other users of my site don't even receive this code: it's an Admin interface that is only loaded if I'm logged-in (see my other post: ["I can write this from my phone"]({% post_url 2020-04-08-i-can-write-this-from-my-phone %})).
 
 The Web Component in this example can be totally generic by taking an import url as an input, so you don't have to create a new Web Component – which, to be honest, is a bit of a pain – for every HTML component you have. In fact, that's exactly what I've done with my Admin interface: I can put `<html-import data-href="./amazing.component.html"></html-import>` anywhere and it will load that component 🎉
 
-- [Admin interface HTML component on GitHub](https://github.com/henrahmagix/henrahmagix.github.io/commit/3f4f1cf0010fe01a215a4267f4adee3d571e2561#diff-21232f297a57a5a743894a0e4a801fc3) (a lot more complicated than this example, due to my _insistence_ on using relative imports wherever possible)
+You can read more about it here: [my blog admin interface HTML component on GitHub](https://github.com/henrahmagix/henrahmagix.github.io/commit/3f4f1cf0010fe01a215a4267f4adee3d571e2561#diff-21232f297a57a5a743894a0e4a801fc3) – it's a lot more complicated than this example at the time of writing, and probably doesn't need to be (I don't know if it will ever be finished 😅)
 
 ---
 
 <small id="ft-jekyll-fetch-html">* Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file: perfect for inserting into a holding element to get the browser to build the HTML for us!</small>
 
-<small id="ft-stackoverflow-merits">&dagger; StackOverflow is not the best place for beginners, as so often detailed by April Wensel ([here is an example][April Wensel on StackOverflow]). It is also where I have found answers for the majority of my problems. So reading it is usually fine, but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
+<small id="ft-stackoverflow-merits"><sup>&dagger;</sup> StackOverflow is not kindest of places, brought to my attention by April Wensel ([here is an example][April Wensel on StackOverflow]). It is also where I have found answers for the majority of my problems. So reading it is usually fine, but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
 
 
 [Vue]: https://vuejs.org/
