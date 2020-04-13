@@ -421,7 +421,8 @@ h6 {
 
 p,
 ul,
-ol {
+ol,
+details {
   margin: 1em 0;
 }
 
@@ -529,4 +530,8 @@ pre.highlight code {
   background-color: transparent;
   padding: 0;
   border-radius: 0;
+}
+
+details summary {
+  cursor: pointer;
 }
