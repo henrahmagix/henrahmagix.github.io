@@ -1,15 +1,16 @@
 require 'rouge'
 
-def lighten(v)
-  v2 = v * 1.5 + (255 - v) / 1.6
-  [255, v2].min
-end
-def darken(v)
-  v2 = v * 0.125 - (255 - v) / 1.6
-  [0, v2].max
-end
 def pad(s, size, char)
   s[0...size].rjust(size, char);
+end
+
+def adjust(v, avg)
+  half = 255/2.0
+  contrast = (avg - half).abs / half
+  adjustment = 255.0 * contrast
+
+  should_lighten = avg <= half
+  should_lighten ? [255.0, v + adjustment].min : [0.0, v - adjustment].max
 end
 
 css_light = Rouge::Theme.find('github').render(scope: 'pre.highlight')
@@ -24,10 +25,10 @@ css_dark = css_light.gsub(/#\w{3,6}/) do |hex|
     g = (hex[2] + '' + hex[3]).to_i(16)
     b = (hex[4] + '' + hex[5]).to_i(16)
   end
-  should_lighten = (r+g+b)/3 <= 127
-  r2 = should_lighten ? lighten(r) : darken(r)
-  g2 = should_lighten ? lighten(g) : darken(g)
-  b2 = should_lighten ? lighten(b) : darken(b)
+  avg = (r+g+b)/3
+  r2 = adjust(r, avg)
+  g2 = adjust(g, avg)
+  b2 = adjust(b, avg)
 
   r2 = pad(r2.to_i.to_s(16), 2, '0')
   g2 = pad(g2.to_i.to_s(16), 2, '0')
