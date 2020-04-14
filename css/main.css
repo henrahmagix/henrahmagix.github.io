@@ -234,6 +234,10 @@ nav ul li:last-child::after {
   padding-bottom: 2em;
 }
 
+.page-top {
+  margin-bottom: 2em;
+}
+
 .share-section {
   margin-top: 4em;
 }
@@ -398,7 +402,7 @@ h3,
 h4,
 h5,
 h6,
-.post-top {
+.page-top {
   font-family: "PT Sans", "HelveticaNeue", sans-serif;
 }
 
@@ -511,22 +515,6 @@ blockquote.twitter-tweet::before {
 
 .fancy-title:hover > .emoji {
   text-shadow: 2px 2px 1px rgba(0,0,0,0.4);
-}
-
-.post-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2em;
-}
-
-.post-top .published {
-  text-align: right;
-  margin: 0;
-}
-
-.post-top .links {
-  margin: 0;
 }
 
 #ipad-cursor-input {

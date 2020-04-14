@@ -135,30 +135,24 @@
     {% assign back_to_url = site.data.urls[back_to] %}
     {% assign back_to_title = back_to|capitalize %}
 
-    {% if back_to or page.date %}
-    <div class="post-top">
-      {% if back_to %}
+    {% if back_to %}
+      <div class="page-top">
         {% include back-link.html url=back_to_url title=back_to_title %}
-      {% else %}
-        &nbsp;
-      {% endif %}
-
-      {% if page.date %}
-        <p class="published">Published on <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
-      {% endif %}
-    </div>
-    {% endif %}
-
-    {% if page.link_code %}
-      <p>The code discussed on this page can be found here: <a title="The code discussed on this page" href="{{page.link_code}}">{{page.link_code}}</a></p>
-    {% endif %}
-    {% if page.link_example %}
-      <p>Here is an example of the code discussed on this page: <a title="An example of this discussion" href="{{page.link_example}}">{{page.link_example}}</a></p>
+      </div>
     {% endif %}
 
     <article id="content" class="hentry">
+      {% if page.date %}
+        <p class="published">Published on <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
+      {% endif %}
+
+      {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
       <h1 {% unless page.title %}hidden{% endunless %} class="page-title entry-title">{{ page.title|markdownify|remove:'<p>'|remove:'</p>' }}</h1>
       <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle entry-summary">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
+
+      {% if page.pre_content %}
+        {{page.pre_content|markdownify}}
+      {% endif %}
 
       <article class="entry-content">
         {{ content }}
