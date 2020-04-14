@@ -3,7 +3,8 @@ layout: post
 class: post
 title: lol I made my own component framework
 subtitle: why did I do this (oh yeah because of the pandemic)
-syndications: {}
+syndications:
+  twitter: 'https://twitter.com/henrahmagix/status/1250100936120418309?s=21'
 link_example: /examples/lol-web-components
 ---
 
