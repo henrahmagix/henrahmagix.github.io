@@ -234,6 +234,13 @@ nav ul li:last-child::after {
   padding-bottom: 2em;
 }
 
+.share-section {
+  margin-top: 4em;
+}
+.share-section hr {
+  margin-bottom: 2em;
+}
+
 @media screen and (min-width: 600px) {
   .logo-and-nav,
   .page-body {

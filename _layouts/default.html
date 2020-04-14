@@ -165,8 +165,7 @@
       </article>
     </article>
 
-    {% if page.layout == 'post' %}
-      <hr>
+    {% if page.url != "/" %}
       {% include syndications.html %}
     {% endif %}
 
