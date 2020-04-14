@@ -341,7 +341,7 @@ You can read more about it here: [my blog admin interface HTML component on GitH
 [Vue]: https://vuejs.org/
 [Svelte]: https://svelte.dev/
 [Blog Admin code]: https://github.com/henrahmagix/henrahmagix.github.io/blob/fc8bc1d2596ba77e3c82cab28e2b8afa8d35ac8d/admin/post-list-admin.js
-[Blog Admin web components]: https://github.com/henrahmagix/henrahmagix.github.io/commit/3296da3bd3ce8364fd12061f9094a63ca81d13df
+[Blog Admin web components]: https://github.com/henrahmagix/henrahmagix.github.io/commit/3296da3bd3ce8364fd12061f9094a63ca81d13df?w=1
 [css-tricks.com ways to include HTML]: https://css-tricks.com/the-simplest-ways-to-handle-html-includes/
 [Vue single-file component]: https://vuejs.org/v2/guide/single-file-components.html
 [question: On what specific grounds were HTML Imports rejected, deprecated and removed?]: https://webmasters.stackexchange.com/questions/127482/on-what-specific-grounds-were-html-imports-rejected-deprecated-and-removed
