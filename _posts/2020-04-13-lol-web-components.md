@@ -350,12 +350,3 @@ You can read more about it here: [my blog admin interface HTML component on GitH
 [HTML5 spec on innerHTML]: https://www.w3.org/TR/2008/WD-html5-20080610/dom.html#innerhtml0
 [stackoverflow inline module]: https://stackoverflow.com/a/43834063/3150057
 [April Wensel on StackOverflow]: https://medium.com/@Aprilw/suffering-on-stack-overflow-c46414a34a52 "April Wensel on StackOverflow"
-
-<style>
-  .entry-content h3,
-  .entry-content h4,
-  .entry-content h5,
-  .entry-content h6 {
-    margin-top: 2em;
-  }
-</style>

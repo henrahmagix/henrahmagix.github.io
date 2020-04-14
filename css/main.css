@@ -413,6 +413,15 @@ h6 {
   margin-bottom: 0.625em;
 }
 
+.page-post .entry-content h1,
+.page-post .entry-content h2,
+.page-post .entry-content h3,
+.page-post .entry-content h4,
+.page-post .entry-content h5,
+.page-post .entry-content h6 {
+  margin-top: 2em;
+}
+
 h1 {
   font-size: 2.25em;
 }
