@@ -333,7 +333,7 @@ You can read more about it here: [my blog admin interface HTML component on GitH
 
 ---
 
-<small id="ft-jekyll-fetch-html">* Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file: perfect for inserting into a holding element to get the browser to build the HTML for us!</small>
+<small id="ft-jekyll-fetch-html">* Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file.</small>
 
 <small id="ft-stackoverflow-merits"><sup>&dagger;</sup> StackOverflow is not kindest of places, brought to my attention by April Wensel ([here is an example][April Wensel on StackOverflow]). It is also where I have found answers for the majority of my problems. So reading it is usually fine, but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
 
