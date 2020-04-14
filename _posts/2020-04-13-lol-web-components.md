@@ -54,7 +54,7 @@ If you don't mind a build step, that's great! You can probably get a lot more fu
 We're here for fun, so let's do it anyway!
 
 What do we want? _HTML and JavaScript defined in the same file!_
-~~When~~ Where do we want it? _!n the same file!_
+~~When~~ Where do we want it? _In the same file! We just said!_
 
 ### Component HTML file design
 So something like this then?
