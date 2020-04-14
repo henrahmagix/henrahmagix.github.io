@@ -19,10 +19,6 @@ ul.posts {
   width: 50%;
 }
 
-.posts .post-anchor img {
-  max-width: 100%;
-}
-
 .empty {
   font-size: 2em;
 }

@@ -80,6 +80,7 @@ address {
   font-style: normal;
 }
 
+iframe,
 img {
   max-width: 100%;
 }
