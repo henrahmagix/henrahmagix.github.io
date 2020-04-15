@@ -2,7 +2,7 @@ declare namespace post {
   interface frontmatter {
     title: string;
     subtitle: string;
-    syndications: { [key: string]: string };
+    syndications: { [key: string]: string; };
   }
 }
 
@@ -77,7 +77,7 @@ declare namespace difflib {
   declare function stringAsLines(str: string): lines;
 
   class SequenceMatcher {
-    constructor(a: lines, b : lines);
+    constructor(a: lines, b: lines);
     get_opcodes(): opcode[];
   }
 }
@@ -90,6 +90,6 @@ declare namespace diffview {
     baseTextName: string;
     newTextName: string;
     contextSize: number;
-    viewType: 0|1;
+    viewType: 0 | 1;
   }): HTMLTableElement;
 }
