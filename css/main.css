@@ -113,7 +113,7 @@ details summary:focus {
   a button:hover,
   a button:focus,
   .button-link:hover,
-  .button-link:focus
+  .button-link:focus,
   details summary:hover,
   details summary:focus {
     color: #FF80E8;
