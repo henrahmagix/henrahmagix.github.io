@@ -88,7 +88,8 @@ img {
 /* Links */
 
 a,
-.button-link {
+.button-link,
+details summary {
   color: inherit;
   text-decoration: underline;
 }
@@ -96,7 +97,9 @@ a,
 a:hover,
 a:focus,
 .button-link:hover,
-.button-link:focus {
+.button-link:focus,
+details summary:hover,
+details summary:focus {
   color: #A80084;
   text-decoration: none;
 }
@@ -105,7 +108,9 @@ a:focus,
   a:hover,
   a:focus,
   .button-link:hover,
-  .button-link:focus {
+  .button-link:focus
+  details summary:hover,
+  details summary:focus {
     color: #FF80E8;
   }
 }
