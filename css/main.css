@@ -241,8 +241,9 @@ nav ul li:last-child::after {
 .share-section {
   margin-top: 4em;
 }
+.entry-content hr,
 .share-section hr {
-  margin-bottom: 2em;
+  margin: 2em 0;
 }
 
 @media screen and (min-width: 600px) {
