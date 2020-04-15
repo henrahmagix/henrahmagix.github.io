@@ -36,6 +36,8 @@ Unfortunately, you may have heard, HTML Imports has been abandoned – the only 
 2. Inline scripts block the document parsing
 3. Inability for script modules to access declarative content
 
+(A wonderfully worded question, and some very interesting answers, provide [more information about the current situation of HTML Imports][question: On what specific grounds were HTML Imports rejected, deprecated and removed?])
+
 So what can we do? It would be so nice (super nice) to have everything about a component all in the same file: HTML, CSS (`<style>` and `<link rel=stylesheet>`), and JavaScript.
 
 <small>cough [Vue][]</small> – hm? What's that? <small>cough [Svelte][] cough</small> – huh? Oooooohhhhhhhhh, _Frameworks._
