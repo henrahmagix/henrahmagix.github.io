@@ -88,6 +88,7 @@ img {
 /* Links */
 
 a,
+a button,
 .button-link,
 details summary {
   color: inherit;
@@ -96,6 +97,8 @@ details summary {
 
 a:hover,
 a:focus,
+a button:hover,
+a button:focus,
 .button-link:hover,
 .button-link:focus,
 details summary:hover,
@@ -107,6 +110,8 @@ details summary:focus {
 @media (prefers-color-scheme: dark) {
   a:hover,
   a:focus,
+  a button:hover,
+  a button:focus,
   .button-link:hover,
   .button-link:focus
   details summary:hover,
@@ -127,12 +132,12 @@ article a {
   }
 }
 
-a .icon,
-button .icon {
+.icon {
   margin-right: 0.25em;
   text-align: left;
 }
 
+a button,
 .button-link {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -243,11 +248,11 @@ nav ul li:last-child::after {
   margin-bottom: 2em;
 }
 
-.share-section {
+#share-section {
   margin-top: 4em;
 }
 .entry-content hr,
-.share-section hr {
+#share-section hr {
   margin: 2em 0;
 }
 
@@ -556,4 +561,18 @@ pre.highlight code {
 
 details summary {
   cursor: pointer;
+}
+
+#share-fallback:not([hidden]) {
+  display: inline-block;
+  margin: 0;
+}
+
+#share-fallback summary::-webkit-details-marker {
+  display: none;
+}
+
+#share-fallback ul {
+  margin: 0;
+  padding-left: 1em;
 }
