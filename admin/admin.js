@@ -14,7 +14,16 @@ function handleError(err) {
   return true;
 }
 
-window.onerror = (msg, src, lineno, colno, err) => handleError(err);
+window.onerror = (msg, src, lineno, colno, err) => {
+  // If the error stack doesn't include a link to the src, allow this error to
+  // continue bubbling up so the browser console can make the link.
+  if (err.stack && !err.stack.includes(src)) {
+    alert(`${msg} ${src}:${lineno}:${colno}`);
+    // Allow to continue, else we won't get a link to the src in the console.
+    return false;
+  }
+  return handleError(err);
+}
 window.addEventListener('unhandledrejection', event => {
   event.preventDefault();
   handleError(event.reason);
