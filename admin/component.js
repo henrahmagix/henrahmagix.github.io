@@ -16,20 +16,32 @@ const dependencies = {
   'post-file': {...postFileModule},
 };
 
+class ComponentError extends Error {
+  /**
+   * @param {Error|string} err
+   * @param {string} href
+   */
+  constructor(err, href) {
+    super(`href=${href}: ${err}`);
+    this.name = 'ComponentError';
+  }
+}
+
 export class Component extends HTMLElement {
   constructor() {
     super();
 
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
-    this.fetch(shadowRoot, this.dataset.href);
+    this.fetch(shadowRoot);
   }
 
   /**
    * @param {ShadowRoot} shadowRoot
-   * @param {string} componentHref
    */
-  async fetch(shadowRoot, componentHref) {
+  async fetch(shadowRoot) {
+    const componentHref = this.dataset.href;
+
     if (!componentHref) {
       return;
     }
@@ -43,6 +55,10 @@ export class Component extends HTMLElement {
     comp.innerHTML = await res.text();
 
     const templateSource = comp.getElementsByTagName('template')[0];
+    if (!templateSource) {
+      throw new ComponentError('Component must have a <template>', componentHref);
+    }
+
     const template = /** @type {HTMLTemplateElement} */ (templateSource.content.cloneNode(true));
 
     // Add template. Replace resources in the source.
@@ -56,9 +72,13 @@ export class Component extends HTMLElement {
     const scripts = Array.from(shadowRoot.querySelectorAll('script'));
     await Promise.all(scripts.map(async (script) => {
       if (script.src && script.type === 'module') {
-        const module = await import(script.src);
-        if (module.View) {
-          new module.View(shadowRoot, dependencies);
+        try {
+          const module = await import(script.src);
+          if (module.View) {
+            new module.View(shadowRoot, this.dataset, dependencies);
+          }
+        } catch (err) {
+          throw new ComponentError(err, componentHref);
         }
       }
     }));
