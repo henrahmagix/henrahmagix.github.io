@@ -36,7 +36,12 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-53059920-2');
+    var sendPageView = true;
+    if (window.localStorage && window.localStorage.getItem('gh_token')) {
+      sendPageView = false;
+    }
+
+    gtag('config', 'UA-53059920-2', { send_page_view: sendPageView });
   </script>
   {% endif %}
 
