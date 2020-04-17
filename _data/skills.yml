@@ -4,7 +4,12 @@
   - JavaScript
   - TypeScript
 -
-  - Angular
+  - Google Cloud
+  - AWS
+-
+  - Angular 7-9
+  - AngularJS
+  - Svelte
   - React
   - Vue
 -
@@ -16,6 +21,3 @@
 -
   - Ruby
   - Padrino
--
-  - Google Cloud
-  - AWS
