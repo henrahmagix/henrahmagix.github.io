@@ -2,18 +2,31 @@ import { resolvePath } from './utils.js';
 
 const TAG_NAME = 'html-import'; // see customElements.define at the end
 
-class ComponentError extends Error {
+class HTMLComponentError extends Error {
   /**
-   * @param {Error|string} err
+   * @param {string} message
+   * @param {string} href
+   * @param {Error} [cause]
+   */
+  constructor(message, href, cause) {
+    super(`for ${href}: ${message}`);
+    this.cause = cause;
+    this.href = href;
+    this.name = 'HTMLComponentError';
+  }
+
+  /**
+   * @param {Error} err
    * @param {string} href
    */
-  constructor(err, href) {
-    super(`href=${href}: ${err}`);
-    this.name = 'ComponentError';
+  static wrap(err, href) {
+    const newErr = new this(err.message, href, err);
+    err.message = `${newErr.name} ${newErr.message}`;
+    return err;
   }
 }
 
-export class Component extends HTMLElement {
+export class HTMLComponent extends HTMLElement {
   constructor() {
     super();
 
@@ -42,7 +55,7 @@ export class Component extends HTMLElement {
 
     const templateSource = comp.getElementsByTagName('template')[0];
     if (!templateSource) {
-      throw new ComponentError('Component must have a <template>', componentHref);
+      throw new HTMLComponentError('Component must have a <template>', componentHref);
     }
 
     const template = /** @type {HTMLTemplateElement} */ (templateSource.content.cloneNode(true));
@@ -64,7 +77,7 @@ export class Component extends HTMLElement {
             new module.View(shadowRoot, this.dataset);
           }
         } catch (err) {
-          throw new ComponentError(err, componentHref);
+          throw HTMLComponentError.wrap(err, componentHref);
         }
       }
     }));
@@ -134,4 +147,4 @@ export class Component extends HTMLElement {
   }
 }
 
-customElements.define(TAG_NAME, Component);
+customElements.define(TAG_NAME, HTMLComponent);
