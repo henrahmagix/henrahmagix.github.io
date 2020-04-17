@@ -1,8 +1,21 @@
 ---
 layout: playground
 title: iPadOS cursor testbed
-subtitle: Turn on the iPadOS Cursor and move your cursor around this page
 ---
+
+<p><strong>Turn on the iPadOS Cursor at the top, and move your cursor around this page.</strong></p>
+
+<p><em>Note: it doesn't really work if you're viewing this on a device without a regular cursor</em> 🙃</p>
+
+<h3>Features</h3>
+<ul>
+  <li>Snaps to interactive elements (buttons, links, etc.)</li>
+  <li><a href="https://github.com/henrahmagix/henrahmagix.github.io/blob/9347a111b1f0e234dc13d4d4c58f3aa2d3f580b6/js/ipad-cursor.js#L220-L231" title="JavaScript function to give Apple-like elastic pull">Uses Apple's algorithm when snapped onto an element</a>, to give the "elastic pull" feel</li>
+</ul>
+
+<p>For more info, see <a href="{% post_url 2020-04-03-ipad-os-cursor-on-the-web %}">iPadOS cursor on the web</a>.</p>
+
+<h3>Interactive elements</h3>
 
 <p>
   How about some links?
@@ -52,5 +65,10 @@ subtitle: Turn on the iPadOS Cursor and move your cursor around this page
   display: inline-block;
   border: 2px solid #23242C;
   border-radius: 5px;
+}
+@media (prefers-color-scheme: dark) {
+  .boxy-things a {
+    border-color: #DEDEDE;
+  }
 }
 </style>
