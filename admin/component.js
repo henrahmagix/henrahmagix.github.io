@@ -26,21 +26,27 @@ class HTMLComponentError extends Error {
   }
 }
 
+export class HTMLComponentConfig {
+  constructor() {
+    /** @type {Boolean} */
+    this.useShadowDOM = true;
+  }
+
+  /** @param {HTMLComponentConfig} config */
+  merge(config) {
+    return Object.assign(this, config);
+  }
+}
+
 export class HTMLComponent extends HTMLElement {
   constructor() {
     super();
 
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-
-    this.fetch(shadowRoot);
+    this.fetch(resolvePath(import.meta.url, this.dataset.href));
   }
 
-  /**
-   * @param {ShadowRoot} shadowRoot
-   */
-  async fetch(shadowRoot) {
-    const componentHref = resolvePath(import.meta.url, this.dataset.href);
-
+  /** @param {string} componentHref */
+  async fetch(componentHref) {
     if (!componentHref) {
       return;
     }
@@ -50,6 +56,7 @@ export class HTMLComponent extends HTMLElement {
       throw new Error(`component fetch failed: ${res.status} ${await res.text()}`);
     }
 
+    const fragment = document.createDocumentFragment();
     const comp = document.createElement('div');
     comp.innerHTML = await res.text();
 
@@ -62,29 +69,47 @@ export class HTMLComponent extends HTMLElement {
 
     // Add template. Replace resources in the source.
     reInitResourcesInto(template, template);
-    shadowRoot.appendChild(template);
+    fragment.appendChild(template);
     // Copy all other parts of the component.
     comp.removeChild(templateSource);
-    reInitResourcesInto(comp, shadowRoot);
+    reInitResourcesInto(comp, fragment);
 
     // Import and instantiate available views.
-    const scripts = Array.from(shadowRoot.querySelectorAll('script'));
-    await Promise.all(scripts.map(async (script) => {
-      if (script.src && script.type === 'module') {
-        try {
-          const module = await import(script.src);
-          if (module.View) {
-            new module.View(shadowRoot, this.dataset);
+    /** @type {HTMLScriptElement[]} */
+    const viewScripts = Array.from(fragment.querySelectorAll('script[type=module][src]'));
+    let hasInitialisedView = false;
+    const viewConfig = new HTMLComponentConfig();
+
+    await Promise.all(viewScripts.map(async (script) => {
+      try {
+        /** @type {ComponentModule} */
+        const module = await import(script.src);
+        if (module.View) {
+          if (hasInitialisedView) {
+            throw new HTMLComponentError('only one view script allowed', componentHref);
           }
-        } catch (err) {
-          throw HTMLComponentError.wrap(err, componentHref);
+          hasInitialisedView = true;
+          new module.View(fragment, this.dataset);
+          if (module.config) {
+            viewConfig.merge(module.config);
+          }
         }
+      } catch (err) {
+        throw HTMLComponentError.wrap(err, componentHref);
       }
     }));
 
+    // Add the built fragment to load child components.
+    if (viewConfig.useShadowDOM) {
+      const shadowRoot = this.attachShadow({ mode: 'open' });
+      shadowRoot.appendChild(fragment);
+    } else {
+      this.appendChild(fragment);
+    }
+
     /**
-     * @param {HTMLElement|ShadowRoot} source
-     * @param {HTMLElement|ShadowRoot} target
+     * @param {HTMLElement} source
+     * @param {HTMLElement|DocumentFragment} target
      */
     function reInitResourcesInto(source, target) {
       target = target || source;

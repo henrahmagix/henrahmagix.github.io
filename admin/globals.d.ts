@@ -1,3 +1,13 @@
+declare interface ComponentModule {
+  View?: {
+    new(
+      fragment: DocumentFragment,
+      dataset: DOMStringMap,
+    );
+  }
+  config?: import('./component.js').HTMLComponentConfig,
+}
+
 declare namespace post {
   interface frontmatter {
     title: string;

@@ -26,15 +26,13 @@
   import { PostDraft } from './post-draft.js';
 
   // @ts-check
+  export const config = {
+    useShadowDOM: false,
+  };
+
   export class View {
-    constructor(shadowRoot) {
-
-      // Use main document's styles.
-      document.head.querySelectorAll('link[rel=stylesheet]').forEach(link => {
-        shadowRoot.appendChild(link.cloneNode());
-      });
-
-      const el = shadowRoot.getElementById('admin-post-list');
+    constructor(fragment) {
+      const el = fragment.getElementById('admin-post-list');
 
       const draftsList = el.querySelector('ul.drafts');
       const unsavedList = el.querySelector('ul.unsaved');
