@@ -360,7 +360,7 @@ I thought that was because of the `blob:` object url, shown by logging `import.m
 
 But now I have figured it out! Turns out I had the right idea, but I was resolving the relative paths against the wrong url: it should've been against the `import.meta.url` of the code that's doing the importing!
 
-[This article's example](/examples/lol-web-components) has been updated. You can see the changes, included in the commit for this update, by viewing the history in the [share section](#share-section) below.
+[This article's example](/examples/lol-web-components) has been updated. You can see the changes, included in the commit for this update, by viewing the history in the [share section](#share-section) below. And here's [the same import fix applied to my current blog admin interface](https://github.com/henrahmagix/henrahmagix.github.io/commit/d8ea675f58b19bf71c68a93648b80b52c84656a3).
 
 ---
 
