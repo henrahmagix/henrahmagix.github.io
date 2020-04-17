@@ -1,0 +1,18 @@
+{% if include.context.date %}
+  {% capture published %}<span class="screenreader">Published </span><time datetime="{{ include.context.date|date:"%Y-%m-%d" }}">{{ include.context.date | date_to_long_string }}</time>{% endcapture %}
+{% endif %}
+{% for update_hash in include.context.updates %}
+  {% assign last_update = update_hash %}
+{% endfor %}
+{% if last_update %}
+  {% capture published %}{{published}}, last updated <time datetime="{{ last_update[0] }}">{{ last_update[0] | date_to_long_string }}</time>{% endcapture %}
+  {% if include.show_update_skip %}
+    {% capture published %}{{published}} &ndash; <a href="#updates">skip to updates</a>{% endcapture %}
+  {% endif %}
+{% endif %}
+{% if published %}
+  <p class="published"><em><small>{{published}}</small></em></p>
+{% endif %}
+{%- comment -%} reset else it will repeat over multiple includes {%- endcomment -%}
+{% assign published = nil %}
+{% assign last_update = nil %}

@@ -8,20 +8,8 @@ add_admin_scripts: true
   <ul class="links posts">
     {% assign posts = site.posts|where_exp:"post", "post.hidden != true" %}
     {% for post in posts %}
-
-      {% capture published %}<span class="screenreader">Published </span><time datetime="{{ post.date }}">{{ post.date | date_to_long_string }}</time>{% endcapture %}
-
-      {% for update_hash in post.updates %}
-        {% assign last_update = update_hash %}
-      {% else %}
-        {% assign last_update = nil %}
-      {% endfor %}
-      {% if last_update %}
-        {% capture published %}{{published}} &ndash; last update <time datetime="{{ last_update[0] }}">{{ last_update[0] | date_to_long_string }}</time>{% endcapture %}
-      {% endif %}
-
       <li>
-        <p class="published"><em><small>{{published}}</small></em></p>
+        {% include published-date.html context=post %}
         <h2><a href="{{post.url}}">{{post.title}}</a></h2>
         {% if post.subtitle %}
           <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
