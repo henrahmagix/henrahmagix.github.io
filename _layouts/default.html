@@ -143,16 +143,25 @@
 
     <article id="content" class="hentry">
       {% if page.date %}
-        <p class="published">Published on <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time></p>
+        {% capture published %}Published <time datetime="{{ page.date }}">{{ page.date | date_to_long_string }}</time>{% endcapture %}
+      {% endif %}
+      {% for update_hash in page.updates %}
+        {% assign last_update = update_hash %}
+      {% endfor %}
+      {% if last_update %}
+        {% capture published %}{{published}}, last updated <time datetime="{{ last_update[0] }}">{{ last_update[0] | date_to_long_string }}</time> &ndash; <a href="#updates">skip to updates</a>{% endcapture %}
+      {% endif %}
+      {% if published %}
+        <p><em>{{published}}</em></p>
       {% endif %}
 
       {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
       <h1 {% unless page.title %}hidden{% endunless %} class="page-title entry-title">{{ page.title|markdownify|remove:'<p>'|remove:'</p>' }}</h1>
       <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle entry-summary">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
 
-      {% if page.pre_content %}
-        {{page.pre_content|markdownify}}
-      {% endif %}
+      {% for line in page.pre_content %}
+        {{line|markdownify}}
+      {% endfor %}
 
       <article class="entry-content">
         {{ content }}

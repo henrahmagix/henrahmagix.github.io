@@ -1,5 +1,5 @@
 <template>
-  <p>This is a lovely component</p>
+  <p>This is a lovely component starting point</p>
 </template>
 
 <style>
@@ -9,9 +9,12 @@
 </style>
 
 <script type="module">
+  console.log('html component import.meta.url', import.meta.url)
+  import { message } from './test.module.js';
+
   export class View {
     constructor(el) {
-      el.querySelector('p').innerText = 'The view has initialised!';
+      el.querySelector('p').innerText = `The view has initialised, with an imported message: "${message}".\n\nFor more info, check the console logs.`;
     }
   }
 </script>

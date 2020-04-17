@@ -12,6 +12,11 @@ ul.posts {
   word-break: break-word;
 }
 
+.posts .pre-anchor {
+  display: inline-block;
+  margin-bottom: 1em;
+}
+
 /* Empty item to ensure even total so last item doesn't stretch full width */
 .posts.odd::after {
   content: '';

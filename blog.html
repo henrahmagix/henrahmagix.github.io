@@ -7,15 +7,23 @@ add_admin_scripts: true
 {% if site.posts.size > 0 %}
   {% assign odd = site.posts|size|modulo:2 %}
   <ul class="links posts {% if odd == 1 %}odd{% else %}even{% endif %}">
-    {% assign posts = site.posts|where_exp:"post", "post.test != true" %}
+    {% assign posts = site.posts|where_exp:"post", "post.hidden != true" %}
     {% for post in posts %}
+      {% capture published %}Published <time datetime="{{ post.date }}">{{ post.date | date_to_long_string }}</time>{% endcapture %}
+      {% for update_hash in post.updates %}
+        {% assign last_update = update_hash %}
+      {% endfor %}
+      {% if last_update %}
+        {% capture published %}{{published}}, last updated <time datetime="{{ last_update[0] }}">{{ last_update[0] | date_to_long_string }}</time>{% endcapture %}
+      {% endif %}
+      {% capture published %}<em><small>{{published}}</small></em>{% endcapture %}
       {% capture excerpt %}
         {% if post.subtitle %}
           <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
         {% endif %}
         <span class="screenreader">Excerpt:</span> {{ post.excerpt }}
       {% endcapture %}
-      {% include link.html title_element="h2" title=post.title post=excerpt icon="far fa-file-alt" url=post.url %}
+      {% include link.html title_element="h2" title=post.title pre=published post=excerpt icon="far fa-file-alt" url=post.url %}
     {% endfor %}
   </ul>
 {% else %}

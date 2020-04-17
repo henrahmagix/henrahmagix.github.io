@@ -5,7 +5,10 @@ title: lol I made my own component framework
 subtitle: why did I do this (oh yeah because of the pandemic)
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1250100936120418309?s=21'
-pre_content: '[Example: /examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
+pre_content:
+  - '[Example: /examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
+updates:
+  2020-04-17: imports work in components now!
 ---
 
 This website is a playground for me, so I decided to rewrite my [Blog Admin code][] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
@@ -22,7 +25,8 @@ In this article, we will:
 6. [Turn the script into an importable module](#turn-the-script-into-an-importable-module)
 7. [Import and initialise the `View` class with the `ShadowRoot`](#import-and-initialise-the-view-class-with-the-shadowroot)
 8. [Change the template dynamically](#change-the-template-dynamically-in-the-view-class)
-9. [Notes](#notes)
+9. [Updates](#updates)
+10. [Notes](#notes)
 </details>
 
 ### That sounds like the HTML Imports spec
@@ -333,6 +337,30 @@ This example was not intended for good (or even average!) performance or browser
 The Web Component in this example can be totally generic by taking an import url as an input, so you don't have to create a new Web Component – which, to be honest, is a bit of a pain – for every HTML component you have. In fact, that's exactly what I've done with my Admin interface: I can put `<html-import data-href="./amazing.component.html"></html-import>` anywhere and it will load that component 🎉
 
 You can read more about it here: [my blog admin interface HTML component on GitHub](https://github.com/henrahmagix/henrahmagix.github.io/commit/3f4f1cf0010fe01a215a4267f4adee3d571e2561#diff-21232f297a57a5a743894a0e4a801fc3) – it's a lot more complicated than this example at the time of writing, and probably doesn't need to be (I don't know if it will ever be finished 😅)
+
+<hr>
+
+### Updates
+
+#### 2020-04-17
+
+Imports weren't working from inside a component script: they would raise a `TypeError`. For example, when creating an object url for the following and importing it:
+```html
+<script type="module">
+  import { message } from './test.module.js';
+</script>
+```
+we would get the following error:
+```
+TypeError: Failed to resolve module specifier "./test.module.js".
+Invalid relative url or base scheme isn't hierarchical.
+```
+
+I thought that was because of the `blob:` object url, shown by logging `import.meta.url`. So I tried to rewrite the imports to be relative to that url – e.g. resolve `./test.module.js` from `blob:http://localhost:4000/886be17a-b416-4699-8aed-e23162932feb` – but I got the same error.
+
+But now I have figured it out! Turns out I had the right idea, but I was resolving the relative paths against the wrong url: it should've been against the `import.meta.url` of the code that's doing the importing!
+
+[This article's example](/examples/lol-web-components) has been updated. You can see the changes, included in the commit for this update, by viewing the history in the [share section](#share-section) below.
 
 ---
 
