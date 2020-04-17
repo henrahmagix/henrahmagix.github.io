@@ -163,7 +163,7 @@
       </article>
     </article>
 
-    {% if page.url != "/" %}
+    {% if page.url != "/" and page.hide_share != true %}
       {% include share.html %}
     {% endif %}
 
