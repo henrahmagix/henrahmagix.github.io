@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/gtag.js": "0.0.3",
     "@types/js-yaml": "^3.12.3",
     "@types/showdown": "^1.9.3"
   }
