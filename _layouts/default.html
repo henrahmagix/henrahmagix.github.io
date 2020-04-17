@@ -194,7 +194,7 @@
 
     iPadCursorTrigger.addEventListener('change', function (event) {
       var action = iPadCursorTrigger.checked ? 'on' : 'off';
-      gtag('event', action, {
+      window.gtag && window.gtag('event', action, {
         event_category: 'ipad_cursor',
         event_label: 'Features'
       });
