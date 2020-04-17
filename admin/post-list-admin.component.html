@@ -21,21 +21,15 @@
 </template>
 
 <script type="module">
+  import { Admin } from './admin.js';
+  import { show, createHTML } from './utils.js';
+  import { PostDraft } from './post-draft.js';
+
   // @ts-check
   export class View {
-    constructor(shadowRoot, {
-      utils: {
-        show,
-        createHTML,
-      },
-      admin: {
-        Admin,
-      },
-      'post-draft': {
-        PostDraft,
-      },
-    }) {
+    constructor(shadowRoot) {
 
+      // Use main document's styles.
       document.head.querySelectorAll('link[rel=stylesheet]').forEach(link => {
         shadowRoot.appendChild(link.cloneNode());
       });

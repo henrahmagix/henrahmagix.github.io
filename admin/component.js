@@ -1,20 +1,6 @@
 import { resolvePath } from './utils.js';
 
-import * as adminModule from './admin.js';
-import * as utilsModule from './utils.js';
-import * as postDraftModule from './post-draft.js';
-import * as postEditModule from './post-edit.js';
-import * as postFileModule from './post-file.js';
-
 const TAG_NAME = 'html-import'; // see customElements.define at the end
-
-const dependencies = {
-  'admin': {...adminModule},
-  'utils': {...utilsModule},
-  'post-draft': {...postDraftModule},
-  'post-edit': {...postEditModule},
-  'post-file': {...postFileModule},
-};
 
 class ComponentError extends Error {
   /**
@@ -40,7 +26,7 @@ export class Component extends HTMLElement {
    * @param {ShadowRoot} shadowRoot
    */
   async fetch(shadowRoot) {
-    const componentHref = this.dataset.href;
+    const componentHref = resolvePath(import.meta.url, this.dataset.href);
 
     if (!componentHref) {
       return;
@@ -75,7 +61,7 @@ export class Component extends HTMLElement {
         try {
           const module = await import(script.src);
           if (module.View) {
-            new module.View(shadowRoot, this.dataset, dependencies);
+            new module.View(shadowRoot, this.dataset);
           }
         } catch (err) {
           throw new ComponentError(err, componentHref);
@@ -114,7 +100,7 @@ export class Component extends HTMLElement {
       // Rewrite relative attributes.
       ['src', 'href'].forEach(attr => {
         const val = el.getAttribute(attr);
-        if (val && val.charAt(0) !== '/') {
+        if (val && val.charAt(0) !== '/' && !val.match(/^http/)) {
           newEl.setAttribute(attr, resolvePath(componentHref, val));
         }
       });
