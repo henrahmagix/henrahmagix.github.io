@@ -366,7 +366,7 @@ But now I have figured it out! Turns out I had the right idea, but I was resolvi
 
 <small id="ft-jekyll-fetch-html">* Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file.</small>
 
-<small id="ft-stackoverflow-merits"><sup>&dagger;</sup> StackOverflow is not kindest of places, brought to my attention by April Wensel ([here is an example][April Wensel on StackOverflow]). It is also where I have found answers for the majority of my problems. So reading it is usually fine, but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
+<small id="ft-stackoverflow-merits"><sup>&dagger;</sup> StackOverflow is not the kindest of places, brought to my attention by April Wensel ([here is an example][April Wensel on StackOverflow]). It's also where I've found answers for the majority of my problems. So, for me at least, reading it is usually fine; but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
 
 
 [Vue]: https://vuejs.org/
@@ -379,4 +379,4 @@ But now I have figured it out! Turns out I had the right idea, but I was resolvi
 [Gotchas with dynamically adding script tags to HTML]: https://www.danielcrabtree.com/blog/25/gotchas-with-dynamically-adding-script-tags-to-html
 [HTML5 spec on innerHTML]: https://www.w3.org/TR/2008/WD-html5-20080610/dom.html#innerhtml0
 [stackoverflow inline module]: https://stackoverflow.com/a/43834063/3150057
-[April Wensel on StackOverflow]: https://medium.com/@Aprilw/suffering-on-stack-overflow-c46414a34a52 "April Wensel on StackOverflow"
+[April Wensel on StackOverflow]: https://medium.com/@Aprilw/suffering-on-stack-overflow-c46414a34a52 "Suffering on StackOverflow, by April Wensel"
