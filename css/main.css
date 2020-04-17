@@ -593,3 +593,26 @@ details summary {
   margin: 0;
   padding-left: 1em;
 }
+
+.flash {
+  position: relative;
+}
+.flash::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -4px;
+  bottom: -2px;
+  right: -4px;
+  border-radius: 5px;
+  animation: flash 1s ease-in-out alternate 2;
+}
+
+@keyframes flash {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: #FF80E8;
+  }
+}
