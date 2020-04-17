@@ -26,9 +26,7 @@ I'd rather not try to answer such lofty questions as were posed above 😅 So, l
 
 Please do have a read of the code if it interests you – I certainly haven't taken care to make it _nice_... yet! I'll write up an explanation of it soon, and then also go through a refactor and blog that too.
 
-[JavaScript](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/js/ipad-cursor.js "iPadOS cursor JavaScript source code")
-|
-[Styles](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/css/ipad-cursor.css "iPadOS cursor CSS source code")
+[JavaScript](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/js/ipad-cursor.js "iPadOS cursor JavaScript source code") \| [Styles](https://github.com/henrahmagix/henrahmagix.github.io/blob/56459f653125138296ecff257c73e9de927d0d45/css/ipad-cursor.css "iPadOS cursor CSS source code")
 
 <small>* I've guessed my own fade-away timeout, I don't care about matching Apple, because we're all about being useless here, right??</small>
 <small>** the on/off value persists in localStorage, named `hb_ipad_cursor`</small>
