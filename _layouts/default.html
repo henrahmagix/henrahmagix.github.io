@@ -32,16 +32,13 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-53059920-2"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    if (!window.localStorage || !window.localStorage.getItem('gh_token')) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    var sendPageView = true;
-    if (window.localStorage && window.localStorage.getItem('gh_token')) {
-      sendPageView = false;
+      gtag('config', 'UA-53059920-2');
     }
-
-    gtag('config', 'UA-53059920-2', { send_page_view: sendPageView });
   </script>
   {% endif %}
 
