@@ -1,13 +1,9 @@
 <script type="module">
   // @ts-check
   if (localStorage.getItem('gh_token')) {
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '/admin/component.js';
-    document.body.appendChild(script);
+    {% include register-components.js %}
 
-    const el = document.createElement('html-import');
-    el.setAttribute('data-href', '/admin/post-list-admin.component.html');
-    document.getElementById('content').before(el);
+    const component = document.createElement('admin-post-list-admin');
+    document.getElementById('content').before(component);
   }
 </script>
