@@ -3,7 +3,7 @@
   <ul class="drafts">
     <li><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
     <li><i class="icon fas fa-spinner fa-pulse"></i></li>
-    <li {for-draft}><a href="/admin/edit?filepath={{ encodedPath }}">{{ name }}</a></li>
+    <li {for-drafts}><a href="/admin/edit?filepath={{ encodedPath }}">{{ name }}</a></li>
   </ul>
 </template>
 
@@ -13,31 +13,17 @@
   // @ts-check
   export const config = {
     useShadowDOM: false,
+    renderOnSetters: ['drafts'],
   };
 
   export class View {
     /** @param {DocumentFragment} fragment */
     constructor(fragment) {
-      const liForDraft = Array.from(fragment.querySelectorAll('li')).find(li => li.hasAttribute('{for-draft}'));
       const spinner = fragment.querySelector('.fa-spinner').parentElement;
-      const ul = fragment.querySelector('ul');
-
-      liForDraft.remove();
 
       PostDraft.list().then(drafts => {
         spinner.remove();
-
-        drafts.forEach(d => {
-          const li = liForDraft.cloneNode(true);
-          li.innerHTML = li.innerHTML.replace(
-            /\{\{([^}]+)\}\}/g,
-            (whole, expr) => {
-              expr = expr.trim();
-              return d[expr] || '';
-            },
-          );
-          ul.appendChild(li);
-        });
+        this.drafts = drafts;
       });
     }
   }

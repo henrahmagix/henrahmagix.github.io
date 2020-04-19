@@ -11,18 +11,15 @@
   // @ts-check
   export const config = {
     useShadowDOM: false,
+    renderOnSetters: ['unsaved'],
   };
 
   export class View {
     /** @param {DocumentFragment} fragment */
     constructor(fragment) {
-      const liForUnsaved = Array.from(fragment.querySelectorAll('li')).find(li => li.hasAttribute('{for-unsaved}'));
-      const ul = fragment.querySelector('ul');
-
-      liForUnsaved.remove();
-
       /** @type {{path: string, encodedPath: string}[]} */
-      const unsaved = [];
+      this.unsaved = [];
+
       for (let i = 0; i < localStorage.length; i++) {
         const keyParts = localStorage.key(i).match(/^gh_post_(.*)/)
         const filepath = keyParts && keyParts[1];
@@ -30,23 +27,11 @@
           continue;
         }
 
-        unsaved.push({
+        this.unsaved.push({
           name: filepath,
           encodedPath: window.encodeURIComponent(filepath),
         });
       }
-
-      unsaved.forEach(item => {
-        const li = liForUnsaved.cloneNode(true);
-        li.innerHTML = li.innerHTML.replace(
-          /\{\{([^}]+)\}\}/g,
-          (whole, expr) => {
-            expr = expr.trim();
-            return item[expr] || '';
-          },
-        );
-        ul.appendChild(li);
-      });
     }
   }
 </script>

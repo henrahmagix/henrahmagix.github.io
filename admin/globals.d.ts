@@ -1,10 +1,5 @@
 declare interface ComponentModule {
-  View?: {
-    new(
-      fragment: DocumentFragment,
-      dataset: DOMStringMap,
-    );
-  }
+  View?: import('./component.js').HTMLComponentView,
   config?: import('./component.js').HTMLComponentConfig,
 }
 
