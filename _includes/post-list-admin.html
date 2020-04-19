@@ -1,9 +1,12 @@
+<admin-post-list-admin></admin-post-list-admin>
+
 <script type="module">
   // @ts-check
+  const component = document.querySelector('admin-post-list-admin');
   if (localStorage.getItem('gh_token')) {
     {% include register-components.js %}
-
-    const component = document.createElement('admin-post-list-admin');
     document.getElementById('content').before(component);
+  } else {
+    component.remove();
   }
 </script>
