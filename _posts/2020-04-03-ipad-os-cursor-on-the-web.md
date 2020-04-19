@@ -1,6 +1,7 @@
 ---
 layout: post
 class: post
+categories: Code
 title: iPadOS cursor on the web
 subtitle: just because it's fun!
 image: /images/ipad-cursor-preview.jpg

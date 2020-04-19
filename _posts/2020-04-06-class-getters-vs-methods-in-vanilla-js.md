@@ -1,6 +1,7 @@
 ---
 layout: post
 class: post
+categories: Code
 title: Class getters vs methods in vanilla JS
 subtitle: when debugging them
 image: /images/class-getter.png

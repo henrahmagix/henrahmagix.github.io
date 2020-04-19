@@ -26,6 +26,11 @@
   margin-bottom: 0;
 }
 
-.empty {
-  font-size: 2em;
+.minimal h3,
+.minimal p:not(.published),
+.minimal hr {
+  display: none;
+}
+.minimal .published {
+  margin-bottom: 0;
 }

@@ -1,6 +1,7 @@
 ---
 layout: post
 class: post
+categories: Code
 title: Double exposure random generator is back online!
 subtitle: 'That''s right, it''s back!'
 image: /images/double-random-camera.jpg

@@ -1,6 +1,7 @@
 ---
 layout: post
 class: post
+categories: Code
 title: lol I made my own component framework
 subtitle: why did I do this (oh yeah because of the pandemic)
 syndications:
