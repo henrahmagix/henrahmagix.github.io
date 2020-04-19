@@ -219,11 +219,17 @@ async function fetchHTMLComponent(thisElement, componentHref) {
 
     // Replace watch properties with setters so we can render when they are set.
     viewConfig.renderOnSetters.forEach(prop => {
+      /** @type {number} */
+      let renderRAF;
+
       let _value = view[prop];
       Object.defineProperty(view, prop, {
         set: function(value) {
           _value = value;
-          renderView();
+          cancelAnimationFrame(renderRAF);
+          renderRAF = requestAnimationFrame(() => {
+            renderView();
+          });
         },
         get: function() {
           return _value;
