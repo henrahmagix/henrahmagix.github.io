@@ -38,9 +38,16 @@ const loadingElement = createHTML('<div id="loading"><i class="fas fa-spinner fa
 document.body.appendChild(loadingElement);
 
 export class Admin {
+  /** @typedef {(loggedIn: boolean) => void} HandleLogin */
+
+  /** @param {HandleLogin} handleLogin */
+  static onLogin(handleLogin) {
+    new this({ handleLogin });
+  }
+
   /**
    * @param {object} opts
-   * @param {(loggedIn: boolean) => void} opts.handleLogin
+   * @param {HandleLogin} opts.handleLogin
    */
   constructor({
     handleLogin,
