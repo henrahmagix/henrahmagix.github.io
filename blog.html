@@ -18,7 +18,7 @@ add_admin_scripts: true
         <span class="screenreader">Excerpt:</span>
         {{ post.excerpt }}
 
-        {% unless forloop.last %}<hr>{% endunless %}
+        {% unless forloop.last %}<hr aria-hidden="true">{% endunless %}
       </li>
     {% endfor %}
   </ul>
