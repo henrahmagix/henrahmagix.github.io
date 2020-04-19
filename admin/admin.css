@@ -69,7 +69,7 @@ textarea {
 textarea,
 [contenteditable=plaintext-only] {
   white-space: pre-wrap;
-  font-family: monospace;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
 }
 
 table.diff {
