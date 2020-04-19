@@ -5,25 +5,29 @@
     <h2>Blog Admin</h2>
 
     <div class="side-by-side">
-      <ul class="drafts">
-        Drafts:
-        <li data-keep><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
-        <li><i class="icon fas fa-spinner fa-pulse"></i></li>
-      </ul>
-
-      <ul class="unsaved">
-        Unsaved changes:
-      </ul>
+      <admin-post-drafts-list></admin-post-drafts-list>
+      <admin-post-unsaved-list></admin-post-unsaved-list>
     </div>
 
     <hr>
   </section>
 </template>
 
+<style>
+  .side-by-side {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .side-by-side > * {
+    flex-basis: 300px;
+    flex-grow: 1;
+    margin-right: 1em !important;
+  }
+</style>
+
 <script type="module">
   import { Admin } from './admin.js';
-  import { show, createHTML } from './utils.js';
-  import { PostDraft } from './post-draft.js';
+  import { show } from './utils.js';
 
   // @ts-check
   export const config = {
@@ -31,11 +35,9 @@
   };
 
   export class View {
+    /** @param {DocumentFragment} fragment */
     constructor(fragment) {
       const listEl = fragment.getElementById('admin-post-list');
-
-      const draftsList = listEl.querySelector('ul.drafts');
-      const unsavedList = listEl.querySelector('ul.unsaved');
 
       Admin.onLogin((loggedIn) => {
         if (!loggedIn) {
@@ -43,33 +45,6 @@
         }
 
         show(listEl, true);
-
-        for (let i = 0; i < localStorage.length; i++) {
-          const keyParts = localStorage.key(i).match(/^gh_post_(.*)/)
-          const filepath = keyParts && keyParts[1];
-          if (!filepath || filepath === 'new') {
-            // This is accessible in the drafts list already.
-            continue;
-          }
-
-          const params = new URLSearchParams();
-          params.set('filepath', filepath);
-          unsavedList.appendChild(createHTML(`<li><a href="/admin/edit?${params}">${filepath}</a></li>`));
-        }
-
-        PostDraft.list().then(drafts => {
-          draftsList.querySelectorAll('li').forEach(li => {
-            if (li.dataset.hasOwnProperty('keep')) {
-              return;
-            }
-            li.remove();
-          });
-          drafts.forEach(d => {
-            const li = createHTML('<li></li>');
-            li.appendChild(d.el);
-            draftsList.appendChild(li);
-          });
-        });
       });
     }
   }

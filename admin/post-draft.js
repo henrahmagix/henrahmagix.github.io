@@ -1,5 +1,4 @@
 import { Api } from './admin.js';
-import { createHTML } from './utils.js';
 
 export class PostDraft {
   /** @param {github.GetContentFileResponse} opts */
@@ -9,10 +8,7 @@ export class PostDraft {
   }) {
     this.name = name;
     this.filepath = path;
-
-    const params = new URLSearchParams();
-    params.set('filepath', this.filepath);
-    this.el = createHTML(`<a href="/admin/edit?${params}">${this.name}</a>`);
+    this.encodedPath = window.encodeURIComponent(path);
   }
 }
 
