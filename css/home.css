@@ -19,9 +19,6 @@ section article {
 .logo-flipper {
   height: 200px;
   width: 200px;
-}
-
-.logo-flipper img {
   border-width: 8px;
 }
 
