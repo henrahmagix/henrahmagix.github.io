@@ -83,10 +83,10 @@ footer {
 @media (prefers-reduced-motion: no-preference) {
   @keyframes scale-in {
     from {
-      transform: scale(0.6);
+      transform: scale(0.6) translate3d(0, 0, 0);
     }
     to {
-      transform: scale(1);
+      transform: scale(1) translate3d(0, 0, 0);
     }
   }
   @keyframes pull-in {
