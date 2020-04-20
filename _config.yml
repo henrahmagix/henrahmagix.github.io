@@ -4,6 +4,7 @@ defaults:
       path: ''
     values:
       layout: default
+permalink: /:year/:month/:day/:title:output_ext
 markdown: kramdown
 kramdown:
   input: GFM
