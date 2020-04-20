@@ -1,5 +1,5 @@
 {% if include.posts.size > 0 %}
-  <ul class="links posts">
+  <ul class="links posts side-by-side">
     {% assign posts = include.posts|where_exp:"post", "post.hidden != true" %}
     {% for post in posts %}
       <li class="{%if include.minimal%}minimal{%endif%}">

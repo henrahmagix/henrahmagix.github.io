@@ -3,18 +3,15 @@
 }
 
 .posts hr {
-  margin: 3em auto;
+  margin: 2em auto;
   border: none;
-  border-top: 2px dashed;
+  border-bottom: 2px dashed;
   max-width: 2em;
   opacity: 0.3;
 }
 
 .posts > li {
   word-break: break-word;
-}
-.posts > li:not(:last-child) {
-  margin-bottom: 2em;
 }
 
 .posts .published {
@@ -33,4 +30,13 @@
 }
 .minimal .published {
   margin-bottom: 0;
+}
+
+.posts.side-by-side li {
+  display: flex;
+  flex-direction: column;
+}
+.posts.side-by-side li hr {
+  flex-grow: 1;
+  width: 100%;
 }

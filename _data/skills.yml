@@ -1,5 +1,5 @@
 -
-  - Golang
+  - Golang 1.9 to 1.14
 -
   - JavaScript
   - TypeScript
@@ -10,14 +10,12 @@
   - Angular 7-9
   - AngularJS
   - Svelte
-  - React
   - Vue
 -
   - NodeJS
   - Express
-  - Gulp
-  - Webpack
-  - Rollup
+  - Gulp / Grunt
+  - Webpack / Rollup
 -
   - Ruby
   - Padrino

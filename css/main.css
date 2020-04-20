@@ -226,7 +226,7 @@ nav ul li:last-child::after {
 /* Structure */
 
 .content-max-width {
-  max-width: 900px;
+  max-width: 1500px;
   margin: auto;
 }
 
@@ -258,6 +258,27 @@ nav ul li:last-child::after {
 
 #share-section {
   margin-top: 4em;
+}
+
+.side-by-side {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -1em !important;
+  margin-right: -1em !important;
+}
+.side-by-side > * {
+  flex-basis: 350px;
+  flex-grow: 1;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 1em !important;
+  margin-right: 1em !important;
+}
+.side-by-side > * > *:first-child {
+  margin-top: 0;
+}
+.side-by-side .side-by-side > * {
+  flex-basis: 175px;
 }
 
 @media screen and (min-width: 600px) {

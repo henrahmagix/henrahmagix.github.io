@@ -5,15 +5,15 @@ css: /css/home.css
 
 <h3 style="text-align: center;"><a href="#about"><em>Hire me!</em></a></h3>
 
-<section>
+<section class="side-by-side">
   <article>
-    <h2 class="fancy-title"><span class="emoji">✨</span> Featured</h2>
+    <h2 class="fancy-title emoji-on-the-left"><span class="emoji">✨</span> Featured</h2>
     <a href="/doubles/random">Double Exposure Random Generator: The DERG!</a>
   </article>
 
   <article>
     {% if site.posts[0] %}
-      <h2 class="fancy-title"><span class="emoji">💫</span> Latest post</h2>
+      <h2 class="fancy-title emoji-on-the-left"><span class="emoji">💫</span> Latest post</h2>
       {% assign post = site.posts[0] %}
       <a href="{{post.url}}">{{post.title}}</a>
     {% endif %}
@@ -23,34 +23,37 @@ css: /css/home.css
 <hr>
 
 <section id="about">
-  <article>
-    <h2 class="fancy-title">
-      {%- comment -%} <img class="avatar" src="/images/me.jpg" alt="profile photo of Henry James Blyth"> {%- endcomment -%}
-      <span class="emoji">👋</span> About
-    </h2>
-    <p>Henry is a Software Engineer, pianist, and photographer from Oxford, UK. He has full-stack skills, high attention to detail, and pushes for accessibility.</p>
-    <p><strong>Enjoys:</strong><br> debugging and reading source code</p>
-    <p><strong>Favourite tool:</strong><br> multiple cursors (indispensable)</p>
-    <p><strong>Current interest:</strong><br> Web Components and the <a href="https://github.com/MicrosoftEdge/MSEdgeExplainers/blob/master/HTMLModules/explainer.md">HTML Modules proposal</a></p>
-    <p><strong>For fun:</strong></p>
-    <ul>
-      <li>I recreated a one-handed touchscreen keyboard seen in the film Ender’s Game: <a href="https://github.com/henrahmagix/enders-keyboard">github.com/henrahmagix/enders-keyboard</a></li>
-      <li>I made a random generator of double exposures in the browser: <a href="https://henryblyth.com/doubles/random">henryblyth.com/doubles/random</a></li>
-      <li>Read more in <a href="{{site.data.urls.blog}}">my blog</a></li>
-    </ul>
-  </article>
+  <h2 class="fancy-title emoji-on-the-left">
+    {%- comment -%} <img class="avatar" src="/images/me.jpg" alt="profile photo of Henry James Blyth"> {%- endcomment -%}
+    <span class="emoji">👋</span> About
+  </h2>
 
-  <article>
-    <h3 class="fancy-title"><span class="emoji">💻</span> Skills</h3>
-    <ul class="skills">
-      {% for group in site.data.skills %}
-      <li>
-        {% for skill in group %}
-        {{skill}}
-        {%unless forloop.last%}<small>&&</small>{%endunless%}
+  <div class="side-by-side">
+    <article>
+      <p>Henry is a Software Engineer, pianist, and photographer from Oxford, UK. He has full-stack skills, high attention to detail, and pushes for accessibility.</p>
+      <p><strong>Enjoys:</strong><br> debugging and reading source code</p>
+      <p><strong>Favourite tool:</strong><br> multiple cursors (indispensable)</p>
+      <p><strong>Current interest:</strong><br> Web Components and the <a href="https://github.com/MicrosoftEdge/MSEdgeExplainers/blob/master/HTMLModules/explainer.md">HTML Modules proposal</a></p>
+      <p><strong>For fun:</strong></p>
+      <ul class="links side-by-side">
+        <li>I recreated a one-handed touchscreen keyboard seen in the film Ender’s Game: <a href="https://github.com/henrahmagix/enders-keyboard">github.com/henrahmagix/enders-keyboard</a></li>
+        <li>I made a random generator of double exposures in the browser: <a href="https://henryblyth.com/doubles/random">henryblyth.com/doubles/random</a></li>
+      </ul>
+      <p>Read more in <a href="{{site.data.urls.blog}}">my blog</a></p>
+    </article>
+
+    <article>
+      <h3 class="fancy-title emoji-on-the-left"><span class="emoji">💻</span> Skills</h3>
+      <ul class="skills links side-by-side">
+        {% for group in site.data.skills %}
+        <li>
+          {% for skill in group %}
+          {{skill}}
+          {%unless forloop.last%}<small>&&</small>{%endunless%}
+          {% endfor %}
+        </li>
         {% endfor %}
-      </li>
-      {% endfor %}
-    </ul>
-  </article>
+      </ul>
+    </article>
+  </div>
 </section>
