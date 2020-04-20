@@ -9,6 +9,6 @@ Since all of the coding I've done for work is in private repositories, my commit
 
 ---
 
-Also, here are my articles on code:
+## Related blog posts
 
 {% include posts.html posts=site.categories.Code %}

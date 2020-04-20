@@ -1,6 +1,8 @@
 ---
 layout: post
 class: post
+categories:
+  - Music
 title: Listening to all of my Spotify Starred playlist
 subtitle: '1,118 songs, 83 hrs 48 mins'
 image: /images/spotify-starred.jpg
