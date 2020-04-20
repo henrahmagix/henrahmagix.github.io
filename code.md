@@ -1,6 +1,5 @@
 ---
 section: code
-css: /css/posts.css
 hide_share: true
 ---
 

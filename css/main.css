@@ -247,8 +247,14 @@ nav ul li:last-child::after {
   padding: 0 1em;
   padding-bottom: 2em;
 }
+
 .page-body hr {
-  margin: 2em 0;
+  margin: 2em auto;
+  border: none;
+  border-bottom: 2px dashed;
+  max-width: 2em;
+  opacity: 0.3;
+  width: 100%;
 }
 
 .page-top {
@@ -635,4 +641,39 @@ details summary {
   to {
     background-color: #FF80E8;
   }
+}
+
+.posts {
+  margin: 0;
+}
+
+.posts > li {
+  word-break: break-word;
+}
+
+.posts .published {
+  margin: 0 0 1em;
+}
+
+.posts h2,
+.posts h3 {
+  margin-bottom: 0;
+}
+
+.minimal h3,
+.minimal p:not(.published),
+.minimal hr {
+  display: none;
+}
+.minimal .published {
+  margin-bottom: 0;
+}
+
+.posts.side-by-side li {
+  display: flex;
+  flex-direction: column;
+}
+.posts.side-by-side li hr {
+  flex-grow: 1;
+  width: 100%;
 }
