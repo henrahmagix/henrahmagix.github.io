@@ -293,13 +293,13 @@ nav ul li:last-child::after {
 }
 
 img.backface {
-  display: none;
+  opacity: 0;
   z-index: 2;
 }
 
 .logo-flipper:hover img.backface,
 .logo-flipper:focus img.backface {
-  display: block
+  opacity: 1;
 }
 
 /* Page title/subtitle */
