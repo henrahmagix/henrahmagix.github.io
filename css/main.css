@@ -154,7 +154,6 @@ a button,
   margin: 0;
 }
 
-.links,
 .list-reset {
   list-style: none !important;
   padding: 0;
@@ -370,16 +369,15 @@ img.backface {
   vertical-align: middle
 }
 
-.page-footer .links {
+.page-footer ul {
   margin: 1em 0;
-  padding: 0
 }
 
-.page-footer .link {
+.page-footer ul li {
   display: inline-block;
   vertical-align: middle;
   margin: 0 5px;
-  font-size: 2em
+  font-size: 2em;
 }
 
 @-ms-viewport {

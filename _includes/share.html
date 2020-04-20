@@ -3,23 +3,29 @@
 <section id="share-section">
   <hr>
   <h3>Share and respond</h3>
-  <ul class="links">
+  <ul class="list-reset">
     {% for synd_hash in page.syndications %}
       {% capture title %}Reply on {{synd_hash[0]|capitalize}}{% endcapture %}
       {% capture icon %}fab fa-{{synd_hash[0]}}{% endcapture %}
       {% assign url = synd_hash[1] %}
+      <li>
       {% include link.html anchor_class="u-syndication" title=title icon=icon url=url %}
+      </li>
     {% endfor %}
 
+    <li>
     {% include link.html title_element="button" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
+    </li>
 
+    <li>
     {% include link.html title="View history" icon="fas fa-history" url=view_history_url %}
+    </li>
   </ul>
 </section>
 
 <details hidden id="share-fallback">
   <summary></summary>
-  <ul class="links">
+  <ul class="list-reset">
     {% capture page_url %}{{site.url}}{{page.url}}{% endcapture %}
     {% capture text %}{{page.title}} by @henrahmagix{% endcapture %}
 
@@ -27,9 +33,15 @@
     {% capture fb_url %}https://www.facebook.com/sharer/sharer.php?u={{page_url|url_encode}}{% endcapture %}
     {% capture linkedin_url %}https://www.linkedin.com/shareArticle?url={{page_url|url_encode}}{% endcapture %}
 
+    <li>
     {% include link.html title="Twitter" icon="fab fa-twitter" url=tweet_url %}
+    </li>
+    <li>
     {% include link.html title="Facebook" icon="fab fa-facebook" url=fb_url %}
+    </li>
+    <li>
     {% include link.html title="LinkedIn" icon="fab fa-linkedin" url=linkedin_url %}
+    </li>
   </ul>
 </details>
 

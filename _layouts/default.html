@@ -116,11 +116,13 @@
       </a>
 
       <nav>
-        <ul class="links">
+        <ul class="list-reset">
           {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}
             {% if link.url %}
+              <li>
               {% include link.html title=link.title url=link.url relme=link.relme %}
+              </li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -189,16 +191,24 @@
       {% include share.html %}
     {% endif %}
 
+    {% if site.related_posts %}
+      {% for post in site.related_posts %}
+      <pre>post={{post.title}}</pre>
+      {% endfor %}
+    {% endif %}
+
   </main>
   </div>
 
   <footer class="page-footer">
     <div class="strikethrough-wrapper">
-      <ul class="links">
+      <ul class="list-reset">
         {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}
           {% if link.ext_url and link.hide_footer != true %}
+            <li>
             {% include link.html title=link.title hide_title=true icon=link.icon url=link.ext_url relme=link.relme %}
+            </li>
           {% endif %}
         {% endfor %}
       </ul>
