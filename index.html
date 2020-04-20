@@ -39,7 +39,6 @@ css: /css/home.css
         <li>I recreated a one-handed touchscreen keyboard seen in the film Ender’s Game: <a href="https://github.com/henrahmagix/enders-keyboard">github.com/henrahmagix/enders-keyboard</a></li>
         <li>I made a random generator of double exposures in the browser: <a href="https://henryblyth.com/doubles/random">henryblyth.com/doubles/random</a></li>
       </ul>
-      <p>Read more in <a href="{{site.data.urls.blog}}">my blog</a></p>
     </article>
 
     <article>
@@ -56,4 +55,13 @@ css: /css/home.css
       </ul>
     </article>
   </div>
+</section>
+
+<hr>
+
+<section>
+  <h2 class="fancy-title emoji-on-the-left"><span class="emoji">💌</span> Random posts</h2>
+  <p>Read more in <a href="{{site.data.urls.blog}}">my blog</a></p>
+  <br>
+  {% include posts.html posts=site.posts sample=4 %}
 </section>

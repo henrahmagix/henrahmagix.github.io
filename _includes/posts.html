@@ -1,6 +1,7 @@
 {% if include.posts.size > 0 %}
   <ul class="list-reset posts side-by-side">
     {% assign posts = include.posts|where_exp:"post", "post.hidden != true" %}
+    {% if include.sample %}{% assign posts = posts|sample:include.sample %}{% endif %}
     {% for post in posts %}
       <li class="{%if include.minimal%}minimal{%endif%}">
         {% include published-date.html context=post %}
