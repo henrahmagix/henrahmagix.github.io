@@ -652,7 +652,7 @@ details summary {
 }
 
 .posts .published {
-  margin: 0 0 1em;
+  margin: 0;
 }
 
 .posts h2,
@@ -664,16 +664,4 @@ details summary {
 .minimal p:not(.published),
 .minimal hr {
   display: none;
-}
-.minimal .published {
-  margin-bottom: 0;
-}
-
-.posts.side-by-side li {
-  display: flex;
-  flex-direction: column;
-}
-.posts.side-by-side li hr {
-  flex-grow: 1;
-  width: 100%;
 }

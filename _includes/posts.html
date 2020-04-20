@@ -10,8 +10,6 @@
           <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
         {% endif %}
         {{ post.excerpt }}
-
-        {% unless forloop.last %}<hr aria-hidden="true">{% endunless %}
       </li>
     {% endfor %}
   </ul>
