@@ -40,7 +40,7 @@ export class HTMLComponentConfig {
 
 /**
  * @typedef {object} HTMLComponentView
- * @type {{new(template: DocumentFragment, dataset: DOMStringMap): HTMLComponentView, [key: string]: any}}
+ * @type {{new(dataset: DOMStringMap): HTMLComponentView, [key: string]: any}}
  *
 */
 
@@ -97,17 +97,15 @@ function evalStructuralExpressions(children, view) {
   const childrenIterable = Array.from(children);
   // First eval expressions on children.
   childrenIterable.forEach(child => {
-    child.getAttributeNames().forEach(attr => {
+    child.getAttributeNames().forEach(rawAttr => {
 
-      const [matched, expr] = attr.match(rStructuralExpression) || [];
-      if (!matched) return;
-      if (!expr) {
-        throw new Error(`empty expression on ${logElement(child)}`);
-      }
+      const [matched, attr] = rawAttr.match(rStructuralExpression) || [];
+      if (!matched || !attr) return;
 
-      child.removeAttribute(attr);
+      const expr = child.getAttribute(rawAttr);
+      child.removeAttribute(rawAttr);
 
-      const [, forName] = expr.match(/^for-(.+)$/) || [];
+      const [, forName] = attr.match(/^for-(.+)$/) || [];
       if (forName) {
         const fragment = document.createDocumentFragment();
 
@@ -120,6 +118,15 @@ function evalStructuralExpressions(children, view) {
           fragment.appendChild(holder.children[0]);
         });
         child.replaceWith(fragment);
+        return;
+      }
+
+      const value = view[expr];
+      if (attr in child) {
+        // @ts-ignore
+        child[attr] = value;
+      } else {
+        child.setAttribute(attr, value);
       }
     });
   });
@@ -186,7 +193,7 @@ async function fetchHTMLComponent(thisElement, componentHref) {
           viewConfig.merge(module.config);
         }
         // Pass through original template so the view can change it.
-        view = new module.View(template.content, thisElement.dataset);
+        view = new module.View(thisElement.dataset);
       }
     } catch (err) {
       throw HTMLComponentError.wrap(err, componentHref);

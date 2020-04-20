@@ -2,7 +2,7 @@
   <p>Drafts:</p>
   <ul class="drafts">
     <li><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
-    <li><i class="icon fas fa-spinner fa-pulse"></i></li>
+    <li {hidden}="ready"><i class="icon fas fa-spinner fa-pulse"></i></li>
     <li {for-drafts}><a href="/admin/edit?filepath={{ encodedPath }}">{{ name }}</a></li>
   </ul>
 </template>
@@ -13,16 +13,16 @@
   // @ts-check
   export const config = {
     useShadowDOM: false,
-    renderOnSetters: ['drafts'],
+    renderOnSetters: ['drafts', 'ready'],
   };
 
   export class View {
-    /** @param {DocumentFragment} fragment */
-    constructor(fragment) {
-      const spinner = fragment.querySelector('.fa-spinner').parentElement;
+    /** @param {DOMStringMap} dataset */
+    constructor(dataset) {
+      this.ready = false;
 
       PostDraft.list().then(drafts => {
-        spinner.remove();
+        this.ready = true;
         this.drafts = drafts;
       });
     }

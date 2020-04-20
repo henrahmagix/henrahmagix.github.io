@@ -6,22 +6,23 @@
 </template>
 
 <script type="module">
+  // @ts-check
+
+  // @ts-ignore
   import { PostDraft } from './post-draft.js';
 
-  // @ts-check
   export const config = {
     useShadowDOM: false,
-    renderOnSetters: ['unsaved'],
   };
 
   export class View {
-    /** @param {DocumentFragment} fragment */
-    constructor(fragment) {
-      /** @type {{path: string, encodedPath: string}[]} */
+    /** @param {DOMStringMap} dataset */
+    constructor(dataset) {
+      /** @type {{name: string, encodedPath: string}[]} */
       this.unsaved = [];
 
       for (let i = 0; i < localStorage.length; i++) {
-        const keyParts = localStorage.key(i).match(/^gh_post_(.*)/)
+        const keyParts = localStorage.key(i).match(/^gh_post_(.*)/);
         const filepath = keyParts && keyParts[1];
         if (!filepath || filepath === 'new') {
           continue;

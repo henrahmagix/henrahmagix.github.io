@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/admin/admin.css">
 
 <template>
-  <section hidden id="admin-post-list">
+  <section {hidden}="hide" id="admin-post-list">
     <h2>Blog Admin</h2>
 
     <div class="side-by-side">
@@ -32,19 +32,20 @@
   // @ts-check
   export const config = {
     useShadowDOM: false,
+    renderOnSetters: ['hide'],
   };
 
   export class View {
-    /** @param {DocumentFragment} fragment */
-    constructor(fragment) {
-      const listEl = fragment.getElementById('admin-post-list');
+    /** @param {DOMStringMap} dataset */
+    constructor(dataset) {
+      this.hide = true;
 
       Admin.onLogin((loggedIn) => {
         if (!loggedIn) {
           return;
         }
 
-        show(listEl, true);
+        this.hide = false;
       });
     }
   }
