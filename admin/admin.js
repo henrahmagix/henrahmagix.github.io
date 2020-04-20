@@ -34,7 +34,7 @@ const API_URL = `https://api.github.com/repos/${USER}/henrahmagix.github.io`;
 
 const TOKEN_KEY = 'gh_token';
 
-const loadingElement = createHTML('<div id="loading"><i class="fas fa-spinner fa-pulse"></i></div>');
+const loadingElement = createHTML('<div id="loading" hidden><i class="fas fa-spinner fa-pulse"></i></div>');
 document.body.appendChild(loadingElement);
 
 export class Admin {
@@ -57,8 +57,6 @@ export class Admin {
     const existingToken = localStorage.getItem(TOKEN_KEY);
     if (existingToken) {
       this.loggedIn = true;
-    } else {
-      show(loadingElement, false);
     }
   }
 
