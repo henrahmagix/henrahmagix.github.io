@@ -1,7 +1,7 @@
 <template>
   <p>Unsaved changes:</p>
   <ul class="unsaved">
-    <li {for-unsaved}><a href="/admin/edit?filepath={{encodedPath}}">{{name}}</a></li>
+    <li {for-unsaved}><admin-edit-post-link data-filepath="{{filepath}}"></admin-edit-post-link></li>
   </ul>
 </template>
 

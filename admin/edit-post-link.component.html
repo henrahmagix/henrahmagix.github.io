@@ -1,0 +1,19 @@
+<template>
+  <a href="/admin/edit?filepath={{ encodedFilepath }}">{{ name }}</a>
+</template>
+
+<script type="module">
+  // @ts-check
+  export const config = {
+    useShadowDOM: false,
+    renderOnSetters: ['drafts', 'ready'],
+  };
+
+  export class View {
+    /** @param {DOMStringMap} dataset */
+    constructor(dataset) {
+      this.name = dataset.name || dataset.filepath;
+      this.encodedFilepath = window.encodeURIComponent(dataset.filepath);
+    }
+  }
+</script>

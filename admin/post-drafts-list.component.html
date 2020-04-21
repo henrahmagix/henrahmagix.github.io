@@ -3,7 +3,7 @@
   <ul class="drafts">
     <li><a href="/admin/edit"><i class="icon fas fa-plus"></i>New</a></li>
     <li {hidden}="ready"><i class="icon fas fa-spinner fa-pulse"></i></li>
-    <li {for-drafts}><a href="/admin/edit?filepath={{ encodedPath }}">{{ name }}</a></li>
+    <li {for-drafts}><admin-edit-post-link data-name="{{name}}" data-filepath="{{filepath}}"></admin-edit-post-link></li>
   </ul>
 </template>
 

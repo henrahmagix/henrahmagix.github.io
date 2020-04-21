@@ -8,7 +8,6 @@ export class PostDraft {
   }) {
     this.name = name;
     this.filepath = path;
-    this.encodedPath = window.encodeURIComponent(path);
   }
 }
 
