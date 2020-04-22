@@ -177,7 +177,7 @@
       </div>
     {% endif %}
 
-    <article id="content" class="hentry">
+    <article id="content" class="hentry h-entry">
       {% assign show_update_skip = false %}
       {% if page.layout == 'post' %}{% assign show_update_skip = true %}{% endif %}
       {% include published-date.html context=page show_update_skip=show_update_skip %}
@@ -190,7 +190,7 @@
         {{line|markdownify}}
       {% endfor %}
 
-      <article class="entry-content">
+      <article class="entry-content e-content">
         {{ content }}
       </article>
     </article>
