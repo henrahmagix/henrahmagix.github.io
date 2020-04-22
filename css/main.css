@@ -162,7 +162,7 @@ a button,
 /* Header */
 
 nav ul,
-.p-name {
+.p-name-wrapper > * {
   font-family: "PT Sans Narrow", sans-serif;
   text-transform: uppercase;
 }
@@ -330,7 +330,7 @@ img.backface {
 
 /* Page title/subtitle */
 
-.page-header .p-name {
+.page-header .p-name-wrapper > * {
   display: block;
   font-size: 2em;
   min-width: 2.5em;

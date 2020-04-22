@@ -1,5 +1,6 @@
 ---
 section: music
+section_title: true
 ---
 
 ## Improvisations

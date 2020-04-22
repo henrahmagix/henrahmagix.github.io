@@ -134,18 +134,26 @@
     </div>
 
     <div class="p-name-wrapper strikethrough-wrapper">
-      {% if page.title %}
-        {% assign p_name_el = "span" %}
-      {% else %}
-        {% assign p_name_el = "h1" %}
+      {% if page.section %}
+        {% assign section = page.section %}
+      {% elsif layout.section %}
+        {% assign section = layout.section %}
       {% endif %}
-      <{{p_name_el}} class="p-name">
-        {% if page.url == "/" %}Henry &nbsp; James &nbsp; Blyth
-        {% elsif layout.section != nil %}{{ layout.section|capitalize }}
-        {% elsif page.section != nil %}{{ page.section|capitalize }}
-        {% elsif page.title %}{{ page.title }}
+
+      {% if page.url == "/" %}
+        <h1>Henry &nbsp; James &nbsp; Blyth</h1>
+      {% elsif section and page.section_title == true %}
+        <h1 class="entry-title p-name">{{section|capitalize}}</h1>
+      {% else %}
+        {% capture page_title %}{{ page.title|markdownify|remove:'<p>'|remove:'</p>'|strip }}{% endcapture %}
+        {% if section and page_title == '' %}
+          <h1 class="entry-title p-name">{{section}}</h1>
+        {% elsif section %}
+          <span>{{section}}</span>
+        {% else %}
+          <span>{{page_title}}</span>
         {% endif %}
-      </{{p_name_el}}>
+      {% endif %}
     </div>
   </header>
 
@@ -175,8 +183,8 @@
       {% include published-date.html context=page show_update_skip=show_update_skip %}
 
       {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
-      <h1 {% unless page.title %}hidden{% endunless %} class="page-title entry-title">{{ page.title|markdownify|remove:'<p>'|remove:'</p>' }}</h1>
-      <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle entry-summary">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
+      <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
+      <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
 
       {% for line in page.pre_content %}
         {{line|markdownify}}
