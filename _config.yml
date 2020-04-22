@@ -11,7 +11,17 @@ kramdown:
   hard_wrap: true
   gfm_quirks: [paragraph_end, no_auto_typographic]
 plugins:
+  # Enable all GitHub Pages plugins so local dev is exactly like live.
   - jekyll-github-metadata
+  - jekyll-coffeescript
+  - jekyll-default-layout
+  - jekyll-gist
+  - jekyll-github-metadata
+  - jekyll-optional-front-matter
+  - jekyll-paginate
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+  - jekyll-relative-links
 exclude:
   - Gemfile*
   - bower.json
