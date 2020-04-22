@@ -1,12 +1,19 @@
-{%- comment -%} Meta Title {%- endcomment -%}
-{% if page.title %}
-  {% capture meta_title %}{{ page.title }} &ndash; Henry James Blyth{% endcapture %}
-{% elsif page.section %}
-  {% capture meta_title %}{{ page.section|capitalize }} &ndash; Henry James Blyth{% endcapture %}
+{% if page.section %}
+  {% capture section %}{{page.section|capitalize}}{% endcapture %}
 {% elsif layout.section %}
-  {% capture meta_title %}{{ layout.section|capitalize }} &ndash; Henry James Blyth{% endcapture %}
-{% else %}
-  {% assign meta_title = "Henry James Blyth" %}
+  {% capture section %}{{layout.section|capitalize}}{% endcapture %}
+{% endif %}
+{% if page.section_title != true %}
+  {% capture page_title %}{{ page.title|markdownify|remove:'<p>'|remove:'</p>'|strip }}{% endcapture %}
+  {% if page_title == '' %}{% assign page_title = nil %}{% endif %}
+{% endif %}
+
+{%- comment -%} Meta Title {%- endcomment -%}
+{% assign meta_title = "Henry James Blyth" %}
+{% if page_title %}
+  {% capture meta_title %}{{ page_title|strip_html }} &ndash; {{ meta_title }}{% endcapture %}
+{% elsif section %}
+  {% capture meta_title %}{{ section }} &ndash; {{ meta_title }}{% endcapture %}
 {% endif %}
 
 {%- comment -%} Meta Image {%- endcomment -%}
@@ -134,19 +141,12 @@
     </div>
 
     <div class="p-name-wrapper strikethrough-wrapper">
-      {% if page.section %}
-        {% assign section = page.section %}
-      {% elsif layout.section %}
-        {% assign section = layout.section %}
-      {% endif %}
-
       {% if page.url == "/" %}
         <h1>Henry &nbsp; James &nbsp; Blyth</h1>
       {% elsif section and page.section_title == true %}
-        <h1 class="entry-title p-name">{{section|capitalize}}</h1>
+        <h1 class="entry-title p-name">{{section}}</h1>
       {% else %}
-        {% capture page_title %}{{ page.title|markdownify|remove:'<p>'|remove:'</p>'|strip }}{% endcapture %}
-        {% if section and page_title == '' %}
+        {% if section and page_title == nil %}
           <h1 class="entry-title p-name">{{section}}</h1>
         {% elsif section %}
           <span>{{section}}</span>
