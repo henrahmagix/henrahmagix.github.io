@@ -148,7 +148,9 @@
       this.state = new EditPostState();
       this.state.addChangeListener(() => this.render());
 
-      this.contentWrapper.addEventListener('input', () => this.updatePost());
+      this.titleEl.addEventListener('input', () => this.updatePostTitle());
+      this.subtitleEl.addEventListener('input', () => this.updatePostSubtitle());
+      this.contentEl.addEventListener('input', () => this.updatePostContent());
 
       show(this.titleEl, true);
       show(this.subtitleEl, true);
@@ -356,12 +358,21 @@
       if (this.writingRaw) {
         this.postFile.setRaw(this.textarea.value);
       } else {
-        this.postFile.setTitle(htmlToMarkdown(this.titleEl.innerHTML));
-        this.postFile.setSubtitle(htmlToMarkdown(this.subtitleEl.innerHTML));
-        this.postFile.setContent(htmlToMarkdown(this.contentEl.innerHTML));
+        this.updatePostTitle();
+        this.updatePostSubtitle();
+        this.updatePostContent();
       }
 
       this.renderState();
+    }
+    updatePostTitle() {
+      this.postFile.setTitle(htmlToMarkdown(this.titleEl.innerHTML));
+    }
+    updatePostSubtitle() {
+      this.postFile.setSubtitle(htmlToMarkdown(this.subtitleEl.innerHTML));
+    }
+    updatePostContent() {
+      this.postFile.setContent(htmlToMarkdown(this.contentEl.innerHTML));
     }
 
     needsReview() {
