@@ -49,11 +49,11 @@ import 'https://unpkg.com/js-yaml/dist/js-yaml.min.js';
 export const yaml = {
   /** @type {(js: any) => string} */
   jsToYaml(js) {
-    return window.jsyaml.dump(js);
+    return window.jsyaml.dump(js, { lineWidth: -1 });
   },
 
   /** @type {(yaml: string) => any[]} */
   yamlToJS(yaml) {
-    return window.jsyaml.loadAll(yaml);
+    return window.jsyaml.loadAll(yaml, null, { json: true });
   },
 };
