@@ -1,24 +1,15 @@
 import { Api } from './admin.js';
-import { base64, slugify, yamlString } from './utils.js';
+import { base64, slugify } from './utils.js';
+import { yaml, buildDiffView } from './lib.js';
 
 export class PostFile {
   /**
    * @param {object} opts
-   * @param {lib.diffBuilder} opts.diffBuilder
-   * @param {lib.yaml} opts.yaml
    * @param {string} opts.filepath
    */
   constructor({
-    diffBuilder,
-    yaml,
     filepath,
   }) {
-    /** @private */
-    this.diffBuilder = diffBuilder;
-    /** @private */
-    this.yaml = yaml;
-
-    /** @type {string} override bug: https://github.com/microsoft/TypeScript/issues/37893 */
     this.filepath = filepath;
     this.lastCommit = '';
 
@@ -39,11 +30,11 @@ export class PostFile {
 
   /** @private */
   get postFrontMatter() {
-    return '---\n' + this.yaml.toYaml(this._postFrontMatter).trim() + '\n---';
+    return '---\n' + yaml.jsToYaml(this._postFrontMatter).trim() + '\n---';
   }
   /** @private */
   set postFrontMatter(s) {
-    this._postFrontMatter = this.yaml.toJS(s)[0];
+    this._postFrontMatter = yaml.yamlToJS(s)[0];
   }
 
   /** @param {string} name */
@@ -337,7 +328,7 @@ export class PostFile {
   }
 
   diff() {
-    return this.diffBuilder.buildView(
+    return buildDiffView(
       'base', this.originalContent,
       'new', this.newContent,
     );

@@ -1,0 +1,65 @@
+<template>
+  <p class="waiting {{class}}" {hidden}="hide">
+    <span class="text">{{text}}</span>
+    <button class="button-link" {on-click}="clickSync">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+  </p>
+</template>
+
+<script type="module">
+  // @ts-check
+
+  import { Api } from './admin.js';
+  import { Events } from './events.js';
+  import { env } from './env.js';
+
+  export const config = {
+    useShadowDOM: false,
+    renderOnSetters: ['hide', 'text', 'class'],
+  };
+
+  export class View {
+    /** @param {DOMStringMap} dataset */
+    constructor(dataset) {
+      this.api = new Api();
+
+      this.hide = true;
+      this.text = 'Build waiting';
+      this.class = '';
+
+      if (dataset.commit) {
+        this.checkForCommit(dataset.commit);
+      }
+      Events.on('change:commit', (commit) => {
+        this.checkForCommit(commit);
+      });
+    }
+
+    clickSync() {
+      window.location.reload();
+    }
+
+    /**
+     * @param {string} commit
+     * @returns {Promise<void>}
+     */
+    async checkForCommit(commit) {
+      if (!env.production) {
+        this.hide = true;
+        return;
+      }
+
+      const res = await this.api.makeRequest('/pages/builds');
+      const latest = res[0];
+
+      const buildWaiting = latest.status !== 'built' || latest.commit !== commit;
+      if (latest.status === 'error') {
+        this.text = 'Build failing!';
+        this.class = 'error';
+      }
+
+      this.hide = !buildWaiting;
+    }
+  }
+</script>

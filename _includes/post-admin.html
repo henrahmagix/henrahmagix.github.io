@@ -1,15 +1,25 @@
 {%- comment -%} This must be a jekyll template so we can access rendered site and page information {%- endcomment -%}
+
+<admin-post-admin
+  data-current-commit="{{site.github.build_revision}}"
+  data-filepath="{{page.path}}"
+  data-env="{{jekyll.environment}}"
+></admin-post-admin>
+
 <script type="module">
+  // @ts-check
+  const component = document.querySelector('admin-post-admin');
   if (localStorage.getItem('gh_token')) {
-    import('/admin/post-admin.js').then(module => {
-      module.addPostAdminView({
-        contentElement: document.getElementById('content'),
-        currentCommit: '{{site.github.build_revision}}',
-        filepath: '{{page.path}}',
-        env: {
-          production: '{{ jekyll.environment }}' === 'production',
-        },
-      });
-    });
+    {% include register-components.js %}
+
+    const content = document.getElementById('content');
+    content.before(component);
+
+    content.dataset.adminContent = '';
+    content.querySelector('.page-title').dataset.adminEditable = 'title';
+    content.querySelector('.page-subtitle').dataset.adminEditable = 'subtitle';
+    content.querySelector('.entry-content').dataset.adminEditable = 'content';
+  } else {
+    component.remove();
   }
 </script>

@@ -40,7 +40,7 @@ export class HTMLComponentConfig {
 
 /**
  * @typedef {object} HTMLComponentView
- * @type {{new(dataset: DOMStringMap): HTMLComponentView, [key: string]: any}}
+ * @type {{new(dataset: DOMStringMap, events: EventTarget): HTMLComponentView, [key: string]: any}}
  *
 */
 
@@ -54,7 +54,7 @@ export function HTMLComponentForHref(href) {
       super();
       fetchHTMLComponent(this, resolvePath(import.meta.url, href));
     }
-  }
+  };
 }
 
 export class HTMLImportComponent extends HTMLElement {
@@ -65,79 +65,6 @@ export class HTMLImportComponent extends HTMLElement {
 }
 
 customElements.define('html-import', HTMLImportComponent);
-
-const rValueExpression = /\{\{([^}]+)\}\}/g;
-const rStructuralExpression = /^{(.+)}$/; // must not be global, so .match() receives capture groups
-
-/** @type {(str: string, data: any) => string} */
-function replaceValue(str, data) {
-  return str.replace(rValueExpression, (_, expr) => data[expr.trim()] || '');
-}
-
-/**
- * @param {HTMLComponentView} view
- * @param {HTMLComponentConfig} config
- * @param {HTMLTemplateElement} template
- * @param {HTMLElement} thisElement
- * @returns {HTMLTemplateElement}
- */
-function render(view, config, template, thisElement) {
-  const copy = /** @type {HTMLTemplateElement} */ (template.cloneNode(true));
-  evalStructuralExpressions(copy.content.children, view);
-  // Replace any value expressions left over.
-  copy.innerHTML = replaceValue(copy.innerHTML, view);
-  return copy;
-}
-
-/**
- * @param {HTMLCollection} children
- * @param {HTMLComponentView} view
- */
-function evalStructuralExpressions(children, view) {
-  const childrenIterable = Array.from(children);
-  // First eval expressions on children.
-  childrenIterable.forEach(child => {
-    child.getAttributeNames().forEach(rawAttr => {
-
-      const [matched, attr] = rawAttr.match(rStructuralExpression) || [];
-      if (!matched || !attr) return;
-
-      const expr = child.getAttribute(rawAttr);
-      child.removeAttribute(rawAttr);
-
-      const [, forName] = attr.match(/^for-(.+)$/) || [];
-      if (forName) {
-        const fragment = document.createDocumentFragment();
-
-        /** @type {any[]} */
-        const data = view[forName] || [];
-        data.forEach(item => {
-          const holder = document.createElement('div');
-          holder.appendChild(child.cloneNode(true));
-          holder.innerHTML = replaceValue(holder.innerHTML, item);
-          fragment.appendChild(holder.children[0]);
-        });
-        child.replaceWith(fragment);
-        return;
-      }
-
-      const value = view[expr];
-      if (attr in child) {
-        // @ts-ignore
-        child[attr] = value;
-      } else {
-        child.setAttribute(attr, value);
-      }
-    });
-  });
-  // Then recurse.
-  childrenIterable.forEach(child => evalStructuralExpressions(child.children, view));
-}
-
-/** @param {Element} el */
-function logElement(el) {
-  return el.outerHTML.replace(el.innerHTML, '');
-}
 
 /**
  * @param {HTMLElement} thisElement
@@ -150,7 +77,7 @@ async function fetchHTMLComponent(thisElement, componentHref) {
 
   const res = await fetch(componentHref);
   if (!res.ok) {
-    throw new Error(`component fetch failed: ${res.status} ${await res.text()}`);
+    throw new HTMLComponentError(`Failed to fetch: ${res.status} ${await res.text()}`, componentHref);
   }
 
   const fragment = document.createDocumentFragment();
@@ -193,60 +120,16 @@ async function fetchHTMLComponent(thisElement, componentHref) {
           viewConfig.merge(module.config);
         }
         // Pass through original template so the view can change it.
-        view = new module.View(thisElement.dataset);
+        view = new module.View(thisElement.dataset, thisElement);
       }
     } catch (err) {
       throw HTMLComponentError.wrap(err, componentHref);
     }
   }));
 
-  let renderView = function () {
-    fragment.appendChild(template.content.cloneNode(true))
-  };
-
   if (view) {
-    /** @type {Element[]} */
-    let childReferences = [];
-
-    renderView = function () {
-      const rendered = render(view, viewConfig, template, thisElement);
-      const newChildReferences = Array.from(rendered.content.children).slice(0);
-
-      const insertBefore = childReferences[0];
-      if (insertBefore) {
-        insertBefore.before(rendered.content);
-      } else {
-        fragment.appendChild(rendered.content);
-      }
-      childReferences.forEach(child => {
-        child.remove();
-      });
-      childReferences = newChildReferences;
-    };
-
-    // Replace watch properties with setters so we can render when they are set.
-    viewConfig.renderOnSetters.forEach(prop => {
-      /** @type {number} */
-      let renderRAF;
-
-      let _value = view[prop];
-      Object.defineProperty(view, prop, {
-        set: function(value) {
-          _value = value;
-          cancelAnimationFrame(renderRAF);
-          renderRAF = requestAnimationFrame(() => {
-            renderView();
-          });
-        },
-        get: function() {
-          return _value;
-        },
-      });
-    });
+    fragment.appendChild(dynamicComponent(view, template, viewConfig.renderOnSetters));
   }
-
-  // Render only after the view has initialised.
-  renderView();
 
   // Add the built fragment to load child components.
   if (viewConfig.useShadowDOM) {
@@ -313,3 +196,443 @@ async function fetchHTMLComponent(thisElement, componentHref) {
     return newEl;
   }
 }
+
+/**
+ * @typedef {{[key: string]: any}} RenderData
+ */
+
+/**
+ * @param {RenderData} view
+ * @param {HTMLTemplateElement} template
+ * @param {string[]} watchProperties
+ * @returns {DocumentFragment}
+ */
+function dynamicComponent(view, template, watchProperties) {
+  const fragment = document.createDocumentFragment();
+
+  /** @type {PropNode[]} */
+  const nodes = [];
+  template.content.childNodes.forEach(node => {
+    const propNode = newPropNode(node);
+    if (propNode) {
+      nodes.push(propNode);
+    }
+  });
+
+  /** @type {{[datakey: string]: PropNode[]}} */
+  const nodesByData = {};
+  /**
+   * @param {string} key
+   * @param {PropNode} node
+   */
+  const addNodeByData = (key, node) => {
+    if (!nodesByData.hasOwnProperty(key)) {
+      nodesByData[key] = [];
+    }
+    nodesByData[key].push(node);
+  };
+  /** @type {(node: PropNode, parentkey?: string) => void} node */
+  const walkNodeProps = (node, parentKey) => {
+    if (node instanceof PropElementNode && node.forProp) {
+      const datakey = node.forProp.datakey;
+      parentKey = parentKey ? `${parentKey}.${datakey}` : datakey;
+      addNodeByData(datakey, node);
+    }
+
+    node.props.forEach(p => {
+      addNodeByData(p.datakey, node);
+      if (parentKey) {
+        addNodeByData(`${parentKey}.${p.datakey}`, node);
+      }
+    });
+    node.children.forEach(node => walkNodeProps(node, parentKey));
+  };
+  nodes.forEach(node => walkNodeProps(node, ''));
+
+  /** @type {{[key: string]: number}} */
+  let renderRAFsByProp = {};
+
+  watchProperties.forEach(prop => {
+    let _value = watchValue(prop, view[prop]);
+
+    Object.defineProperty(view, prop, {
+      get: () => {
+        return _value;
+      },
+      set: (val) => {
+        _value = watchValue(prop, val);
+        renderChange(prop, view);
+      },
+    });
+  });
+
+  nodes.forEach(n => {
+    n.render(view);
+    fragment.appendChild(n.node);
+  });
+  return fragment;
+
+  /**
+   * @param {string} prop
+   * @param {RenderData} data
+   * @param {string|number} [sub]
+   */
+  function renderChange(prop, data, sub) {
+    if (nodesByData.hasOwnProperty(prop)) {
+      cancelAnimationFrame(renderRAFsByProp[prop]);
+      renderRAFsByProp[prop] = requestAnimationFrame(() => {
+        nodesByData[prop].forEach(n => {
+          n.renderProp(prop, data, sub);
+        });
+      });
+    }
+  };
+
+  /**
+   * @param {string} prop
+   * @param {any} val
+   * @returns
+   */
+  function watchValue(prop, val) {
+    if (typeof val !== 'object') {
+      return val;
+    }
+    return watch(val, (target, key) => {
+      if (Array.isArray(val) && val.includes(target)) {
+        const index = val.indexOf(target);
+        renderChange(`${prop}.${key}`, val[index], index);
+      } else if (key in val) {
+        renderChange(prop, view, key);
+      } else {
+        renderChange(prop, view);
+      }
+    });
+  };
+}
+
+const rValueExpression = /{{([^}]+)}}/;
+const rAttributeExpression = /^{(.+)}$/;
+
+/** @type {(str: string, data: any) => string} */
+function replaceValue(str, data) {
+  return str.replace(new RegExp(rValueExpression, 'g'), (_, expr) => {
+    expr = expr.trim();
+    if (data && expr in data) {
+      return data[expr];
+    }
+    return '';
+  });
+}
+
+/** @param {Node} node */
+function logNode(node) {
+  if (node instanceof Text) {
+    return `Text<${node.data}>`;
+  } else if (node instanceof Element) {
+    return node.outerHTML.replace(node.innerHTML, '');
+  }
+}
+
+/**
+ * @typedef {{raw: string, type: 'text', datakey: string}} TextProp
+ * @typedef {{raw: string, type: 'attr', datakey: string, attr: string, value?: string}} AttrProp
+ * @typedef {{raw: string, type: 'for', datakey: string}} ForProp
+ * @typedef {{raw: string, type: 'on', datakey: string, event: string}} OnProp
+ * @typedef {TextProp|AttrProp|ForProp|OnProp} Prop
+ */
+
+/**
+ * @typedef PropNode
+ * @property {Node} node
+ * @property {Prop[]} props
+ * @property {PropNode[]} children
+ * @property {() => void} remove
+ * @property {(data: RenderData) => void} render
+ * @property {(prop: string, data: RenderData, sub?: string|number) => void} renderProp
+ */
+
+/** @type {(node: Node) => PropNode} */
+function newPropNode(node) {
+  if (node instanceof Text) {
+    return new PropTextNode(node);
+  }
+  if (node instanceof Element) {
+    return new PropElementNode(node);
+  }
+  if (node instanceof Comment) {
+    return null;
+  }
+  throw new Error(`unknown node type: ${node.constructor}`);
+}
+
+class PropTextNode {
+  /** @param {Text} node */
+  constructor(node) {
+    /** @type {PropNode} Assert implements */ (this);
+
+    this.sourceData = node.data;
+    this.node = node;
+
+    /** @type {[]} */
+    this.children = [];
+
+    const textExpressions = this.node.data.match(new RegExp(rValueExpression, 'g')) || [];
+    /** @type {TextProp[]} */
+    this.props = textExpressions.map(expr => ({
+      raw: expr,
+      type: 'text',
+      datakey: expr.match(rValueExpression)[1].trim(),
+    }));
+  }
+
+  remove() {
+    this.node.remove();
+  }
+
+  /** @type {(data: RenderData) => void} */
+  render(data) {
+    if (this.props.length === 0) {
+      return;
+    }
+    this.node.data = replaceValue(this.sourceData, data);
+  }
+
+  /** @type {(prop: string, data: RenderData) => void} */
+  renderProp(prop, data) {
+    // Ignore single prop and render all text to latest.
+    this.render(data);
+  }
+}
+
+class PropElementNode {
+  /** @param {Element} node */
+  constructor(node) {
+    /** @type {PropNode} Assert implements */ (this);
+
+    this.sourceNode = /** @type {Element} */ (node.cloneNode(true));
+    /** @type {Element} */
+    this.node = node;
+
+    /** @type {PropNode[]} */
+    this.children = [];
+    /** @type {PropElementNode[]} */
+    this.forClones = [];
+
+    /** @type {Prop[]} */
+    this.props = [];
+    /** @type {ForProp} */
+    this.forProp = null;
+
+    this.node.getAttributeNames().forEach(attr => {
+      const value = this.node.getAttribute(attr);
+      let [_, expr] = attr.match(rAttributeExpression) || [];
+      expr = expr && expr.trim();
+
+      if (!expr && rValueExpression.test(value)) {
+        const textExpressions = value.match(new RegExp(rValueExpression, 'g')) || [];
+        textExpressions.forEach(expr => {
+          this.props.push({
+            raw: expr,
+            type: 'attr',
+            datakey: expr.match(rValueExpression)[1].trim(),
+            attr,
+            value,
+          });
+        });
+        return;
+      }
+
+      if (!expr) {
+        return;
+      }
+
+      if (expr === 'for') {
+        this.forProp = { raw: attr, type: 'for', datakey: value };
+        return;
+      }
+
+      const [, onName] = expr.match(/^on-(.+)$/) || [];
+      if (onName) {
+        this.props.push({ raw: attr, type: 'on', event: onName, datakey: value });
+        return;
+      }
+
+      this.props.push({ raw: attr, type: 'attr', attr: expr, datakey: value });
+    });
+
+    this.node.childNodes.forEach(child => {
+      const propNode = newPropNode(child);
+      if (propNode) {
+        this.children.push(propNode);
+      }
+    });
+  }
+
+  remove() {
+    this.node.remove();
+  }
+
+  /**
+   * @param {string} datakey
+   * @param {RenderData} data
+   * @param {string|number} [subkey]
+   */
+  renderProp(datakey, data, subkey) {
+    if (this.forProp) {
+      const [parentKey, itemKey] = datakey.split('.');
+      if (this.forProp.datakey === datakey || this.forProp.datakey === parentKey) {
+        if (typeof subkey === 'number' && itemKey) {
+          const indexToRender = [this, ...this.forClones][subkey];
+          indexToRender.renderProp(itemKey, data);
+          indexToRender.children.forEach(n => n.renderProp(itemKey, data));
+        } else {
+          this.renderForProp(this.forProp, data);
+        }
+      }
+    }
+    const prop = this.props.find(p => p.datakey === datakey);
+    if (prop) {
+      if (prop.type === 'attr') {
+        this.renderAttrProp(prop, data);
+      }
+    }
+  }
+
+  /** @type {(data: RenderData) => void} */
+  render(data) {
+    if (this.forProp) {
+      this.renderForProp(this.forProp, data);
+    } else {
+      this.renderAllAttrsAndEvents(data);
+      this.children.forEach(c => c.render(data));
+    }
+  }
+
+  /** @type {(prop: ForProp, data: RenderData) => void} */
+  renderForProp(prop, data) {
+    this.forClones.forEach(f => f.remove());
+
+    const newFragment = document.createDocumentFragment();
+    const loopData = /** @type {any[]} */ (data[prop.datakey] || []);
+    this.forClones = [];
+    for (let i = 0; i < loopData.length; i++) {
+      const item = loopData[i];
+      const cloneNode = /** @type {Element} */ (this.sourceNode.cloneNode(true));
+      cloneNode.removeAttribute(prop.raw);
+      const clone = new PropElementNode(cloneNode);
+      this.forClones.push(clone);
+      // // Allow for clones to render both parent data and the loop data.
+      // clone.render(data);
+      clone.render(item);
+      newFragment.appendChild(clone.node);
+    }
+
+    if (this.forClones.length > 0) {
+      this.node.replaceWith(newFragment);
+      const first = this.forClones.shift();
+      this.node = first.node;
+      this.children = first.children;
+    } else {
+      const placeholder = document.createComment(this.forProp.raw);
+      this.node.replaceWith(placeholder);
+      this.node = placeholder;
+      this.children = [];
+    }
+  }
+
+  /** @type {(data: RenderData) => void} */
+  renderAllAttrsAndEvents(data) {
+    this.props.forEach(p => {
+      if (!data || !(p.datakey in data)) {
+        return;
+      }
+
+      if (p.type === 'attr') {
+        this.renderAttrProp(p, data);
+      } else if (p.type === 'on') {
+        this.renderOnProp(p, data);
+      }
+    });
+  }
+
+  /** @type {(prop: AttrProp, data: RenderData) => void} */
+  renderAttrProp(prop, data) {
+    if (prop.value) {
+      this.node.setAttribute(prop.attr, replaceValue(prop.value, data));
+      return;
+    }
+
+    this.node.removeAttribute(prop.raw);
+    const value = data && data[prop.datakey];
+    if (prop.attr in this.node) {
+      /** @type {any} */ (this.node)[prop.attr] = value;
+    } else {
+      this.node.setAttribute(prop.attr, value);
+    }
+  }
+
+  /** @type {(prop: OnProp, data: RenderData) => void} */
+  renderOnProp(prop, data) {
+    /** @type {{[key: string]: EventListener}} */
+    this.nodeEvents = this.nodeEvents || {};
+    this.node.removeAttribute(prop.raw);
+    /** @type {function} */
+    const value = data[prop.datakey];
+    if (typeof value === 'function') {
+      const onattr = `on${prop.event}`;
+      if (onattr in this.node) {
+        /** @type {any} */ (this.node)[onattr] = value.bind(data);
+      } else if (!this.nodeEvents.hasOwnProperty(prop.event)) {
+        /** @param {CustomEvent} event */
+        this.nodeEvents[prop.event] = (event) => {
+          value.call(data, event.detail);
+        };
+        this.node.addEventListener(prop.event, this.nodeEvents[prop.event]);
+      }
+    }
+  }
+}
+
+/**
+ * @template {object} T
+ * @type {(object: T, onChange: (target: T, property: string|number) => void) => ProxyHandler<T>}
+ */
+function watch(object, onChange) {
+  const handler = {
+    /**
+     * @param {any} target
+     * @param {string|number} property
+     * @param {any} receiver
+     * @returns {ProxyHandler<T>}
+     */
+    get(target, property, receiver) {
+      // return new Proxy(target[property], handler);
+      try {
+        return new Proxy(target[property], handler);
+      } catch (err) {
+        return Reflect.get(target, property, receiver);
+      }
+    },
+    /**
+     * @param {T} target
+     * @param {string|number} property
+     * @param {PropertyDescriptor} descriptor
+     */
+    defineProperty(target, property, descriptor) {
+      const result = Reflect.defineProperty(target, property, descriptor);
+      onChange(target, property);
+      return result;
+    },
+    /**
+     * @param {T} target
+     * @param {string|number} property
+     */
+    deleteProperty(target, property) {
+      const result = Reflect.deleteProperty(target, property);
+      onChange(target, property);
+      return result;
+    }
+  };
+
+  return new Proxy(object, handler);
+};
