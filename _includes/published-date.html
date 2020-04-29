@@ -1,11 +1,11 @@
 {% if include.context.date %}
   {% capture published %}<span class="screenreader">Published </span><time class="dt-published" datetime="{{ include.context.date|date:"%Y-%m-%d" }}">{{ include.context.date | date_to_long_string }}</time>{% endcapture %}
 {% endif %}
-{% for update_hash in include.context.updates %}
-  {% assign last_update = update_hash %}
-{% endfor %}
+{% if include.context.updates %}
+  {% assign last_update = include.context.updates|sort:"date"|last %}
+{% endif %}
 {% if last_update %}
-  {% capture published %}{{published}} &ndash; last updated <time class="dt-updated" datetime="{{ last_update[0] }}">{{ last_update[0] | date_to_long_string }}</time>{% endcapture %}
+  {% capture published %}{{published}} &ndash; last updated <time class="dt-updated" datetime="{{ last_update.date }}">{{ last_update.date | date_to_long_string }}</time>{% endcapture %}
   {% if include.show_update_skip %}
     {% capture published %}{{published}} &ndash; <a href="#updates">skip to updates</a>{% endcapture %}
   {% endif %}

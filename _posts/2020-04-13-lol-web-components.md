@@ -9,7 +9,9 @@ syndications:
 pre_content:
   - '[Example: /examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
 updates:
-  2020-04-17: imports work in components now!
+  -
+    date: 2020-04-17
+    title: imports work in components now!
 ---
 
 This website is a playground for me, so I decided to rewrite my [Blog Admin code][] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
