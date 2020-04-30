@@ -9,8 +9,7 @@ syndications:
 pre_content:
   - '[Example: /examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
 updates:
-  -
-    date: 2020-04-17
+  - date: 2020-04-17T00:00:00.000Z
     title: imports work in components now!
 ---
 

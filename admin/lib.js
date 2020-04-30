@@ -49,7 +49,12 @@ import 'https://unpkg.com/js-yaml/dist/js-yaml.min.js';
 export const yaml = {
   /** @type {(js: any) => string} */
   jsToYaml(js) {
-    return window.jsyaml.dump(js, { lineWidth: -1 });
+    return window.jsyaml.dump(js, {
+      lineWidth: -1,
+      flowLevel: -1,
+      noArrayIndent: false,
+      noRefs: true,
+    });
   },
 
   /** @type {(yaml: string) => any[]} */
