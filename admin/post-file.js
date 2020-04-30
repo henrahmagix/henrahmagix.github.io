@@ -30,11 +30,16 @@ export class PostFile {
 
   /** @private */
   get postFrontMatter() {
-    return '---\n' + yaml.jsToYaml(this._postFrontMatter).trim() + '\n---';
+    const val = this._postFrontMatter;
+    let yamlString = '';
+    if (val != null && JSON.stringify(val) !== '{}') {
+      yamlString = yaml.jsToYaml(val).trim();
+    }
+    return '---\n' + yamlString + '\n---';
   }
   /** @private */
   set postFrontMatter(s) {
-    this._postFrontMatter = yaml.yamlToJS(s)[0];
+    this._postFrontMatter = yaml.yamlToJS(s)[0] || {};
   }
 
   /** @param {string} name */
@@ -56,7 +61,7 @@ export class PostFile {
   }
 
   getTitle() {
-    return this._postFrontMatter.title;
+    return this._postFrontMatter.title || '';
   }
   /** @param {string} s */
   setTitle(s) {
@@ -65,7 +70,7 @@ export class PostFile {
   }
 
   getSubtitle() {
-    return this._postFrontMatter.subtitle;
+    return this._postFrontMatter.subtitle || '';
   }
   /** @param {string} s */
   setSubtitle(s) {
@@ -74,7 +79,7 @@ export class PostFile {
   }
 
   getContent() {
-    return this.postContent;
+    return this.postContent || '';
   }
   /** @param {string} s */
   setContent(s) {
@@ -134,8 +139,10 @@ export class PostFile {
     const contentsLines = [];
 
     let frontMatterMatches = 0;
-    content.split('\n').forEach(line => {
-      if (frontMatterMatches < 2) {
+    content.split('\n').forEach((line, i) => {
+      if (i === 0 && line.match(/---+/)) {
+        frontMatterLines.push(line);
+      } else if (frontMatterMatches > 0 && frontMatterMatches < 2) {
         frontMatterLines.push(line);
       } else {
         contentsLines.push(line);
