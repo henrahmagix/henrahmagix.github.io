@@ -80,7 +80,7 @@
 
   textarea,
   [contenteditable=plaintext-only] {
-    white-space: pre-wrap;
+    white-space: nowrap;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   }
 
@@ -197,9 +197,8 @@
       cancelAnimationFrame(this.fixTextareaHeightRAF);
       this.fixTextareaHeightRAF = requestAnimationFrame(() => {
         this.textarea.style.lineHeight = '1.2';
-        const numlines = this.postFile.getRaw().match(/\n/g).length * Number(this.textarea.style.lineHeight);
-        this.textarea.style.height = numlines + 'em';
-        this.textarea.style.height = this.textarea.scrollHeight + 'px';
+        const numlines = this.textarea.value.split('\n').length;
+        this.textarea.style.height = numlines * Number(this.textarea.style.lineHeight) + 'em';
       });
     }
 
