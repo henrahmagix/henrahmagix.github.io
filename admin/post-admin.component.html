@@ -15,11 +15,7 @@
   // @ts-check
 
   // @ts-ignore
-  // import { PostAdminView } from "./post-admin.component.js";
-  // @ts-ignore
   import { Admin } from "./admin.js";
-  // @ts-ignore
-  import { show } from "./utils.js";
   // @ts-ignore
   import { env } from "./env.js";
   // @ts-ignore
@@ -30,18 +26,6 @@
   export const config = {
     useShadowDOM: false,
   };
-
-  /**
-   * TODO:
-   * - add build waiting
-   * - check build waiting with current commit
-   * - new post file
-   * - add edit post
-   * - fetch post file then setFile on edit post
-   * - edit post afterCommit => checkPageStatus(postFile.lastCommit), changeURLFilepath(postFile.filepath) if postFile.isDraft
-   * - edit post afterPublish => changeURLFilepath(postFile.filepath)
-   * - edit post afterUnpublish => changeURLFilepath(postFile.filepath)
-  */
 
   export class View {
     /** @param {DOMStringMap} dataset */
