@@ -672,6 +672,10 @@ details summary {
   margin-bottom: 0;
 }
 
+.posts pre {
+  white-space: pre-wrap;
+}
+
 .minimal h3,
 .minimal p:not(.published),
 .minimal hr {
