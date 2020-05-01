@@ -5,6 +5,7 @@
   <h3>Share and respond</h3>
   <ul class="list-reset">
     {% for synd_hash in page.syndications %}
+      {% if synd_hash[1] == nil or synd_hash[1] == '' %}{% continue %}{% endif %}
       {% capture title %}Reply on {{synd_hash[0]|capitalize}}{% endcapture %}
       {% capture icon %}fab fa-{{synd_hash[0]}}{% endcapture %}
       {% assign url = synd_hash[1] %}

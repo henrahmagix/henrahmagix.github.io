@@ -267,7 +267,7 @@
     clickTweet() {
       this.state.moveToTweeting();
       const newTweetUrl = new URL('https://twitter.com/intent/tweet');
-      newTweetUrl.searchParams.set('text', 'New blog post!');
+      newTweetUrl.searchParams.set('text', `New blog post! "${this.postFile.get('title')}"`);
       newTweetUrl.searchParams.set('url', window.location.href);
 
       // Open a new tab/window so the above next steps can occur.
@@ -277,9 +277,8 @@
       this.postFile.setSyndication('twitter', tweet);
       // View the diff so it can be submitted.
       this.clickEdit();
-      Array.from(this.viewForm.querySelectorAll('input'))
-        .find(i => i.value === 'diff')
-        .click();
+      this.viewStyle = 'diff';
+      this.render();
     }
 
     get waiting() {
