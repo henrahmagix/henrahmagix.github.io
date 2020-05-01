@@ -1,6 +1,6 @@
 import { createHTML } from './utils.js';
 
-/** @type {import('showdown').Converter} */
+/** @type {showdown.Converter} */
 let showdown;
 function getShowdown() {
   if (!showdown) {

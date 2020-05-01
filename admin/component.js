@@ -119,7 +119,6 @@ async function fetchHTMLComponent(thisElement, componentHref) {
         if (module.config) {
           viewConfig.merge(module.config);
         }
-        // Pass through original template so the view can change it.
         view = new module.View(thisElement.dataset, thisElement);
       }
     } catch (err) {
@@ -260,8 +259,11 @@ function dynamicComponent(view, template, watchProperties) {
         return _value;
       },
       set: (val) => {
+        const oldValue = _value;
         _value = watchValue(prop, val);
-        renderChange(prop, view);
+        if (_value !== oldValue) {
+          renderChange(prop, view);
+        }
       },
     });
   });
