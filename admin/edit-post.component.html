@@ -236,7 +236,6 @@
     /** @param {Event} event */
     changeView(event) {
       this.viewStyle = new FormData(event.currentTarget).get('style');
-      this.events.dispatchEvent(new CustomEvent('view-style', {detail: this.viewStyle}));
       this.render();
     }
 
