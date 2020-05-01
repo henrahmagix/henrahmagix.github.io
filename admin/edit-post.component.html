@@ -148,9 +148,18 @@
       this.state = new EditPostState();
       this.state.addChangeListener(() => this.render());
 
-      this.titleEl.addEventListener('input', () => this.updatePostTitle());
-      this.subtitleEl.addEventListener('input', () => this.updatePostSubtitle());
-      this.contentEl.addEventListener('input', () => this.updatePostContent());
+      this.titleEl.addEventListener('input', () => {
+        this.updatePostTitle();
+        this.renderState();
+      });
+      this.subtitleEl.addEventListener('input', () => {
+        this.updatePostSubtitle();
+        this.renderState();
+      });
+      this.contentEl.addEventListener('input', () => {
+        this.updatePostContent();
+        this.renderState();
+      });
 
       show(this.titleEl, true);
       show(this.subtitleEl, true);
