@@ -60,30 +60,24 @@ export class PostFile {
     this._postFrontMatter.syndications[name] = value;
   }
 
-  getTitle() {
-    return this._postFrontMatter.title || '';
+  /** @param {string} attr */
+  get(attr) {
+    if (attr === 'content') {
+      return this.postContent || '';
+    }
+    return this._postFrontMatter[attr] || '';
   }
-  /** @param {string} s */
-  setTitle(s) {
-    this._postFrontMatter.title = s.trim();
-    this.onChange();
-  }
-
-  getSubtitle() {
-    return this._postFrontMatter.subtitle || '';
-  }
-  /** @param {string} s */
-  setSubtitle(s) {
-    this._postFrontMatter.subtitle = s.trim();
-    this.onChange();
-  }
-
-  getContent() {
-    return this.postContent || '';
-  }
-  /** @param {string} s */
-  setContent(s) {
-    this.postContent = s.trim();
+  /**
+   * @param {string} attr
+   * @param {string} s
+   */
+  set(attr, s) {
+    s = s.trim();
+    if (attr === 'content') {
+      this.postContent = s;
+    } else {
+      this._postFrontMatter[attr] = s;
+    }
     this.onChange();
   }
 

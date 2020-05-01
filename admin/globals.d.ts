@@ -8,6 +8,7 @@ declare namespace post {
     title: string;
     subtitle: string;
     syndications: { [key: string]: string; };
+    [key: string]: any;
   }
 }
 

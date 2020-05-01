@@ -131,9 +131,26 @@
     constructor(dataset, events) {
       this.events = events;
 
-      this.titleEl = document.querySelector('[data-admin-editable="title"]');
-      this.subtitleEl = document.querySelector('[data-admin-editable="subtitle"]');
-      this.contentEl = document.querySelector('[data-admin-editable="content"]');
+      this.postElements = Array.from(document.querySelectorAll('[data-admin-editable]')).map(el => {
+        return { el, attr: el.getAttribute('data-admin-editable') };
+      });
+      this.postElements.forEach(({el, attr}) => {
+        show(el, true);
+        el.setAttribute('placeholder', attr.charAt(0).toUpperCase() + attr.slice(1));
+        el.addEventListener('input', () => this.updatePost(attr, el));
+
+        if (attr === 'content') {
+          el.addEventListener('paste', (event) => {
+            if (this.writingHTML) {
+              pasteWithoutFormatting(event);
+            }
+          });
+        } else {
+          el.addEventListener('keyup', preventEnterKey);
+          el.addEventListener('keydown', preventEnterKey);
+          el.addEventListener('paste', pasteWithoutFormatting);
+        }
+      });
       this.contentWrapper = document.querySelector('[data-admin-content]');
 
       this.textarea = document.createElement('textarea');
@@ -147,36 +164,6 @@
 
       this.state = new EditPostState();
       this.state.addChangeListener(() => this.render());
-
-      this.titleEl.addEventListener('input', () => {
-        this.updatePostTitle();
-        this.renderState();
-      });
-      this.subtitleEl.addEventListener('input', () => {
-        this.updatePostSubtitle();
-        this.renderState();
-      });
-      this.contentEl.addEventListener('input', () => {
-        this.updatePostContent();
-        this.renderState();
-      });
-
-      show(this.titleEl, true);
-      show(this.subtitleEl, true);
-      this.titleEl.setAttribute('placeholder', 'Title');
-      this.subtitleEl.setAttribute('placeholder', 'Subitle');
-      this.contentEl.setAttribute('placeholder', 'Content');
-
-      [this.titleEl, this.subtitleEl].forEach(el => {
-        el.addEventListener('keyup', preventEnterKey);
-        el.addEventListener('keydown', preventEnterKey);
-        el.addEventListener('paste', pasteWithoutFormatting);
-      });
-      this.contentEl.addEventListener('paste', (event) => {
-        if (this.writingHTML) {
-          pasteWithoutFormatting(event);
-        }
-      });
 
       window.addEventListener('beforeunload', event => {
         if (this.needsReview()) {
@@ -340,12 +327,15 @@
         this.diffEl.replaceWith(this.textarea);
         this.fixTextareaHeight();
       } else {
-        this.titleEl.innerHTML = markdownToHTML(this.postFile.getTitle()).replace(/^<p>|<\/p>$/g, '');
-        this.subtitleEl.innerHTML = markdownToHTML(this.postFile.getSubtitle()).replace(/^<p>|<\/p>$/g, '');
-        this.contentEl.innerHTML = markdownToHTML(this.postFile.getContent());
-        // Fix code highlighting after editing.
-        this.contentEl.querySelectorAll('pre').forEach(function (el) {
-          el.classList.add('highlight');
+        this.postElements.forEach(({el, attr}) => {
+          const html = markdownToHTML(this.postFile.get(attr));
+          if (attr === 'content') {
+            el.innerHTML = html;
+            // Fix code highlighting after editing.
+            el.querySelectorAll('pre').forEach(pre => pre.classList.add('highlight'));
+          } else {
+            el.innerHTML = html.replace(/^<p>|<\/p>$/g, '');
+          }
         });
 
         this.textarea.replaceWith(this.contentWrapper);
@@ -355,32 +345,20 @@
 
     /** @param {string} value */
     setContentEditable(value) {
-      this.titleEl.contentEditable = this.subtitleEl.contentEditable = value;
-      if (this.contentEl) {
-        this.contentEl.contentEditable = value;
-      }
+      this.postElements.forEach(({el, attr}) => {
+        el.contentEditable = value;
+      });
       document.execCommand('defaultParagraphSeparator', false, 'p');
     }
 
-    updatePost() {
+    /** @type {(attr: string, el: Element) => void} */
+    updatePost(attr, el) {
       if (this.writingRaw) {
         this.postFile.setRaw(this.textarea.value);
       } else {
-        this.updatePostTitle();
-        this.updatePostSubtitle();
-        this.updatePostContent();
+        this.postFile.set(attr, htmlToMarkdown(el.innerHTML));
       }
-
       this.renderState();
-    }
-    updatePostTitle() {
-      this.postFile.setTitle(htmlToMarkdown(this.titleEl.innerHTML));
-    }
-    updatePostSubtitle() {
-      this.postFile.setSubtitle(htmlToMarkdown(this.subtitleEl.innerHTML));
-    }
-    updatePostContent() {
-      this.postFile.setContent(htmlToMarkdown(this.contentEl.innerHTML));
     }
 
     needsReview() {
