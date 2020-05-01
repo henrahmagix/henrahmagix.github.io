@@ -6,4 +6,8 @@ back_to: blog
 
 {%- comment -%} Keep this as just {{content}} so edit script can easily reinsert rendered markdown {%- endcomment -%}
 
+{% for line in page.pre_content %}
+  <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
+{% endfor %}
+
 {{content}}

@@ -4,6 +4,7 @@
   data-current-commit="{{site.github.build_revision}}"
   data-filepath="{{page.path}}"
   data-env="{{jekyll.environment}}"
+  data-array-props="pre_content"
 ></admin-post-admin>
 
 <script type="module">
@@ -18,7 +19,19 @@
     content.dataset.adminContent = '';
     content.querySelector('.page-title').dataset.adminEditable = 'title';
     content.querySelector('.page-subtitle').dataset.adminEditable = 'subtitle';
-    content.querySelector('.entry-content').dataset.adminEditable = 'content';
+
+    const article = content.querySelector('.entry-content');
+
+    const preContent = document.createDocumentFragment();
+    Array.from(article.children).forEach((child, i) => {
+      if (child.classList.contains('pre-content')) {
+        child.dataset.adminEditable = `pre_content:${i}`;
+        preContent.appendChild(child);
+      }
+    });
+
+    article.innerHTML = `<div data-admin-editable="content">${article.innerHTML}</div>`;
+    article.prepend(preContent);
   } else {
     component.remove();
   }

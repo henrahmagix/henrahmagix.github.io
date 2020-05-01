@@ -106,7 +106,7 @@
   // @ts-check
 
   import { PostFile } from "./post-file.js";
-  import { State, show } from "./utils.js";
+  import { State, show, createHTML } from "./utils.js";
   import { markdownToHTML, htmlToMarkdown } from "./lib.js";
 
   export const config = {
@@ -131,27 +131,62 @@
     constructor(dataset, events) {
       this.events = events;
 
-      this.postElements = Array.from(document.querySelectorAll('[data-admin-editable]')).map(el => {
-        return { el, attr: el.getAttribute('data-admin-editable') };
-      });
-      this.postElements.forEach(({el, attr}) => {
-        show(el, true);
-        el.setAttribute('placeholder', attr.charAt(0).toUpperCase() + attr.slice(1));
-        el.addEventListener('input', () => this.updatePost(attr, el));
+      this.postElements = {
+        items: [],
+        forEach: (...args) => {
+          return this.postElements.items.forEach.apply(this.postElements.items, args);
+        },
+        push: (item) => {
+          this.postElements.items.push(item);
+          const {el, attr} = item;
+          show(el, true);
+          el.setAttribute('placeholder', attr.charAt(0).toUpperCase() + attr.slice(1));
+          el.addEventListener('input', () => this.updatePost(attr, el));
 
-        if (attr === 'content') {
-          el.addEventListener('paste', (event) => {
-            if (this.writingHTML) {
-              pasteWithoutFormatting(event);
-            }
-          });
-        } else {
-          el.addEventListener('keyup', preventEnterKey);
-          el.addEventListener('keydown', preventEnterKey);
-          el.addEventListener('paste', pasteWithoutFormatting);
-        }
+          if (attr === 'content') {
+            el.addEventListener('paste', (event) => {
+              if (this.writingHTML) {
+                pasteWithoutFormatting(event);
+              }
+            });
+          } else {
+            el.addEventListener('keyup', preventEnterKey);
+            el.addEventListener('keydown', preventEnterKey);
+            el.addEventListener('paste', pasteWithoutFormatting);
+          }
+        },
+      };
+
+      document.querySelectorAll('[data-admin-editable]').forEach(el => {
+        this.postElements.push({ el, attr: el.getAttribute('data-admin-editable') });
       });
       this.contentWrapper = document.querySelector('[data-admin-content]');
+
+      const arrayProps = dataset.arrayProps.split(',').map(s=>s.trim());
+      const lastArrayProps = {};
+      this.postElements.forEach(({el, attr}) => {
+        const key = attr.split(':')[0];
+        if (arrayProps.includes(key)) {
+          lastArrayProps[key] = {el, attr};
+        }
+      });
+      this.extraEditingButtons = [];
+      Object.values(lastArrayProps).forEach(({el, attr}) => {
+        const [key, index] = attr.split(':');
+        const makeNew = createHTML(`<button hidden>Add ${key}</button>`);
+        let lastIndex = index;
+        makeNew.onclick = () => {
+          lastIndex++;
+          const clone = el.cloneNode();
+          clone.dataset.adminEditable = `${key}:${lastIndex}`;
+          makeNew.before(clone);
+          this.postElements.push({
+            el: clone, attr: clone.dataset.adminEditable,
+          });
+        };
+        el.after(makeNew);
+        this.extraEditingButtons.push(makeNew);
+      });
 
       this.textarea = document.createElement('textarea');
       this.textarea.addEventListener('input', () => {
@@ -310,6 +345,8 @@
       this.hideTweet = !this.canTweet;
       this.hideSpinner = !this.waiting;
       this.hideViewForm = !this.editing;
+
+      this.extraEditingButtons.forEach(b => show(b, this.editing));
     }
 
     renderContent() {

@@ -65,6 +65,10 @@ export class PostFile {
     if (attr === 'content') {
       return this.postContent || '';
     }
+    if (attr.includes(':')) {
+      const [key, index] = attr.split(':');
+      return (this._postFrontMatter[key] || {})[index] || '';
+    }
     return this._postFrontMatter[attr] || '';
   }
   /**
@@ -75,6 +79,12 @@ export class PostFile {
     s = s.trim();
     if (attr === 'content') {
       this.postContent = s;
+    } else if (attr.includes(':')) {
+      const [key, index] = attr.split(':');
+      if (!this._postFrontMatter[key]) {
+        this._postFrontMatter[key] = isFinite(parseInt(index)) ? [] : {};
+      }
+      this._postFrontMatter[key][index] = s;
     } else {
       this._postFrontMatter[attr] = s;
     }

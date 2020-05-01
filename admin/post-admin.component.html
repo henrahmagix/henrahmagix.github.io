@@ -3,7 +3,8 @@
 <template>
   <admin-build-waiting data-commit="{{currentCommit}}"></admin-build-waiting>
   <admin-edit-post
-    data-filepath={{filepath}}
+    data-filepath="{{filepath}}"
+    data-array-props="{{arrayProps}}"
     {on-view-style}="afterViewStyle"
     {on-commit}="afterCommit"
     {on-publish}="afterPublish"
@@ -42,6 +43,7 @@
     /** @param {DOMStringMap} dataset */
     async init(dataset) {
       this.currentCommit = dataset.currentCommit;
+      this.arrayProps = dataset.arrayProps;
       env.production = dataset.env === 'production';
 
       // Allow overriding jekyll filepath with query param exists.
