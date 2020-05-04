@@ -102,10 +102,12 @@ export class PostFile {
   }
   /** @param {File} file */
   setImage(file) {
-    const ext = file.type.replace('image/', '');
-    const newFilename = slugify(this.get('title'));
-    this._postFrontMatter.image = `/images/posts/${newFilename}.${ext}`;
-    // TODO: upload image on submit
+    if (!this.imageFile) {
+      const ext = file.type.replace('image/', '');
+      const newFilename = slugify(this.get('title'));
+      this._postFrontMatter.image = `/images/posts/${newFilename}.${ext}`;
+    }
+    this.imageFile = file;
     this.onChange();
   }
 
@@ -214,6 +216,31 @@ export class PostFile {
     if (this.isNew) {
       const name = slugify(title);
       this.filepath = `_drafts/${name}.md`;
+    }
+
+    if (this.imageFile) {
+      const imageFilepath = this.get('image');
+      const imageFilepathURL = `/contents${imageFilepath}`;
+      let imageSha;
+      try {
+        const res = await this.api.makeRequest(imageFilepathURL);
+        imageSha = res.sha;
+      } catch (err) {}
+
+      const imageContent = await new Promise(resolve => {
+        const fr = new FileReader;
+        fr.onload = () => resolve(fr.result);
+        fr.readAsDataURL(this.imageFile);
+      });
+      await this.api.makeRequest(imageFilepathURL, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: `Edit ${imageFilepath}`,
+          content: base64.encode(imageContent),
+          sha: imageSha,
+          branch: 'master',
+        }),
+      });
     }
 
     const content = base64.encode(this.newContent);
