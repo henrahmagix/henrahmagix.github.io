@@ -12,7 +12,7 @@ export function createHTML(s) {
 
 /** @param {string} s */
 export function slugify(s) {
-  return s.toLowerCase().replace(/ /g, '-');
+  return s.toLowerCase().match(/[\w]+/g).join('-');
 }
 
 export const yamlString = {
