@@ -269,9 +269,6 @@
       this.reset();
     }
     clickSubmit() {
-      if (!this.postFile.getTitle()) {
-        throw new Error('Post must have a title');
-      }
       this.state.moveToSubmitting();
       this.submitPost();
     }
