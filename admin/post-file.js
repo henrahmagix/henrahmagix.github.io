@@ -61,6 +61,16 @@ export class PostFile {
   }
 
   /** @param {string} attr */
+  has(attr) {
+    if (attr === 'content') {
+      return Boolean(this.postContent);
+    }
+    if (attr.includes(':')) {
+      [attr] = attr.split(':');
+    }
+    return this._postFrontMatter.hasOwnProperty(attr);
+  }
+  /** @param {string} attr */
   get(attr) {
     if (attr === 'content') {
       return this.postContent || '';
@@ -88,6 +98,14 @@ export class PostFile {
     } else {
       this._postFrontMatter[attr] = s;
     }
+    this.onChange();
+  }
+  /** @param {File} file */
+  setImage(file) {
+    const ext = file.type.replace('image/', '');
+    const newFilename = slugify(this.get('title'));
+    this._postFrontMatter.image = `/images/posts/${newFilename}.${ext}`;
+    // TODO: upload image on submit
     this.onChange();
   }
 

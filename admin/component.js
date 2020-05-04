@@ -565,8 +565,21 @@ class PropElementNode {
     }
 
     this.node.removeAttribute(prop.raw);
-    const value = data && data[prop.datakey];
+    let value = data && data[prop.datakey];
+    if (value && prop.attr === 'value' && this.node instanceof HTMLInputElement && this.node.type === 'file') {
+      // DOMException: Failed to set the 'value' property on 'HTMLInputElement':
+      // This input element accepts a filename, which may only be
+      // programmatically set to the empty string.
+      return;
+    }
+
     if (prop.attr in this.node) {
+      const attrType = typeof /** @type {any} */ (this.node)[prop.attr];
+      if (value == null) {
+        if (attrType === 'string') {
+          value = '';
+        }
+      }
       /** @type {any} */ (this.node)[prop.attr] = value;
     } else {
       this.node.setAttribute(prop.attr, value);
@@ -608,9 +621,13 @@ function watch(object, onChange) {
      * @returns {ProxyHandler<T>}
      */
     get(target, property, receiver) {
-      // return new Proxy(target[property], handler);
+      if (property === '__proxy_target__') {
+        return target.__proxy_target__;
+      }
       try {
-        return new Proxy(target[property], handler);
+        const prox = new Proxy(target[property], handler);
+        prox.__proxy_target__ = target[property];
+        return prox;
       } catch (err) {
         return Reflect.get(target, property, receiver);
       }
@@ -636,5 +653,7 @@ function watch(object, onChange) {
     }
   };
 
-  return new Proxy(object, handler);
+  const prox = new Proxy(object, handler);
+  prox.__proxy_target__ = object;
+  return prox;
 };

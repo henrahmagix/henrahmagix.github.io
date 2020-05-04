@@ -13,6 +13,9 @@
     <button {hidden}="hideUnpublish" {on-click}="clickUnpublish" class="button-unpublish"><i class="icon fas fa-cloud-download-alt"></i>Unpublish</button>
     <button {hidden}="hideTweet" {on-click}="clickTweet" class="button-tweet"><i class="icon fab fa-twitter"></i>Tweet</button>
 
+    <input {hidden}="hideImageInput" {on-change}="uploadImage" {value}="imageFile" type="file" accept="image/*">
+    <img {hidden}="hideImage" {src}="image" class="post-image">
+
     <span {hidden}="hideSpinner" class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
 
     <form {hidden}="hideViewForm" name="view" class="view-wrapper" onsubmit="return false;" {on-change}="changeView">
@@ -100,6 +103,11 @@
     box-sizing: content-box;
     padding-left: 0;
   }
+
+  .post-image {
+    display: block;
+    width: 50px;
+  }
 </style>
 
 <script type="module">
@@ -120,6 +128,10 @@
       'hideTweet',
       'hideSpinner',
       'hideViewForm',
+      'hideImageInput',
+      'hideImage',
+      'imageFile',
+      'image',
     ],
   };
 
@@ -238,6 +250,13 @@
       this.viewStyle = new FormData(event.currentTarget).get('style');
       this.render();
     }
+    /** @param {Event} event */
+    uploadImage(event) {
+      const file = this.imageFile = event.srcElement.files.item(0);
+      this.image = file ? imagePreviewSrc(file) : '';
+      this.postFile.setImage(file);
+      this.renderState();
+    }
 
     clickEdit() {
       this.state.moveToEdit();
@@ -343,6 +362,9 @@
       this.hideTweet = !this.canTweet;
       this.hideSpinner = !this.waiting;
       this.hideViewForm = !this.editing;
+      this.hideImageInput = !this.editing;
+      this.hideImage = this.postFile && !this.postFile.has('image');
+      this.image = this.imageFile ? imagePreviewSrc(this.imageFile) : this.postFile.get('image');
 
       this.extraEditingButtons.forEach(b => show(b, this.editing));
     }
@@ -402,6 +424,7 @@
 
     reset() {
       this.postFile.reset();
+      this.imageFile = '';
       // TODO: implement ngModel-like for form fields.
       // this.viewForm.reset();
       this.state.reset();
@@ -500,5 +523,13 @@
     var text = event.clipboardData.getData('text/plain');
     // insert text manually
     document.execCommand('insertHTML', false, text);
+  }
+
+  /** @param {File} file */
+  function imagePreviewSrc(file) {
+    if (file.__proxy_target__) {
+      file = file.__proxy_target__;
+    }
+    return URL.createObjectURL(file);
   }
 </script>
