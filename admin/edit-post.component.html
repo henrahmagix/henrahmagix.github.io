@@ -219,18 +219,17 @@
         }
       });
 
-      const postFile = new PostFile({
+      this.postFile = new PostFile({
         filepath: dataset.filepath,
       });
-      postFile.fetch().then(() => {
-        this.postFile = postFile;
+      this.postFile.fetch().then(() => {
         this.renderState();
 
-        if (postFile.isDraft) {
+        if (this.postFile.isDraft) {
           this.render();
         }
 
-        if (postFile.isNew || postFile.hasLocalChanges) {
+        if (this.postFile.isNew || this.postFile.hasLocalChanges) {
           this.state.moveToEdit();
         }
       });
@@ -360,7 +359,7 @@
       this.hideSpinner = !this.waiting;
       this.hideViewForm = !this.editing;
       this.hideImageInput = !this.editing;
-      this.hideImage = this.postFile && !this.postFile.has('image');
+      this.hideImage = !this.postFile.has('image');
       this.image = this.imageFile ? imagePreviewSrc(this.imageFile) : this.postFile.get('image');
 
       this.extraEditingButtons.forEach(b => show(b, this.editing));
