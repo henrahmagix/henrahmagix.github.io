@@ -225,16 +225,17 @@ export class PostFile {
         imageSha = res.sha;
       } catch (err) {}
 
-      const imageContent = await new Promise(resolve => {
+      const encodedImageContent = await new Promise((resolve, reject) => {
         const fr = new FileReader;
-        fr.onload = () => resolve(fr.result);
+        fr.onload = () => resolve(/**@type {string}*/(fr.result).replace(/^(.+,)/, ''));
+        fr.onerror = (err) => reject(err);
         fr.readAsDataURL(this.imageFile);
       });
       await this.api.makeRequest(imageFilepathURL, {
         method: 'PUT',
         body: JSON.stringify({
           message: `Edit ${imageFilepath}`,
-          content: base64.encode(imageContent),
+          content: encodedImageContent,
           sha: imageSha,
           branch: 'master',
         }),
