@@ -193,12 +193,13 @@ export class PostFile {
   }
 
   reset() {
+    this.imageFile = null;
     this.buildContent(this.originalContent);
     this.clearStorage();
   }
 
   hasChanges() {
-    return this.newContent !== this.originalContent;
+    return this.imageFile || this.newContent !== this.originalContent;
   }
 
   get isDraft() {
@@ -240,6 +241,7 @@ export class PostFile {
           branch: 'master',
         }),
       });
+      this.imageFile = null;
     }
 
     const content = base64.encode(this.newContent);

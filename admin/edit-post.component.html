@@ -430,7 +430,7 @@
     async submitPost() {
       await this.postFile.commit();
 
-      this.state.reset();
+      this.reset();
       this.events.dispatchEvent(new CustomEvent('commit', {
         detail: this.postFile,
       }));
