@@ -3,6 +3,7 @@ layout: post
 class: post
 title: How I built the iPadOS Cursor for the Web
 subtitle: ''
+image: /images/posts/how-i-built-the-ipados-cursor-for-the-web.jpeg
 ---
 
 ![wefwef](/images/ipad-cursor-preview.jpg)
