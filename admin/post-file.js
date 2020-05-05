@@ -102,11 +102,9 @@ export class PostFile {
   }
   /** @param {File} file */
   setImage(file) {
-    if (!this.imageFile) {
-      const ext = file.type.replace('image/', '');
-      const newFilename = slugify(this.get('title'));
-      this._postFrontMatter.image = `/images/posts/${newFilename}.${ext}`;
-    }
+    const ext = file.type.replace('image/', '');
+    const newFilename = slugify(this.get('title'));
+    this._postFrontMatter.image = `/images/posts/${newFilename}.${ext}`;
     this.imageFile = file;
     this.onChange();
   }
