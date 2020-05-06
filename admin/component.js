@@ -255,6 +255,7 @@ function dynamicComponent(view, template, watchProperties) {
     let _value = watchValue(prop, view[prop]);
 
     Object.defineProperty(view, prop, {
+      enumerable: true,
       get: () => {
         return _value;
       },
@@ -267,6 +268,14 @@ function dynamicComponent(view, template, watchProperties) {
       },
     });
   });
+
+  // 🙌 https://stackoverflow.com/a/57179513/3150057
+  for (const [property, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(view)))) {
+    if (typeof descriptor.get === 'function') {
+      descriptor.enumerable = true;
+      Object.defineProperty(view, property, descriptor);
+    }
+  }
 
   nodes.forEach(n => {
     n.render(view);
@@ -319,10 +328,7 @@ const rAttributeExpression = /^{(.+)}$/;
 function replaceValue(str, data) {
   return str.replace(new RegExp(rValueExpression, 'g'), (_, expr) => {
     expr = expr.trim();
-    if (data && expr in data) {
-      return data[expr];
-    }
-    return '';
+    return renderExpression(expr, data) || '';
   });
 }
 
@@ -544,11 +550,11 @@ class PropElementNode {
 
   /** @type {(data: RenderData) => void} */
   renderAllAttrsAndEvents(data) {
-    this.props.forEach(p => {
-      if (!data || !(p.datakey in data)) {
-        return;
-      }
+    if (!data) {
+      return;
+    }
 
+    this.props.forEach(p => {
       if (p.type === 'attr') {
         this.renderAttrProp(p, data);
       } else if (p.type === 'on') {
@@ -565,7 +571,7 @@ class PropElementNode {
     }
 
     this.node.removeAttribute(prop.raw);
-    let value = data && data[prop.datakey];
+    let value = renderExpression(prop.datakey, data);
     if (value && prop.attr === 'value' && this.node instanceof HTMLInputElement && this.node.type === 'file') {
       // DOMException: Failed to set the 'value' property on 'HTMLInputElement':
       // This input element accepts a filename, which may only be
@@ -606,6 +612,55 @@ class PropElementNode {
       }
     }
   }
+}
+
+/** @type {(expr: string, data: RenderData) => any} */
+function renderExpression(expr, data) {
+  if (typeof data !== 'object') {
+    return undefined;
+  }
+  const keys = objectKeys(data);
+  const args = `{window,console,${keys.map(reservedWordReplacer).join(',')}}`;
+  expr = expr.replace(/(?:^|[^.])\b(\w+)\b/g, (whole, word) => {
+    return whole.replace(word, reservedWordReplacer(word))
+  });
+  const body = `return ${expr}`;
+  try {
+    const fn = new Function(args, body);
+    return fn.call(null, data);
+  } catch (err) {
+    if (err instanceof ReferenceError) {
+      return undefined;
+    }
+    err.message += ` in function(${args}) { ${body} }`
+    err.name = 'ExpressionError';
+    throw err;
+  }
+}
+
+/** @type {(o: any) => string[]} */
+function objectKeys(o) {
+  let keys = Object.keys(Object.getOwnPropertyDescriptors(o));
+  const proto = Object.getPrototypeOf(o);
+  if (proto && proto !== Object.getPrototypeOf({})) {
+    keys = keys.concat(objectKeys(proto));
+  }
+  return [...new Set(keys)].filter(k => k !== 'constructor');
+}
+
+const reservedWords = [
+  'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
+  'default', 'delete', 'do', 'else', 'export', 'extends', 'finally', 'for',
+  'function', 'if', 'import', 'in', 'instanceof', 'new', 'return', 'super',
+  'switch', 'this', 'throw', 'try', 'typeof', 'var', 'void', 'while', 'with',
+  'yield',
+];
+/** @param {string} k */
+function reservedWordReplacer(k) {
+  if (reservedWords.includes(k)) {
+    return `x${k}`;
+  }
+  return k;
 }
 
 /**
