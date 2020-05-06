@@ -4,6 +4,9 @@ import { createHTML } from './utils.js';
 let showdown;
 function getShowdown() {
   if (!showdown) {
+    if (!window.showdown) {
+      return null;
+    }
     showdown = new window.showdown.Converter();
     showdown.setFlavor('github');
     showdown.setOption('smoothLivePreview', true);
@@ -13,12 +16,20 @@ function getShowdown() {
 
 /** @type {(md: string) => string} */
 export function markdownToHTML(md) {
-  return getShowdown().makeHtml(md);
+  const s = getShowdown();
+  if (!s) {
+    return md;
+  }
+  return s.makeHtml(md);
 }
 
 /** @type {(html: string) => string} */
 export function htmlToMarkdown(html) {
-  return getShowdown().makeMarkdown(html);
+  const s = getShowdown();
+  if (!s) {
+    return html;
+  }
+  return s.makeMarkdown(html);
 }
 
 /** @type {(baseName: string, baseString: string, newName: string, newString: string) => HTMLElement} */
