@@ -5,9 +5,9 @@
   <admin-edit-post
     data-filepath="{{filepath}}"
     data-array-props="{{arrayProps}}"
-    {on-commit}="afterCommit"
-    {on-publish}="afterPublish"
-    {on-unpublish}="afterUnpublish"
+    {on-commit}="afterCommit($event)"
+    {on-publish}="afterPublish($event)"
+    {on-unpublish}="afterUnpublish($event)"
   ></admin-edit-post>
 </template>
 

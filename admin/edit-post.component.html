@@ -6,19 +6,19 @@
 
 <template>
   <div id="admin-post-edit">
-    <button {hidden}="hideEdit" {on-click}="clickEdit" class="button-edit"><i class="icon fas fa-pencil-alt"></i>Edit</button>
-    <button {hidden}="hideCancel" {on-click}="clickCancel" class="button-cancel"><i class="icon fas fa-times"></i>Cancel</button>
-    <button {hidden}="hideSubmit" {on-click}="clickSubmit" class="button-submit"><i class="icon fas fa-check"></i>Submit</button>
-    <button {hidden}="hidePublish" {on-click}="clickPublish" class="button-publish"><i class="icon fas fa-cloud-upload-alt"></i>Publish</button>
-    <button {hidden}="hideUnpublish" {on-click}="clickUnpublish" class="button-unpublish"><i class="icon fas fa-cloud-download-alt"></i>Unpublish</button>
-    <button {hidden}="hideTweet" {on-click}="clickTweet" class="button-tweet"><i class="icon fab fa-twitter"></i>Tweet</button>
+    <button {hidden}="hideEdit" {on-click}="clickEdit()" class="button-edit"><i class="icon fas fa-pencil-alt"></i>Edit</button>
+    <button {hidden}="hideCancel" {on-click}="clickCancel()" class="button-cancel"><i class="icon fas fa-times"></i>Cancel</button>
+    <button {hidden}="hideSubmit" {on-click}="clickSubmit()" class="button-submit"><i class="icon fas fa-check"></i>Submit</button>
+    <button {hidden}="hidePublish" {on-click}="clickPublish()" class="button-publish"><i class="icon fas fa-cloud-upload-alt"></i>Publish</button>
+    <button {hidden}="hideUnpublish" {on-click}="clickUnpublish()" class="button-unpublish"><i class="icon fas fa-cloud-download-alt"></i>Unpublish</button>
+    <button {hidden}="hideTweet" {on-click}="clickTweet()" class="button-tweet"><i class="icon fab fa-twitter"></i>Tweet</button>
 
-    <input {hidden}="hideImageInput" {on-change}="uploadImage" {value}="imageFile" type="file" accept="image/*">
+    <input {hidden}="hideImageInput" {on-change}="uploadImage($event)" {value}="imageFile" type="file" accept="image/*">
     <img {hidden}="hideImage" {src}="image" class="post-image">
 
     <span {hidden}="hideSpinner" class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
 
-    <form {hidden}="hideViewForm" name="view" class="view-wrapper" onsubmit="return false;" {on-change}="changeView">
+    <form {hidden}="hideViewForm" name="view" class="view-wrapper" onsubmit="return false;" {on-change}="changeView($event)">
       View:
       <label>
         <input type="radio" name="style" value="html" checked>

@@ -597,20 +597,50 @@ class PropElementNode {
     /** @type {{[key: string]: EventListener}} */
     this.nodeEvents = this.nodeEvents || {};
     this.node.removeAttribute(prop.raw);
-    /** @type {function} */
-    const value = data[prop.datakey];
+    /** @type {RenderData} */
+    const dataWithEvent = Object.create(data);
+    dataWithEvent.$event = 'placeholder';
+    const dataKeys = objectKeys(dataWithEvent);
+    for (const k of dataKeys) {
+      if (typeof dataWithEvent[k] === 'function') {
+        dataWithEvent[k] = dataWithEvent[k].bind(data);
+      }
+    }
+    const value = makeExpressionFunction(prop.datakey, dataKeys);
     if (typeof value === 'function') {
       const onattr = `on${prop.event}`;
       if (onattr in this.node) {
-        /** @type {any} */ (this.node)[onattr] = value.bind(data);
+        /** @param {Event} event */
+        const handler = function(event) {
+          dataWithEvent.$event = event;
+          value.call(null, dataWithEvent);
+        };
+        /** @type {any} */ (this.node)[onattr] = handler;
       } else if (!this.nodeEvents.hasOwnProperty(prop.event)) {
         /** @param {CustomEvent} event */
         this.nodeEvents[prop.event] = (event) => {
-          value.call(data, event.detail);
+          dataWithEvent.$event = event.detail;
+          value.call(null, dataWithEvent);
         };
         this.node.addEventListener(prop.event, this.nodeEvents[prop.event]);
       }
     }
+  }
+}
+
+/** @type {(expr: string, keys: string[]) => Function} */
+function makeExpressionFunction(expr, keys) {
+  const args = `{window,console,${keys.map(reservedWordReplacer).join(',')}}`;
+  expr = expr.replace(/(?:^|[^.])\b(\w+)\b/g, (whole, word) => {
+    return whole.replace(word, reservedWordReplacer(word))
+  });
+  const body = `return ${expr}`;
+  try {
+    return new Function(args, body);
+  } catch (err) {
+    err.message += ` in function(${args}) { ${body} }`;
+    err.name = 'ExpressionError';
+    throw err;
   }
 }
 
@@ -619,20 +649,14 @@ function renderExpression(expr, data) {
   if (typeof data !== 'object') {
     return undefined;
   }
-  const keys = objectKeys(data);
-  const args = `{window,console,${keys.map(reservedWordReplacer).join(',')}}`;
-  expr = expr.replace(/(?:^|[^.])\b(\w+)\b/g, (whole, word) => {
-    return whole.replace(word, reservedWordReplacer(word))
-  });
-  const body = `return ${expr}`;
+  const fn = makeExpressionFunction(expr, objectKeys(data));
   try {
-    const fn = new Function(args, body);
     return fn.call(null, data);
   } catch (err) {
     if (err instanceof ReferenceError) {
       return undefined;
     }
-    err.message += ` in function(${args}) { ${body} }`
+    err.message += ` in ${fn}`;
     err.name = 'ExpressionError';
     throw err;
   }
