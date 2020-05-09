@@ -1,0 +1,39 @@
+---
+layout: null
+sitemap:
+  exclude: true
+---
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% assign all = site.posts|concat:site.pages %}
+  {% for page in all %}
+    {% if page.sitemap.exclude == true or page.name == "feed.xml" or page.dir == "/admin/" %}
+      {% continue %}
+    {% endif %}
+
+    <url>
+      <loc>{{ site.url }}{{ page.url | remove: "index.html" }}</loc>
+
+      {% assign date = page.date | default: site.time | date_to_xmlschema %}
+      {% if page.updates %}
+        {% assign last_update = page.updates|sort:"date"|last %}
+        {% if last_update %}
+          {% assign date = last_update.date | date: "%Y-%m-%d" %}
+        {% endif %}
+      {% endif %}
+      {% if page.sitemap.lastmod %}
+        {% assign date = page.sitemap.lastmod | date: "%Y-%m-%d" %}
+      {% endif %}
+      <lastmod>{{ date }}</lastmod>
+
+      <changefreq>{{ page.sitemap.changefreq | default: "monthly" }}</changefreq>
+
+      {% assign priority_default = 0.3 %}
+      {% if page.layout == "post" %}
+        {% assign priority_default = 0.5 %}
+      {% endif %}
+      <priority>{{ page.sitemap.priority | default: priority_default }}</priority>
+    </url>
+  {% endfor %}
+</urlset>
