@@ -26,10 +26,18 @@
 {% endif %}
 
 {%- comment -%} Meta Description {%- endcomment -%}
-{% if page.excerpt %}
+{% if page.url == "/" %}
+  {% assign meta_desc = "Home" %}
+{% elsif page.excerpt %}
   {% assign meta_desc = page.excerpt|strip_html|strip %}
+{% elsif layout.description %}
+  {% assign meta_desc = layout.description %}
 {% elsif page.subtitle %}
   {% assign meta_desc = page.subtitle %}
+{% elsif section %}
+  {% assign meta_desc = section %}
+{% else %}
+  {{ "every page must have a description" | sort: "cause an error" }}
 {% endif %}
 
 {%- comment -%} Meta Article {%- endcomment -%}
@@ -82,11 +90,10 @@
   <title>{{ meta_title }}</title>
   <meta name="og:title" property="og:title" content="{{ meta_title }}">
   <meta name="twitter:title" content="{{ meta_title }}">
-  {% if meta_desc %}
-    <meta name="description" content="{{ meta_desc }}">
-    <meta name="twitter:description" content="{{ meta_desc }}">
-    <meta name="og:description" property="og:description" content="{{ meta_desc }}">
-  {% endif %}
+
+  <meta name="description" content="{{ meta_desc }}">
+  <meta name="twitter:description" content="{{ meta_desc }}">
+  <meta name="og:description" property="og:description" content="{{ meta_desc }}">
 
   <meta name="og:image" property="og:image" content="{{ meta_image }}">
   <meta name="twitter:card" content="{{ twitter_card }}">
