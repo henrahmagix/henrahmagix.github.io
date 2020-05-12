@@ -1,1 +1,2 @@
 Sitemap: https://henryblyth.com/sitemap.xml
+Disallow: /admin/
