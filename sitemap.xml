@@ -8,7 +8,7 @@ sitemap:
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {% assign all = site.posts|concat:site.pages %}
   {% for page in all %}
-    {% if page.sitemap.exclude == true or page.name == "feed.xml" or page.dir == "/admin/" %}
+    {% if page.sitemap.exclude == true or page.path == "feed.xml" or page.dir == "/admin/" %}
       {% continue %}
     {% endif %}
 
