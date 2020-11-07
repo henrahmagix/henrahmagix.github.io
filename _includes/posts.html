@@ -9,7 +9,11 @@
         {% if post.subtitle %}
           <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
         {% endif %}
-        {{ post.excerpt }}
+        <p>
+          {% assign excerpt = post.excerpt|truncatewords:20,"" %}
+          {{ excerpt|strip_html }}
+          {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
+        </p>
       </li>
     {% endfor %}
   </ul>
