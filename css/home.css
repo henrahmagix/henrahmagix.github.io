@@ -33,19 +33,6 @@ ul.side-by-side {
   border-width: 8px;
 }
 
-@media screen and (min-width: 600px) {
-  .logo-and-nav {
-    display: block;
-  }
-  .logo-flipper {
-    margin: 1em auto;
-  }
-  nav {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 .p-name-wrapper,
 .logo-flipper,
 .logo-flipper img.backface,

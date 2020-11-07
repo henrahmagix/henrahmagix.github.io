@@ -216,7 +216,7 @@ nav ul li {
 /* Structure */
 
 .content-max-width {
-  max-width: 1500px;
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -277,29 +277,6 @@ nav ul li {
   flex-basis: 175px;
 }
 
-@media screen and (min-width: 600px) {
-  .logo-and-nav,
-  .page-body {
-    padding-left: 2em;
-    padding-right: 2em;
-  }
-
-  .logo-and-nav {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  .logo {
-    margin: 0;
-    margin-right: -100px;
-  }
-  nav {
-    flex-grow: 1;
-    margin-left: 100px;
-    margin-right: 100px;
-  }
-}
-
 /* Logo interaction */
 
 .logo-flipper img {
@@ -345,10 +322,6 @@ img.backface {
 }
 
 /* Footer */
-
-.full-height {
-  min-height: calc(100vh - 7.5em);
-}
 
 .page-footer {
   margin: 0;
@@ -419,6 +392,41 @@ img.backface {
 .page-post .entry-content img {
   box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   border-radius: 10px;
+}
+
+@media screen and (min-width: 800px) {
+  .header-and-main {
+    display: flex;
+  }
+
+  header,
+  .page-body {
+    flex-grow: 1;
+  }
+
+  header {
+    flex-shrink: 0;
+    align-self: flex-start;
+    max-height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    overflow: auto;
+  }
+
+  nav ul li {
+    display: list-item;
+  }
+
+  .strikethrough-wrapper::before,
+  .strikethrough-wrapper::after {
+    margin: 0 0.625em;
+  }
+
+  .page-body {
+    padding-left: 0;
+    padding-right: 2em;
+  }
 }
 
 /* Typography */
