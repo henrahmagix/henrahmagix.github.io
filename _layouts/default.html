@@ -140,10 +140,6 @@
             {% endif %}
           {% endfor %}
         </ul>
-        <p id="header-try">
-          💡Try! <label>iPadOS cursor <input id="ipad-cursor-input" type="checkbox"></label>
-          or visit <a href="{{site.data.urls.playground}}">the Playground!</a>
-        </p>
       </nav>
     </div>
 
@@ -224,10 +220,6 @@
       henry at henryblyth dot com
     </address>
   </footer>
-
-  <script>
-    {% include ipad-cursor-trigger.js checkbox_id="ipad-cursor-input" %}
-  </script>
 
   {% if page.layout == 'post' %}
     {% include post-admin.html %}

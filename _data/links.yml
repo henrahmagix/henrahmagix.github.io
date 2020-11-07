@@ -37,3 +37,7 @@ pianosinoxford.uk:
   ext_url: https://pianosinoxford.uk
   hide_footer: true
   relme: true
+playgroud:
+  title: Playground
+  url: /playground
+  relme: false

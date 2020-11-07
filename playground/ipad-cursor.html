@@ -3,9 +3,14 @@ layout: playground
 title: iPadOS cursor testbed
 ---
 
-<p><strong>Turn on the iPadOS Cursor at the top, and move your cursor around this page.</strong></p>
+<p><strong>Turn on the iPadOS Cursor below, and move your cursor around this page.</strong></p>
 
 <p><em>Note: it doesn't really work if you're viewing this on a device without a regular cursor</em> 🙃</p>
+
+
+<p>
+  <label>iPadOS cursor on/off: <input id="ipad-cursor-input" type="checkbox"></label>
+</p>
 
 <h3>Features</h3>
 <ul>
@@ -74,7 +79,5 @@ title: iPadOS cursor testbed
 </style>
 
 <script>
-  let tryer = document.getElementById('header-try');
-  tryer && (tryer = tryer.querySelector('label'));
-  tryer && tryer.classList.add('flash');
+  {% include ipad-cursor-trigger.js checkbox_id="ipad-cursor-input" %}
 </script>
