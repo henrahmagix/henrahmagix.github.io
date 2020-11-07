@@ -6,10 +6,11 @@
       <li class="{%if include.minimal%}minimal{%endif%}">
         {% include published-date.html context=post %}
         <h2><a href="{{post.url}}">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</a></h2>
-        {% if post.subtitle %}
-          <h3>{{post.subtitle|markdownify|remove:'<p>'|remove:'</p>'}}</h3>
-        {% endif %}
         <p>
+          {% if post.subtitle %}
+            {{post.subtitle|markdownify|strip_html}}
+            <br>
+          {% endif %}
           {% assign excerpt = post.excerpt|truncatewords:20,"" %}
           {{ excerpt|strip_html }}
           {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
