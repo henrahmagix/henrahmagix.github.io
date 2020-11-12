@@ -1,3 +1,7 @@
+---
+back_to: home
+---
+
 {% if page.section %}
   {% capture section %}{{page.section|capitalize}}{% endcapture %}
 {% elsif layout.section %}
@@ -171,12 +175,13 @@
     {% elsif layout.back_to %}
       {% assign back_to = layout.back_to %}
     {% endif %}
-    {% assign back_to_url = site.data.urls[back_to] %}
-    {% assign back_to_title = back_to|capitalize %}
+    {% if back_to.url == nil %}
+      {% assign back_to = site.data.links[back_to] %}
+    {% endif %}
 
-    {% if back_to %}
+    {% if back_to and back_to.url != page.url %}
       <div class="page-top">
-        {% include back-link.html url=back_to_url title=back_to_title %}
+        {% include back-link.html url=back_to.url title=back_to.title %}
       </div>
     {% endif %}
 

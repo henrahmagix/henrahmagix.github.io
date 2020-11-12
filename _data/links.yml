@@ -1,8 +1,11 @@
+home:
+  title: Home
+  icon: fas fa-home
+  url: /
 blog:
   title: Blog
   icon: fas fa-pencil-alt
   url: /blog
-  relme: false
 code:
   title: Code
   icon: fab fa-github
@@ -37,7 +40,6 @@ pianosinoxford.uk:
   ext_url: https://pianosinoxford.uk
   hide_footer: true
   relme: true
-playgroud:
+playground:
   title: Playground
   url: /playground
-  relme: false
