@@ -1,8 +1,3 @@
-{% if include.pre %}
-  <span class="pre-anchor">{{ include.pre }}</span>
-{% endif %}
-
-{% assign title_element = "span" %}
 {% if include.title_element %}
   {% assign title_element = include.title_element %}
 {% endif %}
@@ -13,13 +8,17 @@
   {% capture icon %}<i class="icon {{ include.icon }}" aria-hidden="true"></i>{% endcapture %}
 {% endif %}
 
-<a class="{{ include.anchor_class }}" {% if include.relme %}rel="me"{% endif %} href="{{ include.url }}" {% if include.title and include.hide_title == true %}aria-label="{{include.title}}" title="{{include.title}}"{% endif %}>
+<a class="{{ include.anchor_class }}" href="{{ include.url }}"
+  {% if include.relme %}rel="me"{% endif %}
+  {% if include.title and include.hide_title == true %}
+    aria-label="{{include.title}}" title="{{include.title}}"
+  {% endif %}
+>
   {% if include.hide_title == true %}
     {{ icon }}
-  {% else %}
+  {% elsif title_element %}
     <{{title_element}}>{{ icon }}{{ include.title }}</{{title_element}}>
+  {% else %}
+    {{ icon }}{{ include.title }}
   {% endif %}
 </a>
-{% if include.post %}
-  <span class="post-anchor">{{ include.post }}</span>
-{% endif %}
