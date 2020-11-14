@@ -192,7 +192,7 @@ nav ul li {
   position: relative;
   flex-shrink: 0;
   border-radius: 50%;
-  border: 2px solid #23242C;
+  border: 2px solid #fcfcfc;
   box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   overflow: hidden;
 }
@@ -204,8 +204,8 @@ nav ul li {
 }
 
 @media (prefers-color-scheme: dark) {
-  .logo-flipper {
-    border-color: #dedede !important;
+  .logo {
+    border-color: #fcfcfc;
   }
 }
 
@@ -448,6 +448,18 @@ h6 {
   margin-bottom: 0.625em;
 }
 
+@media (prefers-color-scheme: dark) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong {
+    color: #fcfcfc;
+  }
+}
+
 .entry-content h1,
 .entry-content h2,
 .entry-content h3,
@@ -554,7 +566,7 @@ blockquote.twitter-tweet::before {
 
 @media (prefers-color-scheme: dark) {
   blockquote:before {
-    background-color: #dedede;
+    background-color: #fcfcfc;
   }
 }
 
