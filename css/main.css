@@ -191,13 +191,15 @@ nav ul li {
   width: 100px;
   position: relative;
   flex-shrink: 0;
+  background-color: #fcfcfc;
   border-radius: 50%;
   border: 2px solid #fcfcfc;
   box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   overflow: hidden;
 }
 
-.logo img {
+.logo img,
+.logo svg {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -205,7 +207,10 @@ nav ul li {
 
 @media (prefers-color-scheme: dark) {
   .logo {
-    border-color: #fcfcfc;
+    background-color: #23242C;
+  }
+  .logo svg {
+    fill: #fcfcfc;
   }
 }
 
@@ -279,7 +284,8 @@ nav ul li {
 
 /* Logo interaction */
 
-.logo-flipper img {
+.logo-flipper img,
+.logo-flipper svg {
   position: absolute;
   top: 0;
   left: 0;
