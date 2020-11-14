@@ -137,7 +137,7 @@ back_to: home
         <ul class="list-reset">
           {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}
-            {% if link.url %}
+            {% if link.url and link.hide_nav != true %}
               <li>
               {% include link.html title=link.title url=link.url relme=link.relme %}
               </li>
