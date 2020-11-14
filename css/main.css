@@ -299,7 +299,7 @@ img.backface {
 
 .logo-flipper:hover img.backface,
 .logo-flipper:focus img.backface {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 /* Page title/subtitle */
