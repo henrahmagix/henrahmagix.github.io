@@ -23,7 +23,7 @@ From <https://support.apple.com/en-us/HT211008>:
 
 I think it looks kinda cool! Honestly though, I have no idea if it will be useful 💁‍♂️
 
-I'd rather not try to answer such lofty questions as were posed above 😅 So, let's *have some useless fun* by trying to emulate the iPadOS Cursor in the browser! You can turn it on at the top of the page** and at the bottom of this post is an example gif recorded on the [iPadOS cursor testbed page](/playground/ipad-cursor).
+I'd rather not try to answer such lofty questions as were posed above 😅 So, let's *have some useless fun* by trying to emulate the iPadOS Cursor in the browser! You can turn it on in [my Playground](/playground/ipad-cursor "iPadOS cursor testbed in my playground")** and at the bottom of this post is an example gif recorded on the [iPadOS cursor testbed page](/playground/ipad-cursor).
 
 Please do have a read of the code if it interests you – I certainly haven't taken care to make it _nice_... yet! I'll write up an explanation of it soon, and then also go through a refactor and blog that too.
 
