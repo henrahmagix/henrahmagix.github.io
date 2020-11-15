@@ -222,15 +222,14 @@ nav ul li {
 
 .content-max-width {
   max-width: 1200px;
-  margin: auto;
 }
 
 .page-header {
-  padding-top: 0.5em;
+  padding-top: 1em;
 }
 
 .logo-and-nav,
-.page-body {
+main {
   padding: 0 1em;
 }
 
@@ -238,13 +237,13 @@ nav ul li {
   margin-bottom: 1.25em;
 }
 
-.page-body {
+main {
   margin-top: 2em;
   padding: 0 1em;
   padding-bottom: 2em;
 }
 
-.page-body hr {
+main hr {
   margin: 2em auto;
   border: none;
   border-bottom: 2px dashed;
@@ -304,7 +303,7 @@ img.backface {
 
 /* Page title/subtitle */
 
-.page-header .p-name-wrapper > * {
+.p-name-wrapper > * {
   display: block;
   font-size: 2em;
   min-width: 2.5em;
@@ -329,27 +328,27 @@ img.backface {
 
 /* Footer */
 
-.page-footer {
+footer {
   margin: 0;
   padding-bottom: 2em;
   text-align: center;
   height: 7.5em;
 }
 
-.page-footer .contact {
+footer .contact {
   margin-bottom: 5px
 }
 
-.page-footer .contact .first {
+footer .contact .first {
   margin-right: 5px;
   vertical-align: middle
 }
 
-.page-footer ul {
+footer ul {
   margin: 1em 0;
 }
 
-.page-footer ul li {
+footer ul li {
   display: inline-block;
   vertical-align: middle;
   margin: 0 5px;
@@ -397,17 +396,13 @@ img.backface {
 }
 
 @media screen and (min-width: 800px) {
-  .header-and-main {
+  .flex-wrapper {
     display: flex;
-  }
-
-  header,
-  .page-body {
-    flex-grow: 1;
   }
 
   header {
     flex-shrink: 0;
+    flex-grow: 0;
     align-self: flex-start;
     max-height: 100vh;
     position: -webkit-sticky;
@@ -416,18 +411,19 @@ img.backface {
     overflow: auto;
   }
 
+  .page-wrapper {
+    flex-grow: 1;
+  }
+
   nav ul li {
     display: list-item;
   }
 
-  .strikethrough-wrapper::before,
-  .strikethrough-wrapper::after {
-    margin: 0 0.625em;
-  }
-
-  .page-body {
+  main,
+  footer,
+  .p-name-wrapper {
     padding-left: 0;
-    padding-right: 2em;
+    padding-right: 1em;
   }
 }
 

@@ -125,10 +125,10 @@ back_to: home
 
   <a href="#content" id="skip-to-content">Skip to main content</a>
 
-  <div class="header-and-main">
+  <div class="flex-wrapper">
   <header class="page-header h-card">
     <div class="logo-and-nav">
-      <a class="logo logo-flipper" rel="me" href="{{ site.url }}" title="Home">
+      <a class="logo logo-flipper" rel="me" href="/" title="Home">
         <svg>
           <use xlink:href="/images/logo.svg#signature"></use>
         </svg>
@@ -148,10 +148,12 @@ back_to: home
         </ul>
       </nav>
     </div>
+  </header>
 
+  {% capture header_title %}
     <div class="p-name-wrapper strikethrough-wrapper">
       {% if page.url == "/" %}
-        <h1>Henry &nbsp; James &nbsp; Blyth</h1>
+        <h1>Henry James Blyth</h1>
       {% elsif section and page.section_title == true %}
         <h1 class="entry-title p-name">{{section}}</h1>
       {% else %}
@@ -164,9 +166,13 @@ back_to: home
         {% endif %}
       {% endif %}
     </div>
-  </header>
+  {% endcapture %}
 
-  <main class="page-body content-max-width">
+  <div class="page-wrapper">
+
+  {{header_title}}
+
+  <main class="content-max-width">
 
     <img hidden class="u-photo" src="/images/logo-light.png" alt="Henry James Blyth signature">
     <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
@@ -206,9 +212,8 @@ back_to: home
     {% endif %}
 
   </main>
-  </div>
 
-  <footer class="page-footer">
+  <footer>
     <div class="strikethrough-wrapper">
       <ul class="list-reset">
         {% for link_hash in site.data.links %}
@@ -227,6 +232,8 @@ back_to: home
       henry at henryblyth dot com
     </address>
   </footer>
+  </div>
+  </div>
 
   {% if page.layout == 'post' %}
     {% include post-admin.html %}
