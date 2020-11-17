@@ -683,54 +683,111 @@ details summary {
   margin-bottom: 0;
 }
 
-.post-image,
-.random-pretty-post-image {
+.post-image {
+  border: 2px solid #23242C;
   height: 10em;
   width: 100%;
 }
+@media (prefers-color-scheme: dark) {
+  .post-image {
+    border-color: #DEDEDE;
+  }
+}
 
-.post-image {
+.image-from-url {
   background-size: cover;
   background-position: left center;
   transition: filter 400ms ease-out;
 }
-.post-image:hover {
+.image-from-url:hover {
   filter: saturate(0) brightness(1.6);
 }
 
-.random-pretty-post-image {
-  background-image: linear-gradient(141deg, #ffd0d2 50%, #d0fffd 50%);
+/*
+1 #ffd0d2
+2 #fffdd0
+3 #d0fffd
+4 #d0d2ff
+*/
+
+.random-gradient {
   background-size: 100%;
   background-position-x: 50%;
   transition: filter 400ms ease-out;
 }
-.random-pretty-post-image:hover {
+.random-gradient:hover {
   filter: saturate(0);
 }
 
+.random-gradient-0 {
+  background-image: linear-gradient(141deg, #ffd0d2 50%, #fffdd0 50%);
+}
+.random-gradient-1 {
+  background-image: linear-gradient(141deg, #ffd0d2 50%, #d0fffd 50%);
+}
+.random-gradient-2 {
+  background-image: linear-gradient(141deg, #fffdd0 50%, #ffd0d2 50%);
+}
+.random-gradient-3 {
+  background-image: linear-gradient(141deg, #fffdd0 50%, #d0d2ff 50%);
+}
+.random-gradient-4 {
+  background-image: linear-gradient(141deg, #d0fffd 50%, #ffd0d2 50%);
+}
+.random-gradient-5 {
+  background-image: linear-gradient(141deg, #d0fffd 50%, #d0d2ff 50%);
+}
+.random-gradient-6 {
+  background-image: linear-gradient(141deg, #d0d2ff 50%, #fffdd0 50%);
+}
+.random-gradient-7 {
+  background-image: linear-gradient(141deg, #d0d2ff 50%, #d0fffd 50%);
+}
+
 @media (prefers-color-scheme: dark) {
-  .random-pretty-post-image {
-    background-image: linear-gradient(141deg, #962d48 50%, #0b8e88 50%);
+  .random-gradient-0 {
+    background-image: linear-gradient(141deg, #962d48 50%, #e08f0b 50%);
   }
-  .random-pretty-post-image:hover {
+  .random-gradient-1 {
+    background-image: linear-gradient(141deg, #3b9e02 50%, #0579a7 50%);
+  }
+  .random-gradient-2 {
+    background-image: linear-gradient(141deg, #e08f0b 50%, #962d48 50%);
+  }
+  .random-gradient-3 {
+    background-image: linear-gradient(141deg, #e08f0b 50%, #4147b4 50%);
+  }
+  .random-gradient-4 {
+    background-image: linear-gradient(141deg, #0579a7 50%, #3b9e02 50%);
+  }
+  .random-gradient-5 {
+    background-image: linear-gradient(141deg, #0579a7 50%, #4147b4 50%);
+  }
+  .random-gradient-6 {
+    background-image: linear-gradient(141deg, #4147b4 50%, #e08f0b 50%);
+  }
+  .random-gradient-7 {
+    background-image: linear-gradient(141deg, #4147b4 50%, #0579a7 50%);
+  }
+  .random-gradient:hover {
     filter: saturate(0) brightness(1.6);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .post-image {
+  .image-from-url {
     background-size: 100%;
     background-repeat: repeat-x;
     transition-property: filter, background-size;
   }
-  .post-image:hover {
+  .image-from-url:hover {
     background-size: 50%;
   }
 
-  .random-pretty-post-image {
+  .random-gradient {
     transition-property: filter, background-size, background-position;
   }
-  .random-pretty-post-image:hover {
+  .random-gradient:hover {
     background-size: 200%;
     background-position-x: 150%;
   }
