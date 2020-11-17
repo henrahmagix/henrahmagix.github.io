@@ -458,6 +458,8 @@ h6 {
   h5,
   h6,
   strong {
+    /* Interestingly, for blog title links (<a> wrapping heading) this overrides
+    the <a> colour, which is quite nice for dark mode 🤗 */
     color: #fcfcfc;
   }
 }
@@ -681,12 +683,69 @@ details summary {
   margin-bottom: 0;
 }
 
-.posts pre {
-  white-space: pre-wrap;
+.post-image,
+.random-pretty-post-image {
+  height: 10em;
+  width: 100%;
+}
+
+.post-image {
+  background-size: cover;
+  background-position: left center;
+  transition: filter 400ms ease-out;
+}
+.post-image:hover {
+  filter: saturate(0) brightness(1.6);
+}
+
+.random-pretty-post-image {
+  background-image: linear-gradient(141deg, #ffd0d2 50%, #d0fffd 50%);
+  background-size: 100%;
+  background-position-x: 50%;
+  transition: filter 400ms ease-out;
+}
+.random-pretty-post-image:hover {
+  filter: saturate(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .random-pretty-post-image {
+    background-image: linear-gradient(141deg, #962d48 50%, #0b8e88 50%);
+  }
+  .random-pretty-post-image:hover {
+    filter: saturate(0) brightness(1.6);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .post-image {
+    background-size: 100%;
+    background-repeat: repeat-x;
+    transition-property: filter, background-size;
+  }
+  .post-image:hover {
+    background-size: 50%;
+  }
+
+  .random-pretty-post-image {
+    transition-property: filter, background-size, background-position;
+  }
+  .random-pretty-post-image:hover {
+    background-size: 200%;
+    background-position-x: 150%;
+  }
+}
+
+.posts.side-by-side li {
+  max-width: 600px;
 }
 
 .minimal h3,
 .minimal p:not(.published),
 .minimal hr {
   display: none;
+}
+
+.posts figure {
+  margin: 0;
 }

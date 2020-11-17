@@ -5,16 +5,34 @@
     {% for post in posts %}
       <li class="{%if include.minimal%}minimal{%endif%}">
         {% include published-date.html context=post %}
-        <h2><a href="{{post.url}}">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</a></h2>
-        <p>
-          {% if post.subtitle %}
-            {{post.subtitle|markdownify|strip_html}}
-            <br>
+
+        <a class="post-title" href="{{post.url}}">
+          {% capture title_html %}
+            <h2>{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</h2>
+          {% endcapture %}
+
+          {% if include.minimal %}
+            {{title_html}}
+          {% else %}
+            <figure>
+              {% if post.image %}
+                <div class="post-image" style="background-image: url({{post.image}});"></div>
+              {% else %}
+                <div class="random-pretty-post-image"></div>
+              {% endif %}
+              <figcaption>{{title_html}}</figcaption>
+            </figure>
           {% endif %}
-          {% assign excerpt = post.excerpt|truncatewords:20,"" %}
-          {{ excerpt|strip_html }}
-          {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
-        </p>
+        </a>
+
+        <div class="excerpt">
+          {% if post.subtitle %}{{post.subtitle|markdownify}}{% endif %}
+          <p>
+            {% assign excerpt = post.excerpt|truncatewords:20,"" %}
+            {{ excerpt|strip_html }}
+            {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
+          </p>
+        </div>
       </li>
     {% endfor %}
   </ul>
