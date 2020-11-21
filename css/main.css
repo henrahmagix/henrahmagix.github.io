@@ -821,3 +821,12 @@ details summary {
 .posts figure {
   margin: 0;
 }
+
+.secret {
+  opacity: 0;
+  transition: opacity 240ms ease-in-out;
+}
+.secret:hover,
+.secret:focus {
+  opacity: 1;
+}
