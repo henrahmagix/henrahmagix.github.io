@@ -649,12 +649,16 @@ details summary {
 .flash::after {
   content: '';
   position: absolute;
+  pointer-events: none;
   top: -2px;
   left: -4px;
   bottom: -2px;
   right: -4px;
   border-radius: 5px;
-  animation: flash 1s ease-in-out alternate 2;
+}
+.flash::after,
+:target {
+  animation: flash 640ms ease-in-out alternate 2;
 }
 
 @keyframes flash {
@@ -662,7 +666,18 @@ details summary {
     background-color: transparent;
   }
   to {
-    background-color: #FF80E8;
+    background-color: #A80084;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @keyframes flash {
+    from {
+      background-color: transparent;
+    }
+    to {
+      background-color: #FF80E8;
+    }
   }
 }
 
