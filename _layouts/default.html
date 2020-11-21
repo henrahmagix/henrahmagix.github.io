@@ -23,7 +23,8 @@ back_to: home
 {%- comment -%} Meta Image {%- endcomment -%}
 {% if page.image %}
   {% capture meta_image %}{{ site.url }}{{ page.image }}{% endcapture %}
-  {% assign twitter_card = "summary_large_image" %}
+  {% assign twitter_card = "summary" %}
+  {%- comment -%} summary_large_image doesn't seem to be working for me 😢 {%- endcomment -%}
 {% else %}
   {% capture meta_image %}{{ site.url }}/images/me.jpg{% endcapture %}
   {% assign twitter_card = "summary" %}
