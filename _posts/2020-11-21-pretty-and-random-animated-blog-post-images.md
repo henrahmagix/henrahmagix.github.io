@@ -7,6 +7,8 @@ categories:
 title: Pretty and random animated blog post images
 subtitle: ooo pretty... what do you think?
 image: /images/pretty-and-random-animated-blog-post-images.jpg
+syndications:
+  twitter: 'https://twitter.com/henrahmagix/status/1330283284752977923?s=20'
 pre_content:
   - Skip to the bottom to see [the examples](#what-do-you-think)! But check your "Reduced Motion" system settings first!
 ---
