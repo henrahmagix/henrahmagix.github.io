@@ -390,7 +390,7 @@ footer ul li {
   margin-left: 0.625em
 }
 
-.page-post .entry-content img {
+.page-post .entry-content img:not(.image-reset) {
   box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   border-radius: 10px;
 }
