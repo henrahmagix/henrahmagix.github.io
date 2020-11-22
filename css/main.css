@@ -675,7 +675,7 @@ details summary {
   border-radius: 5px;
 }
 .flash::after,
-:target {
+#content :target {
   animation: flash 640ms ease-in-out alternate 2;
 }
 
