@@ -208,11 +208,11 @@ back_to: home
       {{ content }}
     </article>
 
+    {% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}
+
     {% if page.url != "/" and page.hide_share != true %}
       {% include share.html %}
     {% endif %}
-
-    {% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}
 
   </main>
 
