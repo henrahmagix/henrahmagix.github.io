@@ -15,22 +15,6 @@ updates:
 
 This website is a playground for me, so I decided to rewrite my [Blog Admin code][] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
 
-<details markdown="1">
-<summary>Table of contents</summary>
-In this article, we will:
-
-1. [Design our own component HTML file](#component-html-file-design)
-2. [Create a Web Component that imports the component HTML file](#how-do-we-import-a-html-file)
-3. [Add the template, style, and script from the component HTML file into the `ShadowRoot` of the Web Component](#add-the-css-and-javascript-from-the-component-file)
-4. [Ensure the script executes](#ensure-the-script-executes)
-5. [Export a `View` class from the script](#export-a-view-class-from-the-script)
-6. [Turn the script into an importable module](#turn-the-script-into-an-importable-module)
-7. [Import and initialise the `View` class with the `ShadowRoot`](#import-and-initialise-the-view-class-with-the-shadowroot)
-8. [Change the template dynamically](#change-the-template-dynamically-in-the-view-class)
-9. [Updates](#updates)
-10. [Notes](#notes)
-</details>
-
 ### That sounds like the HTML Imports spec
 
 ([HTML Imports explained beautifully on html5rocks.com](https://www.html5rocks.com/en/tutorials/webcomponents/imports/))
@@ -58,12 +42,16 @@ However, I wanted to keep my website free of a frontend build step, so I could w
 
 If you don't mind a build step, that's great! You can probably get a lot more functionality out of something from ["The Simplest Ways to Handle HTML Includes" on css-tricks.com][css-tricks.com ways to include HTML] than this weird little mismash of code that you're about to see here 🙃
 
-### "_...because writing something custom will be painful, no doubt_ 😅"
+<br>
+
+>_...because writing something custom will be painful, no doubt_ 😅
 
 We're here for fun, so let's do it anyway!
 
 What do we want? _HTML and JavaScript defined in the same file!_
 ~~When~~ Where do we want it? _In the same file! We just said!_
+
+---
 
 ### Component HTML file design
 So something like this then?
@@ -173,9 +161,8 @@ shadowRoot.appendChild(newScript);
 
 ![Browser alert saying "It works!"](/images/lol-web-components-test-with-script.png)
 
-<p style="text-align:center; font-size: 3em;">🎉 🎉 🎉</p>
-
-### That's it!
+<p class="large-text center-text">🎉 🎉 🎉</p>
+<p class="large-text center-text">That's it!</p>
 
 All done now. Nothing else to do. Bye-bye, see you later 👋
 

@@ -435,8 +435,17 @@ h3,
 h4,
 h5,
 h6,
-.page-top {
+.page-top,
+.large-text {
   font-family: "PT Sans", "HelveticaNeue", sans-serif;
+}
+
+.large-text {
+  font-size: 3em;
+}
+
+.center-text {
+  text-align: center;
 }
 
 h1,

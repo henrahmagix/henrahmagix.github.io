@@ -203,9 +203,7 @@ back_to: home
       <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
       <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
 
-      <article class="entry-content e-content">
-        {{ content }}
-      </article>
+      {{ content }}
     </article>
 
     {% if page.url != "/" and page.hide_share != true %}
