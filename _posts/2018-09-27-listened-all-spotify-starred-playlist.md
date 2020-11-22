@@ -24,4 +24,4 @@ I had an amazing time revisiting songs I hadn't listened to in a long time, and 
 
 You can find the <a rel="me" href="https://open.spotify.com/user/henrahmagix/playlist/4pWbm4k8nAXldVCOI7urjx?si=Tpga5L5JR4GfkKlT2qwZMA">whole playlist here</a>, if you'd like to take a trip into my music head-space 🎶
 
-<iframe src="https://open.spotify.com/embed/user/henrahmagix/playlist/4pWbm4k8nAXldVCOI7urjx" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<iframe src="https://open.spotify.com/embed/playlist/4pWbm4k8nAXldVCOI7urjx" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
