@@ -13,9 +13,13 @@ back_to: blog
   <hr>
 {% endif %}
 
-<h2>Table of contents</h2>
-{% include toc.html html=content skipNoIDs=true %}
-<hr>
+{% capture built_toc %}{% include toc.html html=content skipNoIDs=true %}{% endcapture %}
+{% assign toc_without_newlines = built_toc|strip_newlines %}
+{% if toc_without_newlines != "" %}
+  <h2>Table of contents</h2>
+  {{built_toc}}
+  <hr>
+{% endif %}
 
 <article class="entry-content e-content">
   {% include anchor_headings.html html=content anchorBody="#" anchorClass="heading-anchor" %}
