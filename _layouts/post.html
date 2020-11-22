@@ -10,4 +10,4 @@ back_to: blog
   <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
 {% endfor %}
 
-{% include anchor_headings.html html=content anchorBody="#" %}
+{% include anchor_headings.html html=content anchorBody="#" anchorClass="heading-anchor" %}
