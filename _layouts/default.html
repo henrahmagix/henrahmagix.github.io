@@ -124,7 +124,7 @@ back_to: home
 
 <body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
 
-  <a href="#content" id="skip-to-content">Skip to main content</a>
+  <a href="#content" class="accessible-skip">Skip to main content</a>
 
   <div class="flex-wrapper">
   <header class="page-header h-card">
@@ -136,7 +136,7 @@ back_to: home
         <img class="backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
       </a>
 
-      <nav>
+      <nav id="navigation">
         <ul class="list-reset">
           {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}
@@ -190,8 +190,10 @@ back_to: home
 
     {% if back_to and back_to.url != page.url %}
       <div class="page-top">
-        {% include back-link.html url=back_to.url title=back_to.title %}
+        {% include back-link.html url=back_to.url title=back_to.title id="top" %}
       </div>
+    {% else %}
+      <div id="top"></div>
     {% endif %}
 
     <article id="content" class="hentry h-entry">
@@ -209,6 +211,8 @@ back_to: home
     {% if page.url != "/" and page.hide_share != true %}
       {% include share.html %}
     {% endif %}
+
+    {% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}
 
   </main>
 

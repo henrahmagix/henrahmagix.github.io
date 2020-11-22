@@ -16,12 +16,12 @@ a[href^="#footnote-"]::before {
   content: 'footnote'
 }
 
-#skip-to-content {
+.accessible-skip {
   padding: 6px;
-  position: absolute;
+  position: fixed;
   top: -40px;
   left: 0px;
-  color: white;
+  color: white !important;
   border-right: 1px solid white;
   border-bottom: 1px solid white;
   border-bottom-right-radius: 8px;
@@ -31,13 +31,13 @@ a[href^="#footnote-"]::before {
   z-index: 100;
 }
 
-#skip-to-content:focus {
-  position: absolute;
-  left: 0px;
+.accessible-skip:focus {
   top: 0px;
   outline-color: transparent;
-  -webkit-transition: top .1s ease-in;
-  transition: top .1s ease-in;
+  -webkit-transition-duration: .1s;
+  -webkit-transition-timing-function: ease-in;
+  transition-duration: .1s;
+  transition-timing-function: ease-in;
 }
 
 .hidden {
