@@ -1,6 +1,4 @@
-{% if include.title_element %}
-  {% assign title_element = include.title_element %}
-{% endif %}
+{% assign title_element = include.title_element or nil %}
 
 {%- comment -%} icon and title must be next to each other without whitespace {%- endcomment -%}
 
