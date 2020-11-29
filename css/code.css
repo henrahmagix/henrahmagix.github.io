@@ -2,24 +2,24 @@
 pre.highlight table td { padding: 5px; }
 pre.highlight table pre { margin: 0; }
 pre.highlight .cm {
-  color: #999988;
+  color: #555549;
   font-style: italic;
 }
 pre.highlight .cp {
-  color: #999999;
+  color: #55555A;
   font-weight: bold;
 }
 pre.highlight .c1 {
-  color: #999988;
+  color: #555549;
   font-style: italic;
 }
 pre.highlight .cs {
-  color: #999999;
+  color: #55555A;
   font-weight: bold;
   font-style: italic;
 }
 pre.highlight .c, pre.highlight .ch, pre.highlight .cd, pre.highlight .cpf {
-  color: #999988;
+  color: #555549;
   font-style: italic;
 }
 pre.highlight .err {
@@ -38,7 +38,7 @@ pre.highlight .gr {
   color: #aa0000;
 }
 pre.highlight .gh {
-  color: #999999;
+  color: #55555A;
 }
 pre.highlight .gi {
   color: #000000;
@@ -88,22 +88,22 @@ pre.highlight .k, pre.highlight .kv {
   font-weight: bold;
 }
 pre.highlight .mf {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .mh {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .il {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .mi {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .mo {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .m, pre.highlight .mb, pre.highlight .mx {
-  color: #009999;
+  color: #006A80;
 }
 pre.highlight .sb {
   color: #d14;
@@ -142,20 +142,20 @@ pre.highlight .s, pre.highlight .sa, pre.highlight .dl {
   color: #d14;
 }
 pre.highlight .na {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .bp {
-  color: #999999;
+  color: #55555A;
 }
 pre.highlight .nb {
-  color: #0086B3;
+  color: #005999;
 }
 pre.highlight .nc {
   color: #445588;
   font-weight: bold;
 }
 pre.highlight .no {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .nd {
   color: #3c5d5d;
@@ -183,16 +183,16 @@ pre.highlight .nt {
   color: #000080;
 }
 pre.highlight .vc {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .vg {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .vi {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .nv, pre.highlight .vm {
-  color: #008080;
+  color: #005E70;
 }
 pre.highlight .ow {
   color: #000000;
@@ -212,7 +212,7 @@ pre.highlight {
 pre.highlight table td { padding: 5px; }
 pre.highlight table pre { margin: 0; }
 pre.highlight .cm {
-  color: #727261;
+  color: #9A9A89;
   font-style: italic;
 }
 pre.highlight .cp {
@@ -220,7 +220,7 @@ pre.highlight .cp {
   font-weight: bold;
 }
 pre.highlight .c1 {
-  color: #727261;
+  color: #9A9A89;
   font-style: italic;
 }
 pre.highlight .cs {
@@ -229,7 +229,7 @@ pre.highlight .cs {
   font-style: italic;
 }
 pre.highlight .c, pre.highlight .ch, pre.highlight .cd, pre.highlight .cpf {
-  color: #727261;
+  color: #9A9A89;
   font-style: italic;
 }
 pre.highlight .err {
