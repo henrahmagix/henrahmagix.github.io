@@ -1,9 +1,12 @@
 defaults:
-  -
-    scope:
-      path: ''
+  - scope:
+      path: ""
     values:
       layout: default
+
+title: Henry Blyth's homepage
+description: Just, like, y'know, stuff n' that. 🎶 Bobbing along, bobbing along on the bottom of the beautiful briny sea! 🎶
+url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
 markdown: kramdown
 kramdown:
@@ -33,4 +36,4 @@ exclude:
   - package*.json
   - jsconfig.json
   - rougify.rb
-  - '*.ts'
+  - "*.ts"
