@@ -3,15 +3,7 @@
   /** @type {HTMLElement[]} */
   var iPadCursorAssets = [];
 
-  iPadCursorTrigger.addEventListener('change', function (event) {
-    var action = iPadCursorTrigger.checked ? 'on' : 'off';
-    window.gtag && window.gtag('event', action, {
-      event_category: 'ipad_cursor',
-      event_label: 'Features'
-    });
-
-    onCursorTriggerChange(event);
-  }, false);
+  iPadCursorTrigger.addEventListener('change', onCursorTriggerChange, false);
 
   var localStorage = window.localStorage || {
     getItem: function (key) { return ''; },
