@@ -543,9 +543,12 @@ h6 {
 
 p,
 ul,
-ol,
-details {
+ol {
   margin: 1em 0;
+}
+
+#content p {
+  line-height: 1.6;
 }
 
 ul,
