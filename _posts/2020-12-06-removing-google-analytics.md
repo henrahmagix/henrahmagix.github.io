@@ -6,7 +6,7 @@ categories:
   - Tracking
 title: Removing Google Analytics
 syndications:
-  # twitter: 'https://twitter.com/henrahmagix/status/1330283284752977923?s=20'
+  twitter: 'https://twitter.com/henrahmagix/status/1335590145073025025'
 ---
 
 ## "Please disable JavaScript to view this site" – Heydon Pickering
