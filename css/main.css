@@ -53,7 +53,7 @@ body {
 }
 
 body {
-  background-color: #fcfcfc;
+  background-color: rgb(255, 254, 249);
   color: #23242C;
   font-family: "Open Sans", "HelveticaNeue", sans-serif;
   font-size: 100%;
@@ -64,12 +64,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   padding: 2em;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url(/images/white-paper-texture-with-flecks.jpg) repeat;
+  background-size: contain;
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
+}
+
+#body-inner {
+  background: url(/images/journal-dots.svg) space 0 0;
+  background-size: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #191920;
+    background-color: rgb(3, 7, 33);
     color: #DEDEDE;
+  }
+  body::before {
+    opacity: 0.7;
+    filter: invert() brightness(0.7) contrast(1.1);
+  }
+  #body-inner {
+    background-image: url(/images/journal-dots-light.svg);
   }
 }
 
@@ -232,12 +256,15 @@ nav ul li {
 }
 
 main hr {
+  background: url(/images/watercolour-line-light.svg) no-repeat;
   margin: 2em auto;
   border: none;
-  border-bottom: 2px dashed;
-  max-width: 2em;
-  opacity: 0.3;
+  height: 0.4em;
+  max-width: 5em;
   width: 100%;
+}
+main hr:nth-child(odd) {
+  transform: scaleX(-1) scaleY(-1);
 }
 
 .page-top {
@@ -358,16 +385,9 @@ footer ul li {
 .strikethrough-wrapper::after {
   content: "";
   display: block;
-  height: 1px;
   flex: 1;
-  background-color: #23242C;
-}
-
-@media (prefers-color-scheme: dark) {
-  .strikethrough-wrapper::before,
-  .strikethrough-wrapper::after {
-    background-color: #fcfcfc;
-  }
+  background: url(/images/watercolour-line-light.svg) no-repeat;
+  height: 1em;
 }
 
 .strikethrough-wrapper::before {
@@ -375,7 +395,8 @@ footer ul li {
 }
 
 .strikethrough-wrapper::after {
-  margin-left: 0.625em
+  margin-left: 0.625em;
+  transform: scaleX(-1) scaleY(-1);
 }
 
 .page-post .entry-content img:not(.image-reset) {
