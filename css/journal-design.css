@@ -1,5 +1,17 @@
 body {
-  background: rgb(245, 242, 235);
+  background-color: rgb(255, 254, 249);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url(/images/white-paper-texture-with-flecks.jpg) repeat;
+  background-size: contain;
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
 }
 
 #body-inner {
