@@ -1,0 +1,8 @@
+body {
+  background: rgb(245, 242, 235);
+}
+
+#body-inner {
+  background: url(/images/journal-dots.svg) space 0 0;
+  background-size: 20px;
+}
