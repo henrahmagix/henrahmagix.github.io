@@ -185,10 +185,9 @@ a button,
 
 /* Header */
 
-nav ul,
-.p-name-wrapper > * {
-  font-family: "PT Sans Narrow", sans-serif;
-  text-transform: uppercase;
+.p-name-wrapper {
+  margin: 2em 0;
+  text-align: center;
 }
 
 nav {
@@ -236,10 +235,6 @@ nav ul li {
   .logo svg {
     fill: #fcfcfc;
   }
-}
-
-.p-name-wrapper {
-  margin: 2em 0;
 }
 
 /* Structure */
@@ -320,10 +315,17 @@ img.backface {
 
 .p-name-wrapper > * {
   display: block;
-  font-size: 2em;
+  font-size: 5em;
   min-width: 2.5em;
-  font-weight: normal;
+  font-weight: bold;
   margin: 0;
+  font-family: "Dancing Script", cursive;
+}
+
+.journal-highlight {
+  background: url(/images/watercolour-line-light.svg) no-repeat;
+  background-position: center 70%;
+  background-size: 100% 40%;
 }
 
 .page-title,
