@@ -68,7 +68,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #23242C;
+    background-color: #191920;
     color: #DEDEDE;
   }
 }
@@ -305,12 +305,12 @@ img.backface {
 }
 
 .page-title {
-  color: #A80084;
+  color: rgb(198, 16, 49);
 }
 
 @media (prefers-color-scheme: dark) {
   .page-title {
-    color: #FF80E8;
+    color: rgb(247, 59, 106);
   }
 }
 

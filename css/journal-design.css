@@ -18,3 +18,36 @@ body::before {
   background: url(/images/journal-dots.svg) space 0 0;
   background-size: 20px;
 }
+
+main hr {
+  background: url(/images/watercolour-line-light.svg) no-repeat;
+  border: none;
+  height: 0.4em;
+  max-width: 5em;
+  opacity: 1;
+}
+
+.strikethrough-wrapper::before,
+.strikethrough-wrapper::after {
+  background: url(/images/watercolour-line-light.svg) no-repeat;
+  height: 1em;
+}
+
+main hr:nth-child(odd),
+.strikethrough-wrapper::after {
+  transform: scaleX(-1) scaleY(-1);
+}
+
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: rgb(3, 7, 33);
+  }
+  body::before {
+    opacity: 0.7;
+    filter: invert() brightness(0.7) contrast(1.1);
+  }
+  #body-inner {
+    background-image: url(/images/journal-dots-light.svg);
+  }
+}
