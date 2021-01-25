@@ -855,8 +855,16 @@ details summary {
   }
 }
 
+.posts.side-by-side {
+  justify-content: center;
+}
 .posts.side-by-side li {
   max-width: 600px;
+}
+@media screen and (min-width: 800px) {
+  .posts.side-by-side {
+    justify-content: auto;
+  }
 }
 
 .minimal h3,
