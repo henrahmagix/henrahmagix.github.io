@@ -55,7 +55,6 @@ body {
 body {
   background-color: rgb(255, 254, 249);
   color: #23242C;
-  font-family: "Open Sans", "HelveticaNeue", sans-serif;
   font-size: 100%;
   font-weight: 400;
   font-style: normal;
@@ -147,17 +146,6 @@ details summary:focus {
   .button-link:focus,
   details summary:hover,
   details summary:focus {
-    color: #FF80E8;
-  }
-}
-
-
-article a {
-  color: #A80084;
-}
-
-@media (prefers-color-scheme: dark) {
-  article a {
     color: #FF80E8;
   }
 }
@@ -333,30 +321,54 @@ img.backface {
   display: block;
   font-size: 5em;
   min-width: 2.5em;
+  line-height: 1.1;
   font-weight: bold;
   margin: 0;
-  font-family: "Dancing Script", cursive;
 }
 
 .journal-highlight {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   background-position: center 70%;
   background-size: 100% 40%;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.journal-crossout {
+  position: relative;
+}
+.journal-crossout::before {
+  content: '';
+  height: 240px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0; right: 0; bottom: 0;
+  z-index: -1;
+  background: url(/images/watercolour-crossout-light.svg) no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.page-home .journal-crossout {
+  margin-top: 0.4em;
+  margin-bottom: 1em;
+}
+.page-home .journal-crossout::before {
+  height: 200%;
+  max-height: 240px;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  top: 60%;
+  opacity: 0.7;
 }
 
 .page-title,
 .page-subtitle {
   line-height: 1.2;
-}
-
-.page-title {
-  color: rgb(198, 16, 49);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page-title {
-    color: rgb(247, 59, 106);
-  }
 }
 
 /* Footer */
@@ -450,15 +462,27 @@ footer ul li {
 
 /* Typography */
 
-h1,
+body,
+.page-subtitle {
+  font-family: 'EB Garamond', serif;
+}
+
 h2,
 h3,
 h4,
 h5,
-h6,
-.page-top,
-.large-text {
-  font-family: "PT Sans", "HelveticaNeue", sans-serif;
+h6 {
+  font-family: 'Bilbo', cursive;
+}
+
+.large-text,
+.p-name-wrapper > * {
+  font-family: 'Dancing Script', cursive;
+}
+
+.page-title,
+.post-title {
+  font-family: 'Gentium Basic', serif;
 }
 
 .page-subtitle {

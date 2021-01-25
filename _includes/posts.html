@@ -6,9 +6,9 @@
       <li class="{%if include.minimal%}minimal{%endif%}">
         {% include published-date.html context=post %}
 
-        <a class="post-title" href="{{post.url}}">
+        <a class="journal-underline" href="{{post.url}}">
           {% capture title_html %}
-            <h2>{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</h2>
+            <h2 class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</h2>
           {% endcapture %}
 
           {% if include.minimal %}

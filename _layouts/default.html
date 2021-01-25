@@ -101,7 +101,7 @@ back_to: home
   {% feed_meta %}
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=PT+Sans+Narrow:wght@400;700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bilbo&family=Dancing+Script:wght@700&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Gentium+Basic:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/css/main.css">
   {%if content contains "<pre" and content contains "highlight"%}<link rel="stylesheet" type="text/css" href="/css/code.css">{%endif%}
@@ -143,7 +143,7 @@ back_to: home
   {% capture header_title %}
     <div class="p-name-wrapper">
       {% if page.url == "/" %}
-        <h1>Henry James Blyth</h1>
+        <h1 class="journal-crossout">Henry James Blyth</h1>
       {% elsif section and page.section_title == true %}
         <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
       {% elsif section and page_title == nil %}
