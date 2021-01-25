@@ -445,6 +445,11 @@ h6,
   font-family: "PT Sans", "HelveticaNeue", sans-serif;
 }
 
+.page-subtitle {
+  font-size: 1.5em;
+  font-weight: normal;
+}
+
 .large-text {
   font-size: 3em;
 }

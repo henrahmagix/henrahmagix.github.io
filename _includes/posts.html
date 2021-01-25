@@ -28,8 +28,8 @@
         <div class="excerpt">
           {% if post.subtitle %}{{post.subtitle|markdownify}}{% endif %}
           <p>
-            {% assign excerpt = post.excerpt|truncatewords:20,"" %}
-            {{ excerpt|strip_html }}
+            {% assign excerpt = post.content|strip_html|truncatewords:20,"" %}
+            {{ excerpt }}
             {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
           </p>
         </div>

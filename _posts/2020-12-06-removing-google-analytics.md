@@ -5,11 +5,10 @@ categories:
   - Code
   - Tracking
 title: Removing Google Analytics
+subtitle: '"Please disable JavaScript to view this site" – Heydon Pickering'
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1335590145073025025'
 ---
-
-## "Please disable JavaScript to view this site" – Heydon Pickering
 
 I've been following the _glory_ that is Heydon Pickering ([@heydonworks](https://twitter.com/heydonworks)) [moving their WHOLE SITE into a `<noscript>` element](https://twitter.com/heydonworks/status/1332620108129312768) and showing users a very simple message:
 

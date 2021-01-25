@@ -188,7 +188,7 @@ back_to: home
 
       {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
       <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
-      <h2 {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</h2>
+      <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
 
       {{ content }}
     </article>
@@ -197,6 +197,15 @@ back_to: home
 
     {% if page.url != "/" and page.hide_share != true %}
       {% include share.html %}
+    {% endif %}
+
+    {% assign related_posts = site.categories[page.related_posts_category] %}
+    {% if related_posts %}
+      <aside>
+        <hr>
+        <h3>Related blog posts</h3>
+        {% include posts.html posts=related_posts %}
+      </aside>
     {% endif %}
 
   </main>
