@@ -365,6 +365,11 @@ img.backface {
   top: 60%;
   opacity: 0.7;
 }
+@media (prefers-color-scheme: dark) {
+  .page-home .journal-crossout::before {
+    opacity: 1;
+  }
+}
 
 .page-title,
 .page-subtitle {
