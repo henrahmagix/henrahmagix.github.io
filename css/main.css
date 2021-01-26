@@ -184,11 +184,6 @@ a button,
   margin-bottom: 2em;
   text-align: center;
 }
-@media screen and (min-width: 800px) {
-  .p-name-wrapper {
-    margin-top: 2em;
-  }
-}
 
 nav {
   text-align: center;
@@ -197,7 +192,8 @@ nav {
 
 nav ul {
   list-style: none;
-  margin: 1em auto;
+  margin: 0 auto;
+  margin-bottom: 1em;
   padding: 0;
   font-size: 1.8em;
 }
@@ -209,15 +205,12 @@ nav ul li {
 
 .logo {
   display: block;
-  margin: 10px; /* same as shadow size so it's not cutoff by parent overflow */
   height: 100px;
   width: 100px;
   position: relative;
   flex-shrink: 0;
-  background-color: #fcfcfc;
   border-radius: 50%;
   border: 2px solid #fcfcfc;
-  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.3);
   overflow: hidden;
 }
 
@@ -229,9 +222,6 @@ nav ul li {
 }
 
 @media (prefers-color-scheme: dark) {
-  .logo {
-    background-color: #23242C;
-  }
   .logo svg {
     fill: #fcfcfc;
   }
