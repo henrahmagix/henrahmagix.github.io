@@ -624,11 +624,11 @@ blockquote {
   position: relative
 }
 
-blockquote::before {
+blockquote::after {
   content: "";
-  background-color: #23242C;
+  background-image: url(/images/watercolour-line-light-vertical.svg);
   position: absolute;
-  width: 10px;
+  width: 15px;
   height: 100%;
   top: 0;
   left: 0
@@ -636,13 +636,9 @@ blockquote::before {
 blockquote.twitter-tweet::before {
   content: 'Tweet:';
   white-space: nowrap;
-  text-indent: 20px;
 }
-
-@media (prefers-color-scheme: dark) {
-  blockquote:before {
-    background-color: #fcfcfc;
-  }
+blockquote.twitter-tweet > *:first-child {
+  margin-top: 0; /* remove gap after "Tweet:" text */
 }
 
 .avatar {
