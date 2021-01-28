@@ -26,7 +26,7 @@ back_to: home
   {% assign twitter_card = "summary" %}
   {%- comment -%} summary_large_image doesn't seem to be working for me 😢 {%- endcomment -%}
 {% else %}
-  {% capture meta_image %}{{ site.url }}/images/me.jpg{% endcapture %}
+  {% capture meta_image %}{{ site.url }}/images/me_silly.jpg{% endcapture %}
   {% assign twitter_card = "summary" %}
 {% endif %}
 
@@ -122,7 +122,7 @@ back_to: home
         <svg>
           <use xlink:href="/images/logo.svg#signature"></use>
         </svg>
-        <img class="backface" src="/images/me.jpg" alt="profile photo of Henry James Blyth">
+        <img class="backface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
       </a>
 
       <nav id="navigation">
@@ -160,7 +160,7 @@ back_to: home
 
   <main class="content-max-width">
 
-    <img hidden class="u-photo" src="/images/logo-light.png" alt="Henry James Blyth signature">
+    <img hidden class="u-photo" src="/images/me_silly.jpg" alt="Henry James Blyth profile photo">
     <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
     <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
 
