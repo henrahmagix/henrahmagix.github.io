@@ -1,4 +1,5 @@
-section {
+section,
+aside {
   text-align: center;
 }
 
@@ -10,7 +11,8 @@ section {
 }
 
 @media screen and (min-width: 800px) {
-  section {
+  section,
+  aside {
     text-align: left;
   }
 }

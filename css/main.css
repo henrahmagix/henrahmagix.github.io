@@ -258,6 +258,11 @@ main hr:nth-child(odd) {
 
 .page-top {
   margin-bottom: 2em;
+  display: inline-block;
+}
+.page-back-to-top {
+  margin-top: 2em;
+  display: inline-block;
 }
 
 #share-section {

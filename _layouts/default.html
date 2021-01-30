@@ -156,9 +156,9 @@ back_to: home
 
   <div class="page-wrapper">
 
-  {{header_title}}
-
   <main class="content-max-width">
+
+    {{header_title}}
 
     <img hidden class="u-photo" src="/images/me_silly.jpg" alt="Henry James Blyth profile photo">
     <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
@@ -174,9 +174,7 @@ back_to: home
     {% endif %}
 
     {% if back_to and back_to.url != page.url %}
-      <div class="page-top">
-        {% include back-link.html url=back_to.url title=back_to.title id="top" %}
-      </div>
+      {% include back-link.html url=back_to.url title=back_to.title id="top" class="page-top" %}
     {% else %}
       <div id="top"></div>
     {% endif %}
@@ -193,7 +191,7 @@ back_to: home
       {{ content }}
     </article>
 
-    {% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}
+    {% include link.html url="#top" title="Back to top" class="page-back-to-top" icon="fas fa-long-arrow-alt-up" %}
 
     {% if page.url != "/" and page.hide_share != true %}
       {% include share.html %}
@@ -203,7 +201,8 @@ back_to: home
     {% if related_posts %}
       <aside>
         <hr>
-        <h3>Related blog posts</h3>
+        <h2>Related blog posts</h2>
+        <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
         {% include posts.html posts=related_posts %}
       </aside>
     {% endif %}

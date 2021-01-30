@@ -10,7 +10,7 @@
       {% capture icon %}fab fa-{{synd_hash[0]}}{% endcapture %}
       {% assign url = synd_hash[1] %}
       <li>
-      {% include link.html anchor_class="u-syndication" title=title icon=icon url=url %}
+      {% include link.html class="u-syndication" title=title icon=icon url=url %}
       </li>
     {% endfor %}
 
