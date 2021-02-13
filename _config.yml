@@ -3,11 +3,20 @@ defaults:
       path: ""
     values:
       layout: default
+  - scope:
+      path: "images/albums/*/*.jpg"
+    values:
+      album_image: true
+  - scope:
+      path: "images/albums/*/*"
+    values:
+      album_image_resolution: true
 
 title: Henry Blyth's homepage
 description: Just, like, y'know, stuff n' that. 🎶 Bobbing along, bobbing along on the bottom of the beautiful briny sea! 🎶
 url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
+
 markdown: kramdown
 kramdown:
   input: GFM
@@ -37,3 +46,4 @@ exclude:
   - jsconfig.json
   - rougify.rb
   - "*.ts"
+  - "*.sh"

@@ -237,5 +237,9 @@ back_to: home
     {% include post-list-admin.html %}
   {% endif %}
 
+  {% if page.js %}
+    <script src="{{page.js}}"></script>
+  {% endif %}
+
 </body>
 </html>

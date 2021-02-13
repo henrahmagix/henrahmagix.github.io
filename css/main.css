@@ -439,6 +439,7 @@ footer ul li {
     display: flex;
   }
 
+  /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
   header {
     flex-shrink: 0;
     flex-grow: 0;
@@ -449,6 +450,7 @@ footer ul li {
     top: 2em; /* same as body top padding */
     overflow: auto;
     margin-right: 1em;
+    width: 9em;
   }
 
   .page-wrapper {
@@ -904,4 +906,88 @@ details summary {
 .secret:hover,
 .secret:focus {
   opacity: 1;
+}
+
+/* Photos */
+
+.photos-list-item {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (min-width: 800px) {
+  .photos-list-item {
+    flex: 1 1 320px;
+  }
+}
+
+.photos-list-photo {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: white;
+  padding: 2.5em;
+}
+
+#content .photos-list-photo:hover img,
+#content .photos-list-photo:focus img {
+  opacity: 0.3;
+}
+
+#content .photos-list-photo:hover::after,
+#content .photos-list-photo:focus::after {
+  content: 'View large';
+  color: black;
+  font-family: 'Dancing Script';
+  font-weight: bold;
+  font-size: 4.5em;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.photos-list-photo img {
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.photos-gallery {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: black;
+  z-index: 2;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.photos-gallery a {
+  color: white;
+  font-family: 'Dancing Script';
+  font-weight: bold;
+  font-size: 4.5em;
+  text-align: center;
+  display: block;
+}
+
+.photos-gallery img {
+  display: block;
+  background-color: white;
+  padding: 10vh;
+  height: 100vh;
+  max-width: 100vw;
+}
+.photos-gallery img.viewmax {
+  max-height: none;
+  height: auto;
 }
