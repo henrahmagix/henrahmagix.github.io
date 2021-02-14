@@ -25,11 +25,7 @@ photos_order:
       <li class="photos-list-item">
         <a class="photos-list-photo" href="{{ album_path }}{{ img_name }}" title="{{img_name}}" aria-label="View large: {{img_name}}">
           <img src="{{ album_path }}{{ img_name }}" alt=""
-            srcset="{{ album_path }}/3200/{{ img_name }} 3200w,
-                    {{ album_path }}/2880/{{ img_name }} 2880w,
-                    {{ album_path }}/2560/{{ img_name }} 2560w,
-                    {{ album_path }}/2240/{{ img_name }} 2240w,
-                    {{ album_path }}/1920/{{ img_name }} 1920w,
+            srcset="{{ album_path }}/1920/{{ img_name }} 1920w,
                     {{ album_path }}/1600/{{ img_name }} 1600w,
                     {{ album_path }}/1280/{{ img_name }} 1280w,
                     {{ album_path }}/960/{{ img_name }} 960w,
