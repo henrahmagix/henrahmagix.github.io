@@ -992,7 +992,7 @@ details summary {
   cursor: pointer;
 }
 
-.photos-gallery a {
+.photos-gallery .original-link {
   color: white;
   font-family: 'Dancing Script';
   font-weight: bold;
@@ -1011,8 +1011,20 @@ details summary {
   cursor: pointer;
   object-fit: contain;
   object-position: center;
+  margin: auto;
 }
-.photos-gallery img.viewmax {
+
+.photos-gallery.viewmax {
+  display: block;
+}
+.photos-gallery.viewmax img {
   height: auto;
   width: auto;
+  min-height: 100vh;
+  max-height: none;
+  min-width: 100vh;
+  max-width: none;
+}
+.photos-gallery.viewmax .original-link {
+  display: none;
 }
