@@ -229,7 +229,7 @@ nav ul li {
 
 /* Structure */
 
-.content-max-width {
+body:not(.page-photos) .content-max-width {
   max-width: 1200px;
 }
 

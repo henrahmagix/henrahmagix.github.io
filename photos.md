@@ -1,5 +1,6 @@
 ---
 section: photos
+class: photos
 js: /js/gallery.js
 photos_order:
   /images/albums/fuji-filmsim-bw/:
