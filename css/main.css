@@ -1008,6 +1008,8 @@ details summary {
   height: 100vh;
   max-width: 100vw;
   cursor: pointer;
+  object-fit: contain;
+  object-position: center;
 }
 .photos-gallery img.viewmax {
   max-height: none;
