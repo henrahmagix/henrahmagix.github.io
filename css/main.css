@@ -1002,6 +1002,7 @@ details summary {
   display: block;
   padding-top: 0.5em;
   padding-bottom: 1em;
+  -webkit-text-decoration-skip: none;
 }
 
 .photos-gallery img {
