@@ -22,6 +22,11 @@
   document.addEventListener('click', function (event) {
     var el = /** @type {HTMLElement} */ (event.target);
 
+    if (el === gallery) {
+      closeLarge();
+      return;
+    }
+
     /** @type {HTMLAnchorElement} */
     var photo = el.closest('.photos-list-photo');
     if (photo) {
@@ -30,10 +35,8 @@
       return;
     }
 
-    if (el instanceof HTMLImageElement && el.closest('.photos-gallery')) {
+    if (el instanceof HTMLImageElement && gallery.contains(el)) {
       gallery.classList.toggle('viewmax');
-      el.srcset = '';
-      el.sizes = '';
     }
   });
 
@@ -60,9 +63,13 @@
   function showLarge(el) {
     closeLarge();
 
+    gallery.classList.remove('viewmax');
+
     showing = el;
 
     var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
+    galleryImg.sizes = '';
+
     var galleryLink = document.createElement('a');
     galleryLink.className = 'original-link'
     galleryLink.href = el.href;
