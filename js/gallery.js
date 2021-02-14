@@ -37,6 +37,7 @@
 
     if (el instanceof HTMLImageElement && gallery.contains(el)) {
       gallery.classList.toggle('viewmax');
+      el.sizes = '';
     }
   });
 
@@ -68,7 +69,6 @@
     showing = el;
 
     var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
-    galleryImg.sizes = '';
 
     var galleryLink = document.createElement('a');
     galleryLink.className = 'original-link'
