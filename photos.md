@@ -32,7 +32,7 @@ photos_order:
                     {{ album_path }}/960/{{ img_name }} 960w,
                     {{ album_path }}/640/{{ img_name }} 640w,
                     {{ album_path }}/320/{{ img_name }} 320w"
-            sizes="(min-width: 800px) 640px,
+            sizes="(min-width: 800px) 320px,
                    calc(100vw - 7em)" />
         </a>
       </li>
