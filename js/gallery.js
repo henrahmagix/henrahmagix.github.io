@@ -53,13 +53,7 @@
 
     showing = el;
 
-    // var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
-    var showingImg = el.querySelector('img');
-    var galleryImg = document.createElement('img');
-    galleryImg.src = showingImg.src;
-    galleryImg.alt = showingImg.alt;
-    // galleryImg.srcset = null;
-    // galleryImg.sizes = null;
+    var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
 
     var galleryLink = document.createElement('a');
     galleryLink.href = el.href;
