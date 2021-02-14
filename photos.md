@@ -33,6 +33,9 @@ photo_albums:
       orientation: portrait
 ---
 
+Tap to view more info, then tap again to view full resolution.
+
+**All images are licensed under [Creative Commons Attribution](https://creativecommons.org/licenses/by/3.0/legalcode "Creative Commons Attribution legal license")**. [Here is a human-readable version](https://creativecommons.org/licenses/by/3.0/ "Creative Commons Attribution license: human-readable version"), but to summarise: you are **free to share and adapt** these images for any purpose, _even commercially_, but you **must give appropriate credit**.
 
 {% for album_hash in page.photo_albums %}
   {% assign album_path = album_hash[0] %}
