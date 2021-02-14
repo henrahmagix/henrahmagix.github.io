@@ -7,6 +7,16 @@
   gallery.className = 'photos-gallery';
   gallery.style.display = 'none';
 
+  var galleryClose = document.createElement('button');
+  galleryClose.innerHTML = '&times;'
+  galleryClose.className = 'close';
+  galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
+  gallery.appendChild(galleryClose);
+
+  galleryClose.addEventListener('click', function () {
+    closeLarge();
+  });
+
   document.body.appendChild(gallery);
 
   document.addEventListener('click', function (event) {
@@ -71,7 +81,11 @@
   function closeLarge() {
     if (showing) {
       gallery.style.display = 'none';
-      gallery.innerHTML = '';
+      gallery.querySelectorAll('*').forEach(function (child) {
+        if (child != galleryClose) {
+          gallery.removeChild(child);
+        }
+      });
       bodyInner.style.height = null;
       bodyInner.style.overflow = null;
       // TODO: keep shown list so it's quicker to open.
@@ -98,6 +112,7 @@
       return false;
     }
 
+    // Swap instead of closing/opening for speed.
     showLarge(nextToShow.querySelector('.photos-list-photo'));
     return true
   }
