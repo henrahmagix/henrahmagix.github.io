@@ -1,7 +1,9 @@
 ---
 section: photos
 class: photos
-js: /js/gallery.js
+js:
+  - /js/gallery.js
+  - /js/swiped-events.js
 photo_albums:
   /images/albums/fuji-filmsim-bw/:
     -
@@ -33,7 +35,9 @@ photo_albums:
       orientation: portrait
 ---
 
-Tap to view more info, then tap again to view full resolution.
+Tap to view an individual image, then tap again to view full resolution. Swipe left/right or use arrow keys to navigate between images, and swipe up/down or use Escape key to close the view.
+
+Using swipe gestures will only animate movement if you haven't set a **prefers-reduced-motion setting**. For more info on vestibular motion disorders, please read <https://css-tricks.com/introduction-reduced-motion-media-query>.
 
 **All images are licensed under [Creative Commons Attribution](https://creativecommons.org/licenses/by/3.0/legalcode "Creative Commons Attribution legal license")**. [Here is a human-readable version](https://creativecommons.org/licenses/by/3.0/ "Creative Commons Attribution license: human-readable version"), but to summarise: you are **free to share and adapt** these images for any purpose, _even commercially_, but you **must give appropriate credit**.
 

@@ -1038,3 +1038,41 @@ details summary {
 .photos-gallery.viewmax .close {
   text-shadow: 0 1px 0 white, 0 0 1px white;
 }
+
+.photos-gallery.animate-closing-down,
+.photos-gallery.animate-closing-up {
+  animation: fade-out 300ms ease forwards;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .photos-gallery.animate-closing-down {
+    animation: closing-down 300ms ease forwards;
+  }
+  .photos-gallery.animate-closing-up {
+    animation: closing-up 300ms ease forwards;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes closing-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes closing-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}

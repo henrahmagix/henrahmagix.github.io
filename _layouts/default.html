@@ -237,7 +237,11 @@ back_to: home
     {% include post-list-admin.html %}
   {% endif %}
 
-  {% if page.js %}
+  {% if page.js.first %}
+    {% for page_js in page.js %}
+      <script src="{{page_js}}"></script>
+    {% endfor %}
+  {% elsif page.js %}
     <script src="{{page.js}}"></script>
   {% endif %}
 

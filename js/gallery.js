@@ -13,16 +13,12 @@
   galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
   gallery.appendChild(galleryClose);
 
-  galleryClose.addEventListener('click', function () {
-    closeLarge();
-  });
-
   document.body.appendChild(gallery);
 
   document.addEventListener('click', function (event) {
     var el = /** @type {HTMLElement} */ (event.target);
 
-    if (el === gallery) {
+    if (el === gallery || el === galleryClose) {
       closeLarge();
       return;
     }
@@ -60,11 +56,31 @@
     }
   });
 
+  document.addEventListener('swiped-left', function (event) {
+    if (showingMax()) return;
+    moveLarge(1);
+  });
+
+  document.addEventListener('swiped-right', function (event) {
+    if (showingMax()) return;
+    moveLarge(-1);
+  });
+
+  document.addEventListener('swiped-up', function (event) {
+    if (showingMax()) return;
+    closeLarge(1);
+  });
+
+  document.addEventListener('swiped-down', function (event) {
+    if (showingMax()) return;
+    closeLarge(-1);
+  });
+
   /** @param {HTMLAnchorElement} el */
   function showLarge(el) {
     closeLarge();
 
-    gallery.classList.remove('viewmax');
+    gallery.classList.remove('viewmax', 'animate-closing-up', 'animate-closing-down');
 
     showing = el;
 
@@ -80,26 +96,39 @@
     gallery.style.display = null;
     gallery.scrollTop = 0;
 
-    bodyInner.style.height = '100vh';
     bodyInner.style.overflow = 'hidden';
   }
 
-  function closeLarge() {
-    if (showing) {
-      gallery.style.display = 'none';
-      gallery.querySelectorAll('*').forEach(function (child) {
-        if (child != galleryClose) {
-          gallery.removeChild(child);
-        }
-      });
-      bodyInner.style.height = null;
-      bodyInner.style.overflow = null;
-      // TODO: keep shown list so it's quicker to open.
-      showing = null;
+  /** @param {number=} animate */
+  function closeLarge(animate) {
+    if (!showing) return;
+
+    if (!animate) return _close();
+
+    if (animate > 0) {
+      gallery.classList.add('animate-closing-up');
+      gallery.classList.remove('animate-closing-down');
+      setTimeout(_close, 300);
+    } else {
+      gallery.classList.add('animate-closing-down');
+      gallery.classList.remove('animate-closing-up');
+      setTimeout(_close, 300);
     }
   }
 
-  /** @param {Number} n */
+  function _close() {
+    gallery.style.display = 'none';
+    gallery.querySelectorAll('*').forEach(function (child) {
+      if (child != galleryClose) {
+        gallery.removeChild(child);
+      }
+    });
+    bodyInner.style.overflow = null;
+    // TODO: keep shown list so it's quicker to open.
+    showing = null;
+  }
+
+  /** @param {number} n */
   function moveLarge(n) {
     if (!showing) {
       return false;
@@ -121,5 +150,9 @@
     // Swap instead of closing/opening for speed.
     showLarge(nextToShow.querySelector('.photos-list-photo'));
     return true
+  }
+
+  function showingMax() {
+    return gallery.classList.contains('viewmax');
   }
 }());
