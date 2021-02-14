@@ -1,3 +1,7 @@
+header {
+  width: 13em;
+}
+
 section,
 aside {
   text-align: center;
