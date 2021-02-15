@@ -68,11 +68,13 @@
 
   document.addEventListener('swiped-up', function (event) {
     if (showingMax()) return;
+    if (gallery.scrollTop < gallery.scrollHeight - gallery.offsetHeight) return;
     closeLarge(1);
   });
 
   document.addEventListener('swiped-down', function (event) {
     if (showingMax()) return;
+    if (gallery.scrollTop > 0) return;
     closeLarge(-1);
   });
 
