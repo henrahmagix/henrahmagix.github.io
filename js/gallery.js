@@ -33,7 +33,6 @@
 
     if (el instanceof HTMLImageElement && gallery.contains(el)) {
       gallery.classList.toggle('viewmax');
-      el.sizes = '';
     }
   });
 
@@ -87,6 +86,7 @@
     showing = el;
 
     var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
+    galleryImg.sizes = '100vw'; // not great for portrait, but at least it'll be loaded so tapping to viewmax will be instant
 
     var galleryLink = document.createElement('a');
     galleryLink.className = 'original-link'
@@ -121,7 +121,7 @@
   function _close() {
     gallery.style.display = 'none';
     gallery.querySelectorAll('*').forEach(function (child) {
-      if (child != galleryClose) {
+      if (child !== galleryClose) {
         gallery.removeChild(child);
       }
     });
