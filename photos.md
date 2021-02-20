@@ -49,6 +49,10 @@ Using swipe gestures will only animate movement if you haven't set a **prefers-r
         <a class="photos-list-photo" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
           <img src="{{ album_path }}{{ img.name }}" alt="" class="orientation-{{img.orientation}}"
             srcset="{{ album_path }}{{ img.name }},
+                    {{ album_path }}/3200/{{ img.name }} 3200w,
+                    {{ album_path }}/2880/{{ img.name }} 2880w,
+                    {{ album_path }}/2560/{{ img.name }} 2560w,
+                    {{ album_path }}/2240/{{ img.name }} 2240w,
                     {{ album_path }}/1920/{{ img.name }} 1920w,
                     {{ album_path }}/1600/{{ img.name }} 1600w,
                     {{ album_path }}/1280/{{ img.name }} 1280w,
