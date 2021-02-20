@@ -993,6 +993,11 @@ details summary {
   cursor: pointer;
 }
 
+.photos-gallery .close:hover,
+.photos-gallery .close:focus {
+  background-color: white;
+}
+
 .photos-gallery .original-link {
   color: white;
   font-family: 'Dancing Script';
