@@ -33,6 +33,11 @@
 
     if (el instanceof HTMLImageElement && gallery.contains(el)) {
       gallery.classList.toggle('viewmax');
+
+      if (el.clientWidth > el.naturalWidth) {
+        el.style.width = el.clientWidth + 'px'; // lock it in place, so this should only run once
+        el.sizes = el.clientWidth * devicePixelRatio + 'px';
+      }
     }
   });
 
