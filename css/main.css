@@ -44,6 +44,22 @@ a[href^="#footnote-"]::before {
   display: none
 }
 
+:focus {
+  outline-color: #23242C;
+  outline-style: double;
+  outline-width: 5px;
+}
+
+.outline-big:focus {
+  outline-offset: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :focus {
+    outline-color: #DEDEDE;
+  }
+}
+
 /* Reset */
 
 html,
@@ -126,32 +142,24 @@ details summary {
 }
 
 a:hover,
-a:focus,
 a button:hover,
-a button:focus,
 .button-link:hover,
-.button-link:focus,
-details summary:hover,
-details summary:focus {
+details summary:hover {
   color: #A80084;
   text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
   a:hover,
-  a:focus,
   a button:hover,
-  a button:focus,
   .button-link:hover,
-  .button-link:focus,
-  details summary:hover,
-  details summary:focus {
+  details summary:hover {
     color: #FF80E8;
   }
 }
 
 .icon {
-  margin-right: 0.25em;
+  margin: 0 0.125em;
   text-align: left;
 }
 
@@ -305,8 +313,7 @@ img.backface {
   z-index: 2;
 }
 
-.logo-flipper:hover img.backface,
-.logo-flipper:focus img.backface {
+.logo-flipper:hover img.backface {
   opacity: 1 !important;
 }
 
@@ -931,13 +938,13 @@ details summary {
   padding: 2.5em;
 }
 
-#content .photos-list-photo:hover img,
-#content .photos-list-photo:focus img {
+.photos-list-photo:hover img,
+.photos-list-photo:focus img {
   opacity: 0.3;
 }
 
-#content .photos-list-photo:hover::after,
-#content .photos-list-photo:focus::after {
+.photos-list-photo:hover::after,
+.photos-list-photo:focus::after {
   content: 'View large';
   color: black;
   font-family: 'Dancing Script';
@@ -997,6 +1004,9 @@ details summary {
 .photos-gallery .close:focus {
   background-color: white;
 }
+.photos-gallery .close:hover {
+  transform: scale(1.2);
+}
 
 .photos-gallery .original-link {
   color: white;
@@ -1005,8 +1015,8 @@ details summary {
   font-size: 2em;
   text-align: center;
   display: block;
-  padding-top: 0.5em;
-  padding-bottom: 1em;
+  margin-top: 0.7em;
+  margin-bottom: 1em;
   -webkit-text-decoration-skip: none;
 }
 

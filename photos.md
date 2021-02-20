@@ -46,7 +46,7 @@ Using swipe gestures will only animate movement if you haven't set a **prefers-r
   <ul class="list-reset photos-list side-by-side">
     {% for img in album_hash[1] %}
       <li class="photos-list-item">
-        <a class="photos-list-photo" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
+        <a class="photos-list-photo outline-big" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
           <img src="{{ album_path }}{{ img.name }}" alt="" class="orientation-{{img.orientation}}"
             srcset="{{ album_path }}{{ img.name }},
                     {{ album_path }}/3200/{{ img.name }} 3200w,
