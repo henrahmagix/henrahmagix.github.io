@@ -47,11 +47,15 @@
     }
   });
 
-  document.addEventListener('keyup', function (event) {
+  document.addEventListener('keydown', function (event) {
     var cancelArrow = false;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+    if (event.key === 'ArrowLeft' && showing && gallery.scrollLeft <= 0) {
       cancelArrow = moveLarge(-1);
-    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+    } else if (event.key === 'ArrowUp' && showing && gallery.scrollTop <= 0) {
+      cancelArrow = moveLarge(-1);
+    } else if (event.key === 'ArrowRight' && showing && gallery.scrollLeft + gallery.offsetWidth >= gallery.scrollWidth) {
+      cancelArrow = moveLarge(1);
+    } else if (event.key === 'ArrowDown' && showing && gallery.scrollTop + gallery.offsetHeight >= gallery.scrollHeight) {
       cancelArrow = moveLarge(1);
     }
 
@@ -60,24 +64,28 @@
     }
   });
 
+  function swipeAllowed() {
+    return showing && !showingMax();
+  }
+
   document.addEventListener('swiped-left', function (event) {
-    if (showingMax()) return;
+    if (!swipeAllowed()) return;
     moveLarge(1);
   });
 
   document.addEventListener('swiped-right', function (event) {
-    if (showingMax()) return;
+    if (!swipeAllowed()) return;
     moveLarge(-1);
   });
 
   document.addEventListener('swiped-up', function (event) {
-    if (showingMax()) return;
+    if (!swipeAllowed()) return;
     if (gallery.scrollTop < gallery.scrollHeight - gallery.offsetHeight) return;
     closeLarge(1);
   });
 
   document.addEventListener('swiped-down', function (event) {
-    if (showingMax()) return;
+    if (!swipeAllowed()) return;
     if (gallery.scrollTop > 0) return;
     closeLarge(-1);
   });
