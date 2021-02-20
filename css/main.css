@@ -1047,7 +1047,14 @@ details summary {
 }
 
 .photos-gallery.viewmax .original-link {
-  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.photos-gallery.viewmax .original-link:not(:focus) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .photos-gallery.viewmax .close {
