@@ -2,7 +2,7 @@
   /** @type {HTMLElement} */
   var showing = null;
   var gallery = document.createElement('div');
-  var bodyInner = document.body;
+  var bodyInner = document.getElementById('body-inner');
 
   gallery.className = 'photos-gallery';
   gallery.style.display = 'none';
@@ -13,7 +13,7 @@
   galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
   gallery.appendChild(galleryClose);
 
-  document.body.appendChild(gallery);
+  document.body.insertBefore(gallery, document.body.children[0]);
 
   document.addEventListener('click', function (event) {
     var el = /** @type {HTMLElement} */ (event.target);
@@ -90,6 +90,13 @@
     closeLarge(-1);
   });
 
+  document.addEventListener('focus', function (event) {
+    if (showing && !gallery.contains(/** @type {Node} */(event.target))) {
+      event.stopPropagation();
+      gallery.focus();
+    }
+  }, true);
+
   /** @param {HTMLAnchorElement} el */
   function showLarge(el) {
     closeLarge();
@@ -111,7 +118,10 @@
     gallery.style.display = null;
     gallery.scrollTop = 0;
 
-    bodyInner.style.overflow = 'hidden';
+    gallery.setAttribute('tabindex', '0');
+    gallery.focus();
+    document.body.style.overflow = 'hidden';
+    bodyInner.setAttribute('aria-hidden', 'true');
   }
 
   /** @param {number=} animate */
@@ -138,7 +148,9 @@
         gallery.removeChild(child);
       }
     });
-    bodyInner.style.overflow = null;
+    document.body.style.overflow = null;
+    bodyInner.removeAttribute('aria-hidden');
+    showing.focus();
     // TODO: keep shown list so it's quicker to open.
     showing = null;
   }
