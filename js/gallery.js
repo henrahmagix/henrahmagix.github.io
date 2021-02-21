@@ -7,11 +7,19 @@
   gallery.className = 'photos-gallery';
   gallery.style.display = 'none';
 
+  var galleryControls = document.createElement('div');
+  galleryControls.className = 'controls';
+  gallery.appendChild(galleryControls);
+
+  var galleryExpand = document.createElement('button');
+  galleryExpand.className = 'expand fas fa-expand';
+  galleryExpand.setAttribute('aria-label', 'Expand this image');
+  galleryControls.appendChild(galleryExpand);
+
   var galleryClose = document.createElement('button');
-  galleryClose.innerHTML = '&times;'
-  galleryClose.className = 'close';
+  galleryClose.className = 'close fas fa-times';
   galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
-  gallery.appendChild(galleryClose);
+  galleryControls.appendChild(galleryClose);
 
   var galleryImg = document.createElement('img');
   gallery.appendChild(galleryImg);
@@ -23,11 +31,22 @@
 
   document.body.insertBefore(gallery, document.body.children[0]);
 
+  var showControlsSetup = false;
   document.addEventListener('click', function (event) {
+    if (!showControlsSetup) {
+      showControlsSetup = true;
+      setupMouseShowControls();
+    }
+
     var el = /** @type {HTMLElement} */ (event.target);
 
     if (el === gallery || el === galleryClose) {
       closeLarge();
+      return;
+    }
+
+    if (el === galleryExpand || el instanceof HTMLImageElement && gallery.contains(el)) {
+      expand();
       return;
     }
 
@@ -37,15 +56,6 @@
       showLarge(photo);
       event.preventDefault();
       return;
-    }
-
-    if (el instanceof HTMLImageElement && gallery.contains(el)) {
-      gallery.classList.toggle('viewmax');
-
-      if (el.clientWidth > el.naturalWidth) {
-        el.style.width = el.clientWidth + 'px'; // lock it in place, so this should only run once
-        el.sizes = el.clientWidth * devicePixelRatio + 'px';
-      }
     }
   });
 
@@ -72,27 +82,43 @@
     }
   });
 
+  var hasTouch = false;
+  document.addEventListener('touchstart', function detectTouch() {
+    hasTouch = true;
+    document.removeEventListener('touchstart', detectTouch);
+  });
+
+  function setupMouseShowControls() {
+    if (hasTouch) return;
+    gallery.addEventListener('mouseenter', function () {
+      gallery.classList.add('show-controls');
+    });
+    gallery.addEventListener('mouseleave', function () {
+      gallery.classList.remove('show-controls');
+    });
+  }
+
   function swipeAllowed() {
     return showing && !showingMax();
   }
 
-  document.addEventListener('swiped-left', function (event) {
+  document.addEventListener('swiped-left', function () {
     if (!swipeAllowed()) return;
     moveLarge(1);
   });
 
-  document.addEventListener('swiped-right', function (event) {
+  document.addEventListener('swiped-right', function () {
     if (!swipeAllowed()) return;
     moveLarge(-1);
   });
 
-  document.addEventListener('swiped-up', function (event) {
+  document.addEventListener('swiped-up', function () {
     if (!swipeAllowed()) return;
     if (gallery.scrollTop < gallery.scrollHeight - gallery.offsetHeight) return;
     closeLarge(1);
   });
 
-  document.addEventListener('swiped-down', function (event) {
+  document.addEventListener('swiped-down', function () {
     if (!swipeAllowed()) return;
     if (gallery.scrollTop > 0) return;
     closeLarge(-1);
@@ -152,6 +178,17 @@
     showing.focus();
     // TODO: keep shown list so it's quicker to open.
     showing = null;
+  }
+
+  function expand() {
+    gallery.classList.toggle('viewmax');
+    galleryExpand.classList.toggle('fa-expand');
+    galleryExpand.classList.toggle('fa-compress');
+
+    if (galleryImg.clientWidth > galleryImg.naturalWidth) {
+      galleryImg.style.width = galleryImg.clientWidth + 'px'; // lock it in place, so this should only run once
+      galleryImg.sizes = galleryImg.clientWidth * devicePixelRatio + 'px';
+    }
   }
 
   /** @param {number} n */

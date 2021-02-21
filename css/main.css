@@ -979,32 +979,39 @@ details summary {
   justify-content: flex-start;
 }
 
-.photos-gallery .close {
-  background-color: transparent;
+.photos-gallery .controls {
+  background-color: white;
   color: black;
-  appearance: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: none;
   position: fixed;
   z-index: 2;
   top: 0;
   right: 0;
+}
+
+.photos-gallery:not(.show-controls) .controls {
+  display: none;
+}
+
+.photos-gallery .controls button {
+  background-color: transparent;
+  appearance: none;
+  border: none;
+  padding: 0;
+  margin: 5px;
+  box-shadow: none;
   height: 50px;
   width: 50px;
-  font-size: 100px;
-  text-align: center;
-  line-height: 0;
-  font-family: 'Bilbo';
+  font-size: 50px;
   cursor: pointer;
 }
 
-.photos-gallery .close:hover,
-.photos-gallery .close:focus {
-  background-color: white;
+.photos-gallery .controls button:not(.fas, .fab) {
+  text-align: center;
+  line-height: 0;
+  font-family: 'Bilbo';
 }
-.photos-gallery .close:hover {
+
+.photos-gallery .controls button:hover {
   transform: scale(1.2);
 }
 
@@ -1057,7 +1064,7 @@ details summary {
   pointer-events: none;
 }
 
-.photos-gallery.viewmax .close {
+.photos-gallery.viewmax .controls button {
   text-shadow: 0 1px 0 white, 0 0 1px white;
 }
 
