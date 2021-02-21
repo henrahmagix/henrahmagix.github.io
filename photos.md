@@ -39,7 +39,7 @@ Tap to view an individual image, then tap again to view full resolution. Swipe l
 
 Using swipe gestures will only animate movement if you haven't set a **prefers-reduced-motion setting**. For more info on vestibular motion disorders, please read <https://css-tricks.com/introduction-reduced-motion-media-query>.
 
-**All images are licensed under [Creative Commons Attribution](https://creativecommons.org/licenses/by/3.0/legalcode "Creative Commons Attribution legal license")**. [Here is a human-readable version](https://creativecommons.org/licenses/by/3.0/ "Creative Commons Attribution license: human-readable version"), but to summarise: you are **free to share and adapt** these images for any purpose, _even commercially_, but you **must give appropriate credit**.
+<a rel="license" style="display:inline-block;" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0;display:block;" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 
 {% for album_hash in page.photo_albums %}
   {% assign album_path = album_hash[0] %}
