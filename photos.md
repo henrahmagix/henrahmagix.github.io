@@ -39,14 +39,14 @@ Tap to view an individual image, then tap again to view full resolution. Swipe l
 
 Using swipe gestures will only animate movement if you haven't set a **prefers-reduced-motion setting**. For more info on vestibular motion disorders, please read <https://css-tricks.com/introduction-reduced-motion-media-query>.
 
-<a rel="license" style="display:inline-block;" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0;display:block;" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+<a rel="license" style="display:inline-block;" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0;display:block;" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />These works are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 
 {% for album_hash in page.photo_albums %}
   {% assign album_path = album_hash[0] %}
   <ul class="list-reset photos-list side-by-side">
     {% for img in album_hash[1] %}
       <li class="photos-list-item">
-        <a class="photos-list-photo outline-big" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
+        <a id="photo-{{ album_path|replace:'/','-' }}{{ img.name|remove:'.jpg' }}" class="photos-list-photo outline-big" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
           <img src="{{ album_path }}{{ img.name }}" alt="" class="orientation-{{img.orientation}}"
             srcset="{{ album_path }}{{ img.name }},
                     {{ album_path }}/3200/{{ img.name }} 3200w,

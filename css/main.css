@@ -733,7 +733,7 @@ details summary {
   border-radius: 5px;
 }
 .flash::after,
-#content :target {
+#content :target:not(.photos-list-photo) {
   animation: flash 640ms ease-in-out alternate 2;
 }
 

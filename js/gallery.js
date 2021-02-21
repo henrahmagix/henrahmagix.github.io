@@ -1,5 +1,5 @@
 (function () {
-  /** @type {HTMLElement} */
+  /** @type {HTMLAnchorElement} */
   var showing = null;
   var gallery = document.createElement('div');
   var bodyInner = document.getElementById('body-inner');
@@ -30,6 +30,8 @@
   gallery.appendChild(galleryLink);
 
   document.body.insertBefore(gallery, document.body.children[0]);
+
+  initFromHistory();
 
   var showControlsSetup = false;
   document.addEventListener('click', function (event) {
@@ -152,6 +154,8 @@
     gallery.focus();
     document.body.style.overflow = 'hidden';
     bodyInner.setAttribute('aria-hidden', 'true');
+
+    updateHistory(el.id, true);
   }
 
   /** @param {number=} animate */
@@ -176,8 +180,12 @@
     document.body.style.overflow = null;
     bodyInner.removeAttribute('aria-hidden');
     showing.focus();
+
+    var wasViewingID = showing.id;
     // TODO: keep shown list so it's quicker to open.
     showing = null;
+
+    updateHistory(wasViewingID, false);
   }
 
   function expand() {
@@ -216,5 +224,29 @@
 
   function showingMax() {
     return gallery.classList.contains('viewmax');
+  }
+
+  /**
+   * @param {string} id
+   * @param {boolean} showing
+   */
+  function updateHistory(id, showing) {
+    var newState = { galleryPhotoID: id, showing: showing };
+    var newHistoryURL = '#' + id;
+    if (window.history.state && window.history.state.galleryPhotoID) {
+      window.history.replaceState(newState, null, newHistoryURL);
+    } else {
+      window.history.pushState(newState, null, newHistoryURL);
+    }
+  }
+
+  function initFromHistory() {
+    var state = window.history.state;
+    if (!state || !state.galleryPhotoID || !state.showing) return;
+    var newShowing = /** @type {HTMLAnchorElement} */ (document.getElementById(state.galleryPhotoID));
+    if (!newShowing) return;
+    requestAnimationFrame(function () {
+      showLarge(newShowing);
+    });
   }
 }());
