@@ -13,6 +13,14 @@
   galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
   gallery.appendChild(galleryClose);
 
+  var galleryImg = document.createElement('img');
+  gallery.appendChild(galleryImg);
+
+  var galleryLink = document.createElement('a');
+  galleryLink.className = 'original-link'
+  galleryLink.textContent = 'View original'
+  gallery.appendChild(galleryLink);
+
   document.body.insertBefore(gallery, document.body.children[0]);
 
   document.addEventListener('click', function (event) {
@@ -99,22 +107,18 @@
 
   /** @param {HTMLAnchorElement} el */
   function showLarge(el) {
-    closeLarge();
-
     gallery.classList.remove('viewmax', 'animate-closing-up', 'animate-closing-down');
 
     showing = el;
 
-    var galleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
-    galleryImg.sizes = '100vw'; // not great for portrait, but at least it'll be loaded so tapping to viewmax will be instant
+    var newGalleryImg = /** @type {HTMLImageElement} */ (el.querySelector('img').cloneNode());
+    gallery.insertBefore(newGalleryImg, galleryImg);
+    gallery.removeChild(galleryImg);
+    galleryImg = newGalleryImg;
+    galleryImg.sizes = '100vw'; // not great for portrait, but at least it'll be loaded so tapping to viewmax should be instant
 
-    var galleryLink = document.createElement('a');
-    galleryLink.className = 'original-link'
     galleryLink.href = el.href;
-    galleryLink.textContent = 'View original'
 
-    gallery.appendChild(galleryImg);
-    gallery.appendChild(galleryLink);
     gallery.style.display = null;
     gallery.scrollTop = 0;
 
@@ -143,11 +147,6 @@
 
   function _close() {
     gallery.style.display = 'none';
-    gallery.querySelectorAll('*').forEach(function (child) {
-      if (child !== galleryClose) {
-        gallery.removeChild(child);
-      }
-    });
     document.body.style.overflow = null;
     bodyInner.removeAttribute('aria-hidden');
     showing.focus();
@@ -174,7 +173,6 @@
       return false;
     }
 
-    // Swap instead of closing/opening for speed.
     showLarge(nextToShow.querySelector('.photos-list-photo'));
     return true
   }
