@@ -676,8 +676,12 @@ blockquote.twitter-tweet > *:first-child {
 }
 
 .highlight pre,
-code {
+code,
+kbd {
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+.highlight pre,
+code {
   font-size: 85%;
 }
 code {

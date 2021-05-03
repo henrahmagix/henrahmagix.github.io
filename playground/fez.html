@@ -1,0 +1,238 @@
+---
+layout: playground
+title: Fez tools
+---
+
+<h2>Writing</h2>
+
+<p>Use this to encode and decode the writing language in <a href="https://en.wikipedia.org/wiki/Fez_%28video_game%29">Fez</a>. Input English to output Fezzish (or whatever the language is called!) or input Fezzish to output English.</p>
+
+<p>The English is saved to <code>localStorage</code> so you can come back later and not lose your translations 🤗</p>
+
+<p>The Fez language is written like Japanese: top to bottom, right to left. Whilst the vertically-written directional secrets in Fez are meant to be read with your head tilted to the right by 90°, I have decoded this text without any head-tilting. The decoding here can be confirmed by the "Quick brown fox…" text (spoiler lol sorry!).</p>
+
+<form>
+  <fieldset id="fez_to_text">
+    <legend>Fez alphabet</legend>
+    <p>Select a Fez letter to add it's corresponding English letter to the end of the English text. Keyboard navigation works as expected, plus you can use the arrow keys to navigate, and <code><kbd><kbd>Shift</kbd>+<kbd>Space</kbd></kbd></code> will add a space, whilst <code><kbd><kbd>Shift</kbd>+<kbd>Enter</kbd></kbd></code> will add a newline.</p>
+    <p>Each Fez letter has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez letter, as do <code>K</code> and <code>Q</code>.</p>
+    <div id="buttons"></div>
+  </fieldset>
+
+  <div id="text_to_fez">
+    <div>
+      <label for="fez_text_input">English</label>
+      <textarea id="fez_text_input" cols=20 rows=20>
+the quick
+brown
+fox
+
+jumps
+over
+the lazy
+dog</textarea>
+    </div>
+
+    <div>
+      <label for="fez_image_output">Fezzish</label>
+      <img id="fez_image_output">
+    </div>
+  </div>
+</form>
+
+<style>
+  textarea, canvas {
+    display: inline-block;
+    vertical-align: text-top;
+  }
+  canvas {
+    border: 1px solid grey;
+    padding: 4px;
+  }
+  #text_to_fez {
+    display: flex;
+  }
+  #text_to_fez label {
+    display: block;
+    margin: 0.5em 0;
+  }
+  #fez_to_text button {
+    display: inline-block;
+    /* button reset */
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: transparent;
+  }
+  #fez_to_text button img {
+    display: block;
+    margin: 2px;
+  }
+  #fez_to_text button:hover,
+  #fez_to_text button:focus {
+    cursor: pointer;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #fez_image_output, #fez_to_text button img {
+      filter: invert();
+    }
+  }
+
+</style>
+
+<script>
+String.prototype.texel = function () {
+  return this.split(',').map(function (s) { return s.split('') });
+};
+
+(function () {
+  var texelScale = 4;
+  var texelSize = 5;
+
+  var DEFAULT_LETTER_TEXEL = '10101,01010,10101,01010,10101'.texel();
+
+  var alphabetTexels = {
+    a: '00000,11011,01110,00000,00000'.texel(),
+    b: '00000,01110,01010,11110,00000'.texel(),
+    c: '00000,00011,00010,00011,00000'.texel(),
+    d: '00000,00000,00000,11000,01000'.texel(),
+    e: '00000,11000,01000,01111,00000'.texel(),
+    f: '00000,01010,11110,01010,00000'.texel(),
+    g: '00010,00110,00100,00110,00010'.texel(),
+    h: '00000,01110,01010,01110,00010'.texel(),
+    i: '01010,01110,00000,00000,00000'.texel(),
+    j: '00000,00000,00000,00011,00010'.texel(),
+    k: '00010,00010,00010,01110,01000'.texel(),
+    l: '00000,01110,00100,01110,00100'.texel(),
+    m: '00000,00000,01110,11011,00000'.texel(),
+    n: '00000,01111,01010,01110,00000'.texel(),
+    o: '00000,11000,01000,11000,00000'.texel(),
+    p: '00010,00011,00000,00000,00000'.texel(),
+    q: '00010,00010,00010,01110,01000'.texel(),
+    r: '00000,01010,01111,01010,00000'.texel(),
+    s: '01000,01100,00100,01100,01000'.texel(),
+    t: '01000,01110,01010,01110,00000'.texel(),
+    u: '00000,00000,00000,01110,01010'.texel(),
+    v: '00000,00000,00000,01110,01010'.texel(),
+    w: '01000,11000,00000,00000,00000'.texel(),
+    x: '00010,01110,01000,01000,01000'.texel(),
+    y: '00100,01110,00100,01110,00000'.texel(),
+    z: '00000,11110,00010,00011,00000'.texel()
+  };
+
+  var textToFez = document.getElementById('text_to_fez');
+  var fezToText = document.getElementById('fez_to_text');
+
+  var textInput = textToFez.querySelector('textarea');
+  textInput.addEventListener('input', updateFromTextInput);
+  var outputImg = textToFez.querySelector('#fez_image_output');
+  var outputCanvas = document.createElement('canvas');
+  var outputCtx = outputCanvas.getContext('2d');
+
+  var savedText = localStorage.getItem('henryblythcom_playground_fez_text');
+  if (savedText) {
+    textInput.value = savedText;
+  }
+  updateFromTextInput();
+
+  function updateFromTextInput(e) {
+    localStorage.setItem('henryblythcom_playground_fez_text', textInput.value);
+    drawLettersFromText(outputCanvas, outputCtx, textInput.value);
+    outputImg.width = outputCanvas.width;
+    outputImg.height = outputCanvas.height;
+    outputImg.src = outputCanvas.toDataURL();
+  }
+
+  var fezChooser = fezToText.querySelector('#buttons');
+  var fezAlphabetBuilderCanvas = document.createElement('canvas');
+  fezAlphabetBuilderCanvas.width = texelSize * texelScale;
+  fezAlphabetBuilderCanvas.height = fezAlphabetBuilderCanvas.width;
+  var fezAlphabetBuilderCtx = fezAlphabetBuilderCanvas.getContext('2d');
+  'agmstnhbicuvopjdwkqexzlfyr'.split('').forEach(function (char) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.title = char;
+    button.onclick = function () { selectChar(char) };
+    button.onkeydown = onFezChoiceButtonKeyDown;
+
+    var texel = alphabetTexels[char] || DEFAULT_LETTER_TEXEL;
+    drawTexel(fezAlphabetBuilderCtx, texel, 0, 0);
+    var img = new Image();
+    img.alt = char;
+    img.src = fezAlphabetBuilderCanvas.toDataURL();
+    button.append(img);
+    fezChooser.append(button);
+  });
+
+  function selectChar(char) {
+    if (Number.isInteger(char) && char < 0) {
+      textInput.value = textInput.value.slice(0, -1);
+    } else {
+      textInput.value += char;
+    }
+    updateFromTextInput();
+  }
+
+  /** @param {KeyboardEvent} e */
+  function onFezChoiceButtonKeyDown(e) {
+    if (e.shiftKey && e.code === 'Space') {
+      selectChar(' ');
+      return false;
+    } else if (e.shiftKey && e.code === 'Enter') {
+      selectChar('\n');
+      return false;
+    } else if (e.code === 'Backspace') {
+      selectChar(-1);
+      return false;
+    } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
+      var prev = e.target.previousElementSibling || e.target.parentElement.lastElementChild;
+      if (prev && prev.focus) {
+        prev.focus();
+        return false;
+      }
+    } else if (e.code === 'ArrowRight' || e.code === 'ArrowDown') {
+      var next = e.target.nextElementSibling || e.target.parentElement.firstElementChild;
+      if (next && next.focus) {
+        next.focus();
+        return false;
+      }
+    }
+  }
+
+  function drawLettersFromText(canvas, ctx, string) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    var lines = string.split('\n').map(function (s) { return s.split('') });
+    var gap = texelScale;
+    var charSize = texelSize * texelScale
+
+    var longestLineLength = lines.reduce(function (n, l) { var len = l.length; return len > n ? len : n }, 0);
+    var cw = canvas.width = lines.length * (charSize + gap);
+    var ch = canvas.height = longestLineLength * (charSize + gap);
+
+    lines.forEach(function (chars, linenum) {
+      chars.forEach(function (char, i) {
+        if (char !== ' ') {
+          var texel = alphabetTexels[char] || DEFAULT_LETTER_TEXEL;
+          var x = cw - charSize - (charSize * linenum) - (gap * linenum);
+          var y = (charSize * i) + (gap * i)
+          drawTexel(ctx, texel, x, y);
+        }
+        i++;
+      });
+    });
+  }
+
+  function drawTexel(ctx, texel, x, y) {
+    for (var ix = 0; ix < texelSize; ix++) {
+      for (var iy = 0; iy < texelSize; iy++) {
+        var xFill = x + (ix * texelScale);
+        var yFill = y + (iy * texelScale);
+        ctx.fillStyle = texel[iy][ix] === '1' ? 'white' : 'black';
+        ctx.fillRect(xFill, yFill, texelScale, texelScale)
+      }
+    }
+  }
+}());
+</script>
