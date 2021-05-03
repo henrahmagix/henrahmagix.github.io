@@ -13,10 +13,13 @@ title: Fez tools
 
 <form>
   <fieldset id="fez_to_text">
-    <legend>Fez alphabet</legend>
-    <p>Select a Fez letter to add it's corresponding English letter to the end of the English text. Keyboard navigation works as expected, plus you can use the arrow keys to navigate, and <code><kbd><kbd>Shift</kbd>+<kbd>Space</kbd></kbd></code> will add a space, whilst <code><kbd><kbd>Shift</kbd>+<kbd>Enter</kbd></kbd></code> will add a newline.</p>
-    <p>Each Fez letter has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez letter, as do <code>K</code> and <code>Q</code>.</p>
-    <div id="buttons"></div>
+    <legend>Fez glyph set</legend>
+    <p>Select a Fez glyph to add it's corresponding English letter to the end of the English text. Keyboard navigation works as expected, plus you can use the arrow keys to navigate, and <code><kbd><kbd>Shift</kbd>+<kbd>Space</kbd></kbd></code> will add a space, whilst <code><kbd><kbd>Shift</kbd>+<kbd>Enter</kbd></kbd></code> will add a newline.</p>
+    <p>Each Fez glyph has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez glyph, as do <code>K</code> and <code>Q</code>. If an input character is unknown, it will show <img class="glyph" id="unknown_glyph" style="display: inline-block; vertical-align: middle;"></p>
+    <div id="alphanumeric_buttons"></div>
+
+    <p>These are directional glyphs:</p>
+    <div id="direction_set"></div>
   </fieldset>
 
   <div id="text_to_fez">
@@ -64,7 +67,7 @@ dog</textarea>
     padding: 0;
     background: transparent;
   }
-  #fez_to_text button img {
+  .glyph {
     display: block;
     margin: 2px;
   }
@@ -74,7 +77,7 @@ dog</textarea>
   }
 
   @media (prefers-color-scheme: dark) {
-    #fez_image_output, #fez_to_text button img {
+    #fez_image_output, .glyph {
       filter: invert();
     }
   }
@@ -82,43 +85,53 @@ dog</textarea>
 </style>
 
 <script>
-String.prototype.texel = function () {
+String.prototype.toFezGlyph = function () {
   return this.split(',').map(function (s) { return s.split('') });
 };
 
 (function () {
-  var texelScale = 4;
-  var texelSize = 5;
+  var glyphScale = 4;
+  var glyphSize = 5;
 
-  var DEFAULT_LETTER_TEXEL = '10101,01010,10101,01010,10101'.texel();
+  var UNKNOWN_GLYPH = '10101,01010,10101,01010,10101'.toFezGlyph();
 
-  var alphabetTexels = {
-    a: '00000,11011,01110,00000,00000'.texel(),
-    b: '00000,01110,01010,11110,00000'.texel(),
-    c: '00000,00011,00010,00011,00000'.texel(),
-    d: '00000,00000,00000,11000,01000'.texel(),
-    e: '00000,11000,01000,01111,00000'.texel(),
-    f: '00000,01010,11110,01010,00000'.texel(),
-    g: '00010,00110,00100,00110,00010'.texel(),
-    h: '00000,01110,01010,01110,00010'.texel(),
-    i: '01010,01110,00000,00000,00000'.texel(),
-    j: '00000,00000,00000,00011,00010'.texel(),
-    k: '00010,00010,00010,01110,01000'.texel(),
-    l: '00000,01110,00100,01110,00100'.texel(),
-    m: '00000,00000,01110,11011,00000'.texel(),
-    n: '00000,01111,01010,01110,00000'.texel(),
-    o: '00000,11000,01000,11000,00000'.texel(),
-    p: '00010,00011,00000,00000,00000'.texel(),
-    q: '00010,00010,00010,01110,01000'.texel(),
-    r: '00000,01010,01111,01010,00000'.texel(),
-    s: '01000,01100,00100,01100,01000'.texel(),
-    t: '01000,01110,01010,01110,00000'.texel(),
-    u: '00000,00000,00000,01110,01010'.texel(),
-    v: '00000,00000,00000,01110,01010'.texel(),
-    w: '01000,11000,00000,00000,00000'.texel(),
-    x: '00010,01110,01000,01000,01000'.texel(),
-    y: '00100,01110,00100,01110,00000'.texel(),
-    z: '00000,11110,00010,00011,00000'.texel()
+  var alphanumericGlyphs = {
+    a: '00000,11011,01110,00000,00000'.toFezGlyph(),
+    b: '00000,01110,01010,11110,00000'.toFezGlyph(),
+    c: '00000,00011,00010,00011,00000'.toFezGlyph(),
+    d: '00000,00000,00000,11000,01000'.toFezGlyph(),
+    e: '00000,11000,01000,01111,00000'.toFezGlyph(),
+    f: '00000,01010,11110,01010,00000'.toFezGlyph(),
+    g: '00010,00110,00100,00110,00010'.toFezGlyph(),
+    h: '00000,01110,01010,01110,00010'.toFezGlyph(),
+    i: '01010,01110,00000,00000,00000'.toFezGlyph(),
+    j: '00000,00000,00000,00011,00010'.toFezGlyph(),
+    k: '00010,00010,00010,01110,01000'.toFezGlyph(),
+    l: '00000,01110,00100,01110,00100'.toFezGlyph(),
+    m: '00000,00000,01110,11011,00000'.toFezGlyph(),
+    n: '00000,01111,01010,01110,00000'.toFezGlyph(),
+    o: '00000,11000,01000,11000,00000'.toFezGlyph(),
+    p: '00010,00011,00000,00000,00000'.toFezGlyph(),
+    q: '00010,00010,00010,01110,01000'.toFezGlyph(),
+    r: '00000,01010,01111,01010,00000'.toFezGlyph(),
+    s: '01000,01100,00100,01100,01000'.toFezGlyph(),
+    t: '01000,01110,01010,01110,00000'.toFezGlyph(),
+    u: '00000,00000,00000,01110,01010'.toFezGlyph(),
+    v: '00000,00000,00000,01110,01010'.toFezGlyph(),
+    w: '01000,11000,00000,00000,00000'.toFezGlyph(),
+    x: '00010,01110,01000,01000,01000'.toFezGlyph(),
+    y: '00100,01110,00100,01110,00000'.toFezGlyph(),
+    z: '00000,11110,00010,00011,00000'.toFezGlyph()
+  };
+
+  var directionalGlyphPairs = {
+    '[up]': ['00000,01010,01010,01110,00000'.toFezGlyph(), '00000,00000,00100,01110,00000'.toFezGlyph()],
+    '[right]': ['00000,01010,00010,01110,00000'.toFezGlyph(), '00000,01000,01100,01000,00000'.toFezGlyph()],
+    '[down]': ['00000,01010,00000,01110,00000'.toFezGlyph(), '00000,01110,00100,00000,00000'.toFezGlyph()],
+    '[left]': ['00000,01110,01010,01010,00000'.toFezGlyph(), '00000,00010,00110,00010,00000'.toFezGlyph()],
+    '[rotate left]': ['00000,01110,00000,01110,00000'.toFezGlyph(), '00000,01100,00110,00000,00000'.toFezGlyph()],
+    '[rotate right]': ['00000,01110,01000,01110,00000'.toFezGlyph(), '00000,00110,01100,00000,00000'.toFezGlyph()],
+    '[jump]': ['00000,01110,00010,01110,00000'.toFezGlyph(), '00000,01100,01100,00000,00000'.toFezGlyph()]
   };
 
   var textToFez = document.getElementById('text_to_fez');
@@ -144,11 +157,11 @@ String.prototype.texel = function () {
     outputImg.src = outputCanvas.toDataURL();
   }
 
-  var fezChooser = fezToText.querySelector('#buttons');
-  var fezAlphabetBuilderCanvas = document.createElement('canvas');
-  fezAlphabetBuilderCanvas.width = texelSize * texelScale;
-  fezAlphabetBuilderCanvas.height = fezAlphabetBuilderCanvas.width;
-  var fezAlphabetBuilderCtx = fezAlphabetBuilderCanvas.getContext('2d');
+  var fezAlphaNumericChooser = fezToText.querySelector('#alphanumeric_buttons');
+  var fezGlyphBuilderCanvas = document.createElement('canvas');
+  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
+  var fezGlyphBuilderCtx = fezGlyphBuilderCanvas.getContext('2d');
   'agmstnhbicuvopjdwkqexzlfyr'.split('').forEach(function (char) {
     var button = document.createElement('button');
     button.type = 'button';
@@ -156,14 +169,44 @@ String.prototype.texel = function () {
     button.onclick = function () { selectChar(char) };
     button.onkeydown = onFezChoiceButtonKeyDown;
 
-    var texel = alphabetTexels[char] || DEFAULT_LETTER_TEXEL;
-    drawTexel(fezAlphabetBuilderCtx, texel, 0, 0);
+    var glyph = alphanumericGlyphs[char];
+    drawGlyph(fezGlyphBuilderCtx, glyph, 0, 0);
     var img = new Image();
+    img.className = 'glyph';
     img.alt = char;
-    img.src = fezAlphabetBuilderCanvas.toDataURL();
+    img.src = fezGlyphBuilderCanvas.toDataURL();
     button.append(img);
-    fezChooser.append(button);
+    fezAlphaNumericChooser.append(button);
   });
+
+  var fezDirectionSet = fezToText.querySelector('#direction_set');
+  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 2;
+  ['[up]', '[right]', '[down]', '[left]', '[rotate left]', '[rotate right]', '[jump]',].forEach(function (direction) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.title = 'Type ' + direction;
+    button.onclick = function () { selectChar(direction) };
+    button.onkeydown = onFezChoiceButtonKeyDown;
+
+    directionalGlyphPairs[direction].forEach(function (glyph, i) {
+      drawGlyph(fezGlyphBuilderCtx, glyph, 0, i * (fezGlyphBuilderCanvas.height / 2));
+    });
+
+    var img = new Image();
+    img.className = 'glyph';
+    img.alt = direction;
+    img.src = fezGlyphBuilderCanvas.toDataURL();
+    button.append(img, direction);
+    fezDirectionSet.append(button);
+  });
+
+  var unknownGlyphImg = document.getElementById('unknown_glyph');
+  unknownGlyphImg.alt = 'unknown character';
+  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
+  drawGlyph(fezGlyphBuilderCtx, UNKNOWN_GLYPH, 0, 0);
+  unknownGlyphImg.src = fezGlyphBuilderCanvas.toDataURL();
 
   function selectChar(char) {
     if (Number.isInteger(char) && char < 0) {
@@ -203,34 +246,39 @@ String.prototype.texel = function () {
   function drawLettersFromText(canvas, ctx, string) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    var lines = string.split('\n').map(function (s) { return s.split('') });
-    var gap = texelScale;
-    var charSize = texelSize * texelScale
+    var lines = string.split('\n').map(function (s) { return s.match(/\[[^\]]+\]|./g) });
+    var gap = glyphScale;
+    var charSize = glyphSize * glyphScale
 
-    var longestLineLength = lines.reduce(function (n, l) { var len = l.length; return len > n ? len : n }, 0);
+    var longestLineLength = lines.reduce(function (n, l) { var len = l ? l.length : 0; return len > n ? len : n }, 0);
     var cw = canvas.width = lines.length * (charSize + gap);
     var ch = canvas.height = longestLineLength * (charSize + gap);
 
     lines.forEach(function (chars, linenum) {
-      chars.forEach(function (char, i) {
+      chars && chars.forEach(function (char, i) {
         if (char !== ' ') {
-          var texel = alphabetTexels[char] || DEFAULT_LETTER_TEXEL;
+          var glyph = alphanumericGlyphs[char];
+          if (!glyph) {
+            glyph = directionalGlyphPairs[char];
+            glyph = glyph && glyph[0] || UNKNOWN_GLYPH;
+          }
           var x = cw - charSize - (charSize * linenum) - (gap * linenum);
           var y = (charSize * i) + (gap * i)
-          drawTexel(ctx, texel, x, y);
+          drawGlyph(ctx, glyph, x, y);
         }
         i++;
       });
     });
   }
 
-  function drawTexel(ctx, texel, x, y) {
-    for (var ix = 0; ix < texelSize; ix++) {
-      for (var iy = 0; iy < texelSize; iy++) {
-        var xFill = x + (ix * texelScale);
-        var yFill = y + (iy * texelScale);
-        ctx.fillStyle = texel[iy][ix] === '1' ? 'white' : 'black';
-        ctx.fillRect(xFill, yFill, texelScale, texelScale)
+  function drawGlyph(ctx, glyph, x, y) {
+    for (var ix = 0; ix < glyphSize; ix++) {
+      for (var iy = 0; iy < glyphSize; iy++) {
+        var xFill = x + (ix * glyphScale);
+        var yFill = y + (iy * glyphScale);
+        // Fill every pixel so glyphs don't mix together when overwriting.
+        ctx.fillStyle = glyph[iy][ix] === '1' ? 'white' : 'black';
+        ctx.fillRect(xFill, yFill, glyphScale, glyphScale)
       }
     }
   }
