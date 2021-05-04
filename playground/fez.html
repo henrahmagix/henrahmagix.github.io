@@ -15,8 +15,8 @@ title: Fez tools
   <fieldset id="fez_to_text">
     <legend>Fez glyph set</legend>
     <p>Select a Fez glyph to add it's corresponding English letter to the end of the English text. Keyboard navigation works as expected, plus you can use the arrow keys to navigate, and <code><kbd><kbd>Shift</kbd>+<kbd>Space</kbd></kbd></code> will add a space, whilst <code><kbd><kbd>Shift</kbd>+<kbd>Enter</kbd></kbd></code> will add a newline.</p>
-    <p>Each Fez glyph has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez glyph, as do <code>K</code> and <code>Q</code>. If an input character is unknown, it will show <img class="glyph" id="unknown_glyph" style="display: inline-block; vertical-align: middle;"></p>
-    <div id="alphanumeric_buttons"></div>
+    <p>Each Fez glyph has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez glyph, as do <code>K</code> and <code>Q</code>. If an input character is unknown, it will show <img class="glyph" id="not_found_glyph" style="display: inline-block; vertical-align: middle;"></p>
+    <div id="alphabet_buttons"></div>
 
     <p>These are directional glyphs:</p>
     <div id="direction_set"></div>
@@ -49,6 +49,9 @@ dog</textarea>
   textarea, canvas {
     display: inline-block;
     vertical-align: text-top;
+  }
+  textarea {
+    line-height: 1.2;
   }
   canvas {
     border: 1px solid grey;
@@ -110,9 +113,9 @@ String.prototype.toFezGlyph = function () {
   var glyphScale = 4;
   var glyphSize = 5;
 
-  var UNKNOWN_GLYPH = '10101,01010,10101,01010,10101'.toFezGlyph();
+  var NOT_FOUND_GLYPH = '10101,01010,10101,01010,10101'.toFezGlyph();
 
-  var alphanumericGlyphs = {
+  var alphabetGlyphs = {
     a: '00000,11011,01110,00000,00000'.toFezGlyph(),
     b: '00000,01110,01010,11110,00000'.toFezGlyph(),
     c: '00000,00011,00010,00011,00000'.toFezGlyph(),
@@ -162,6 +165,10 @@ String.prototype.toFezGlyph = function () {
 
   var savedText = localStorage.getItem('henryblythcom_playground_fez_text');
   if (savedText) {
+    var numlines = savedText.split('').filter(function (s) { return s === '\n' }).length;
+    if (Number.isInteger(numlines)) {
+      textInput.rows = numlines + 1;
+    }
     textInput.value = savedText;
   }
   updateFromTextInput();
@@ -174,8 +181,9 @@ String.prototype.toFezGlyph = function () {
     outputImg.src = outputCanvas.toDataURL();
   }
 
-  var fezAlphaNumericChooser = fezToText.querySelector('#alphanumeric_buttons');
   var fezGlyphBuilderCanvas = document.createElement('canvas');
+
+  var fezAlphabetChooser = fezToText.querySelector('#alphabet_buttons');
   fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
   var fezGlyphBuilderCtx = fezGlyphBuilderCanvas.getContext('2d');
@@ -183,27 +191,27 @@ String.prototype.toFezGlyph = function () {
     var button = document.createElement('button');
     button.type = 'button';
     button.title = char;
-    button.onclick = function () { selectChar(char) };
+    button.onclick = function () { typeChar(char) };
     button.onkeydown = onFezChoiceButtonKeyDown;
 
-    var glyph = alphanumericGlyphs[char];
+    var glyph = alphabetGlyphs[char];
     drawGlyph(fezGlyphBuilderCtx, glyph, 0, 0);
     var img = new Image();
     img.className = 'glyph';
     img.alt = char;
     img.src = fezGlyphBuilderCanvas.toDataURL();
     button.append(img);
-    fezAlphaNumericChooser.append(button);
+    fezAlphabetChooser.append(button);
   });
 
   var fezDirectionSet = fezToText.querySelector('#direction_set');
   fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 2;
-  ['[up]', '[right]', '[down]', '[left]', '[rotate left]', '[rotate right]', '[jump]',].forEach(function (direction) {
+  ['[up]', '[right]', '[down]', '[left]', '[rotate left]', '[rotate right]', '[jump]'].forEach(function (direction) {
     var button = document.createElement('button');
     button.type = 'button';
     button.title = 'Type ' + direction;
-    button.onclick = function () { selectChar(direction) };
+    button.onclick = function () { typeChar(direction) };
     button.onkeydown = onFezChoiceButtonKeyDown;
 
     directionalGlyphPairs[direction].forEach(function (glyph, i) {
@@ -218,32 +226,32 @@ String.prototype.toFezGlyph = function () {
     fezDirectionSet.append(button);
   });
 
-  var unknownGlyphImg = document.getElementById('unknown_glyph');
-  unknownGlyphImg.alt = 'unknown character';
+  var notFoundGlyphImg = document.getElementById('not_found_glyph');
+  notFoundGlyphImg.alt = 'unknown character';
   fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
-  drawGlyph(fezGlyphBuilderCtx, UNKNOWN_GLYPH, 0, 0);
-  unknownGlyphImg.src = fezGlyphBuilderCanvas.toDataURL();
+  drawGlyph(fezGlyphBuilderCtx, NOT_FOUND_GLYPH, 0, 0);
+  notFoundGlyphImg.src = fezGlyphBuilderCanvas.toDataURL();
 
-  function selectChar(char) {
-    if (Number.isInteger(char) && char < 0) {
-      textInput.value = textInput.value.slice(0, -1);
-    } else {
-      textInput.value += char;
-    }
+  function typeChar(char) {
+    textInput.value += char;
     updateFromTextInput();
+  }
+
+  function typeBackspace() {
+    textInput.value = textInput.value.slice(0, -1);
   }
 
   /** @param {KeyboardEvent} e */
   function onFezChoiceButtonKeyDown(e) {
     if (e.shiftKey && e.code === 'Space') {
-      selectChar(' ');
+      typeChar(' ');
       return false;
     } else if (e.shiftKey && e.code === 'Enter') {
-      selectChar('\n');
+      typeChar('\n');
       return false;
     } else if (e.code === 'Backspace') {
-      selectChar(-1);
+      typeBackspace();
       return false;
     } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
       var prev = e.target.previousElementSibling || e.target.parentElement.lastElementChild;
@@ -274,10 +282,10 @@ String.prototype.toFezGlyph = function () {
     lines.forEach(function (chars, linenum) {
       chars && chars.forEach(function (char, i) {
         if (char !== ' ') {
-          var glyph = alphanumericGlyphs[char];
+          var glyph = alphabetGlyphs[char];
           if (!glyph) {
             glyph = directionalGlyphPairs[char];
-            glyph = glyph && glyph[0] || UNKNOWN_GLYPH;
+            glyph = glyph && glyph[0] || NOT_FOUND_GLYPH;
           }
           var x = cw - charSize - (charSize * linenum) - (gap * linenum);
           var y = (charSize * i) + (gap * i)
@@ -289,8 +297,10 @@ String.prototype.toFezGlyph = function () {
   }
 
   function drawGlyph(ctx, glyph, x, y) {
-    for (var ix = 0; ix < glyphSize; ix++) {
-      for (var iy = 0; iy < glyphSize; iy++) {
+    var xMax = glyph[0].length;
+    var yMax = glyph.length;
+    for (var ix = 0; ix < xMax; ix++) {
+      for (var iy = 0; iy < yMax; iy++) {
         var xFill = x + (ix * glyphScale);
         var yFill = y + (iy * glyphScale);
         // Fill every pixel so glyphs don't mix together when overwriting.
