@@ -36,9 +36,11 @@ the lazy
 dog</textarea>
     </div>
 
-    <div>
+    <div class="image-scroller-wrapper">
       <label for="fez_image_output">Fezzish</label>
-      <img id="fez_image_output">
+      <div class="image-scroller">
+        <img id="fez_image_output">
+      </div>
     </div>
   </div>
 </form>
@@ -55,6 +57,17 @@ dog</textarea>
   #text_to_fez {
     display: flex;
   }
+  .image-scroller-wrapper {
+    overflow: auto;
+  }
+  .image-scroller {
+    display: block;
+    white-space: nowrap;
+    overflow: auto;
+  }
+  .image-scroller img {
+    max-width: none;
+  }
   #text_to_fez label {
     display: block;
     margin: 0.5em 0;
@@ -66,6 +79,10 @@ dog</textarea>
     border: none;
     padding: 0;
     background: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
   }
   .glyph {
     display: block;
