@@ -16,6 +16,8 @@ title: Fez tools
     <legend>Fez glyph set</legend>
     <p>Select a Fez glyph to add it's corresponding English letter to the end of the English text. Keyboard navigation works as expected, plus you can use the arrow keys to navigate, and <code><kbd><kbd>Shift</kbd>+<kbd>Space</kbd></kbd></code> will add a space, whilst <code><kbd><kbd>Shift</kbd>+<kbd>Enter</kbd></kbd></code> will add a newline.</p>
     <p>Each Fez glyph has a <code>title</code> attribute with the English letter. <code>U</code> and <code>V</code> share the same Fez glyph, as do <code>K</code> and <code>Q</code>. If an input character is unknown, it will show <img class="glyph" id="not_found_glyph" style="display: inline-block; vertical-align: middle;"></p>
+    <input type="checkbox" id="toggle_alphabet_order">
+    <label for="toggle_alphabet_order">Order alphabetically?</label>
     <div id="alphabet_buttons"></div>
 
     <p>These are directional glyphs:</p>
@@ -46,16 +48,11 @@ dog</textarea>
 </form>
 
 <style>
-  textarea, canvas {
+  textarea {
     display: inline-block;
     vertical-align: text-top;
-  }
-  textarea {
     line-height: 1.2;
-  }
-  canvas {
-    border: 1px solid grey;
-    padding: 4px;
+    height: 360px;
   }
   #text_to_fez {
     display: flex;
@@ -69,7 +66,11 @@ dog</textarea>
     overflow: auto;
   }
   .image-scroller img {
+    display: block;
     max-width: none;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: top left;
   }
   #text_to_fez label {
     display: block;
@@ -159,7 +160,7 @@ String.prototype.toFezGlyph = function () {
 
   var textInput = textToFez.querySelector('textarea');
   textInput.addEventListener('input', updateFromTextInput);
-  var outputImg = textToFez.querySelector('#fez_image_output');
+  var outputImg = document.getElementById('fez_image_output');
   var outputCanvas = document.createElement('canvas');
   var outputCtx = outputCanvas.getContext('2d');
 
@@ -183,28 +184,42 @@ String.prototype.toFezGlyph = function () {
 
   var fezGlyphBuilderCanvas = document.createElement('canvas');
 
-  var fezAlphabetChooser = fezToText.querySelector('#alphabet_buttons');
-  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
-  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
-  var fezGlyphBuilderCtx = fezGlyphBuilderCanvas.getContext('2d');
-  'agmstnhbicuvopjdwkqexzlfyr'.split('').forEach(function (char) {
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.title = char;
-    button.onclick = function () { typeChar(char) };
-    button.onkeydown = onFezChoiceButtonKeyDown;
+  var fezAlphabetChooser = document.getElementById('alphabet_buttons');
+  var alphabetOrderByGlyph = 'agmstnhbicuvopjdwkqexzlfyr';
+  var alphabetOrderAlphabetically = 'abcdefghijklmnopqrstuvwxyz';
 
-    var glyph = alphabetGlyphs[char];
-    drawGlyph(fezGlyphBuilderCtx, glyph, 0, 0);
-    var img = new Image();
-    img.className = 'glyph';
-    img.alt = char;
-    img.src = fezGlyphBuilderCanvas.toDataURL();
-    button.append(img);
-    fezAlphabetChooser.append(button);
-  });
+  var alphabetOrderToggle = /** @type {HTMLInputElement} */ (document.getElementById('toggle_alphabet_order'));
+  alphabetOrderToggle.addEventListener('change', function () { buildAlphabetChooser(alphabetOrderToggle.checked ? alphabetOrderAlphabetically : alphabetOrderByGlyph) });
 
-  var fezDirectionSet = fezToText.querySelector('#direction_set');
+  var currentAlphabetOrder = localStorage.getItem('henryblythcom_playground_fez_alphabet_order') || alphabetOrderByGlyph;
+  buildAlphabetChooser(currentAlphabetOrder);
+  alphabetOrderToggle.checked = currentAlphabetOrder === alphabetOrderAlphabetically;
+
+  function buildAlphabetChooser(order) {
+    localStorage.setItem('henryblythcom_playground_fez_alphabet_order', order);
+    fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+    fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
+    var fezGlyphBuilderCtx = fezGlyphBuilderCanvas.getContext('2d');
+    fezAlphabetChooser.textContent = '';
+    order.split('').forEach(function (char) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.title = char;
+      button.onclick = function () { typeChar(char) };
+      button.onkeydown = onFezChoiceButtonKeyDown;
+
+      var glyph = alphabetGlyphs[char];
+      drawGlyph(fezGlyphBuilderCtx, glyph, 0, 0);
+      var img = new Image();
+      img.className = 'glyph';
+      img.alt = char;
+      img.src = fezGlyphBuilderCanvas.toDataURL();
+      button.append(img, char);
+      fezAlphabetChooser.append(button);
+    });
+  }
+
+  var fezDirectionSet = document.getElementById('direction_set');
   fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 2;
   ['[up]', '[right]', '[down]', '[left]', '[rotate left]', '[rotate right]', '[jump]'].forEach(function (direction) {
