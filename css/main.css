@@ -677,7 +677,8 @@ blockquote.twitter-tweet > *:first-child {
 
 .highlight pre,
 code,
-kbd {
+kbd,
+.monospace {
   font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
 }
 .highlight pre,

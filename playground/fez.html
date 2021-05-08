@@ -27,7 +27,7 @@ title: Fez tools
   <div id="text_to_fez">
     <div>
       <label for="fez_text_input">English</label>
-      <textarea id="fez_text_input" cols=20 rows=20>
+      <textarea id="fez_text_input" cols=20 rows=20 class="monospace">
 the quick
 brown
 fox
@@ -36,6 +36,7 @@ jumps
 over
 the lazy
 dog</textarea>
+    <button id="swap_uv_kq" type="button">Swap <code>u/v</code> and <code>k/q</code></button>
     </div>
 
     <div class="image-scroller-wrapper">
@@ -49,10 +50,12 @@ dog</textarea>
 
 <style>
   textarea {
-    display: inline-block;
-    vertical-align: text-top;
+    display: block;
     line-height: 1.2;
     height: 360px;
+  }
+  #swap_uv_kq {
+    display: block;
   }
   #text_to_fez {
     display: flex;
@@ -78,23 +81,10 @@ dog</textarea>
   }
   #fez_to_text button {
     display: inline-block;
-    /* button reset */
-    appearance: none;
-    border: none;
-    padding: 0;
-    background: transparent;
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-    font-style: inherit;
   }
   .glyph {
     display: block;
     margin: 2px;
-  }
-  #fez_to_text button:hover,
-  #fez_to_text button:focus {
-    cursor: pointer;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -174,7 +164,12 @@ String.prototype.toFezGlyph = function () {
   }
   updateFromTextInput();
 
-  function updateFromTextInput(e) {
+  document.getElementById('swap_uv_kq').addEventListener('click', function () {
+    textInput.value = textInput.value.replace(/u/g, 'V').replace(/v/g, 'U').replace(/k/g, 'Q').replace(/q/g, 'K').toLowerCase();
+    updateFromTextInput();
+  });
+
+  function updateFromTextInput() {
     localStorage.setItem('henryblythcom_playground_fez_text', textInput.value);
     drawLettersFromText(outputCanvas, outputCtx, textInput.value);
     outputImg.width = outputCanvas.width;
@@ -203,6 +198,7 @@ String.prototype.toFezGlyph = function () {
     fezAlphabetChooser.textContent = '';
     order.split('').forEach(function (char) {
       var button = document.createElement('button');
+      button.className = 'button-link';
       button.type = 'button';
       button.title = char;
       button.onclick = function () { typeChar(char) };
@@ -224,6 +220,7 @@ String.prototype.toFezGlyph = function () {
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 2;
   ['[up]', '[right]', '[down]', '[left]', '[rotate left]', '[rotate right]', '[jump]'].forEach(function (direction) {
     var button = document.createElement('button');
+    button.className = 'button-link';
     button.type = 'button';
     button.title = 'Type ' + direction;
     button.onclick = function () { typeChar(direction) };
