@@ -119,27 +119,26 @@ back_to: home
   <a href="#content" class="accessible-skip">Skip to main content</a>
 
   <header class="page-header h-card">
-    <div class="logo-and-nav">
-      <a class="logo logo-flipper" rel="me" href="/" title="Home">
-        <svg>
-          <use xlink:href="/images/logo.svg#signature"></use>
-        </svg>
-        <img class="backface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
-      </a>
-
-      <nav id="navigation">
-        <ul class="list-reset">
-          {% for link_hash in site.data.links %}
-          {% assign link = link_hash[1] %}
-            {% if link.url and link.hide_nav != true %}
-              <li>
-              {% include link.html title=link.title url=link.url relme=link.relme %}
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </nav>
-    </div>
+    <nav id="navigation" aria-label="Main Navigation">
+      <ul class="nav list-reset">
+        <li class="logo-list-item">
+          <a class="logo logo-flipper" rel="me" href="/" title="Home">
+            <svg>
+              <use xlink:href="/images/logo.svg#signature"></use>
+            </svg>
+            <img class="backface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
+          </a>
+        </li>
+        {% for link_hash in site.data.links %}
+        {% assign link = link_hash[1] %}
+          {% if link.url and link.hide_nav != true %}
+            <li>
+            {% include link.html title=link.title url=link.url relme=link.relme %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
   </header>
 
   {% capture header_title %}
@@ -212,18 +211,20 @@ back_to: home
   </main>
 
   <footer>
-    <div class="strikethrough-wrapper">
+    <nav class="strikethrough-wrapper" aria-label="Footer Navigation">
       <ul class="list-reset">
         {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}
           {% if link.ext_url and link.hide_footer != true %}
             <li>
-            {% include link.html title=link.title hide_title=true icon=link.icon url=link.ext_url relme=link.relme %}
+            {% assign link_title = link.title %}
+            {% if link.ext_title %}{% assign link_title = link.ext_title %}{% endif %}
+            {% include link.html title=link_title hide_title=true icon=link.icon url=link.ext_url relme=link.relme %}
             </li>
           {% endif %}
         {% endfor %}
       </ul>
-    </div>
+    </nav>
     <address class="contact">
       <i class="first far fa-envelope" aria-hidden="true"></i>
       <span class="screenreader">contact me at</span>

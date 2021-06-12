@@ -12,29 +12,34 @@ code:
   icon: fab fa-github
   url: /code
   ext_url: https://github.com/henrahmagix
+  ext_title: My other code on GitHub
   relme: true
 talk:
   title: Talk
   icon: fab fa-twitter
   ext_url: https://twitter.com/henrahmagix
+  ext_title: 'My Twitter page: @henrahmagix'
   relme: true
 music:
   title: Music
   icon: fas fa-music
   url: /music
   ext_url: https://soundcloud.com/henryblyth
+  ext_title: My music on Soundcloud
   relme: true
 photos:
   title: Photos
   icon: fas fa-camera
   url: /photos
   # ext_url: https://www.flickr.com/people/henryblyth/
+  # ext_title: My photos on Flickr
   relme: true
 work:
   title: Work
   icon: fab fa-linkedin
   # url: /work
   ext_url: https://uk.linkedin.com/in/henryblyth
+  ext_title: My LinkedIn page
   relme: true
 pianosinoxford.uk:
   title: PianosInOxford.uk
