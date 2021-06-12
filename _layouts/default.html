@@ -190,40 +190,40 @@ back_to: home
       <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
 
       {{ content }}
+
+      {% if page.url != "/" and page.hide_share != true %}
+        {% capture share_section %}
+          {% include share.html %}
+        {% endcapture %}
+      {% endif %}
+
+      {% assign related_posts = site.categories[page.related_posts_category] %}
+
+      {% if share_section or related_posts %}
+        <aside>
+          <div class="journal-line"></div>
+
+          {% if share_section %}
+            {{ share_section }}
+          {% endif %}
+
+          {% if related_posts or site.related_posts %}
+            <section id="related-section">
+              {% if related_posts %}
+                <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
+                <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
+                {% include posts.html posts=related_posts %}
+              {% elsif site.related_posts %}
+                <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
+                {% include posts.html posts=site.related_posts %}
+              {% endif %}
+            </section>
+          {% endif %}
+        </aside>
+      {% endif %}
     </article>
 
     {% include link.html url="#top" title="Back to top" class="page-back-to-top" icon="fas fa-long-arrow-alt-up" %}
-
-    {% if page.url != "/" and page.hide_share != true %}
-      {% capture share_section %}
-        {% include share.html %}
-      {% endcapture %}
-    {% endif %}
-
-    {% assign related_posts = site.categories[page.related_posts_category] %}
-
-    {% if share_section or related_posts %}
-      <aside>
-        <div class="journal-line"></div>
-
-        {% if share_section %}
-          {{ share_section }}
-        {% endif %}
-
-        {% if related_posts or site.related_posts %}
-          <section id="related-section">
-            {% if related_posts %}
-              <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
-              <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
-              {% include posts.html posts=related_posts %}
-            {% elsif site.related_posts %}
-              <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
-              {% include posts.html posts=site.related_posts %}
-            {% endif %}
-          </section>
-        {% endif %}
-      </aside>
-    {% endif %}
 
   </main>
 
