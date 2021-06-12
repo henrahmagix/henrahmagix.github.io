@@ -4,21 +4,21 @@ section: Blog
 back_to: blog
 ---
 
-{%- comment -%} Keep this as just {{content}} so edit script can easily reinsert rendered markdown {%- endcomment -%}
+<header>
+  {% if page.pre_content %}
+    {% for line in page.pre_content %}
+      <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
+    {% endfor %}
+  {% endif %}
 
-{% if page.pre_content %}
-  {% for line in page.pre_content %}
-    <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
-  {% endfor %}
-{% endif %}
-
-{% capture built_toc %}{% include toc.html html=content skipNoIDs=true %}{% endcapture %}
-{% assign toc_without_newlines = built_toc|strip_newlines %}
-{% if toc_without_newlines != "" %}
-  <h2>Table of contents</h2>
-  {{built_toc}}
-  <hr>
-{% endif %}
+  {% capture built_toc %}{% include toc.html html=content skipNoIDs=true %}{% endcapture %}
+  {% assign toc_without_newlines = built_toc|strip_newlines %}
+  {% if toc_without_newlines != "" %}
+    <h2>Table of contents</h2>
+    {{built_toc}}
+    <hr>
+  {% endif %}
+</header>
 
 <article class="entry-content e-content">
   {% include anchor_headings.html html=content anchorBody="#" anchorClass="heading-anchor" %}

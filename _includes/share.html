@@ -1,7 +1,7 @@
 {% capture view_history_url %}{{site.github.repository_url}}/commits/{{site.github.source.branch}}/{{page.path}}{% endcapture %}
 
-<section id="share-section">
-  <h3>Share and respond</h3>
+<nav id="share-section" aria-labelledby="sharenav-heading">
+  <h2 id="sharenav-heading">Share and respond</h2>
   <ul class="list-reset">
     {% for synd_hash in page.syndications %}
       {% if synd_hash[1] == nil or synd_hash[1] == '' %}{% continue %}{% endif %}
@@ -21,7 +21,7 @@
     {% include link.html title="View history" icon="fas fa-history" url=view_history_url %}
     </li>
   </ul>
-</section>
+</nav>
 
 <details hidden id="share-fallback">
   <summary></summary>

@@ -195,16 +195,26 @@ back_to: home
     {% include link.html url="#top" title="Back to top" class="page-back-to-top" icon="fas fa-long-arrow-alt-up" %}
 
     {% if page.url != "/" and page.hide_share != true %}
-      <div class="journal-line"></div>
-      {% include share.html %}
+      {% capture share_section %}
+        {% include share.html %}
+      {% endcapture %}
     {% endif %}
 
     {% assign related_posts = site.categories[page.related_posts_category] %}
-    {% if related_posts %}
+
+    {% if share_section or related_posts %}
       <aside>
-        <h2>Related blog posts</h2>
-        <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
-        {% include posts.html posts=related_posts %}
+        <div class="journal-line"></div>
+
+        {% if share_section %}
+          {{ share_section }}
+        {% endif %}
+
+        {% if related_posts %}
+          <h2>Related blog posts</h2>
+          <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
+          {% include posts.html posts=related_posts %}
+        {% endif %}
       </aside>
     {% endif %}
 
