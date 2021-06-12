@@ -211,9 +211,12 @@ back_to: home
         {% endif %}
 
         {% if related_posts %}
-          <h2>Related blog posts</h2>
+          <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
           <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
           {% include posts.html posts=related_posts %}
+        {% elsif site.related_posts %}
+          <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
+          {% include posts.html posts=site.related_posts %}
         {% endif %}
       </aside>
     {% endif %}
