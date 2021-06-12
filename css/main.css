@@ -286,7 +286,8 @@ main hr:nth-child(odd) {
   display: inline-block;
 }
 
-#share-section {
+#share-section,
+#related-section {
   margin-top: 4em;
 }
 
