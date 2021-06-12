@@ -20,8 +20,17 @@ title: Fez tools
     <label for="toggle_alphabet_order">Order alphabetically?</label>
     <div id="alphabet_buttons"></div>
 
-    <p>These are directional glyphs:</p>
-    <div id="direction_set"></div>
+    <details open><summary>Numbers</summary>
+      <div id="number_buttons"></div>
+    </details>
+
+    <details><summary>Directions</summary>
+      <div id="direction_set"></div>
+    </details>
+
+    <details><summary>What do these mean?</summary>
+      <div id="unknown_set"></div>
+    </details>
   </fieldset>
 
   <div id="text_to_fez">
@@ -81,6 +90,7 @@ dog</textarea>
   }
   #fez_to_text button {
     display: inline-block;
+    vertical-align: top;
   }
   .glyph {
     display: block;
@@ -105,6 +115,8 @@ String.prototype.toFezGlyph = function () {
   var glyphSize = 5;
 
   var NOT_FOUND_GLYPH = '10101,01010,10101,01010,10101'.toFezGlyph();
+  var NUMBER_BASE = 10;
+  var R_NUMBER = /^[0-9]$/;
 
   var alphabetGlyphs = {
     a: '00000,11011,01110,00000,00000'.toFezGlyph(),
@@ -134,6 +146,26 @@ String.prototype.toFezGlyph = function () {
     y: '00100,01110,00100,01110,00000'.toFezGlyph(),
     z: '00000,11110,00010,00011,00000'.toFezGlyph()
   };
+
+  var numberGlyphs = [
+    [0, '00000,01110,01110,01110,00000'.toFezGlyph()],
+    [1, '00000,01010,01010,01110,00000'.toFezGlyph()],
+    [2, '00000,01110,01000,01110,00000'.toFezGlyph()],
+    [3, '00000,01110,01010,01010,00000'.toFezGlyph()],
+    [4, '00000,01110,00010,01110,00000'.toFezGlyph()],
+    ['3\u200B', '00000,01010,01000,01110,00000'.toFezGlyph()],
+    ['5\u200B', '00000,01010,00010,01110,00000'.toFezGlyph()],
+    ['7\u200B', '00000,01110,00010,01010,00000'.toFezGlyph()],
+    ['9\u200B', '00000,01110,01000,01010,00000'.toFezGlyph()],
+    ['5\uFEFF', '00000,01010,00000,01010,00000'.toFezGlyph()],
+    ['10\uFEFF', '00000,01010,00000,01010,00000'.toFezGlyph()],
+    ['2\u200C', '00000,01010,01010,01010,00000'.toFezGlyph()],
+    ['6\u200C', '00000,01110,00000,01110,00000'.toFezGlyph()],
+    ['3\u200D', '00000,01010,01000,01010,00000'.toFezGlyph()],
+    ['6\u200D', '00000,01010,00010,01010,00000'.toFezGlyph()],
+    ['7\u200D', '00000,01010,00000,01110,00000'.toFezGlyph()],
+    ['8\u200D', '00000,01110,00000,01010,00000'.toFezGlyph()]
+  ];
 
   var directionalGlyphPairs = {
     '[up]': ['00000,01010,01010,01110,00000'.toFezGlyph(), '00000,00000,00100,01110,00000'.toFezGlyph()],
@@ -215,6 +247,29 @@ String.prototype.toFezGlyph = function () {
     });
   }
 
+  var fezNumberChooser = document.getElementById('number_buttons');
+  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width;
+  var fezGlyphBuilderCtx = fezGlyphBuilderCanvas.getContext('2d');
+  numberGlyphs.forEach(function (arr) {
+    var char = arr[0];
+    var glyph = arr[1];
+    var button = document.createElement('button');
+    button.className = 'button-link';
+    button.type = 'button';
+    button.title = char;
+    button.onclick = function () { typeChar(char) };
+    button.onkeydown = onFezChoiceButtonKeyDown;
+
+    drawGlyph(fezGlyphBuilderCtx, glyph, 0, 0);
+    var img = new Image();
+    img.className = 'glyph';
+    img.alt = char;
+    img.src = fezGlyphBuilderCanvas.toDataURL();
+    button.append(img, char);
+    fezNumberChooser.append(button);
+  });
+
   var fezDirectionSet = document.getElementById('direction_set');
   fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
   fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 2;
@@ -237,6 +292,17 @@ String.prototype.toFezGlyph = function () {
     button.append(img, direction);
     fezDirectionSet.append(button);
   });
+
+  var fezUnknownSet = document.getElementById('unknown_set');
+  fezGlyphBuilderCanvas.width = glyphSize * glyphScale;
+  fezGlyphBuilderCanvas.height = fezGlyphBuilderCanvas.width * 4;
+  var unknownGlyph = '00000,01110,01010,01110,00000,01010,01010,01010,00000,01110,00000,01010,00000,00100,00000'.toFezGlyph();
+  drawGlyph(fezGlyphBuilderCtx, unknownGlyph, 0, 0);
+  var img = new Image();
+  img.className = 'glyph';
+  img.alt = 'unknown glyphs';
+  img.src = fezGlyphBuilderCanvas.toDataURL();
+  fezUnknownSet.append(img);
 
   var notFoundGlyphImg = document.getElementById('not_found_glyph');
   notFoundGlyphImg.alt = 'unknown character';
@@ -283,7 +349,7 @@ String.prototype.toFezGlyph = function () {
   function drawLettersFromText(canvas, ctx, string) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    var lines = string.split('\n').map(function (s) { return s.match(/\[[^\]]+\]|./g) });
+    var lines = string.split('\n').map(function (s) { return s.match(/\[[^\]]+\]|..[\uFEFF]|.[\u200B-\u200D]?/g) });
     var gap = glyphScale;
     var charSize = glyphSize * glyphScale
 
@@ -296,8 +362,16 @@ String.prototype.toFezGlyph = function () {
         if (char !== ' ') {
           var glyph = alphabetGlyphs[char];
           if (!glyph) {
+            glyph = numberGlyphs.find(function (arr) { return arr[0].toString() === char });
+            glyph = glyph || numberGlyphs.find(function (arr) { return arr[0].toString().replace(/[\u200B-\u200D\uFEFF]/g, '') === char });
+            glyph = glyph && glyph[1];
+          }
+          if (!glyph) {
             glyph = directionalGlyphPairs[char];
-            glyph = glyph && glyph[0] || NOT_FOUND_GLYPH;
+            glyph = glyph && glyph[0];
+          }
+          if (!glyph) {
+            glyph = NOT_FOUND_GLYPH;
           }
           var x = cw - charSize - (charSize * linenum) - (gap * linenum);
           var y = (charSize * i) + (gap * i)
