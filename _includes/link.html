@@ -6,7 +6,7 @@
   {% capture icon %}<i class="icon {{ include.icon }}" aria-hidden="true"></i>{% endcapture %}
 {% endif %}
 
-<a class="{{ include.class }}" href="{{ include.url }}"
+<a id="{{ include.id }}" class="{{ include.class }}" href="{{ include.url }}"
   {% if include.relme %}rel="me"{% endif %}
   {% if include.title and include.hide_title == true %}
     aria-label="{{include.title}}" title="{{include.title}}"

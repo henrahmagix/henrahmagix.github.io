@@ -14,7 +14,7 @@
     {% endfor %}
 
     <li>
-    {% include link.html title_element="button" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
+    {% include link.html title_element="button" id="share_me_link" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
     </li>
 
     <li>
@@ -50,12 +50,14 @@
   if (!navigator.share) {
     var shareFallback = document.getElementById('share-fallback');
     shareFallback.hidden = false;
-    var shareLink = document.querySelector('#share-section li a[href="javascript:shareMe()"]');
-    var summary = shareFallback.querySelector('summary');
+
+    var shareLink = document.getElementById('share_me_link');
+    var shareFallbackSummary = shareFallback.querySelector('summary');
     shareLink.querySelector('button').childNodes.forEach(function (node) {
-      summary.appendChild(node.cloneNode(true));
-    })
-    shareLink.replaceWith(shareFallback);
+      shareFallbackSummary.appendChild(node.cloneNode(true));
+    });
+
+    shareLink.parentNode.replaceChild(shareFallback, shareLink);
     return;
   }
 
