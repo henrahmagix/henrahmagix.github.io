@@ -143,6 +143,7 @@ details summary {
 
 a:hover,
 a button:hover,
+.button:hover,
 .button-link:hover,
 details summary:hover {
   color: #A80084;
