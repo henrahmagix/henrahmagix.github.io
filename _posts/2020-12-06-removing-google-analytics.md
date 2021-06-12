@@ -8,6 +8,9 @@ title: Removing Google Analytics
 subtitle: '"Please disable JavaScript to view this site" – Heydon Pickering'
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1335590145073025025'
+updates:
+  - date: 2021-06-12T22:04:00.000Z
+    title: oh no
 ---
 
 I've been following the _glory_ that is Heydon Pickering ([@heydonworks](https://twitter.com/heydonworks)) [moving their WHOLE SITE into a `<noscript>` element](https://twitter.com/heydonworks/status/1332620108129312768) and showing users a very simple message:
@@ -36,7 +39,7 @@ So, yeah, I've contributed to an inaccessible website.
 
 ## But what's that got to do with Google Analytics?
 
-In the last few months, I've been moving myself off Google's Chrome browser to using Safari everyday. I guess it finally clicked in me how much I hate the feeling of being known and tracked by using Google's free services. (I've also bought a Hey email for the same reason.)
+In the last few months, I've been moving myself off Google's Chrome browser to using Safari everyday. I guess it finally clicked in me how much I hate the feeling of being known and tracked by using Google's free services. (I've also bought a Hey email for the same reason. <sup>[*oh no](#2021-06-12)</sup>)
 
 When I first built this site, I put Google Analytics on it because... well, it was "the done thing". Then I started sending an event to it whenever someone used my iPad Cursor emulation. But I never looked at the data. I took a look a few days ago and there's nothing interesting there:
 
@@ -55,3 +58,13 @@ The discussion around Heydon blocking JS-enabled browsers from viewing their sit
 <small>Note: I removed the script that comes with the tweet embed code because, to be honest, it's not really needed here, and at least I can style it for colour contrast and light/dark modes.</small>
 
 Consider myself challenged 🤗
+
+<hr>
+
+### Updates
+
+#### 2021-06-12
+
+<https://www.theverge.com/2021/4/27/22406673/basecamp-political-speech-policy-controversy>
+
+I was following along with everyone else on Twitter as this all unfolded. Along with thoroughly disliking the "thought leadership" on display (silence always favours the oppressors), I wasn't even using the app/service. I kept forgetting to cancel and get a refund; it was an impulse purchase in attempt no.142 to "get organised in my life", which is an ongoing struggle and, as usual, it didn't help much 😅
