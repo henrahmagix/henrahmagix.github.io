@@ -663,12 +663,16 @@ blockquote.twitter-tweet > *:first-child {
   }
 }
 
-.fancy-title > .emoji {
-  transition: text-shadow 340ms;
-}
 .fancy-title:hover > .emoji {
-  transition-duration: 110ms;
   text-shadow: 3px 2px 1px rgba(120,120,120,0.4);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fancy-title > .emoji {
+    transition: text-shadow 340ms;
+  }
+  .fancy-title:hover > .emoji {
+    transition-duration: 110ms;
+  }
 }
 
 #ipad-cursor-input {
