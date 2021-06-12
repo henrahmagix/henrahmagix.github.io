@@ -195,13 +195,13 @@ back_to: home
     {% include link.html url="#top" title="Back to top" class="page-back-to-top" icon="fas fa-long-arrow-alt-up" %}
 
     {% if page.url != "/" and page.hide_share != true %}
+      <div class="journal-line"></div>
       {% include share.html %}
     {% endif %}
 
     {% assign related_posts = site.categories[page.related_posts_category] %}
     {% if related_posts %}
       <aside>
-        <hr>
         <h2>Related blog posts</h2>
         <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
         {% include posts.html posts=related_posts %}

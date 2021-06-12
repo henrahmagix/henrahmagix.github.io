@@ -264,7 +264,8 @@ body:not(.page-photos) .content-max-width {
   }
 }
 
-main hr {
+main hr,
+.journal-line {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   margin: 2em auto;
   border: none;
