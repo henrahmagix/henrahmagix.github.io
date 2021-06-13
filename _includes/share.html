@@ -14,7 +14,7 @@
     {% endfor %}
 
     <li>
-    {% include link.html title_element="button" id="share_me_link" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
+    {% include link.html id="share_me_link" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
     </li>
 
     <li>
@@ -27,20 +27,21 @@
   <summary></summary>
   <ul class="list-reset">
     {% capture page_url %}{{site.url}}{{page.url}}{% endcapture %}
-    {% capture text %}{{page.title}} by @henrahmagix{% endcapture %}
+    {% capture tweet_text %}{{page.title}} by @henrahmagix{% endcapture %}
 
-    {% capture tweet_url %}https://twitter.com/intent/tweet?url={{page_url|url_encode}}&text={{text|url_encode}}{% endcapture %}
+    {% capture tweet_url %}https://twitter.com/intent/tweet?url={{page_url|url_encode}}&text={{tweet_text|url_encode}}{% endcapture %}
     {% capture fb_url %}https://www.facebook.com/sharer/sharer.php?u={{page_url|url_encode}}{% endcapture %}
     {% capture linkedin_url %}https://www.linkedin.com/shareArticle?url={{page_url|url_encode}}{% endcapture %}
 
+    {% capture copy_title %}"{{page.title}}" by Henry James Blyth – {{page_url}}{% endcapture %}
+
+    <li>{% include link.html title="Twitter" icon="fab fa-twitter" url=tweet_url %}</li>
+    <li>{% include link.html title="Facebook" icon="fab fa-facebook" url=fb_url %}</li>
+    <li>{% include link.html title="LinkedIn" icon="fab fa-linkedin" url=linkedin_url %}</li>
     <li>
-    {% include link.html title="Twitter" icon="fab fa-twitter" url=tweet_url %}
-    </li>
-    <li>
-    {% include link.html title="Facebook" icon="fab fa-facebook" url=fb_url %}
-    </li>
-    <li>
-    {% include link.html title="LinkedIn" icon="fab fa-linkedin" url=linkedin_url %}
+      {% include link.html title="Copy title and url to clipboard" icon="fas fa-copy" url="javascript:copyTitleAndURL()" %}
+      <br>
+      <span id="copy_title_and_url_text">{{copy_title}}</span>
     </li>
   </ul>
 </details>
@@ -53,12 +54,11 @@
 
     var shareLink = document.getElementById('share_me_link');
     var shareFallbackSummary = shareFallback.querySelector('summary');
-    shareLink.querySelector('button').childNodes.forEach(function (node) {
+    shareLink.childNodes.forEach(function (node) {
       shareFallbackSummary.appendChild(node.cloneNode(true));
     });
 
     shareLink.parentNode.replaceChild(shareFallback, shareLink);
-    return;
   }
 
   window.shareMe = function() {
@@ -67,6 +67,23 @@
       title: document.title,
       url: canonical ? canonical.href : document.location.href,
     });
-  }
+  };
+
+  window.copyTitleAndURL = function() {
+    var textElement = document.getElementById('copy_title_and_url_text');
+    if (document.body.createTextRange) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(textElement);
+      range.select();
+    } else if (window.getSelection) {
+      var selection = window.getSelection();
+      var range = document.createRange();
+      range.selectNodeContents(textElement);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+
+    document.execCommand('copy');
+  };
 }());
 </script>

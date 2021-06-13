@@ -729,6 +729,10 @@ details summary {
   margin: 0;
 }
 
+#share-fallback summary {
+  display: inline-block;
+}
+
 #share-fallback summary::-webkit-details-marker {
   display: none;
 }

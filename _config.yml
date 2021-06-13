@@ -12,7 +12,7 @@ defaults:
     values:
       album_image_resolution: true
 
-title: Henry Blyth's homepage
+title: Henry James Blyth's homepage
 description: Just, like, y'know, stuff n' that. 🎶 Bobbing along, bobbing along on the bottom of the beautiful briny sea! 🎶
 url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
