@@ -61,9 +61,9 @@ Consider myself challenged 🤗
 
 <hr>
 
-### Updates
+## Updates
 
-#### 2021-06-12
+### 2021-06-12
 
 <https://www.theverge.com/2021/4/27/22406673/basecamp-political-speech-policy-controversy>
 
