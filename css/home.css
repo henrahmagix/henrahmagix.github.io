@@ -1,4 +1,4 @@
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
   .page-header {
     width: 13em;
   }
@@ -16,7 +16,7 @@ aside {
   padding-right: 1em;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
   section,
   aside {
     text-align: left;
