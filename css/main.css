@@ -357,6 +357,17 @@ main hr:nth-child(odd) {
   margin: 0;
 }
 
+.journal-highlight,
+.journal-crossout {
+  text-shadow: 2px 2px 0px white, -1px -1px 0 white;
+}
+@media (prefers-color-scheme: dark) {
+  .journal-highlight,
+  .journal-crossout {
+    text-shadow: 2px 2px 0px rgb(34, 17, 105), -1px -1px 0 rgb(34, 17, 105);
+  }
+}
+
 .journal-highlight {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   background-position: center 70%;
