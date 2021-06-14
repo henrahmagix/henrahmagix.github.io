@@ -86,10 +86,10 @@ footer {
   animation-name: fade-in, pull-in;
   animation-duration: 330ms;
 }
-.p-name-wrapper {
+nav {
   animation-delay: 220ms;
 }
-nav {
+.p-name-wrapper {
   animation-delay: 600ms;
 }
 .entry-content,
