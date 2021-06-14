@@ -1,6 +1,7 @@
 ---
 section: photos
 class: photos
+related_posts_category: Photography
 js:
   - /js/gallery.js
   - /js/swiped-events.js
