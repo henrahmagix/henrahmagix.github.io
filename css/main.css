@@ -229,8 +229,6 @@ a button,
   margin: auto;
   position: relative;
   flex-shrink: 0;
-  border-radius: 50%;
-  border: 2px solid #fcfcfc;
   overflow: hidden;
 }
 
@@ -239,6 +237,7 @@ a button,
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -314,20 +313,36 @@ main hr:nth-child(odd) {
 
 /* Logo interaction */
 
-.logo-flipper img,
-.logo-flipper svg {
+.logo-flipper > * {
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 1;
 }
 
-img.backface {
-  opacity: 0;
+.logo-flipper .logo-journal-circle {
+  top: 0;
+  left: 0;
   z-index: 2;
 }
+.logo-flipper .logo-signature {
+  top: 4px;
+  left: 0;
+}
+.logo-flipper .logo-myface {
+  top: 4px;
+  left: 0;
+  padding: 18px;
+}
 
-.logo-flipper:hover img.backface {
+.logo-flipper .frontface {
+  opacity: 1;
+}
+.logo-flipper .backface {
+  opacity: 0;
+}
+.logo-flipper:hover .frontface {
+  opacity: 0 !important;
+}
+.logo-flipper:hover .backface {
   opacity: 1 !important;
 }
 

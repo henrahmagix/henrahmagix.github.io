@@ -1,0 +1,29 @@
+<!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 600 600" preserveAspectRatio="none" > -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" style="outline: 1px solid;" viewBox="0 0 600 600" preserveAspectRatio="none" >
+  <defs>
+    <linearGradient id="start_to_half" gradientTransform="rotate(5)">
+      <stop offset="0%" stop-color="rgba(247, 59, 106, 1)"/>
+      <stop offset="5.18%" stop-color="rgba(247, 59, 106, 0.53)"/>
+      <stop offset="22.42%" stop-color="rgba(247, 59, 106, 0.4)"/>
+      <stop offset="100%" stop-color="rgba(247, 59, 106, 0.48)"/>
+    </linearGradient>
+    <linearGradient id="end_to_half" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="rgba(247, 59, 106, 0.43)"/>
+      <stop offset="9.53%" stop-color="rgba(247, 59, 106, 0.23)"/>
+      <stop offset="66.67%" stop-color="rgba(247, 59, 106, 0.36)"/>
+      <stop offset="100%" stop-color="rgba(247, 59, 106, 0.48)"/>
+    </linearGradient>
+    <pattern id="Pattern" x="0" y="0" width="600" height="600" patternUnits="userSpaceOnUse">
+        <g transform="rotate(0, 300, 300)">
+            <polygon points="278 63, 600 63, 600 600, 300 600" fill="url(#start_to_half)"></polygon>
+            <polygon points="345 0, 345 63, 278 63, 278 120, 300 600, 0 600, 0 0" fill="url(#end_to_half)"></polygon>
+        </g>
+    </pattern>
+  </defs>
+
+  <path d="
+    M 287 97
+    C 650 30, 650 570, 300 570
+    C -50 570, -50 30, 334 30
+  " style="stroke: url(#Pattern); fill: none; stroke-width: 50px;"/>
+</svg>

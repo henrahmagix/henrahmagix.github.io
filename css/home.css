@@ -38,12 +38,21 @@ ul.side-by-side {
 .logo-flipper {
   height: 200px;
   width: 200px;
-  border-width: 8px;
+}
+.logo-flipper .logo-signature {
+  top: 8px;
+  left: 0;
+}
+.logo-flipper .logo-myface {
+  top: 8px;
+  left: 0;
+  padding: 35px;
 }
 
 .p-name-wrapper,
 .logo-flipper,
-.logo-flipper img.backface,
+.logo-flipper .frontface,
+.logo-flipper .backface,
 nav,
 .entry-content,
 footer {
@@ -56,7 +65,13 @@ footer {
 .logo-flipper {
   animation-name: fade-in, scale-in;
 }
-.logo-flipper img.backface {
+.logo-flipper .frontface {
+  opacity: 0;
+  animation-name: fade-in;
+  animation-delay: 2200ms;
+  animation-duration: 1200ms;
+}
+.logo-flipper .backface {
   opacity: 1;
   animation-name: fade-out;
   animation-delay: 2200ms;
