@@ -915,14 +915,15 @@ details summary {
 }
 @media screen and (min-width: 800px) {
   .posts.side-by-side {
-    justify-content: auto;
+    justify-content: initial;
   }
 }
 
-.minimal h3,
-.minimal p:not(.published),
-.minimal hr {
-  display: none;
+.posts.side-by-side.minimal {
+  justify-content: initial;
+}
+.posts.side-by-side.minimal li {
+  max-width: 450px;
 }
 
 .secret {
