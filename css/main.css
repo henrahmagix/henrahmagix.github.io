@@ -394,25 +394,6 @@ main hr:nth-child(odd) {
   background-size: contain;
 }
 
-.page-home .journal-crossout {
-  margin-top: 0.4em;
-  margin-bottom: 1em;
-}
-.page-home .journal-crossout::before {
-  height: 200%;
-  max-height: 240px;
-  width: 100%;
-  max-width: 650px;
-  margin: 0 auto;
-  top: 60%;
-  opacity: 0.7;
-}
-@media (prefers-color-scheme: dark) {
-  .page-home .journal-crossout::before {
-    opacity: 1;
-  }
-}
-
 .page-title,
 .page-subtitle {
   line-height: 1.2;
