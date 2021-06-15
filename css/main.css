@@ -375,6 +375,29 @@ main hr:nth-child(odd) {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (max-width: 500px) {
+  .journal-highlight {
+    background: none;
+    position: relative;
+  }
+  .journal-highlight::before {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    z-index: -1;
+    background: url(/images/watercolour-line-light.svg) no-repeat;
+    background-position: center 70%;
+    display: block;
+    background-size: 110% 40%;
+  }
 }
 
 .journal-crossout {
