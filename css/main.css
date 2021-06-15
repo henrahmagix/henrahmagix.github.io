@@ -1154,3 +1154,51 @@ details summary {
     transform: translateY(-100%);
   }
 }
+
+/* Icon backups in case FontAwesome isn't available */
+.fa-home::before {
+  content: 'Home';
+}
+.fa-pencil-alt::before {
+  content: 'Writing';
+}
+.fa-github::before {
+  content: 'GitHub';
+}
+.fa-twitter::before {
+  content: 'Twitter';
+}
+.fa-facebook::before {
+  content: 'Facebook';
+}
+.fa-music::before {
+  content: 'Music';
+}
+.fa-camera::before {
+  content: 'Photos';
+}
+.fa-linkedin::before {
+  content: 'Linkedin';
+}
+.fa-long-arrow-alt-up::before {
+  content: '↑';
+}
+.fa-long-arrow-alt-left::before {
+  content: '←';
+}
+.fa-vuejs::before {
+  content: 'VueJS';
+}
+.fa-expand::before {
+  content: 'Expand';
+}
+.fa-times::before {
+  content: 'Close';
+}
+.fa-compress::before {
+  content: 'Compress';
+}
+/* But don't bother writing out when text is already available. */
+#share-section ul .icon::before {
+  display: none;
+}
