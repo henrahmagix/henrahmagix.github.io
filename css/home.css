@@ -60,6 +60,9 @@ ul.side-by-side {
 }
 @media (max-width: 500px) {
   .p-name-wrapper .journal-crossout::before {
+    min-width: 0;
+    width: 100vw;
+    background-size: 500px 100%;
     left: 50%;
     right: auto;
     transform: translateX(-50%);
