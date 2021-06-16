@@ -2,23 +2,22 @@
 
 <nav id="share-section" aria-labelledby="sharenav-heading">
   <h2 id="sharenav-heading" class="fancy-title emoji-on-the-left">Share and respond <span class="emoji">💬</span></h2>
-  <ul class="list-reset">
+  <ul>
     {% for synd_hash in page.syndications %}
       {% if synd_hash[1] == nil or synd_hash[1] == '' %}{% continue %}{% endif %}
       {% capture title %}Reply on {{synd_hash[0]|capitalize}}{% endcapture %}
-      {% capture icon %}fab fa-{{synd_hash[0]}}{% endcapture %}
       {% assign url = synd_hash[1] %}
       <li>
-      {% include link.html class="u-syndication" title=title icon=icon url=url %}
+      {% include link.html class="u-syndication" title=title url=url %}
       </li>
     {% endfor %}
 
     <li>
-    {% include link.html id="share_me_link" title="Share" icon="fas fa-share-square" url="javascript:shareMe()" %}
+    {% include link.html id="share_me_link" title="Share" url="javascript:shareMe()" %}
     </li>
 
     <li>
-    {% include link.html title="View history" icon="fas fa-history" url=view_history_url %}
+    {% include link.html title="View history" url=view_history_url %}
     </li>
   </ul>
 </nav>

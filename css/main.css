@@ -1171,7 +1171,3 @@ details summary {
 .fa-compress::before {
   content: 'Compress';
 }
-/* But don't bother writing out when text is already available. */
-#share-section ul .icon::before {
-  display: none;
-}
