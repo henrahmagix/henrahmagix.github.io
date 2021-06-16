@@ -9,7 +9,7 @@
 
           <a href="{{post.url}}" class="post-link">
             {% capture title_html %}
-              <h2 class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</h2>
+              <{{include.heading_element}} class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</{{include.heading_element}}>
             {% endcapture %}
 
             {% if include.minimal %}

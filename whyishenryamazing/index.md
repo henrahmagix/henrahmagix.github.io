@@ -1,7 +1,7 @@
 ---
 layout: playground
-section: About
 title: Why is Henry amazing?
+description: Seriously why tho
 ---
 
 What a nice question to ask.

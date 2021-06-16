@@ -1,6 +1,7 @@
 ---
 layout: playground
 title: Do it for me
+description: Just a little toy, it's not very smart, really
 ---
 
 What can I do for you?

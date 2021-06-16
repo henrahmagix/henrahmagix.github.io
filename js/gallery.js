@@ -13,12 +13,12 @@
 
   var galleryExpand = document.createElement('button');
   galleryExpand.className = 'expand fas fa-expand';
-  galleryExpand.setAttribute('aria-label', 'Expand this image');
+  galleryExpand.setAttribute('aria-label', 'Expand this image'); // TODO: don't use aria-label, consider other methods
   galleryControls.appendChild(galleryExpand);
 
   var galleryClose = document.createElement('button');
   galleryClose.className = 'close fas fa-times';
-  galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key');
+  galleryClose.setAttribute('aria-label', 'Close this overlay, or hit the Escape key'); // TODO: don't use aria-label, consider other methods
   galleryControls.appendChild(galleryClose);
 
   var galleryImg = document.createElement('img');

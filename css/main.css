@@ -1,4 +1,5 @@
 .screenreader,
+.screenreader-when-off:not(:hover):not(:focus),
 a[href^="#footnote-"]::before {
   /* @include squish-text (compass@1.0.3/typography/text/replacement) */
   font: 0/0 serif;
@@ -825,8 +826,7 @@ details summary {
   display: block; /* without block display, :focus won't show at all */
 }
 
-.posts h2,
-.posts h3 {
+.posts .post-title {
   margin-bottom: 0;
 }
 
@@ -965,9 +965,8 @@ details summary {
   opacity: 0.3;
 }
 
-.photos-list-photo:hover::after,
-.photos-list-photo:focus::after {
-  content: 'View large';
+.photos-list-photo:hover .action-text,
+.photos-list-photo:focus .action-text {
   color: black;
   font-family: 'Dancing Script';
   font-weight: bold;

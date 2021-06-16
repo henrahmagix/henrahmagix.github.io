@@ -13,11 +13,12 @@ back_to: home
 {% endif %}
 
 {%- comment -%} Meta Title {%- endcomment -%}
-{% assign meta_title = "Henry James Blyth" %}
 {% if page_title %}
-  {% capture meta_title %}{{ page_title|strip_html }} &ndash; {{ meta_title }}{% endcapture %}
+  {% capture meta_title %}{{ page_title|strip_html }} &ndash; {{ site.title }}{% endcapture %}
 {% elsif section %}
-  {% capture meta_title %}{{ section }} &ndash; {{ meta_title }}{% endcapture %}
+  {% capture meta_title %}{{ section }} &ndash; {{ site.title }}{% endcapture %}
+{% else %}
+  {% capture meta_title %}{{ site.title }}{% endcapture %}
 {% endif %}
 
 {%- comment -%} Meta Image {%- endcomment -%}
@@ -32,17 +33,17 @@ back_to: home
 
 {%- comment -%} Meta Description {%- endcomment -%}
 {% if page.url == "/" %}
-  {% assign meta_desc = "Home" %}
+  {% assign meta_desc = site.description %}
 {% elsif page.excerpt %}
   {% assign meta_desc = page.excerpt|strip_html|strip %}
 {% elsif layout.description %}
   {% assign meta_desc = layout.description %}
+{% elsif page.description %}
+  {% assign meta_desc = page.description %}
 {% elsif page.subtitle %}
   {% assign meta_desc = page.subtitle %}
-{% elsif section %}
-  {% assign meta_desc = section %}
-{% else %}
-  {{ "every page must have a description" | sort: "cause an error" }}
+{% elsif page.dir != '/admin/' %}
+  {{ "every page must have a description: " | append: page.path | sort: "cause an error" }}
 {% endif %}
 
 {%- comment -%} Meta Article {%- endcomment -%}
@@ -120,13 +121,13 @@ back_to: home
   <a href="#content" class="accessible-skip">Skip to main content</a>
 
   <header class="page-header h-card">
-    <nav id="navigation" aria-label="Main Navigation">
+    <nav id="navigation" aria-label="Main">
       <ul class="nav list-reset">
         <li class="logo-list-item">
           <a class="logo logo-flipper" rel="me" href="/" title="Home">
-            <svg class="frontface logo-signature"><use xlink:href="/images/logo.svg#signature"></use></svg>
-            <img class="logo-journal-circle" src="/images/watercolour-circle-light.svg">
-            <img class="backface logo-myface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
+            <svg width="100px" class="frontface logo-signature"><use xlink:href="/images/logo.svg#signature"></use></svg>
+            <img width="100px" class="logo-journal-circle" src="/images/watercolour-circle-light.svg" alt="">
+            <img width="100px" class="backface logo-myface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
           </a>
         </li>
         {% for link_hash in site.data.links %}
@@ -144,10 +145,8 @@ back_to: home
   {% capture header_title %}
     {% if page.url == "/" %}
       <h1 class="journal-crossout">Henry James Blyth</h1>
-    {% elsif section and page.section_title == true %}
-      <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
-    {% elsif section and page_title == nil %}
-      <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
+    {% elsif page.section %}
+      <h1 class="entry-title p-name journal-highlight">{{page.section}}</h1>
     {% endif %}
   {% endcapture %}
   {% assign header_title = header_title | strip %}
@@ -211,10 +210,10 @@ back_to: home
               {% if related_posts %}
                 <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
                 <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
-                {% include posts.html posts=related_posts %}
+                {% include posts.html posts=related_posts heading_element="h3" %}
               {% elsif site.related_posts %}
                 <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
-                {% include posts.html posts=site.related_posts %}
+                {% include posts.html posts=site.related_posts heading_element="h3" %}
               {% endif %}
             </section>
           {% endif %}
@@ -227,7 +226,7 @@ back_to: home
   </main>
 
   <footer>
-    <nav class="strikethrough-wrapper" aria-label="Footer Navigation">
+    <nav class="strikethrough-wrapper" aria-label="Footer">
       <ul class="list-reset">
         {% for link_hash in site.data.links %}
           {% assign link = link_hash[1] %}

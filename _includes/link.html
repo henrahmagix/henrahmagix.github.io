@@ -8,12 +8,10 @@
 
 <a id="{{ include.id }}" class="{{ include.class }}" href="{{ include.url }}"
   {% if include.relme %}rel="me"{% endif %}
-  {% if include.title and include.hide_title == true %}
-    aria-label="{{include.title}}" title="{{include.title}}"
-  {% endif %}
+  {% if include.hide_title == true %}title="{{include.title}}"{% endif %}
 >
   {% if include.hide_title == true %}
-    {{ icon }}
+    {{ icon }}<span class="screenreader">{{ include.title }}</span>
   {% elsif title_element %}
     <{{title_element}}>{{ icon }}{{ include.title }}</{{title_element}}>
   {% else %}

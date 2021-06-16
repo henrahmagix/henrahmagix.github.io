@@ -1,6 +1,7 @@
 ---
-section: photos
+section: Photos
 class: photos
+description: Gallery of the few photos I think look "Professional"
 related_posts_category: Photography
 js:
   - /js/gallery.js
@@ -47,7 +48,8 @@ Using swipe gestures will only animate movement if you haven't set a **prefers-r
   <ul class="list-reset photos-list side-by-side">
     {% for img in album_hash[1] %}
       <li class="photos-list-item">
-        <a id="photo-{{ album_path|replace:'/','-' }}{{ img.name|remove:'.jpg' }}" class="photos-list-photo outline-big" href="{{ album_path }}{{ img.name }}" title="{{img.name}}" aria-label="View large: {{img.name}}">
+        <a id="photo-{{ album_path|replace:'/','-' }}{{ img.name|remove:'.jpg' }}" class="photos-list-photo outline-big" href="{{ album_path }}{{ img.name }}" title="{{img.name}}">
+          <span class="action-text screenreader-when-off">View large</span><span class="screenreader">: {{img.name}}</span>
           <img src="{{ album_path }}{{ img.name }}" alt="" class="orientation-{{img.orientation}}"
             srcset="{{ album_path }}{{ img.name }},
                     {{ album_path }}/3200/{{ img.name }} 3200w,
