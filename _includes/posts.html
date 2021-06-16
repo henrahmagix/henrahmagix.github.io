@@ -30,7 +30,7 @@
               <p>
                 {% assign excerpt = post.content|strip_html|truncatewords:20,"" %}
                 {{ excerpt }}
-                {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more</em></a>{% endif %}
+                {% if excerpt != post.content %}&hellip; <a href="{{post.url}}"><em>read more <span class="screenreader">about {{post.title}}</span></em></a>{% endif %}
               </p>
             </div>
           {% endunless %}
