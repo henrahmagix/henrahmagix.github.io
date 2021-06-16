@@ -11,6 +11,9 @@ syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1330283284752977923?s=20'
 pre_content:
   - Skip to the bottom to see [the examples](#what-do-you-think)! But check your "Reduced Motion" system settings first!
+updates:
+  - date: 2021-06-16T20:34:00.000Z
+    title: now they're simpler
 ---
 
 I recently made a small change to [my blog list page](/blog) by showing images in the list, to provide a clearer identifier for posts you may have already read. But not every post has an image, so what could I show for a default? Ooh, how about a random gradient?
@@ -201,7 +204,7 @@ Here is the full range of light- and dark-mode pretty random animated blog post 
 
 I've also duplicated each set and removed the `linear-gradient` stops (positions) to get a smooth gradient instead of a hard angle line, and I think those look nice too! But then the motion animation, that transitions `background-position-x`, still shows a hard vertical line, so I'm not so sure about using the soft ones 🤔
 
-What do you think? Blurred or not blurred? Let me know with the "Reply" link(s) in the footer 🤗
+What do you think? Blurred or not blurred? Let me know with the "Reply" link(s) at the bottom 🤗
 
 <ul class="list-reset side-by-side examples light">
   {% for i in (0..11) %}
@@ -368,3 +371,9 @@ What do you think? Blurred or not blurred? Let me know with the "Reply" link(s) 
   }
 }
 </style>
+
+## Updates
+
+### 2021-06-16
+
+Since implementing the hard-stopped gradients, I've realised that I much prefer "less" over "more". So I've switched to the soft version and removed the movement. Now, for a hover highlight, I've just increased brightness with a filter. Much simpler and still very nice and comfortable and lovely and random and pretty yayyy 🤗

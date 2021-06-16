@@ -844,10 +844,11 @@ details summary {
 .image-from-url {
   background-size: cover;
   background-position: left center;
-  transition: filter 400ms ease-out;
 }
-.image-from-url:hover {
-  filter: saturate(0) brightness(1.6);
+
+.image-from-url:hover,
+.random-gradient:hover {
+  filter: saturate(1.2) brightness(1.35);
 }
 
 /*
@@ -856,14 +857,6 @@ details summary {
 3 #d0fffd
 4 #d0d2ff
 */
-
-.random-gradient {
-  transition: filter 400ms ease-out;
-}
-
-.random-gradient:hover {
-  filter: saturate(0);
-}
 .random-gradient-0 {
   background-image: linear-gradient(141deg, #ffd0d2, #fffdd0);
 }
@@ -890,9 +883,6 @@ details summary {
 }
 
 @media (prefers-color-scheme: dark) {
-  .random-gradient:hover {
-    filter: saturate(0) contrast(1.3);
-  }
   .random-gradient-0 {
     background-image: linear-gradient(141deg, #962d48, #e08f0b);
   }
@@ -916,27 +906,6 @@ details summary {
   }
   .random-gradient-7 {
     background-image: linear-gradient(141deg, #4147b4, #0579a7);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .image-from-url {
-    background-size: 100%;
-    background-repeat: repeat-x;
-    transition-property: filter, background-size;
-  }
-  .image-from-url:hover {
-    background-size: 50%;
-  }
-
-  .random-gradient {
-    background-size: 100%;
-    background-position-x: 50%;
-    transition-property: filter, background-size, background-position;
-  }
-  .random-gradient:hover {
-    background-size: 200%;
-    background-position-x: 150%;
   }
 }
 
