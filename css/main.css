@@ -821,6 +821,10 @@ details summary {
   margin: 0;
 }
 
+.posts .post-link {
+  display: block; /* without block display, :focus won't show at all */
+}
+
 .posts h2,
 .posts h3 {
   margin-bottom: 0;
