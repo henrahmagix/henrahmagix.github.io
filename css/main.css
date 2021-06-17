@@ -108,7 +108,7 @@ body::before {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: rgb(3, 7, 33);
-    color: #DEDEDE;
+    color: #EEEEEE;
   }
   body::before {
     opacity: 0.7;
