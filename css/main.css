@@ -759,7 +759,6 @@ details summary {
 }
 
 #share-fallback:not([hidden]) {
-  display: inline-block;
   margin: 0;
 }
 
@@ -774,6 +773,10 @@ details summary {
 #share-fallback ul {
   margin: 0;
   padding-left: 1em;
+}
+
+#share-fallback .icon {
+  margin-right: 0.5em;
 }
 
 .flash {
