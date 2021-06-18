@@ -76,7 +76,7 @@ back_to: home
   <meta name="theme-color" content="#ffffff">
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="og:url" property="og:url" content="{{ site.url }}{{ page.url }}">
 
   <title>{{ meta_title }}</title>
@@ -206,7 +206,7 @@ back_to: home
           {% endif %}
 
           {% if related_posts or site.related_posts %}
-            <section id="related-section">
+            <div id="related-section">
               {% if related_posts %}
                 <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
                 <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
@@ -215,7 +215,7 @@ back_to: home
                 <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
                 {% include posts.html posts=site.related_posts heading_element="h3" %}
               {% endif %}
-            </section>
+            </div>
           {% endif %}
         </aside>
       {% endif %}
