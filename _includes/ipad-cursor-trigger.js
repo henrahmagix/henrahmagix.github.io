@@ -17,7 +17,7 @@
       evt.initEvent('change', false, true);
       iPadCursorTrigger.dispatchEvent(evt);
     } else {
-      // @ts-ignore
+      /* @ts-ignore */
       iPadCursorTrigger.fireEvent('onchange');
     }
   }

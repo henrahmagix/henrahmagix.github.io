@@ -28,10 +28,10 @@ class: count
     countEl.innerHTML = 'You can count to ' + i + '.';
     congratsEl.innerHTML = getRandomItem(congrats);
   }
-  // Start in a setTimeout so the end only comes after the counting starts,
-  // not as soon as this script is parsed. The window can load but have the
-  // event queue paused due to it not being the focused window: Chrome does
-  // this, as may other browsers.
+  /* Start in a setTimeout so the end only comes after the counting starts, */
+  /* not as soon as this script is parsed. The window can load but have the */
+  /* event queue paused due to it not being the focused window: Chrome does */
+  /* this, as may other browsers. */
   setTimeout(function () {
     count();
     setTimeout(end, 1000);
@@ -106,7 +106,7 @@ class: count
     "Congratulations to a real winner!",
     "It is spirit, drive and dedication like yours that have made our company what it is today!"
   ];
-  // Congratulation messages courtesy of:
-  // - http://congratulationmessages.blogspot.co.uk/p/congratulation-messages-for-achievement.html
-  // - http://www.bethanyroberts.com/Flower-Shop-Congratulations-Card-Message-Suggestions.htm
+  /* Congratulation messages courtesy of: */
+  /* - http://congratulationmessages.blogspot.co.uk/p/congratulation-messages-for-achievement.html */
+  /* - http://www.bethanyroberts.com/Flower-Shop-Congratulations-Card-Message-Suggestions.htm */
 </script>

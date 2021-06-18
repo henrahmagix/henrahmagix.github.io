@@ -17,6 +17,8 @@ description: A collection of silly things and CSS trims in an attempt to provide
 url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
 
+compress_html:
+  clippings: all
 markdown: kramdown
 kramdown:
   input: GFM

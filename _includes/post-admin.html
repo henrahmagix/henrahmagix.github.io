@@ -8,10 +8,10 @@
 ></admin-post-admin>
 
 <script type="module">
-  // @ts-check
+  /* @ts-check */
   const component = document.querySelector('admin-post-admin');
   if (localStorage.getItem('gh_token')) {
-    {% include register-components.js %}
+    {% include register-components.js %};
 
     const content = document.getElementById('content');
     content.before(component);

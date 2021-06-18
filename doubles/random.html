@@ -96,7 +96,7 @@ form input {
 
   var beforeGenerate = function () {
     showLoading();
-    // Keep the height of the images container until regenerated.
+    /* Keep the height of the images container until regenerated. */
     images.style.height = images.clientHeight + 'px';
   };
   var afterGenerate = function () {
@@ -128,10 +128,10 @@ form input {
   };
 
   var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
-    // Clone the first image for use with Caman, so both images can be seen
-    // separately to the combined double-exposure.
+    /* Clone the first image for use with Caman, so both images can be seen */
+    /* separately to the combined double-exposure. */
     var camanCanvas = document.createElement('canvas');
-    camanCanvas.className = "generated-canvas"
+    camanCanvas.className = "generated-canvas";
     camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
     camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
     camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
@@ -173,11 +173,11 @@ form input {
     var height = heightInput.value;
     img.width = width;
     img.height = height;
-    // Without crossOrigin set to anonymous, a security error will be thrown
-    // when calling getImageData() on a canvas context. picsum.photos kindly
-    // supplies the correct Access-Control-Allow-Origin header.
+    /* Without crossOrigin set to anonymous, a security error will be thrown */
+    /* when calling getImageData() on a canvas context. picsum.photos kindly */
+    /* supplies the correct Access-Control-Allow-Origin header. */
     img.crossOrigin = 'anonymous';
-    // Append a random number so a new image is requested and the cache isn't used.
+    /* Append a random number so a new image is requested and the cache isn't used. */
     var widthParam = width + '/';
     var heightParam = height + '/';
     var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
@@ -187,12 +187,12 @@ form input {
 
   var generate = function () {
     beforeGenerate();
-    // Remove all images.
+    /* Remove all images. */
     var numImages = images.children.length;
     for (var i = 0; i < numImages; i++) {
       images.removeChild(images.children[0]);
     }
-    // Make new images.
+    /* Make new images. */
     var aImage = new Image();
     var bImage = new Image();
     aImage.className = 'source-image';
