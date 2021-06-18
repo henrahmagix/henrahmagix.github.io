@@ -118,7 +118,7 @@ body::before {
     background-image: url(/images/journal-dots-light.svg);
   }
   .content-post img:not(:hover):not(:focus),
-  .posts img:not(:hover):not(:focus) {
+  .posts-list a:not(:hover) img {
     opacity: 0.7;
   }
 }
@@ -814,23 +814,23 @@ details summary {
   }
 }
 
-.posts {
+.posts-list {
   margin: 0;
 }
 
-.posts > li {
+.posts-list > li {
   word-break: break-word;
 }
 
-.posts .published {
+.posts-list .published {
   margin: 0;
 }
 
-.posts .post-link {
+.posts-list .post-link {
   display: block; /* without block display, :focus won't show at all */
 }
 
-.posts .post-title {
+.posts-list .post-title {
   margin-bottom: 0;
 }
 
@@ -850,12 +850,12 @@ details summary {
   object-position: left center;
 }
 
-.image-from-url:hover,
-.random-gradient:hover {
+.post-link:hover .image-from-url,
+.post-link:hover .random-gradient {
   filter: saturate(1.2) brightness(1.35);
 }
 @media (prefers-color-scheme: dark) {
-  .image-from-url:hover {
+  .post-link:hover .image-from-url {
     /* Already reduced opacity in dark-mode before hovering, so no need for brightness increase. */
     filter: saturate(1.2);
   }
@@ -919,22 +919,22 @@ details summary {
   }
 }
 
-.posts.side-by-side {
+.posts-list.side-by-side {
   justify-content: center;
 }
-.posts.side-by-side li {
+.posts-list.side-by-side li {
   max-width: 600px;
 }
 @media screen and (min-width: 1024px) {
-  .posts.side-by-side {
+  .posts-list.side-by-side {
     justify-content: initial;
   }
 }
 
-.posts.side-by-side.minimal {
+.posts-list.side-by-side.minimal {
   justify-content: initial;
 }
-.posts.side-by-side.minimal li {
+.posts-list.side-by-side.minimal li {
   max-width: 450px;
 }
 
