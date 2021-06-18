@@ -117,6 +117,10 @@ body::before {
   #body-inner {
     background-image: url(/images/journal-dots-light.svg);
   }
+  .content-post img:not(:hover):not(:focus),
+  .posts img:not(:hover):not(:focus) {
+    opacity: 0.7;
+  }
 }
 
 * {
@@ -842,13 +846,19 @@ details summary {
 }
 
 .image-from-url {
-  background-size: cover;
-  background-position: left center;
+  object-fit: cover;
+  object-position: left center;
 }
 
 .image-from-url:hover,
 .random-gradient:hover {
   filter: saturate(1.2) brightness(1.35);
+}
+@media (prefers-color-scheme: dark) {
+  .image-from-url:hover {
+    /* Already reduced opacity in dark-mode before hovering, so no need for brightness increase. */
+    filter: saturate(1.2);
+  }
 }
 
 /*
@@ -958,6 +968,11 @@ details summary {
   position: relative;
   background-color: white;
   padding: 2.5em;
+}
+@media (prefers-color-scheme: dark) {
+  .photos-list-photo:not(:hover):not(:focus) {
+    background-color: rgba(255,255,255,0.7);
+  }
 }
 
 .photos-list-photo:hover img,
