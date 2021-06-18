@@ -5,6 +5,7 @@ categories: Code
 title: Class getters vs methods in vanilla JS
 subtitle: when debugging them
 image: /images/class-getter.png
+image_alt: 'An example of a getter method in JavaScript called "title" that returns a string of "cannot change".'
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1247124024745918470'
 ---

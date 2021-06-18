@@ -5,6 +5,7 @@ categories: Code
 title: iPadOS cursor on the web
 subtitle: just because it's fun!
 image: /images/ipad-cursor-preview.jpg
+image_alt: A selected checkbox with an emulated iPad cursor over top of it.
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1246157354942504960'
 ---

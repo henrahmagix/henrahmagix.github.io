@@ -7,6 +7,7 @@ categories:
 title: Pretty and random animated blog post images
 subtitle: ooo pretty... what do you think?
 image: /images/pretty-and-random-animated-blog-post-images.jpg
+image_alt: A collection of black-bordered rectangles, each with a different combination of two pastel colours blurred together from top-left to bottom-right.
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1330283284752977923?s=20'
 pre_content:

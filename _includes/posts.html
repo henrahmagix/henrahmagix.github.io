@@ -16,7 +16,7 @@
               {{title_html}}
             {% else %}
               {% if post.image %}
-                <img class="post-image image-from-url" src="{{post.image}}">
+                <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
               {% else %}
                 <div class="post-image random-gradient random-gradient-{{forloop.index0|modulo:8}}"></div>
               {% endif %}
