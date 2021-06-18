@@ -1074,6 +1074,11 @@ details summary {
   object-position: center;
   margin: auto;
 }
+@media (prefers-color-scheme: dark) {
+  .photos-gallery img {
+    background-color: black;
+  }
+}
 
 .photos-gallery.viewmax {
   display: block;
