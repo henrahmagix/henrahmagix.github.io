@@ -1,7 +1,6 @@
 ---
 section: Music
 description: wow this really blew up, here's my soundcloud
-section_title: true
 related_posts_category: Music
 ---
 

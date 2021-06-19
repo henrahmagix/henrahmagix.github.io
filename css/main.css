@@ -41,7 +41,8 @@ a[href^="#footnote-"]::before {
   transition-timing-function: ease-in;
 }
 
-.hidden {
+.hidden,
+[hidden] {
   display: none
 }
 
@@ -189,6 +190,22 @@ a button,
 .list-reset {
   list-style: none !important;
   padding: 0;
+}
+
+.inline-list li {
+  display: inline-block;
+}
+.inline-list li:not(:first-child)::before {
+  content: '•';
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.inline-list.inline-to-prev {
+  display: inline-block;
+  padding: 0;
+  margin-left: 1em;
 }
 
 /* Header */
@@ -838,6 +855,7 @@ details summary {
 }
 
 .post-image {
+  display: block;
   border: 2px solid #23242C;
   height: 10em;
   width: 100%;

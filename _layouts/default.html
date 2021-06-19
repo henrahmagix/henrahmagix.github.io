@@ -7,11 +7,14 @@ back_to: home
   {% capture section %}{{page.section|capitalize}}{% endcapture %}
 {% elsif layout.section %}
   {% capture section %}{{layout.section|capitalize}}{% endcapture %}
+{% elsif page.category_name %}
+  {% capture section %}Blog: {{page.category_name|capitalize}}{% endcapture %}
 {% endif %}
-{% if page.section_title != true %}
+
+{% unless page.section %}
   {% capture page_title %}{{ page.title|markdownify|remove:'<p>'|remove:'</p>'|strip }}{% endcapture %}
   {% if page_title == '' %}{% assign page_title = nil %}{% endif %}
-{% endif %}
+{% endunless %}
 
 {%- comment -%} Meta Title {%- endcomment -%}
 {% if page_title %}
@@ -43,6 +46,8 @@ back_to: home
   {% assign meta_desc = page.description %}
 {% elsif page.subtitle %}
   {% assign meta_desc = page.subtitle %}
+{% elsif page.category_name %}
+  {% capture meta_desc %}All blog posts related to {{page.category_name}}{% endcapture %}
 {% elsif page.dir != '/admin/' %}
   {{ "every page must have a description: " | append: page.path | sort: "cause an error" }}
 {% endif %}
@@ -146,8 +151,8 @@ back_to: home
   {% capture header_title %}
     {% if page.url == "/" %}
       <h1 class="journal-crossout">Henry James Blyth</h1>
-    {% elsif page.section %}
-      <h1 class="entry-title p-name journal-highlight">{{page.section}}</h1>
+    {% elsif section %}
+      <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
     {% endif %}
   {% endcapture %}
   {% assign header_title = header_title | strip %}
@@ -178,6 +183,13 @@ back_to: home
     <img hidden class="u-photo" src="/images/me_silly.jpg" alt="Henry James Blyth profile photo">
     <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
     <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
+    {% if page.categories %}
+      <ul hidden>
+      {% for category in page.categories %}
+        <li><a class="p-category" href="/blog/{{category}}">{{category}}</a></li>
+      {% endfor %}
+      </ul>
+    {% endif %}
 
     <article id="content" class="entry-content e-content {% if page.class %}content-{{ page.class }}{% endif %}">
       {% assign show_update_skip = false %}
@@ -190,7 +202,7 @@ back_to: home
 
       {{ content }}
 
-      {% if page.url != "/" and page.hide_share != true %}
+      {% if page.url != "/" and page.hide_share != true and layout.hide_share != true %}
         {% capture share_section %}
           {% include share.html %}
         {% endcapture %}
@@ -210,7 +222,7 @@ back_to: home
             <div id="related-section">
               {% if related_posts %}
                 <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
-                <p>Read more in <a href="{{site.data.links.blog.url}}">my blog</a></p>
+                <p>Read more in <a href="{{site.data.links.blog.url}}/{{page.related_posts_category}}">my blog about {{page.related_posts_category}}</a></p>
                 {% include posts.html posts=related_posts heading_element="h3" %}
               {% elsif site.related_posts %}
                 <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
