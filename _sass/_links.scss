@@ -1,0 +1,42 @@
+a,
+a button,
+.button-link,
+details summary {
+  color: inherit;
+  text-decoration: underline;
+}
+
+a:hover,
+a button:hover,
+.button:hover,
+.button-link:hover,
+details summary:hover {
+  color: $highlight-dark;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  a:hover,
+  a button:hover,
+  .button-link:hover,
+  details summary:hover {
+    color: $highlight-light;
+  }
+}
+
+a button,
+.button-link {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  vertical-align: middle;
+  background-image: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}

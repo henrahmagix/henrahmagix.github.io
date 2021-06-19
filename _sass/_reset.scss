@@ -1,0 +1,22 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+address {
+  font-style: normal;
+}
+
+iframe,
+img {
+  max-width: 100%;
+}
+
+@-ms-viewport {
+  width: device-width;
+}

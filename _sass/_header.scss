@@ -1,0 +1,126 @@
+.p-name-wrapper {
+  margin: 0;
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.page-header {
+  text-align: center;
+  margin: 0;
+}
+
+.page-header ul {
+  list-style: none;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  padding: 0;
+  font-size: 1.8em;
+}
+
+.page-header ul li {
+  display: inline-block;
+  margin: 0 0.25em;
+}
+
+.page-header .logo-list-item {
+  display: block;
+  margin: 0;
+}
+
+.logo {
+  display: block;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  margin-top: $focus-outline-width + 0.1em; /* enough space to stop focus outline getting chopped off by hidden overflow */
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.logo img,
+.logo svg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo svg {
+    fill: #fcfcfc;
+  }
+}
+
+#navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (min-width: $space-for-sidebar-px) {
+  #navigation {
+    margin-bottom: 1.25em;
+  }
+
+  .flex-wrapper {
+    display: flex;
+  }
+
+  /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
+  .page-header {
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-self: flex-start;
+    max-height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 2em; /* same as body top padding */
+    overflow: auto;
+    margin-right: 1em;
+    width: 9em;
+  }
+
+  .page-header ul li {
+    display: list-item;
+  }
+
+  .page-wrapper {
+    flex-grow: 1;
+  }
+}
+
+/* Logo interaction */
+
+.logo-flipper > * {
+  position: absolute;
+  z-index: 1;
+}
+
+.logo-flipper .logo-journal-circle {
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.logo-flipper .logo-signature {
+  top: 4px;
+  left: 0;
+}
+.logo-flipper .logo-myface {
+  top: 4px;
+  left: 0;
+  padding: 18px;
+}
+
+.logo-flipper .frontface {
+  opacity: 1;
+}
+.logo-flipper .backface {
+  opacity: 0;
+}
+.logo-flipper:hover .frontface {
+  opacity: 0 !important;
+}
+.logo-flipper:hover .backface {
+  opacity: 1 !important;
+}

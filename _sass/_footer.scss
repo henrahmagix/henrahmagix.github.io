@@ -1,0 +1,51 @@
+footer {
+  margin: 0;
+  margin-top: 2em;
+  text-align: center;
+  height: 7.5em;
+}
+
+footer .contact {
+  margin-bottom: 5px
+}
+
+footer .contact .first {
+  margin-right: 5px;
+  vertical-align: middle
+}
+
+footer ul {
+  margin: 1em 0;
+}
+
+footer ul li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 5px;
+  font-size: 2em;
+}
+
+.strikethrough-wrapper {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  text-align: center;
+}
+
+.strikethrough-wrapper::before,
+.strikethrough-wrapper::after {
+  content: "";
+  display: block;
+  flex: 1;
+  background: url(/images/watercolour-line-light.svg) no-repeat;
+  height: 1em;
+}
+
+.strikethrough-wrapper::before {
+  margin-right: 0.625em
+}
+
+.strikethrough-wrapper::after {
+  margin-left: 0.625em;
+  transform: scaleX(-1) scaleY(-1);
+}

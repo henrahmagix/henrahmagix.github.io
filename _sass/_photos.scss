@@ -1,0 +1,203 @@
+.photos-list-item {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (min-width: $space-for-sidebar-px) {
+  .photos-list-item {
+    flex: 1 1 320px;
+  }
+}
+
+.photos-list-photo {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: white;
+  padding: 2.5em;
+}
+@media (prefers-color-scheme: dark) {
+  .photos-list-photo:not(:hover):not(:focus) {
+    background-color: rgba(255,255,255,0.7);
+  }
+}
+
+.photos-list-photo:hover img,
+.photos-list-photo:focus img {
+  opacity: 0.3;
+}
+
+.action-text {
+  color: black;
+  font-family: $font-family-cursive-largest;
+  font-weight: bold;
+  font-size: 4.5em;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+.photos-list-photo:hover .action-text,
+.photos-list-photo:focus .action-text {
+  opacity: 1;
+}
+
+.photos-list-photo img {
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.photos-gallery {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: black;
+  z-index: 2;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.photos-gallery .controls {
+  background-color: white;
+  color: black;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  right: 0;
+}
+
+.photos-gallery:not(.show-controls) .controls {
+  display: none;
+}
+
+.photos-gallery .controls button {
+  background-color: transparent;
+  appearance: none;
+  border: none;
+  padding: 0;
+  margin: 0.3125em;
+  box-shadow: none;
+  $size: 3.125em;
+  height: $size;
+  width: $size;
+  font-size: $size;
+  cursor: pointer;
+}
+
+.photos-gallery .controls button:not(.fas, .fab) {
+  text-align: center;
+  line-height: 0;
+  font-family: $font-family-cursive-title;
+}
+
+.photos-gallery .controls button:hover {
+  transform: scale(1.2);
+}
+
+.photos-gallery .original-link {
+  color: white;
+  font-family: $font-family-cursive-largest;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+  display: block;
+  margin-top: 0.7em;
+  margin-bottom: 1em;
+  -webkit-text-decoration-skip: none;
+}
+
+.photos-gallery img {
+  display: block;
+  background-color: white;
+  padding: 5vw;
+  max-height: 100vh;
+  width: 100vw;
+  cursor: pointer;
+  object-fit: contain;
+  object-position: center;
+  margin: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .photos-gallery img {
+    background-color: black;
+  }
+}
+
+.photos-gallery.viewmax {
+  display: block;
+}
+
+.photos-gallery.viewmax img {
+  padding: 0;
+  height: auto;
+  width: auto;
+  min-height: 100vh;
+  min-width: 100vw;
+  max-height: none;
+  max-width: none;
+}
+
+.photos-gallery.viewmax .original-link {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.photos-gallery.viewmax .original-link:not(:focus) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.photos-gallery.viewmax .controls button {
+  $size: 0.0625em;
+  text-shadow: 0 $size 0 white, 0 0 $size white;
+}
+
+.photos-gallery.animate-closing-down,
+.photos-gallery.animate-closing-up {
+  animation: fade-out 300ms ease forwards;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .photos-gallery.animate-closing-down {
+    animation: closing-down 300ms ease forwards;
+  }
+  .photos-gallery.animate-closing-up {
+    animation: closing-up 300ms ease forwards;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes closing-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes closing-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}

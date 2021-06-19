@@ -1,0 +1,55 @@
+.screenreader,
+.screenreader-when-off:not(:hover):not(:focus) {
+  /* @include squish-text (compass@1.0.3/typography/text/replacement) */
+  font: 0/0 serif;
+  text-shadow: none;
+  color: transparent;
+  /* end squish-text */
+  float: left
+}
+
+.accessible-skip {
+  padding: 6px;
+  position: fixed;
+  // TODO: can this be positioned from bottom and moved with translateY?
+  top: -40px;
+  left: 0px;
+  color: white !important;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  border-bottom-right-radius: 8px;
+  background: #BF1722;
+  -webkit-transition: top 1s ease-out;
+  transition: top 1s ease-out;
+  z-index: 100;
+}
+
+.accessible-skip:focus {
+  top: 0px;
+  outline-color: transparent;
+  -webkit-transition-duration: .1s;
+  -webkit-transition-timing-function: ease-in;
+  transition-duration: .1s;
+  transition-timing-function: ease-in;
+}
+
+.hidden,
+[hidden] {
+  display: none
+}
+
+:focus {
+  outline-color: $text-colour-dark;
+  outline-style: double;
+  outline-width: $focus-outline-width;
+}
+
+.outline-big:focus {
+  outline-offset: $focus-outline-width;
+}
+
+@media (prefers-color-scheme: dark) {
+  :focus {
+    outline-color: $text-colour-light;
+  }
+}

@@ -1,0 +1,20 @@
+#share-fallback:not([hidden]) {
+  margin: 0;
+}
+
+#share-fallback summary {
+  display: inline-block;
+}
+
+#share-fallback summary::-webkit-details-marker {
+  display: none;
+}
+
+#share-fallback ul {
+  margin: 0;
+  padding-left: 1em;
+}
+
+#share-fallback .icon {
+  margin-right: 0.5em;
+}

@@ -1,0 +1,224 @@
+body,
+.page-subtitle {
+  font-family: $font-family-serif-text;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-cursive-title;
+}
+
+.large-text,
+.p-name-wrapper > * {
+  font-family: $font-family-cursive-largest;
+}
+
+.page-title,
+.post-title {
+  font-family: $font-family-serif-title;
+}
+
+.page-subtitle {
+  font-size: 1.5em;
+  font-weight: normal;
+}
+
+.large-text {
+  font-size: 3em;
+}
+
+.center-text {
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 0.625em;
+}
+
+@media (prefers-color-scheme: dark) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong {
+    /* Interestingly, for blog title links (<a> wrapping heading) this overrides
+    the <a> colour, which is quite nice for dark mode 🤗 */
+    color: $text-colour-light-bold;
+  }
+}
+
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {
+  margin-top: 2em;
+}
+
+.entry-content h2:not(:hover) > .heading-anchor:not(:focus),
+.entry-content h3:not(:hover) > .heading-anchor:not(:focus),
+.entry-content h4:not(:hover) > .heading-anchor:not(:focus),
+.entry-content h5:not(:hover) > .heading-anchor:not(:focus),
+.entry-content h6:not(:hover) > .heading-anchor:not(:focus) {
+  opacity: 0;
+}
+
+.entry-content hr + h2,
+.entry-content hr + h3,
+.entry-content hr + h4,
+.entry-content hr + h5,
+.entry-content hr + h6,
+.entry-content h2 + h3,
+.entry-content h3 + h4,
+.entry-content h4 + h5,
+.entry-content h5 + h6,
+.entry-content ul h2,
+.entry-content ul h3,
+.entry-content ul h4,
+.entry-content ul h5,
+.entry-content ul h6,
+.entry-content > h2:first-child,
+.entry-content > h3:first-child,
+.entry-content > h4:first-child,
+.entry-content > h5:first-child,
+.entry-content > h6:first-child,
+.entry-content > h2:first-of-type,
+.entry-content > h3:first-of-type,
+.entry-content > h4:first-of-type,
+.entry-content > h5:first-of-type,
+.entry-content > h6:first-of-type {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2.25em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.6em;
+}
+
+h5 {
+  font-size: 1.45em;
+}
+
+h6 {
+  font-size: 1.3em;
+}
+
+p,
+ul,
+ol {
+  margin: 1em 0;
+}
+
+#content p {
+  line-height: 1.6;
+}
+
+ul,
+ol {
+  padding: 0;
+  padding-left: 2em;
+  list-style-position: outside;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+li {
+  margin: .5em 0;
+}
+
+blockquote {
+  font-style: italic;
+  padding: 5px;
+  padding-left: 20px;
+  margin: 1em 0;
+  position: relative
+}
+
+blockquote::after {
+  content: "";
+  background-image: url(/images/watercolour-line-light-vertical.svg);
+  position: absolute;
+  width: 15px;
+  height: 100%;
+  top: 0;
+  left: 0
+}
+blockquote.twitter-tweet::before {
+  content: 'Tweet:';
+  white-space: nowrap;
+}
+blockquote.twitter-tweet > *:first-child {
+  margin-top: 0; /* remove gap after "Tweet:" text */
+}
+
+.fancy-title:hover > .emoji {
+  text-shadow: 3px 2px 1px rgba(120,120,120,0.4);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fancy-title > .emoji {
+    transition: text-shadow 340ms;
+  }
+  .fancy-title:hover > .emoji {
+    transition-duration: 110ms;
+  }
+}
+
+.highlight pre,
+code,
+kbd,
+.monospace {
+  font-family: $font-family-code;
+}
+.highlight pre,
+code {
+  font-size: 85%;
+}
+code {
+  background-color: rgba(27,31,35,0.05);
+  padding: .2em .4em;
+  border-radius: 3px;
+}
+pre.highlight {
+  border-radius: 10px;
+  margin: 1em 0;
+  padding: 1em;
+  line-height: 1.4;
+  /* stop hidden scrollbars getting in the way regardless of rest of padding */
+  padding-bottom: 1em;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+pre.highlight code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+details summary {
+  cursor: pointer;
+}

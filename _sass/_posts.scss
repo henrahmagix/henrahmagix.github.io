@@ -1,0 +1,124 @@
+.posts-list {
+  margin: 0;
+}
+
+.posts-list > li {
+  word-break: break-word;
+}
+
+.posts-list .published {
+  margin: 0;
+}
+
+.posts-list .post-link {
+  display: block; /* without block display, :focus won't show at all */
+}
+
+.posts-list .post-title {
+  margin-bottom: 0;
+}
+
+.posts-list.side-by-side {
+  justify-content: center;
+}
+.posts-list.side-by-side li {
+  max-width: 600px;
+}
+@media screen and (min-width: $space-for-sidebar-px) {
+  .posts-list.side-by-side {
+    justify-content: initial;
+  }
+}
+
+.posts-list.side-by-side.minimal {
+  justify-content: initial;
+}
+.posts-list.side-by-side.minimal li {
+  max-width: 450px;
+}
+
+.post-image {
+  display: block;
+  border: 0.125em solid $black;
+  height: 10em;
+  width: 100%;
+}
+@media (prefers-color-scheme: dark) {
+  .post-image {
+    border-color: $white;
+  }
+}
+
+.image-from-url {
+  object-fit: cover;
+  object-position: left center;
+}
+
+.post-link:hover .image-from-url,
+.post-link:hover .random-gradient {
+  filter: saturate(1.2) brightness(1.10);
+}
+@media (prefers-color-scheme: dark) {
+  .post-link:hover .image-from-url {
+    /* Already reduced opacity in dark-mode before hovering, so no need for brightness increase. */
+    filter: saturate(1.2);
+  }
+}
+
+/*
+1 #ffd0d2
+2 #fffdd0
+3 #d0fffd
+4 #d0d2ff
+*/
+.random-gradient-0 {
+  background-image: linear-gradient(141deg, #ffd0d2, #fffdd0);
+}
+.random-gradient-1 {
+  background-image: linear-gradient(141deg, #ffd0d2, #d0fffd);
+}
+.random-gradient-2 {
+  background-image: linear-gradient(141deg, #fffdd0, #ffd0d2);
+}
+.random-gradient-3 {
+  background-image: linear-gradient(141deg, #fffdd0, #d0d2ff);
+}
+.random-gradient-4 {
+  background-image: linear-gradient(141deg, #d0fffd, #ffd0d2);
+}
+.random-gradient-5 {
+  background-image: linear-gradient(141deg, #d0fffd, #d0d2ff);
+}
+.random-gradient-6 {
+  background-image: linear-gradient(141deg, #d0d2ff, #fffdd0);
+}
+.random-gradient-7 {
+  background-image: linear-gradient(141deg, #d0d2ff, #d0fffd);
+}
+
+@media (prefers-color-scheme: dark) {
+  .random-gradient-0 {
+    background-image: linear-gradient(141deg, #962d48, #e08f0b);
+  }
+  .random-gradient-1 {
+    background-image: linear-gradient(141deg, #3b9e02, #0579a7);
+  }
+  .random-gradient-2 {
+    background-image: linear-gradient(141deg, #e08f0b, #962d48);
+  }
+  .random-gradient-3 {
+    background-image: linear-gradient(141deg, #e08f0b, #4147b4);
+  }
+  .random-gradient-4 {
+    background-image: linear-gradient(141deg, #0579a7, #3b9e02);
+  }
+  .random-gradient-5 {
+    background-image: linear-gradient(141deg, #0579a7, #4147b4);
+  }
+  .random-gradient-6 {
+    background-image: linear-gradient(141deg, #4147b4, #e08f0b);
+  }
+  .random-gradient-7 {
+    background-image: linear-gradient(141deg, #4147b4, #0579a7);
+  }
+}
