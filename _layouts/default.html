@@ -154,7 +154,7 @@ back_to: home
 
   <div class="page-wrapper">
 
-  <main class="content-max-width">
+  <main class="content-max-width hentry h-entry">
 
     {% if page.back_to %}
       {% assign back_to = page.back_to %}
@@ -179,7 +179,7 @@ back_to: home
     <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
     <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
 
-    <article id="content" class="hentry h-entry {% if page.class %}content-{{ page.class }}{% endif %}">
+    <article id="content" class="entry-content e-content {% if page.class %}content-{{ page.class }}{% endif %}">
       {% assign show_update_skip = false %}
       {% if page.layout == 'post' %}{% assign show_update_skip = true %}{% endif %}
       {% include published-date.html context=page show_update_skip=show_update_skip %}
