@@ -231,6 +231,11 @@
    * @param {boolean} showing
    */
   function updateHistory(id, showing) {
+    if (!window.history) {
+      console.error('History not available');
+      return;
+    }
+
     var newState = { galleryPhotoID: id, showing: showing };
     var newHistoryURL = '#' + id;
     if (window.history.state && window.history.state.galleryPhotoID) {
@@ -241,6 +246,11 @@
   }
 
   function initFromHistory() {
+    if (!window.history) {
+      console.error('History not available');
+      return;
+    }
+
     var state = window.history.state;
     if (!state || !state.galleryPhotoID || !state.showing) return;
     var newShowing = /** @type {HTMLAnchorElement} */ (document.getElementById(state.galleryPhotoID));
