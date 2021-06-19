@@ -14,6 +14,7 @@ defaults:
 
 title: Henry James Blyth's World Wide Web Portal
 description: A collection of silly things and CSS trims in an attempt to provide a joyful and pretty visit.
+author: Henry James Blyth
 url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
 

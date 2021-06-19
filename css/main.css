@@ -593,7 +593,6 @@ h6 {
   }
 }
 
-.entry-content h1,
 .entry-content h2,
 .entry-content h3,
 .entry-content h4,
@@ -602,7 +601,6 @@ h6 {
   margin-top: 2em;
 }
 
-.entry-content h1:not(:hover) > .heading-anchor:not(:focus),
 .entry-content h2:not(:hover) > .heading-anchor:not(:focus),
 .entry-content h3:not(:hover) > .heading-anchor:not(:focus),
 .entry-content h4:not(:hover) > .heading-anchor:not(:focus),
@@ -611,24 +609,20 @@ h6 {
   opacity: 0;
 }
 
-.entry-content hr + h1,
 .entry-content hr + h2,
 .entry-content hr + h3,
 .entry-content hr + h4,
 .entry-content hr + h5,
 .entry-content hr + h6,
-.entry-content h1 + h2,
 .entry-content h2 + h3,
 .entry-content h3 + h4,
 .entry-content h4 + h5,
 .entry-content h5 + h6,
-.entry-content ul h1,
 .entry-content ul h2,
 .entry-content ul h3,
 .entry-content ul h4,
 .entry-content ul h5,
 .entry-content ul h6,
-.entry-content > h1:first-child,
 .entry-content > h2:first-child,
 .entry-content > h3:first-child,
 .entry-content > h4:first-child,

@@ -32,7 +32,7 @@
     {% capture fb_url %}https://www.facebook.com/sharer/sharer.php?u={{page_url|url_encode}}{% endcapture %}
     {% capture linkedin_url %}https://www.linkedin.com/shareArticle?url={{page_url|url_encode}}{% endcapture %}
 
-    {% capture copy_title %}"{{page.title}}" by Henry James Blyth – {{page_url}}{% endcapture %}
+    {% capture copy_title %}"{{page.title}}" by {{site.author}} – {{page_url}}{% endcapture %}
 
     <li>{% include link.html title="Twitter" icon="fab fa-twitter" url=tweet_url %}</li>
     <li>{% include link.html title="Facebook" icon="fab fa-facebook" url=fb_url %}</li>

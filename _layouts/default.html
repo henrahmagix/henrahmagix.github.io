@@ -133,7 +133,7 @@ back_to: home
           <a class="logo logo-flipper" rel="me" href="/" title="Home">
             <svg width="100px" class="frontface logo-signature"><use xlink:href="/images/logo.svg#signature" alt=""></use></svg>
             <img width="100px" class="logo-journal-circle" src="/images/watercolour-circle-light.svg" alt="">
-            <img width="100px" class="backface logo-myface" src="/images/me_silly.jpg" alt="silly profile photo of Henry James Blyth with googly eyes and a clown hat">
+            <img width="100px" class="backface logo-myface" src="/images/me_silly.jpg" alt="silly profile photo of {{site.author}} with googly eyes and a clown hat">
           </a>
         </li>
         {% for link_hash in site.data.links %}
@@ -147,15 +147,6 @@ back_to: home
       </ul>
     </nav>
   </header>
-
-  {% capture header_title %}
-    {% if page.url == "/" %}
-      <h1 class="journal-crossout">Henry James Blyth</h1>
-    {% elsif section %}
-      <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
-    {% endif %}
-  {% endcapture %}
-  {% assign header_title = header_title | strip %}
 
   <div class="page-wrapper">
 
@@ -176,29 +167,41 @@ back_to: home
       <div id="top"></div>
     {% endif %}
 
-    {% if header_title != empty %}
-      <div class="p-name-wrapper">{{header_title}}</div>
-    {% endif %}
-
-    <img hidden class="u-photo" src="/images/me_silly.jpg" alt="Henry James Blyth profile photo">
-    <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">Henry James Blyth</a>
-    <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
-    {% if page.categories %}
-      <ul hidden>
-      {% for category in page.categories %}
-        <li><a class="p-category" href="/blog/{{category}}">{{category}}</a></li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-
     <article id="content" class="entry-content e-content {% if page.class %}content-{{ page.class }}{% endif %}">
+      {% capture header_title %}
+        {% if page.url == "/" %}
+          <h1 class="entry-title p-name journal-crossout">{{site.author}}</h1>
+        {% elsif section %}
+          <h1 class="entry-title p-name journal-highlight">{{section}}</h1>
+        {% endif %}
+      {% endcapture %}
+      {% assign header_title = header_title | strip %}
+      {% if header_title == '' %}{% assign header_title = nil %}{% endif %}
+
+      {% if header_title %}
+        <div class="p-name-wrapper">{{header_title}}</div>
+      {% endif %}
+
+      <img hidden class="u-photo" src="/images/me_silly.jpg" alt="silly profile photo of {{site.author}} with googly eyes and a clown hat">
+      <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">{{site.author}}</a>
+      <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
+      {% if page.categories %}
+        <ul hidden>
+        {% for category in page.categories %}
+          <li><a class="p-category" href="/blog/{{category}}">{{category}}</a></li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+
       {% assign show_update_skip = false %}
       {% if page.layout == 'post' %}{% assign show_update_skip = true %}{% endif %}
       {% include published-date.html context=page show_update_skip=show_update_skip %}
 
+      {% unless header_title %}
       {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
       <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
       <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
+      {% endunless %}
 
       {{ content }}
 
