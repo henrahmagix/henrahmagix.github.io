@@ -20,6 +20,13 @@ permalink: /:year/:month/:day/:title
 
 compress_html:
   clippings: all
+
+keep_files:
+  - images
+  - lib
+
+timezone: Europe/London
+
 markdown: kramdown
 kramdown:
   input: GFM
