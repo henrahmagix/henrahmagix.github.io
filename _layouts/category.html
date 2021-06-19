@@ -1,0 +1,11 @@
+---
+layout: default
+hide_share: true
+back_to: blog
+---
+
+<header>{% include categories_nav.html site_categories=true selected=page.category_name %}</header>
+
+{%- comment -%} TODO: render all posts with pagination? {%- endcomment -%}
+{% assign posts = site.categories[page.category_name] %}
+{% include posts.html posts=posts heading_element="h2" %}

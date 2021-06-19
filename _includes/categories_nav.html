@@ -1,0 +1,27 @@
+<nav aria-labelledby="categories-nav">
+  <span id="categories-nav">Categories:</span>
+  <ul id="categories-list" class="inline-list inline-to-prev">
+  {% if include.site_categories == true %}
+    {% for category_hash in site.categories %}
+      {% assign categories = categories|append:category_hash[0] %}
+      {% unless forloop.last %}{% assign categories = categories|append:"," %}{% endunless %}
+    {% endfor %}
+  {% else %}
+    {% for category in include.categories %}
+      {% assign categories = categories|append:category %}
+      {% unless forloop.last %}{% assign categories = categories|append:"," %}{% endunless %}
+    {% endfor %}
+  {% endif %}
+
+  {% assign categories = categories|split:"," %}
+  {% for category in categories %}
+    <li>
+      {% if category == include.selected %}
+      <em class="p-category">{{category}}</em>
+      {% else %}
+      <a class="p-category" href="/blog/{{category|downcase}}">{{category}}</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</nav>

@@ -63,10 +63,9 @@ back_to: home
     {% if meta_last_update %}
       <meta name="article:modified_time" property="article:modified_time" content="{{meta_last_update.date|date:'%Y-%m-%d'}}" />
     {% endif %}
-    <meta name="article:section" property="article:section" content="{{page.categories.first}}" />
-    {% for tag in page.categories %}
-      <meta name="article:tag" property="article:tag" content="{{tag}}" />
-    {% endfor %}
+    {% if page.categories.first %}
+      <meta name="article:section" property="article:section" content="{{page.categories.first}}" />
+    {% endif %}
   {% endcapture %}
 {% endif %}
 
@@ -103,6 +102,18 @@ back_to: home
   {% if meta_type %}
     <meta name="og:type" property="og:type" content="{{meta_type}}">
     {{meta_type_info}}
+  {% endif %}
+
+  {% if page.url == "/" or page.url == "/blog" %}
+    {% for category_hash in site.categories %}
+      <meta name="article:tag" property="article:tag" content="{{category_hash[0]}}" />
+    {% endfor %}
+  {% elsif page.categories %}
+    {% for category in page.categories %}
+      <meta name="article:tag" property="article:tag" content="{{category}}" />
+    {% endfor %}
+  {% elsif page.related_posts_category %}
+    <meta name="article:tag" property="article:tag" content="{{page.related_posts_category}}" />
   {% endif %}
 
   {% feed_meta %}
@@ -182,15 +193,16 @@ back_to: home
         <div class="p-name-wrapper">{{header_title}}</div>
       {% endif %}
 
-      <img hidden class="u-photo" src="/images/me_silly.jpg" alt="silly profile photo of {{site.author}} with googly eyes and a clown hat">
-      <a rel="author" hidden class="p-author h-card" href="{{ site.url }}">{{site.author}}</a>
-      <a hidden class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
-      {% if page.categories %}
-        <ul hidden>
-        {% for category in page.categories %}
-          <li><a class="p-category" href="/blog/{{category}}">{{category}}</a></li>
-        {% endfor %}
-        </ul>
+      <div class="meta_info" hidden>
+        <img class="u-photo" src="/images/me_silly.jpg" alt="silly profile photo of {{site.author}} with googly eyes and a clown hat">
+        <a rel="author" class="p-author h-card" href="{{ site.url }}">{{site.author}}</a>
+        <a class="u-url" href="{{ site.url }}{{ page.url }}">{{ site.url }}{{ page.url }}</a>
+      </div>
+
+      {% if page.url == "/" and site.categories %}
+        <div hidden>{% include categories_nav.html site_categories=true %}</div>
+      {% elsif page.categories %}
+        {% include categories_nav.html categories=page.categories %}
       {% endif %}
 
       {% assign show_update_skip = false %}

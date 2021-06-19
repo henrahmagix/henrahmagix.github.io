@@ -5,15 +5,6 @@ hide_share: true
 add_admin_scripts: true
 ---
 
-<header>
-  <nav aria-labelledby="categories-nav">
-    <span id="categories-nav">Categories:</span>
-    <ul class="inline-list inline-to-prev">
-    {% for category_hash in site.categories %}
-      <li><a class="p-category" href="/blog/{{category_hash[0]}}">{{category_hash[0]}}</a></li>
-    {% endfor %}
-    </ul>
-  </nav>
-</header>
+<header>{% include categories_nav.html site_categories=true %}</header>
 
 {% include posts.html posts=site.posts heading_element="h2" %}
