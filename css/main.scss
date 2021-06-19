@@ -1,8 +1,7 @@
 ---
 ---
 .screenreader,
-.screenreader-when-off:not(:hover):not(:focus),
-a[href^="#footnote-"]::before {
+.screenreader-when-off:not(:hover):not(:focus) {
   /* @include squish-text (compass@1.0.3/typography/text/replacement) */
   font: 0/0 serif;
   text-shadow: none;
@@ -14,9 +13,6 @@ a[href^="#footnote-"]::before {
 a[href^="#footnote-"] {
   margin-left: 0.125em;
   margin-right: 0.25em;
-}
-a[href^="#footnote-"]::before {
-  content: 'footnote'
 }
 
 .accessible-skip {
