@@ -1,3 +1,5 @@
+---
+---
 .screenreader,
 .screenreader-when-off:not(:hover):not(:focus),
 a[href^="#footnote-"]::before {
@@ -113,7 +115,7 @@ body::before {
   }
   body::before {
     opacity: 0.7;
-    filter: invert() brightness(0.7) contrast(1.1);
+    filter: invert(1) brightness(0.7) contrast(1.1);
   }
   #body-inner {
     background-image: url(/images/journal-dots-light.svg);

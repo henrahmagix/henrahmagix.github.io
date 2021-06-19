@@ -18,6 +18,10 @@ author: Henry James Blyth
 url: https://henryblyth.com
 permalink: /:year/:month/:day/:title
 
+sass:
+  style: compressed
+  sourcemap: always
+
 compress_html:
   clippings: all
 
