@@ -252,6 +252,7 @@ a button,
   height: 100px;
   width: 100px;
   margin: auto;
+  margin-top: 10px; /* enough space to stop focus outline getting chopped off by hidden overflow */
   position: relative;
   flex-shrink: 0;
   overflow: hidden;
