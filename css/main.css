@@ -304,6 +304,7 @@ main hr:nth-child(odd) {
 
 .page-top {
   display: inline-block;
+  margin-bottom: 1rem;
 }
 .page-back-to-top {
   margin-top: 2em;
