@@ -1,0 +1,51 @@
+.source-image,
+.generated-canvas {
+  margin: .5em auto;
+  height: auto;
+  vertical-align: top;
+}
+
+.source-image {
+  width: 50%;
+}
+
+.generated-canvas {
+  max-width: 100%;
+}
+
+form .dimension-label {
+  min-width: 3em;
+  display: inline-block;
+}
+
+form input {
+  font: inherit;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+}
+
+form input[type=number] {
+  padding: 0.5em;
+  width: 6em;
+}
+
+form .controls {
+  margin-bottom: 1em;
+}
+
+form button {
+  font: inherit;
+}
+
+.form-and-result {
+  display: flex;
+  align-items: baseline;
+}
+
+form {
+  flex-grow: 0;
+  flex-shrink: 0;
+  background: url(/images/watercolour-line-light-vertical.svg) no-repeat top right;
+  background-size: 1em 100%;
+  padding-right: 2em;
+  margin-right: 1em;
+}

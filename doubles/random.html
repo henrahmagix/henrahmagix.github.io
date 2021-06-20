@@ -7,242 +7,74 @@ title: Double Exposure Random Generator
 description: Randomly generate double exposures in the browser with JavaScript
 no_journal_title: true
 class: doubles
+css:
+  - /css/doubles_random.css
+js:
+  - /lib/caman/dist/caman.full.min.js
+  - /js/doubles_random.js
 ---
 
 <p>Two random images are loaded from <a href="https://picsum.photos">picsum.photos</a>. The brightest of the two is overlayed onto the other with a blending mode of "screen". If the difference in average brightness is small, the images are darkened and lightened to make them more distinguishable. Uses <a href="http://camanjs.com/">CamanJS</a>.</p>
 
 <p>See some of my favourites in <a href="https://twitter.com/henrahmagix/status/1043861655770333184">this Twitter thread</a></p>
 
-<style>
-.entry-content h4 {
-  margin-top: 0;
-}
+<h2>How to use</h2>
 
-.source-image,
-.generated-canvas {
-  margin: .5em auto;
-  height: auto;
-}
+<p>Choose a width and height and then click "Generate". Two images will be loaded and then combined. Both images will be shown at half their size, followed by the full-size combined image.</p>
 
-.source-image {
-  width: 50%;
-}
+<p>To show of your beautiful and intriguing double exposure, you can click "Save" to download one image comprised of the two individual images at half-size and the full-size combined one.</p>
 
-.generated-canvas {
-  max-width: 100%;
-}
+{%- comment -%} TODO: store each generation so users can access past results, and allow returning to them later. {%- endcomment -%}
+{%- comment -%} TODO: request each image with XHR so we can get the `picsum-id` header and request it again at higher resolution. {%- endcomment -%}
 
-form {
-  background-color: #252525;
-  padding: 15px;
-  color: #fcfcfc;
-}
+<div class="form-and-result">
+  <form id="generate-form">
+    <div class="controls">
+      <label for="option-width" class="dimension-label">Width</label>
+      <input type="number" name="width" id="option-width" list="defaultResolutions" required>
+    </div>
 
-form button,
-form .button {
-  background-color: #fcfcfc;
-  color: #252525;
-  font-size: 1em;
-  cursor: pointer;
-  display: inline-block;
-  text-decoration: none;
-  padding: 0.25em 0.5em;
-}
+    <div class="controls">
+      <label for="option-height" class="dimension-label">Height</label>
+      <input type="number" name="height" id="option-height" list="defaultResolutions" required>
+    </div>
 
-.options li {
-  list-style: none;
-}
+    <datalist id="defaultResolutions">
+      <option value="400">400</option>
+      <option value="640">640</option>
+      <option value="800">800</option>
+      <option value="1024">1024</option>
+      <option value="1280">1280</option>
+      <option value="1600">1600</option>
+      <option value="1980">1980</option>
+      <option value="2560">2560</option>
+    </datalist>
 
-form input {
-  vertical-align: middle;
-}
-</style>
+    <div class="controls">
+      <input type="checkbox" id="option-greyscale">
+      <label for="option-greyscale">Greyscale</label>
+    </div>
 
-<form id="generate">
-  <h4>Options:</h4>
-  <ul class="options">
-    <li><label>Width: <input type="text" id="option-width" value="400"></label></li>
-    <li><label>Height: <input type="text" id="option-height" value="400"></label></li>
-    <li><label>Greyscale: <input type="checkbox" id="option-greyscale"></label></li>
-  </ul>
+    <div class="controls">
+      <button class="button" type="submit" aria-live="polite">
+        <span id="ready">Generate</span>
+        <span id="loading" style="display:none;">Processing&hellip;</span>
+      </button>
+    </div>
 
-  <button class="button" type="submit">Generate</button>
-  <span id="loading" style="display:none;">Processing...</span>
-  <br>
-  <br>
-  <a id="save" class="button" download="double-exposure.jpg">Save</a>
-</form>
+    <div class="keep-controls" style="display:none;">
+      <div class="controls">
+        <input type="checkbox" id="option-keep-a">
+        <label for="option-keep-a">Keep first image</label>
+      </div>
+      <div class="controls">
+        <input type="checkbox" id="option-keep-b">
+        <label for="option-keep-b">Keep second image</label>
+      </div>
+    </div>
 
-<div id="images"></div>
+    <a id="save" style="display:none;" class="button" download="double-exposure.jpg">Save result</a>
+  </form>
 
-<script src="/lib/caman/dist/caman.full.min.js"></script>
-<script>
-
-  var widthInput = document.getElementById('option-width');
-  var heightInput = document.getElementById('option-height');
-  var greyscaleCheckbox = document.getElementById('option-greyscale');
-  var form = document.getElementById('generate');
-  var saveButton = document.getElementById('save');
-  var loadingMessage = document.getElementById('loading');
-  var images = document.getElementById('images');
-
-  var showLoading = function () {
-    loadingMessage.style.display = '';
-  };
-  var hideLoading = function () {
-    loadingMessage.style.display = 'none';
-  };
-  hideLoading();
-
-  var beforeGenerate = function () {
-    showLoading();
-    /* Keep the height of the images container until regenerated. */
-    images.style.height = images.clientHeight + 'px';
-  };
-  var afterGenerate = function () {
-    hideLoading();
-    images.style.height = '';
-    updateSaveUrl();
-  };
-
-  var getAverageBrightness = function (img) {
-    var colorSum = 0;
-    var width = img.width;
-    var height = img.height;
-    var context = document.createElement('canvas').getContext('2d');
-    context.drawImage(img, 0, 0);
-    var data = context.getImageData(0, 0, width, height).data;
-
-    var r, g, b, avg;
-    for (var x = 0, len = data.length; x < len; x+=4) {
-      r = data[x];
-      g = data[x+1];
-      b = data[x+2];
-
-      avg = Math.floor((r + g + b) / 3);
-      colorSum += avg;
-    }
-
-    var brightness = Math.floor(colorSum / (width * height));
-    return brightness;
-  };
-
-  var makeDoubleExposure = function (firstImg, secondImg, brightnessDiff) {
-    /* Clone the first image for use with Caman, so both images can be seen */
-    /* separately to the combined double-exposure. */
-    var camanCanvas = document.createElement('canvas');
-    camanCanvas.className = "generated-canvas";
-    camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
-    camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
-    camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
-    firstImg.parentElement.appendChild(camanCanvas);
-    Caman(camanCanvas, function () {
-      if (brightnessDiff < 10) {
-        this.brightness(-10);
-      }
-      this.newLayer(function () {
-        this.setBlendingMode('screen');
-        this.context.drawImage(secondImg, 0, 0);
-        this.c.reloadCanvasData.call(this);
-        if (brightnessDiff < 10) {
-          this.filter.brightness(10);
-        }
-      });
-      this.render(function () {
-        var width = widthInput.value / 2 + 'px';
-        firstImg.style.maxWidth = width;
-        secondImg.style.maxWidth = width;
-        afterGenerate();
-      });
-    });
-  };
-
-  var onAllImagesLoad = function (aImage, bImage) {
-    var aBrightness = getAverageBrightness(aImage);
-    var bBrightness = getAverageBrightness(bImage);
-    var difference = Math.abs(aBrightness - bBrightness);
-    if (aBrightness < bBrightness) {
-      makeDoubleExposure(aImage, bImage, difference);
-    } else {
-      makeDoubleExposure(bImage, aImage, difference);
-    }
-  };
-
-  var startImageLoad = function (img) {
-    var width = widthInput.value;
-    var height = heightInput.value;
-    img.width = width;
-    img.height = height;
-    /* Without crossOrigin set to anonymous, a security error will be thrown */
-    /* when calling getImageData() on a canvas context. picsum.photos kindly */
-    /* supplies the correct Access-Control-Allow-Origin header. */
-    img.crossOrigin = 'anonymous';
-    /* Append a random number so a new image is requested and the cache isn't used. */
-    var widthParam = width + '/';
-    var heightParam = height + '/';
-    var greyscaleParam = greyscaleCheckbox.checked ? 'g/' : '';
-    var randomParam = '?' + Math.random();
-    img.src = 'https://picsum.photos/' + greyscaleParam + widthParam + heightParam + randomParam;
-  };
-
-  var generate = function () {
-    beforeGenerate();
-    /* Remove all images. */
-    var numImages = images.children.length;
-    for (var i = 0; i < numImages; i++) {
-      images.removeChild(images.children[0]);
-    }
-    /* Make new images. */
-    var aImage = new Image();
-    var bImage = new Image();
-    aImage.className = 'source-image';
-    bImage.className = 'source-image';
-    images.appendChild(aImage);
-    images.appendChild(bImage);
-    var aLoaded = false;
-    var bLoaded = false;
-    aImage.addEventListener('load', function () {
-      aLoaded = true;
-      if (bLoaded) {
-        onAllImagesLoad(aImage, bImage);
-      }
-    });
-    bImage.addEventListener('load', function () {
-      bLoaded = true;
-      if (aLoaded) {
-        onAllImagesLoad(aImage, bImage);
-      }
-    });
-    startImageLoad(aImage);
-    startImageLoad(bImage);
-  };
-
-  var updateSaveUrl = function () {
-    var imgs = images.querySelectorAll('img');
-    var canvas = images.querySelector('canvas');
-    var saveCanvas = document.createElement('canvas');
-    var imgHeight = Math.max.apply(null, [].map.call(imgs, function (img) {
-      return img.naturalHeight / 2;
-    }));
-    var imgWidth = Math.max.apply(null, [].map.call(imgs, function (img) {
-      return img.naturalWidth / 2;
-    }));
-    saveCanvas.height = imgHeight * 3;
-    saveCanvas.width = imgWidth * 2;
-
-    var context = saveCanvas.getContext('2d');
-    var x1 = 0, x2 = imgWidth;
-    var y1 = 0, y2 = imgHeight;
-    context.drawImage(imgs[0], x1, y1, imgWidth, imgHeight);
-    context.drawImage(imgs[1], x2, y1, imgWidth, imgHeight);
-    context.drawImage(canvas, x1, y2, imgWidth * 2, imgHeight * 2);
-    var url = saveCanvas.toDataURL('image/jpg');
-    saveButton.setAttribute('href', url);
-  };
-
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    generate();
-  });
-
-</script>
+  <div id="generated-images" aria-live="polite"></div>
+</div>
