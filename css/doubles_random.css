@@ -36,16 +36,22 @@ form button {
   font: inherit;
 }
 
-.form-and-result {
-  display: flex;
-  align-items: baseline;
+form {
+  margin-bottom: 1em;
 }
 
-form {
-  flex-grow: 0;
-  flex-shrink: 0;
-  background: url(/images/watercolour-line-light-vertical.svg) no-repeat top right;
-  background-size: 1em 100%;
-  padding-right: 2em;
-  margin-right: 1em;
+@media screen and (min-width: 600px) {
+  .form-and-result {
+    display: flex;
+    align-items: baseline;
+  }
+
+  form {
+    flex-grow: 0;
+    flex-shrink: 0;
+    background: url(/images/watercolour-line-light-vertical.svg) no-repeat top right;
+    background-size: 1em 100%;
+    padding-right: 2em;
+    margin-right: 1em;
+  }
 }
