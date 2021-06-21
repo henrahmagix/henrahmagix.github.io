@@ -8,6 +8,9 @@
   var loadingMessage    = document.getElementById('loading');
   var images            = document.getElementById('generated-images');
 
+  widthInput.value = document.body.clientWidth;
+  heightInput.value = widthInput.value;
+
   /** @return {NodeListOf<HTMLImageElement>} */
   function currentImages() {
     return images.querySelectorAll('.source-image');
