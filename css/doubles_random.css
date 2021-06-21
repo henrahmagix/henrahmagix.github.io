@@ -6,7 +6,7 @@
 }
 
 .source-image {
-  width: 50%;
+  max-width: 50%;
 }
 
 .generated-canvas {
@@ -29,7 +29,9 @@ form input[type=number] {
 }
 
 form .controls {
+  display: inline-block;
   margin-bottom: 1em;
+  margin-right: 1em;
 }
 
 form button {
@@ -41,6 +43,10 @@ form {
 }
 
 @media screen and (min-width: 600px) {
+  form .controls {
+    display: block;
+  }
+
   .form-and-result {
     display: flex;
     align-items: baseline;
