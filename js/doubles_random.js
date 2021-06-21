@@ -3,23 +3,58 @@
   var heightInput       = /** @type {HTMLInputElement}  */ (document.getElementById('option-height'));
   var greyscaleCheckbox = /** @type {HTMLInputElement}  */ (document.getElementById('option-greyscale'));
   var form              = /** @type {HTMLFormElement}   */ (document.getElementById('generate-form'));
-  var saveButton        = /** @type {HTMLButtonElement} */ (document.getElementById('save'));
-  var keepControls      = /** @type {HTMLElement}       */ (document.querySelector('.keep-controls'));
   var keepImageA        = /** @type {HTMLInputElement}  */ (document.getElementById('option-keep-a'));
   var keepImageB        = /** @type {HTMLInputElement}  */ (document.getElementById('option-keep-b'));
-  var readyMessage      = document.getElementById('ready');
   var loadingMessage    = document.getElementById('loading');
   var images            = document.getElementById('generated-images');
 
+  /** @return {NodeListOf<HTMLImageElement>} */
+  function currentImages() {
+    return images.querySelectorAll('.source-image');
+  }
+
+  var saveLink = document.createElement('a');
+  saveLink.download = 'double-exposure.jpg';
+  saveLink.textContent = 'Save result';
+
+  var loadingHelpTimeout = /** @type {NodeJS.Timeout} */ (null);
+
   function showLoading() {
-    readyMessage.style.display = 'none';
-    loadingMessage.style.display = '';
+    loadingMessage.textContent = 'Processing…';
+    loadingHelpTimeout = setTimeout(function () {
+      loadingMessage.textContent += ' (this might take a while for picsum.photos to respond)'
+    }, 3000);
   }
-  function hideLoading() {
-    readyMessage.style.display = '';
-    loadingMessage.style.display = 'none';
+  function finishLoading() {
+    clearTimeout(loadingHelpTimeout);
+    loadingMessage.textContent = 'Done! ';
+    loadingMessage.appendChild(saveLink);
+    var curr = currentImages();
+    createPicsumSourceInfoElements('First image', curr[0]).forEach(function (el) {
+      loadingMessage.appendChild(el);
+    });
+    createPicsumSourceInfoElements('Second image', curr[1]).forEach(function (el) {
+      loadingMessage.appendChild(el);
+    });
   }
-  hideLoading();
+
+  /**
+   * @param {string} name
+   * @param {HTMLImageElement} img
+   * @return {(HTMLElement|Text)[]}
+   */
+  function createPicsumSourceInfoElements(name, img) {
+    var picsumLink = document.createElement('a');
+    picsumLink.href = img.dataset.picsum_source_url;
+    picsumLink.textContent = img.dataset.picsum_author;
+    picsumLink.target = '_blank';
+
+    return [
+      document.createElement('br'),
+      document.createTextNode(name + ' by '),
+      picsumLink
+    ]
+  }
 
   function beforeGenerate() {
     showLoading();
@@ -27,7 +62,7 @@
     images.style.height = images.clientHeight + 'px';
   }
   function afterGenerate() {
-    hideLoading();
+    finishLoading();
     images.style.height = '';
     updateSaveUrl();
   }
@@ -67,8 +102,8 @@
     /* separately to the combined double-exposure. */
     var camanCanvas = document.createElement('canvas');
     camanCanvas.className = "generated-canvas";
-    camanCanvas.height = parseInt(firstImg.getAttribute('height'), 10);
-    camanCanvas.width = parseInt(firstImg.getAttribute('width'), 10);
+    camanCanvas.height = parseInt(heightInput.value, 10);
+    camanCanvas.width = parseInt(widthInput.value, 10);
     camanCanvas.getContext('2d').drawImage(firstImg, 0, 0);
     firstImg.parentElement.appendChild(camanCanvas);
     // @ts-ignore
@@ -84,12 +119,7 @@
           this.filter.brightness(10);
         }
       });
-      this.render(function () {
-        var width = parseInt(widthInput.value, 10) / 2 + 'px';
-        firstImg.style.maxWidth = width;
-        secondImg.style.maxWidth = width;
-        afterGenerate();
-      });
+      this.render(afterGenerate);
     });
   }
 
@@ -115,8 +145,8 @@
   function startImageLoad(img, keepImageCheckbox) {
     var width = parseInt(widthInput.value, 10);
     var height = parseInt(heightInput.value, 10);
-    img.width = width;
-    img.height = height;
+    img.width = width / 2;
+    img.height = height / 2;
     /* Without crossOrigin set to anonymous, a security error will be thrown */
     /* when calling getImageData() on a canvas context. picsum.photos kindly */
     /* supplies the correct Access-Control-Allow-Origin header. */
@@ -130,26 +160,30 @@
 
     var url = 'https://picsum.photos/' + idParam + widthParam + heightParam + randomParam + greyscaleParam;
 
-
     ajax('GET', url, 'blob', function (xhr) {
-      img.dataset.picsum_id = xhr.getResponseHeader('Picsum-ID');
-      img.src = window.URL.createObjectURL(xhr.response);
+      var picsum_id = xhr.getResponseHeader('Picsum-ID');
+      img.dataset.picsum_id = picsum_id;
+      keepImageCheckbox.dataset.picsum_id = picsum_id;
+
+      var imageSource = window.URL.createObjectURL(xhr.response);
+
+      img.dataset.picsum_info_url = 'https://picsum.photos/id/' + img.dataset.picsum_id + '/info';
+      ajax('GET', img.dataset.picsum_info_url, 'json', function (xhr) {
+        img.dataset.picsum_author = xhr.response.author;
+        img.dataset.picsum_source_url = xhr.response.url;
+
+        // This will trigger onload, so do this after setting dataset so info
+        // links can be built from this element in afterGenerate.
+        img.src = imageSource;
+      });
     });
   }
 
   function generate() {
     beforeGenerate();
-    /* Store keep data before deletion. */
-    var currentImages = /** @type {NodeListOf<HTMLImageElement>} */ (images.querySelectorAll('.source-image'));
-    if (currentImages.length > 0) {
-      keepImageA.dataset.picsum_id = currentImages[0].dataset.picsum_id;
-      keepImageB.dataset.picsum_id = currentImages[1].dataset.picsum_id;
-    }
     /* Remove all images. */
-    var numImages = images.children.length;
-    for (var i = 0; i < numImages; i++) {
-      images.removeChild(images.children[0]);
-    }
+    images.textContent = '';
+    images.appendChild(loadingMessage);
     /* Make new images. */
     var aImage = new Image();
     var bImage = new Image();
@@ -195,9 +229,9 @@
     context.drawImage(imgs[1], x2, y1, imgWidth, imgHeight);
     context.drawImage(canvas, x1, y2, imgWidth * 2, imgHeight * 2);
     var url = saveCanvas.toDataURL('image/jpg');
-    saveButton.setAttribute('href', url);
-    saveButton.style.display = '';
-    keepControls.style.display = '';
+    saveLink.setAttribute('href', url);
+    keepImageA.disabled = false;
+    keepImageB.disabled = false;
   }
 
   form.addEventListener('submit', function (event) {

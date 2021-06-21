@@ -55,25 +55,20 @@ js:
     </div>
 
     <div class="controls">
-      <button class="button" type="submit" aria-live="polite">
-        <span id="ready">Generate</span>
-        <span id="loading" style="display:none;">Processing&hellip;</span>
-      </button>
+      <input type="checkbox" id="option-keep-a" disabled aria-live="polite">
+      <label for="option-keep-a">Keep first image</label>
+    </div>
+    <div class="controls">
+      <input type="checkbox" id="option-keep-b" disabled aria-live="polite">
+      <label for="option-keep-b">Keep second image</label>
     </div>
 
-    <div class="keep-controls" style="display:none;">
-      <div class="controls">
-        <input type="checkbox" id="option-keep-a">
-        <label for="option-keep-a">Keep first image</label>
-      </div>
-      <div class="controls">
-        <input type="checkbox" id="option-keep-b">
-        <label for="option-keep-b">Keep second image</label>
-      </div>
+    <div class="controls">
+      <button class="button" type="submit" aria-live="polite">Generate</button>
     </div>
-
-    <a id="save" style="display:none;" class="button" download="double-exposure.jpg">Save result</a>
   </form>
 
-  <div id="generated-images" aria-live="polite"></div>
+  <div id="generated-images" aria-live="polite">
+    <p id="loading">The double-exposure will appear here after being generated.</p>
+  </div>
 </div>
