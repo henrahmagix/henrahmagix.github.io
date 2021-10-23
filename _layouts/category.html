@@ -1,11 +1,14 @@
 ---
 layout: default
 hide_share: true
+section: Blog
 back_to: blog
 ---
+
+<h2 class="sr-only">Blog posts about {{page.category_name|capitalize}}</h2>
 
 <header>{% include categories_nav.html site_categories=true selected=page.category_name %}</header>
 
 {%- comment -%} TODO: render all posts with pagination? {%- endcomment -%}
 {% assign posts = site.categories[page.category_name] %}
-{% include posts.html posts=posts heading_element="h2" %}
+{% include posts.html posts=posts heading_element="h3" %}

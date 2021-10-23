@@ -7,8 +7,6 @@ back_to: home
   {% capture section %}{{page.section|capitalize}}{% endcapture %}
 {% elsif layout.section %}
   {% capture section %}{{layout.section|capitalize}}{% endcapture %}
-{% elsif page.category_name %}
-  {% capture section %}Blog: {{page.category_name|capitalize}}{% endcapture %}
 {% endif %}
 
 {% unless page.section %}
