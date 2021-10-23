@@ -666,7 +666,8 @@ h6 {
 
 p,
 ul,
-ol {
+ol,
+dl {
   margin: 1em 0;
 }
 
@@ -687,6 +688,18 @@ ul {
 
 li {
   margin: .5em 0;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dt:not(:first-child) {
+  margin-top: 1em;
+}
+
+dd {
+  margin-left: 2em;
 }
 
 blockquote {
