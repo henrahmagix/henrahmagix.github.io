@@ -384,12 +384,12 @@ main hr:nth-child(odd) {
 
 .journal-highlight,
 .journal-crossout {
-  text-shadow: 2px 2px 0px white, -1px -1px 0 white;
+  text-shadow: 0.025em 0.025em 0px white, -0.0125em -0.0125em 0px white;
 }
 @media (prefers-color-scheme: dark) {
   .journal-highlight,
   .journal-crossout {
-    text-shadow: 2px 2px 0px rgb(34, 17, 105), -1px -1px 0 rgb(34, 17, 105);
+    text-shadow: 0.025em 0.025em 0px rgb(34, 17, 105), -0.0125em -0.0125em 0px rgb(34, 17, 105);
   }
 }
 
@@ -403,6 +403,11 @@ main hr:nth-child(odd) {
   padding-left: 20px;
   padding-right: 20px;
 }
+#categories-list .journal-highlight {
+  background-position-y: 120%;
+  padding: 0;
+}
+
 @media (max-width: 500px) {
   .journal-highlight {
     background: none;
@@ -422,6 +427,11 @@ main hr:nth-child(odd) {
     background-position: center 70%;
     display: block;
     background-size: 110% 40%;
+  }
+  #categories-list .journal-highlight::before {
+    background-position-y: 120%;
+    background-size: 100% 40%;
+    width: 110%;
   }
 }
 
