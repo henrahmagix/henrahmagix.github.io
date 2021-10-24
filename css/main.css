@@ -71,7 +71,7 @@ body {
 }
 
 body {
-  background-color: rgb(255, 254, 249);
+  background-color: #FFFEF9;
   color: #23242C;
   font-size: 100%;
   font-weight: 400;
@@ -108,7 +108,7 @@ body::before {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: rgb(3, 7, 33);
+    background-color: #030721;
     color: #EEEEEE;
   }
   body::before {
