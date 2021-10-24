@@ -74,7 +74,7 @@ back_to: home
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#f7f7f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#f7f7f2" content-desktop-safari="#fa5e8d" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0d14" media="(prefers-color-scheme: dark)">
   {%- comment -%} TODO: rebiuld icon assets {%- endcomment -%}
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
@@ -290,6 +290,17 @@ back_to: home
   {% elsif page.js %}
     <script src="{{page.js}}"></script>
   {% endif %}
+
+  <script>
+    var uA = navigator.userAgent;
+    var vendor = navigator.vendor;
+    if (/Safari/i.test(uA) && /Apple Computer/.test(vendor) && !/Mobi|Android/i.test(uA)) {
+      /* Certain colours aren't allowed on Desktop Safari because they make the traffic-light buttons harder to see. */
+      var metaThemeColorSafariDesktop = document.head.querySelector('meta[name=theme-color][content-desktop-safari]');
+      metaThemeColorSafariDesktop.content = metaThemeColorSafariDesktop.getAttribute('content-desktop-safari');
+      metaThemeColorSafariDesktop.removeAttribute('content-desktop-safari');
+    }
+  </script>
 
 </body>
 </html>
