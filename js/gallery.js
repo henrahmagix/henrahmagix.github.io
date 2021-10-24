@@ -127,9 +127,18 @@
   });
 
   document.addEventListener('focus', function (event) {
-    if (showing && !gallery.contains(/** @type {Node} */(event.target))) {
+    if (showing && !gallery.contains(/** @type {HTMLElement} */(event.target))) {
       event.stopPropagation();
       gallery.focus();
+    }
+  }, true);
+
+  document.addEventListener('blur', function (event) {
+    if (!(event.target instanceof HTMLElement)) return;
+
+    var photo = /** @type {HTMLElement} */(event.target).closest('.photos-list-photo')
+    if (photo) {
+      photo.classList.remove('was-viewing');
     }
   }, true);
 
@@ -152,7 +161,7 @@
 
     gallery.setAttribute('tabindex', '0');
     gallery.focus();
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('fullscreen');
     bodyInner.setAttribute('aria-hidden', 'true');
 
     updateHistory(el.id, true);
@@ -162,30 +171,36 @@
   function closeLarge(animate) {
     if (!showing) return;
 
-    if (!animate) return _close();
+    _closeStart();
+
+    if (!animate) return _closeEnd();
 
     if (animate > 0) {
       gallery.classList.add('animate-closing-up');
       gallery.classList.remove('animate-closing-down');
-      setTimeout(_close, 300);
+      setTimeout(_closeEnd, 300);
     } else {
       gallery.classList.add('animate-closing-down');
       gallery.classList.remove('animate-closing-up');
-      setTimeout(_close, 300);
+      setTimeout(_closeEnd, 300);
     }
   }
 
-  function _close() {
-    gallery.style.display = 'none';
-    document.body.style.overflow = null;
+  function _closeStart() {
+    document.body.classList.remove('fullscreen');
     bodyInner.removeAttribute('aria-hidden');
-    showing.focus();
 
     var wasViewingID = showing.id;
-    // TODO: keep shown list so it's quicker to open.
-    showing = null;
+    showing.classList.add('was-viewing');
 
     updateHistory(wasViewingID, false);
+  }
+
+  function _closeEnd() {
+    gallery.style.display = 'none';
+    showing.focus();
+    // TODO: keep shown list so it's quicker to open.
+    showing = null;
   }
 
   function expand() {

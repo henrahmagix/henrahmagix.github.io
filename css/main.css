@@ -101,6 +101,10 @@ body::before {
   pointer-events: none;
 }
 
+body.fullscreen {
+  overflow: hidden;
+}
+
 #body-inner {
   background: url(/images/journal-dots.svg) space 0 0;
   background-size: 20px;
@@ -1027,16 +1031,16 @@ details summary {
 }
 
 .photos-list-photo:hover img,
-.photos-list-photo:focus img {
+.photos-list-photo:focus:not(.was-viewing) img {
   opacity: 0.3;
 }
 
 .photos-list-photo:hover .action-text,
-.photos-list-photo:focus .action-text {
+.photos-list-photo:focus:not(.was-viewing) .action-text {
   color: black;
   font-family: 'Dancing Script';
   font-weight: bold;
-  font-size: 4.5em;
+  font-size: 3em;
   position: absolute;
   text-align: center;
   top: 50%;
@@ -1045,6 +1049,12 @@ details summary {
   right: 0;
   z-index: 1;
   pointer-events: none;
+}
+@media screen and (min-width: 500px) {
+  .photos-list-photo:hover .action-text,
+  .photos-list-photo:focus:not(.was-viewing) .action-text {
+    font-size: 4.5em;
+  }
 }
 
 .photos-list-photo img {
@@ -1186,7 +1196,7 @@ details summary {
     transform: translateY(0);
   }
   to {
-    transform: translateY(100%);
+    transform: translateY(120%);
   }
 }
 @keyframes closing-up {
@@ -1194,7 +1204,7 @@ details summary {
     transform: translateY(0);
   }
   to {
-    transform: translateY(-100%);
+    transform: translateY(-120%);
   }
 }
 
