@@ -686,6 +686,7 @@ dl {
 
 #content p {
   line-height: 1.6;
+  word-wrap: break-word;
 }
 
 ul,
