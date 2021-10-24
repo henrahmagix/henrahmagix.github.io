@@ -11,7 +11,7 @@
   {% if include.hide_title == true %}title="{{include.title}}"{% endif %}
 >
   {% if include.hide_title == true %}
-    {{ icon }}<span class="screenreader">{{ include.title }}</span>
+    {{ icon }}<span class="sr-only">{{ include.title }}</span>
   {% elsif title_element %}
     <{{title_element}}>{{ icon }}{{ include.title }}</{{title_element}}>
   {% else %}

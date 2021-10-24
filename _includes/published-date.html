@@ -1,5 +1,5 @@
 {% if include.context.date %}
-  {% capture published %}<span class="screenreader">Published </span><time class="dt-published" datetime="{{ include.context.date|date:"%Y-%m-%d" }}">{{ include.context.date | date_to_long_string }}</time>{% endcapture %}
+  {% capture published %}<span class="sr-only">Published </span><time class="dt-published" datetime="{{ include.context.date|date:"%Y-%m-%d" }}">{{ include.context.date | date_to_long_string }}</time>{% endcapture %}
 {% endif %}
 {% if include.context.updates %}
   {% assign last_update = include.context.updates|sort:"date"|last %}

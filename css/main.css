@@ -1,5 +1,5 @@
-.screenreader,
-.screenreader-when-off:not(:hover):not(:focus),
+.sr-only,
+.sr-when-off:not(:hover):not(:focus),
 a[href^="#footnote-"]::before {
   /* @include squish-text (compass@1.0.3/typography/text/replacement) */
   font: 0/0 serif;
