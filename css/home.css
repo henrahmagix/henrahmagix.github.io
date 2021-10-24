@@ -1,3 +1,15 @@
+@media screen and (max-width: 1023px) and (min-height: 600px) {
+  body:not(.fullscreen) .page-header {
+    position: sticky;
+    top: calc(-1em - 210px); /* body padding - logo height - logo margin */
+    z-index: 10;
+    margin-bottom: 3em;
+  }
+  a[id] {
+    scroll-margin-top: 11.25rem;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .page-header {
     width: 13em;
