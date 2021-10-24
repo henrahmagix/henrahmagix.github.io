@@ -380,6 +380,7 @@ main hr:nth-child(odd) {
   line-height: 1.1;
   font-weight: bold;
   margin: 0;
+  font-size: min(5em, 20vw);
 }
 
 .journal-highlight,
@@ -412,6 +413,8 @@ main hr:nth-child(odd) {
   .journal-highlight {
     background: none;
     position: relative;
+    padding-left: 0;
+    padding-right: 0;
   }
   .journal-highlight::before {
     content: '';
