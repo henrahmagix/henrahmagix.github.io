@@ -14,8 +14,10 @@ content_class: post
   {% capture built_toc %}{% include toc.html html=content skipNoIDs=true %}{% endcapture %}
   {% assign toc_without_newlines = built_toc|strip_newlines %}
   {% if toc_without_newlines != "" %}
-    <h2>Table of contents</h2>
-    {{built_toc}}
+    <nav id="navigation-toc" aria-labelledby="navigation-toc-heading">
+      <h2 id="navigation-toc-heading">Table of contents</h2>
+      {{built_toc}}
+    </nav>
     <div class="journal-line"></div>
   {% endif %}
 </header>
