@@ -247,7 +247,7 @@ a button,
     top: calc(-1em - 110px); /* body padding - logo height - logo margin */
     z-index: 10;
   }
-  a[id] {
+  [id] {
     scroll-margin-top: 5rem;
   }
 }
