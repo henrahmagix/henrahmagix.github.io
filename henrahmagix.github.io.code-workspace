@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "html.format.enable": false,
+    "files.associations": {
+      "*.html": "jekyll"
+    },
+    "cSpell.enabled": true
+  }
+}
