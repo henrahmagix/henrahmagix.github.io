@@ -232,30 +232,9 @@ a button,
   margin-right: -1em;
   margin-bottom: 1em;
 }
-@media (prefers-color-scheme: light) {
-  .page-header {
-    background-color: #f7f7f2;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  .page-header {
-    background-color: #0c0d14;
-  }
-}
-@media screen and (max-width: 1023px) and (min-height: 600px) {
-  body:not(.fullscreen) .page-header {
-    position: sticky;
-    top: calc(-1em - 110px); /* body padding - logo height - logo margin */
-    z-index: 10;
-  }
-  [id] {
-    scroll-margin-top: 5rem;
-  }
-}
 
 @media screen and (min-width: 1024px) {
   .page-header {
-    background-color: transparent;
     padding: 0;
     margin: 0;
     margin-bottom: 1em;
