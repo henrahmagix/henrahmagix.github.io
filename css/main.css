@@ -171,6 +171,7 @@ details summary:hover {
 .icon {
   margin: 0 0.125em;
   text-align: left;
+  font-style: normal;
 }
 
 a button,
