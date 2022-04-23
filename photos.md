@@ -62,7 +62,7 @@ Using swipe gestures will only animate movement if you haven't set a **prefers-r
                     {{ album_path }}/960/{{ img.name }} 960w,
                     {{ album_path }}/640/{{ img.name }} 640w,
                     {{ album_path }}/320/{{ img.name }} 320w"
-            sizes="(min-width: 1024px) 320px,
+            sizes="(min-width: 1124px) 320px,
                    calc(100vw - 7em)" />
         </a>
       </li>

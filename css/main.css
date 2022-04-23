@@ -84,7 +84,7 @@ body {
   position: relative;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   body {
     padding: 2em;
   }
@@ -225,20 +225,8 @@ a button,
 
 .page-header {
   text-align: center;
-  padding: 1em;
   margin: 0;
-  margin-top: -1em;
-  margin-left: -1em;
-  margin-right: -1em;
   margin-bottom: 1em;
-}
-
-@media screen and (min-width: 1024px) {
-  .page-header {
-    padding: 0;
-    margin: 0;
-    margin-bottom: 1em;
-  }
 }
 
 .page-header ul {
@@ -257,7 +245,7 @@ a button,
   display: inline-block;
   margin: 0 0.25em;
 }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   .page-header ul {
     margin-bottom: 1em;
   }
@@ -297,6 +285,36 @@ a button,
   }
 }
 
+.logo-flipper .logo-journal-circle {
+  top: 0;
+  left: 0;
+}
+.logo-flipper .logo-signature {
+  top: 4px;
+  left: 0;
+}
+.logo-flipper .logo-myface {
+  top: 4px;
+  left: 0;
+  padding: 18px;
+}
+
+@media (min-width: 1000px), (min-height: 700px) {
+  .logo-flipper {
+    height: 200px;
+    width: 200px;
+  }
+  .logo-flipper .logo-signature {
+    top: 8px;
+    left: 0;
+  }
+  .logo-flipper .logo-myface {
+    top: 8px;
+    left: 0;
+    padding: 35px;
+  }
+}
+
 /* Structure */
 
 body:not(.page-photos) .content-max-width {
@@ -304,7 +322,7 @@ body:not(.page-photos) .content-max-width {
   margin-left: auto;
   margin-right: auto;
 }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   body:not(.page-photos) .content-max-width {
     max-width: 1200px;
     margin-left: 0;
@@ -317,7 +335,7 @@ body:not(.page-photos) .content-max-width {
   flex-direction: column;
   align-items: center;
 }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   #navigation {
     margin-bottom: 1.25em;
   }
@@ -379,18 +397,7 @@ main hr:nth-child(odd) {
 }
 
 .logo-flipper .logo-journal-circle {
-  top: 0;
-  left: 0;
   z-index: 2;
-}
-.logo-flipper .logo-signature {
-  top: 4px;
-  left: 0;
-}
-.logo-flipper .logo-myface {
-  top: 4px;
-  left: 0;
-  padding: 18px;
 }
 
 .logo-flipper .frontface {
@@ -558,7 +565,7 @@ footer ul li {
   border-radius: 10px;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   .flex-wrapper {
     display: flex;
   }
@@ -574,7 +581,6 @@ footer ul li {
     top: 2em; /* same as body top padding */
     overflow: auto;
     margin-right: 1em;
-    width: 9em;
   }
 
   .page-wrapper {
@@ -1011,7 +1017,7 @@ details summary {
 .posts-list.side-by-side li {
   max-width: 600px;
 }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   .posts-list.side-by-side {
     justify-content: initial;
   }
@@ -1041,7 +1047,7 @@ details summary {
   justify-content: center;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   .photos-list-item {
     flex: 1 1 320px;
   }

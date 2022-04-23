@@ -1,27 +1,14 @@
-@media screen and (min-width: 1024px) {
-  .page-header {
-    width: 13em;
-  }
-}
-
 #content {
   text-align: center;
   word-break: break-word;
 }
 
-.fancy-title.emoji-on-the-left {
-  /* Allow just the text to be centered, ignoring the emoji */
-  margin-left: -1em;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1124px) {
   #content {
     text-align: left;
   }
 }
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 1123px) {
   dd {
     margin-left: 0;
   }
@@ -71,20 +58,6 @@ ul.side-by-side {
     right: auto;
     transform: translateX(-50%);
   }
-}
-
-.logo-flipper {
-  height: 200px;
-  width: 200px;
-}
-.logo-flipper .logo-signature {
-  top: 8px;
-  left: 0;
-}
-.logo-flipper .logo-myface {
-  top: 8px;
-  left: 0;
-  padding: 35px;
 }
 
 .logo-flipper .frontface,
