@@ -6,6 +6,7 @@
 
 #content {
   text-align: center;
+  word-break: break-word;
 }
 
 .fancy-title.emoji-on-the-left {
