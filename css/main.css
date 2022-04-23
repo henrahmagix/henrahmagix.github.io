@@ -231,7 +231,7 @@ a button,
 
 .page-header ul {
   list-style: none;
-  margin: 0 -0.25em;
+  margin: 0;
   padding: 0;
   font-size: 1.3em;
 }
@@ -247,6 +247,7 @@ a button,
 }
 @media screen and (min-width: 1124px) {
   .page-header ul {
+    margin: 0;
     margin-bottom: 1em;
   }
   .page-header ul li {
@@ -508,7 +509,7 @@ footer {
   margin: 0;
   margin-top: 2em;
   text-align: center;
-  height: 7.5em;
+  min-height: 7.5em;
 }
 
 footer .contact {
@@ -567,24 +568,29 @@ footer ul li {
 
 @media screen and (min-width: 1124px) {
   .flex-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto max-content auto auto;
+    grid-template-rows: auto;
+    grid-template-areas: ". header main ." "footer footer footer footer";
   }
 
   /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
   .page-header {
-    flex-shrink: 0;
-    flex-grow: 0;
-    align-self: flex-start;
+    grid-area: header;
     max-height: 100vh;
     position: -webkit-sticky;
     position: sticky;
     top: 2em; /* same as body top padding */
     overflow: auto;
-    margin-right: 1em;
+    margin-right: 2em;
   }
 
-  .page-wrapper {
-    flex-grow: 1;
+  main {
+    grid-area: main;
+  }
+
+  footer {
+    grid-area: footer;
   }
 }
 
