@@ -192,7 +192,7 @@ All done now. Nothing else to do. Bye-bye, see you later 👋
 
 Oh, you wanted interactivity in your component? 😅 Sure ok, let's continue!
 
-### Export a `View` class from the script
+### Export a View class from the script
 
 ```js
 class View {
