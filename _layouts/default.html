@@ -159,7 +159,7 @@ back_to: home
     </nav>
   </header>
 
-  <main class="content-max-width hentry h-entry">
+  <main class="page-main content-max-width hentry h-entry">
 
     {% if page.back_to %}
       {% assign back_to = page.back_to %}
@@ -249,7 +249,7 @@ back_to: home
 
   </main>
 
-  <footer>
+  <footer class="page-footer">
     <nav class="strikethrough-wrapper" aria-label="Footer">
       <ul class="list-reset">
         {% for link_hash in site.data.links %}

@@ -13,7 +13,7 @@ updates:
     title: imports work in components now!
 ---
 
-This website is a playground for me, so I decided to rewrite my [Blog Admin code][] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
+This website is a playground for me, so I decided to rewrite [my Blog Admin code][Blog Admin code] to [use Web Components][Blog Admin web components]. It worked, and I liked it! 🎉 But then I didn't: writing HTML in JavaScript strings isn't great. Why can't we have both HTML and JavaScript defined in the same file _and_ encapsulated separate from the rendered page?
 
 ### That sounds like the HTML Imports spec
 
@@ -80,7 +80,7 @@ Anyway, this can very easily go into a Web Component: we have the `<template>`, 
 
 ### How do we import a HTML file?
 
-The [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is our friend here: we can `fetch()` the HTML file from the webserver[*](#ft-jekyll-fetch-html) as plain text, perfect for inserting into a holding element to get the browser to build the HTML for us:
+The [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) is our friend here: we can `fetch()` the HTML file from the webserver{% include footnote.html text="Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file." %} as plain text, perfect for inserting into a holding element to get the browser to build the HTML for us:
 ```js
 fetch('/test.component.html')
   .then(response => response.text())
@@ -274,7 +274,7 @@ Hhmmm. This sounds like [HTML Imports Problem No.3](#html-imports-problems):
 
 _/me searches "inline script module export" … … … a-ha!_
 
-I found an [example of "Inlining ECMAScript Modules in HTML"][stackoverflow inline module] on StackOverflow<sup>[&dagger;](#ft-stackoverflow-merits)</sup>. In it, the contents of the script can be turned into an "Object URL", which we can use to import!
+I found an [example of "Inlining ECMAScript Modules in HTML"][stackoverflow inline module] on StackOverflow{% include footnote.html text="StackOverflow is not the kindest of places, brought to my attention in [Suffering on StackOverflow, by April Wensel](https://medium.com/@Aprilw/suffering-on-stack-overflow-c46414a34a52). It's also where I've found answers for a lot of of my problems. So, for me at least, reading it is usually fine; but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more." %}. In it, the contents of the script can be turned into an "Object URL", which we can use to import!
 
 So let's do that before adding the script to the `shadowRoot`:
 ```js
@@ -321,7 +321,7 @@ _dusts off hands_
 
 ### Notes
 
-This example was not intended for good (or even average!) performance or browser compatibility. I'm the only person using code like this, on two very specific devices. Other users of my site don't even receive this code: it's an Admin interface that is only loaded if I'm logged-in (see my other post: ["I can write this from my phone"]({% post_url 2020-04-08-i-can-write-this-from-my-phone %})).
+This example was not intended for good (or even average!) performance or browser compatibility. I'm the only person using code like this, on two very specific devices. Other users of my site don't even receive this code: it's an Admin interface that is only loaded if I'm logged-in (see [my related post "I can write this from my phone"]({% post_url 2020-04-08-i-can-write-this-from-my-phone %})).
 
 The Web Component in this example can be totally generic by taking an import url as an input, so you don't have to create a new Web Component – which, to be honest, is a bit of a pain – for every HTML component you have. In fact, that's exactly what I've done with my Admin interface: I can put `<html-import data-href="./amazing.component.html"></html-import>` anywhere and it will load that component 🎉
 
@@ -353,9 +353,7 @@ But now I have figured it out! Turns out I had the right idea, but I was resolvi
 
 ---
 
-<small id="ft-jekyll-fetch-html">* Thankfully Jekyll doesn't transform it with a layout since it doesn't have any front matter (yaml at the top of the file), so the response will only be the contents of the file.</small>
-
-<small id="ft-stackoverflow-merits"><sup>&dagger;</sup> StackOverflow is not the kindest of places, brought to my attention by April Wensel ([here is an example][April Wensel on StackOverflow]). It's also where I've found answers for the majority of my problems. So, for me at least, reading it is usually fine; but interacting with it – posting, commenting, answering – can be a dire experience. I suggest reading April Wensel to find out more.</small>
+{% include footnotes.html %}
 
 
 [Vue]: https://vuejs.org/
@@ -368,4 +366,3 @@ But now I have figured it out! Turns out I had the right idea, but I was resolvi
 [Gotchas with dynamically adding script tags to HTML]: https://www.danielcrabtree.com/blog/25/gotchas-with-dynamically-adding-script-tags-to-html
 [HTML5 spec on innerHTML]: https://www.w3.org/TR/2008/WD-html5-20080610/dom.html#innerhtml0
 [stackoverflow inline module]: https://stackoverflow.com/a/43834063/3150057
-[April Wensel on StackOverflow]: https://medium.com/@Aprilw/suffering-on-stack-overflow-c46414a34a52 "Suffering on StackOverflow, by April Wensel"

@@ -1,20 +1,11 @@
 .sr-only,
-.sr-when-off:not(:hover):not(:focus),
-a[href^="#footnote-"]::before {
+.sr-when-off:not(:hover):not(:focus) {
   /* @include squish-text (compass@1.0.3/typography/text/replacement) */
   font: 0/0 serif;
   text-shadow: none;
   color: transparent;
   /* end squish-text */
   float: left
-}
-
-a[href^="#footnote-"] {
-  margin-left: 0.125em;
-  margin-right: 0.25em;
-}
-a[href^="#footnote-"]::before {
-  content: 'footnote'
 }
 
 .accessible-skip {
@@ -59,6 +50,36 @@ a[href^="#footnote-"]::before {
 @media (prefers-color-scheme: dark) {
   :focus {
     outline-color: #DEDEDE;
+  }
+}
+
+/* Footnotes */
+
+article {
+  counter-reset: footnotes;
+}
+a[aria-describedby="footnote-label"] {
+  /* Increment the counter at each new reference */
+  counter-increment: footnotes;
+  padding: 0 0.5em; /* increase click area */
+  margin: 0 -0.5em; /* increase click area */
+  z-index: 1;
+  position: relative;
+}
+a[aria-describedby="footnote-label"]::after {
+  content: counter(footnotes);
+  vertical-align: super;
+  font-size: 0.5em;
+  margin-left: 2px;
+}
+
+#footnotes :target {
+  animation: none !important;
+  background-color: rgba(247, 59, 106, 0.33);
+}
+@media screen and (prefers-color-scheme: dark) {
+  #footnotes :target {
+    background-color: rgba(247, 59, 106, 0.63);
   }
 }
 
@@ -342,7 +363,7 @@ body:not(.page-photos) .content-max-width {
   }
 }
 
-main hr,
+.page-main hr,
 .journal-line {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   margin: 2em auto;
@@ -351,7 +372,7 @@ main hr,
   max-width: 5em;
   width: 100%;
 }
-main hr:nth-child(odd) {
+.page-main hr:nth-child(odd) {
   transform: scaleX(-1) scaleY(-1);
 }
 
@@ -505,27 +526,27 @@ main hr:nth-child(odd) {
 
 /* Footer */
 
-footer {
+.page-footer {
   margin: 0;
   margin-top: 2em;
   text-align: center;
   min-height: 7.5em;
 }
 
-footer .contact {
+.page-footer .contact {
   margin-bottom: 5px
 }
 
-footer .contact .first {
+.page-footer .contact .first {
   margin-right: 5px;
   vertical-align: middle
 }
 
-footer ul {
+.page-footer ul {
   margin: 1em 0;
 }
 
-footer ul li {
+.page-footer ul li {
   display: inline-block;
   vertical-align: middle;
   margin: 0 5px;
@@ -585,11 +606,11 @@ footer ul li {
     margin-right: 2em;
   }
 
-  main {
+  .page-main {
     grid-area: main;
   }
 
-  footer {
+  .page-footer {
     grid-area: footer;
   }
 }

@@ -1,0 +1,1 @@
+{% unless footnotes_store %}{% assign footnotes_store = "" | split:',' %}{% endunless %}{% assign footnotes_store = footnotes_store | push: include.text %}<a href="#footnote-{{ footnotes_store.size }}" id="footnote-{{ footnotes_store.size }}-ref" aria-describedby="footnote-label"></a>

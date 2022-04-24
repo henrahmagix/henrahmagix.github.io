@@ -1,0 +1,12 @@
+{% if footnotes_store %}
+  <footer id="footnotes">
+    <h2 id="footnote-label" class="no_anchor no_toc">Footnotes</h2>
+    <ol>
+      {% for footnote in footnotes_store %}
+        <li id="footnote-{{ forloop.index }}">
+          {{ footnote |markdownify|remove:'<p>'|remove:'</p>' }}<a href="#footnote-{{ forloop.index }}-ref" aria-label="Back to reference {{ forloop.index }}">↵</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </footer>
+{% endif %}

@@ -12,8 +12,8 @@ content_class: post
   {% endif %}
 
   {% capture built_toc %}{% include toc.html html=content skip_no_ids=true %}{% endcapture %}
-  {% assign toc_without_newlines = built_toc|strip_newlines %}
-  {% if toc_without_newlines != "" %}
+  {% assign toc_text_only = built_toc|strip_html|strip %}
+  {% if toc_text_only != "" %}
     <nav id="navigation-toc" aria-labelledby="navigation-toc-heading" class="instapaper_ignore">
       <h2 id="navigation-toc-heading">Table of contents</h2>
       {{built_toc}}
