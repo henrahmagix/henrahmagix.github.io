@@ -11,7 +11,7 @@ content_class: post
     {% endfor %}
   {% endif %}
 
-  {% capture built_toc %}{% include toc.html html=content skipNoIDs=true %}{% endcapture %}
+  {% capture built_toc %}{% include toc.html html=content skip_no_ids=true %}{% endcapture %}
   {% assign toc_without_newlines = built_toc|strip_newlines %}
   {% if toc_without_newlines != "" %}
     <nav id="navigation-toc" aria-labelledby="navigation-toc-heading" class="instapaper_ignore">
