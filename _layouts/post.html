@@ -22,4 +22,4 @@ content_class: post
   {% endif %}
 </header>
 
-{% include anchor_headings.html html=content anchorBody="<span aria-hidden=true>#</span><span class='sr-only'>Link to heading: %heading%</span>" anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
+{% include anchor_headings.html html=content anchorBody="#" anchorAttrs='aria-label="Link to heading: %heading%"' anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
