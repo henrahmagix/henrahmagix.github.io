@@ -32,16 +32,16 @@ ul.side-by-side {
 }
 .p-name-wrapper .journal-crossout::before {
   height: auto;
-  width: auto;
   min-height: 180px;
-  min-width: 500px;
+  width: 100vw;
   max-width: 650px;
   margin: 0 auto;
-  transform: none;
+  background-size: contain;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   top: -30px;
   bottom: -10px;
-  left: -20px;
-  right: -20px;
   opacity: 0.7;
 }
 @media (prefers-color-scheme: dark) {
@@ -51,12 +51,7 @@ ul.side-by-side {
 }
 @media (max-width: 500px) {
   .p-name-wrapper .journal-crossout::before {
-    min-width: 0;
-    width: 100vw;
     background-size: 500px 100%;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
   }
 }
 
