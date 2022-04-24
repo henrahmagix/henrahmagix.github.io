@@ -270,7 +270,7 @@ Secondly, that doesn't work because the `script` variable is an `HTMLScriptEleme
 Hhmmm. This sounds like [HTML Imports Problem No.3](#html-imports-problems):
 >Inability for script modules to access declarative content
 
-### Import and initialise the `View` class with the ShadowRoot
+### Import and initialise the View class with the ShadowRoot
 
 _/me searches "inline script module export" … … … a-ha!_
 
@@ -298,7 +298,7 @@ import(newScript.src).then(module => {
 });
 ```
 
-### Change the template dynamically in the `View` class
+### Change the template dynamically in the View class
 
 Let's change our view to act on the element:
 ```html
