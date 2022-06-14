@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Testing required radio inputs scrolling when form submitted</title>
+</head>
+
+<body>
+  <form method="get" id="safari_radios_form">
+    <input type="text" value="Hit 'Go' on this input">
+    <br>
+
+    <fieldset class="fieldset">
+      <legend class="legend">Is iOS Safari scrolling to this field when submitting the form?</legend>
+      <input type="hidden" name="test_me" value="">
+      <input required="required" type="radio" value="1" name="test_me" id="test_me_yes">
+      <label for="test_me_yes">Yes</label>
+      <input required="required" type="radio" value="0" name="test_me" id="test_me_no">
+      <label for="test_me_no">No</label>
+      </fieldset>
+    <br>
+    <textarea style="height: 100vh">Fill up the screen so the browser will need to scroll up to the radio when clicking submit</textarea>
+    <br>
+    <input type="text" value="Hit 'Go' on this input too">
+    <br>
+    <button type="submit" style="font-size:2em;">And click here to submit</button>
+    <button type="button" onclick="safari_radios_form.reset()">Reset</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </form>
+
+  <p style="font-size:1.4em;">
+    iOS Safari 15.4+ will not scroll up to the required radio when submitting this form unless in an iframe.
+    <br>
+    Try this <a href="/admin/test/safari-radios-iframe">in an iframe</a> and it will succeed.
+  </p>
+
+</body>
+</html>
