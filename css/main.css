@@ -105,9 +105,20 @@ body {
   position: relative;
 }
 
+/* Gap for notches */
+#body-inner {
+  padding-left: calc(env(safe-area-inset-left) - 1em);
+  padding-right: calc(env(safe-area-inset-right) - 1em);
+}
+
 @media screen and (min-width: 1124px) {
   body {
     padding: 2em;
+  }
+  /* Gap for notches */
+  #body-inner {
+    padding-left: calc(env(safe-area-inset-left) - 2em);
+    padding-right: calc(env(safe-area-inset-right) - 2em);
   }
 }
 
