@@ -460,17 +460,20 @@ body:not(.page-photos) .content-max-width {
 }
 
 .journal-highlight,
+.journal-underline,
 .journal-crossout {
   text-shadow: 0.025em 0.025em 0px white, -0.0125em -0.0125em 0px white;
 }
 @media (prefers-color-scheme: dark) {
   .journal-highlight,
+  .journal-underline,
   .journal-crossout {
     text-shadow: 0.025em 0.025em 0px rgb(34, 17, 105), -0.0125em -0.0125em 0px rgb(34, 17, 105);
   }
 }
 
-.journal-highlight {
+.journal-highlight,
+.journal-underline {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   background-position: center 70%;
   background-size: 100% 40%;
@@ -480,38 +483,9 @@ body:not(.page-photos) .content-max-width {
   padding-left: 20px;
   padding-right: 20px;
 }
-#categories-list .journal-highlight {
+.journal-underline {
   background-position-y: 120%;
   padding: 0;
-}
-
-@media (max-width: 500px) {
-  .journal-highlight {
-    background: none;
-    position: relative;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .journal-highlight::before {
-    content: '';
-    position: absolute;
-    width: 100vw;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    z-index: -1;
-    background: url(/images/watercolour-line-light.svg) no-repeat;
-    background-position: center 70%;
-    display: block;
-    background-size: 110% 40%;
-  }
-  #categories-list .journal-highlight::before {
-    background-position-y: 120%;
-    background-size: 100% 40%;
-    width: 110%;
-  }
 }
 
 .journal-crossout {

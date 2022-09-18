@@ -17,7 +17,7 @@
   {% for category in categories %}
     <li>
       {% if category == include.selected %}
-      <span class="p-category journal-highlight"><span class="sr-only">Currently viewing:</span> {{category}}</span>
+      <span class="p-category journal-underline"><span class="sr-only">Currently viewing:</span> {{category}}</span>
       {% else %}
       <a class="p-category" href="/blog/{{category|downcase}}"><span class="sr-only">Show blog posts about</span> {{category}}</a>
       {% endif %}
