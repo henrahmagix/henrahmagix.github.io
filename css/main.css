@@ -233,7 +233,8 @@ a button,
   margin: 0;
 }
 .inline-list li {
-  display: inline-block;
+  display: inline;
+  line-height: 1.8;
 }
 .inline-list li:not(:first-child)::before {
   content: '•';
@@ -243,7 +244,7 @@ a button,
   vertical-align: middle;
 }
 .inline-list.inline-to-prev {
-  display: inline-block;
+  display: inline;
   padding: 0;
   margin-left: 1em;
 }
@@ -389,12 +390,10 @@ body:not(.page-photos) .content-max-width {
 }
 
 .page-top {
-  display: inline-block;
   margin-bottom: 1rem;
 }
 .page-back-to-top {
   margin-top: 2em;
-  display: inline-block;
 }
 
 #share-section,
@@ -450,7 +449,6 @@ body:not(.page-photos) .content-max-width {
 /* Page title/subtitle */
 
 .p-name-wrapper > * {
-  display: block;
   font-size: 5em;
   min-width: 2.5em;
   line-height: 1.1;
@@ -472,12 +470,14 @@ body:not(.page-photos) .content-max-width {
   }
 }
 
+.journal-highlight {
+  display: inline-block;
+}
 .journal-highlight,
 .journal-underline {
   background: url(/images/watercolour-line-light.svg) no-repeat;
   background-position: center 70%;
   background-size: 100% 40%;
-  display: inline-block;
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;
@@ -863,10 +863,6 @@ details summary {
 
 #share-fallback:not([hidden]) {
   margin: 0;
-}
-
-#share-fallback summary {
-  display: inline-block;
 }
 
 #share-fallback summary::-webkit-details-marker {

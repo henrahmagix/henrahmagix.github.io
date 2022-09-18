@@ -172,7 +172,7 @@ back_to: home
     {% endif %}
 
     {% if back_to and back_to.url != page.url %}
-      {% include back-link.html url=back_to.url title=back_to.title id="top" class="page-top" %}
+      <div class="page-top">{% include back-link.html url=back_to.url title=back_to.title id="top" %}</div>
     {% else %}
       <div id="top"></div>
     {% endif %}
@@ -246,7 +246,7 @@ back_to: home
       {% endif %}
     </article>
 
-    {% include link.html url="#top" title="Back to top" class="page-back-to-top" icon="fas fa-long-arrow-alt-up" %}
+    <div class="page-back-to-top">{% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}</div>
 
   </main>
 
