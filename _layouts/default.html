@@ -133,7 +133,9 @@ back_to: home
   <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>
 </head>
 
-<body class="page-{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}">
+{% capture page_classname %}{% if page.class %}{{ page.class }}{% else %}{{ page.title | slugify }}{% endif %}{% endcapture %}
+
+<body class="{% if page_classname != '' %}page-{{ page_classname }}{% endif %}">
 
   <div id="body-inner" class="flex-wrapper">
   <a href="#content" class="accessible-skip">Skip to main content</a>
