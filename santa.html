@@ -1,0 +1,290 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strictly Come Santa</title>
+  <style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+  </style>
+</head>
+<body>
+  <script src="/lib/phaser.min.js"></script>
+  <script>
+
+var width = document.documentElement.clientWidth;
+var height = document.documentElement.clientHeight;
+var centerX = width / 2;
+var centerY = height / 2;
+
+class Invaders extends Phaser.Scene {
+
+  constructor() {
+    super();
+
+    this.parent = { x: Invaders.X, y: Invaders.Y };
+
+    Phaser.Scene.call(this, { key: 'invaders' });
+
+    this.left;
+    this.right;
+
+    this.points;
+    this.pointsText;
+
+    this.ship;
+
+    this.chars;
+    this.santa;
+
+    this.santaHitPoints;
+    this.hurtSantaAnim;
+
+    this.charTimer;
+
+    this.isGameOver = false;
+  }
+
+  create ()
+  {
+    this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+    this.physics.world.setBounds(0, 0, Invaders.WIDTH, Invaders.HEIGHT);
+
+    this.cameras.main.setViewport(this.parent.x, this.parent.y, Invaders.WIDTH, Invaders.HEIGHT);
+    this.cameras.main.setBackgroundColor(0x85ceea);
+
+    var graphics = this.add.graphics();
+    graphics.fillGradientStyle(0x85ceea, 0x85ceea, 0xf0f1f5, 0xf0f1f5, 1);
+    graphics.fillRect(0, 0, width, height);
+
+    this.points = 0;
+    this.pointsText = this.add.text(width, 10, '', { fontSize: '4em' });
+    this.updatePointsText();
+
+    this.helpTexts = [
+      this.add.text(centerX, this.pointsText.displayHeight + 10, 'Santa HATES dancers!', { fontSize: '2em' }),
+      this.add.text(centerX, this.pointsText.displayHeight + 35, 'Santa LOVES christmas!', { fontSize: '2em' })
+    ];
+    this.helpTexts.forEach(t => t.x = centerX - (t.displayWidth / 2));
+
+    this.chars = [];
+    this.santa = this.add.text(centerX, height - 80, '🎅', { fontSize: '4em' });
+    this.physics.world.enable(this.santa);
+
+    this.santaHitPoints = 0;
+    this.hurtSantaAnim = {
+      i: 0,
+      active: false,
+      play() {
+        this.i = 0;
+        this.active = true;
+      },
+      stop() {
+        this.i = 0;
+        this.active = false;
+      },
+      hurtToggle() { return this.active && this.i % 7 === 0 },
+      hurtStop() { return this.i >= 60 },
+      update() {
+        if (!this.active) return;
+
+        this.i++;
+      }
+    };
+
+    this.santa.body.setCollideWorldBounds(true);
+
+    this.launchChar();
+
+    this.charTimer = this.time.addEvent({ delay: 200, callback: this.launchChar, callbackScope: this, loop: true });
+
+    this.input.addPointer(1);
+  }
+
+  updatePointsText ()
+  {
+    if (this.points.toString() === this.pointsText.text) {
+      this.pointsText.dirty = false;
+      return;
+    }
+
+    this.pointsText.setText(this.points.toString());
+    this.pointsText.setX(width - this.pointsText.displayWidth - 10);
+    this.pointsText.dirty = true;
+  }
+
+  removeCharObj(charObj)
+  {
+    var foundIndex = this.chars.findIndex(o => o === charObj);
+    var found = this.chars[foundIndex];
+    if (!found) return;
+
+    found.__overlap.destroy();
+    found.destroy();
+    this.chars[foundIndex] = null;
+  }
+
+  launchChar ()
+  {
+    var newChar = this.randomChar();
+
+    var randomVelocityX = this.rand(100) * 4;
+    if (this.rand(2)) randomVelocityX *= -1;
+
+    var randomX = this.rand(width / 2);
+    if (randomVelocityX < 0) randomX += width / 2;
+
+    var randomSize = this.rand(20);
+
+    var newCharObj = this.add.text(randomX, 0, newChar, { fontSize: `${20 + randomSize}px` });
+    newCharObj.__is_good = Invaders.GOOD_CHARS.includes(newChar);
+
+    this.physics.world.enable(newCharObj);
+    this.chars.push(newCharObj);
+    newCharObj.body.setVelocityX(randomVelocityX);
+    newCharObj.body.setVelocityY(200);
+
+    var callback;
+    if (newCharObj.__is_good) {
+      callback = this.goodHitSanta;
+    } else {
+      callback = this.badHitSanta;
+    }
+    newCharObj.__overlap = this.physics.add.overlap(newCharObj, this.santa, callback, null, this);
+  }
+
+  randomChar ()
+  {
+    var r = this.rand(Invaders.CHARS_LENGTH);
+    if (r === Invaders.CHARS_LENGTH) r = Invaders.CHARS_LENGTH - 1;
+    return Invaders.CHARS[r];
+  }
+
+  rand (n)
+  {
+    return Math.floor(Math.random() * n)
+  }
+
+  goodHitSanta (goodCharObj, santa)
+  {
+    goodCharObj.destroy();
+    this.removeCharObj(goodCharObj);
+    this.points += 10;
+  }
+
+  badHitSanta (badCharObj, santa)
+  {
+    badCharObj.destroy();
+    this.removeCharObj(badCharObj);
+    this.hurtSantaAnim.play();
+
+    this.santaHitPoints++;
+    if (this.santaHitPoints > 3) this.gameOver();
+  }
+
+  refresh ()
+  {
+    this.cameras.main.setPosition(this.parent.x, this.parent.y);
+
+    this.scene.bringToTop();
+  }
+
+  gameOver ()
+  {
+    this.isGameOver = true;
+
+    this.santa.alpha = 1;
+
+    try {
+      this.charTimer.destroy();
+
+      this.santa.body.enable = false;
+      this.chars.forEach(c => {
+        if (c && c.body) c.body.enable = false;
+      });
+
+      this.helpTexts.forEach(t => t.destroy());
+    } catch (e) { console.error(e); }
+
+    var text = this.add.text(centerX, centerY, 'GAME OVER', { fontSize: '5em', color: 'black' });
+    text.x = centerX - (text.displayWidth / 2);
+
+    var msg = this.add.text(centerX, this.santa.y - this.santa.displayHeight - 50, `You got ${this.points} points!`, { fontSize: '3em', color: 'black' });
+    msg.x = centerX - (msg.displayWidth / 2);
+  }
+
+  update ()
+  {
+    if (this.isGameOver || this.isPaused)
+    {
+      return;
+    }
+
+    this.hurtSantaAnim.update();
+    if (this.hurtSantaAnim.hurtStop()) {
+      this.hurtSantaAnim.stop();
+      this.santa.alpha = 1;
+    } else if (this.hurtSantaAnim.hurtToggle()) {
+      this.santa.alpha = this.santa.alpha ? 0 : 1;
+    }
+
+    this.updatePointsText();
+
+    if (this.input.pointer1.isDown) {
+      this.santa.body.setVelocityX(0);
+      this.santa.x = this.input.pointer1.x;
+    } else {
+      var v;
+
+      if (this.left.isDown) {
+        v = -400;
+      } else if (this.right.isDown) {
+        v = 400
+      } else {
+        v = 0;
+      }
+
+      this.santa.body.setVelocityX(v);
+    }
+  }
+
+}
+
+Invaders.WIDTH = width;
+Invaders.HEIGHT = height;
+Invaders.X = 0;
+Invaders.Y = 0;
+Invaders.BAD_CHARS = ['💃', '🕺'];
+Invaders.GOOD_CHARS = ['🎄', '🦄'];
+Invaders.CHARS = Invaders.BAD_CHARS.concat(Invaders.GOOD_CHARS);
+Invaders.CHARS_LENGTH = Invaders.CHARS.length;
+
+var config = {
+  type: Phaser.AUTO,
+  width: width,
+  height: height,
+  scene: [ Invaders ],
+  scale: {
+    parent: document.body,
+    mode: Phaser.Scale.FIT
+  },
+  input: {
+    keyboard: true,
+    touch: true,
+    activePointers: 1
+  },
+  physics: {
+    default: 'arcade'
+  }
+};
+
+var game = new Phaser.Game(config);
+
+  </script>
+</body>
+</html>
