@@ -20,7 +20,7 @@
     content.querySelector('.page-title').dataset.adminEditable = 'title';
     content.querySelector('.page-subtitle').dataset.adminEditable = 'subtitle';
 
-    const article = content.querySelector('.entry-content');
+    const article = content.classList.contains('entry-content') ? content : content.querySelector('.entry-content');
 
     const preContent = document.createDocumentFragment();
     Array.from(article.children).forEach((child, i) => {
