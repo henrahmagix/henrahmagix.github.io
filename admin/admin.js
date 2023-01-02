@@ -86,7 +86,7 @@ export class Admin {
     }
 
     try {
-      await new Api(token).makeRequest('/keys'); // fails for anonymous
+      await new Api(token).makeRequest('/teams'); // fails for anonymous
       localStorage.setItem(TOKEN_KEY, token);
       this.loggedIn = true;
     } catch (err) {
