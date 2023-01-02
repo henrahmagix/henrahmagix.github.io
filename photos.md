@@ -3,40 +3,19 @@ section: Photos
 class: photos
 description: Gallery of the few photos I think look "Professional"
 related_posts_category: Photography
-js:
-  - /js/gallery.js
-  - /js/swiped-events.js
-photo_albums:
-  /images/albums/fuji-filmsim-bw/:
-    -
-      name: just-sky.jpg
-      orientation: landscape
-    -
-      name: ldn.jpg
-      orientation: landscape
-    -
-      name: rain-window.jpg
-      orientation: landscape
-    -
-      name: hive.jpg
-      orientation: landscape
-    -
-      name: hive-above.jpg
-      orientation: landscape
-    -
-      name: hive-below.jpg
-      orientation: landscape
-    -
-      name: tall-tower.jpg
-      orientation: portrait
-    -
-      name: three-pipes-afar.jpg
-      orientation: portrait
-    -
-      name: three-pipes.jpg
-      orientation: portrait
+# js:
+#   - /js/gallery.js
+#   - /js/swiped-events.js
+# photo_albums:
+#   /images/albums/my-album/:
+#     -
+#       name: photo.jpg
+#       orientation: landscape|portrait
 ---
 
+<center><big>🚧 under construction 🚧</big></center>
+
+<!--
 Tap to view an individual image, then tap again to view full resolution. Swipe left/right or use arrow keys to navigate between images, and swipe up/down or use Escape key to close the view.
 
 Using swipe gestures will only animate movement if you haven't set a **prefers-reduced-motion setting**. For more info on vestibular motion disorders, please read <https://css-tricks.com/introduction-reduced-motion-media-query>.
@@ -69,3 +48,4 @@ Using swipe gestures will only animate movement if you haven't set a **prefers-r
     {% endfor %}
   </ul>
 {% endfor %}
+ -->
