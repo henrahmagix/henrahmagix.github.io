@@ -158,7 +158,7 @@ If you weren't aware yet (we're all learning 😇), [CSS Trick's article "An Int
 
 >[Vestibular disorders](http://a11yproject.com/posts/understanding-vestibular-disorders/) can cause your vestibular system to struggle to make sense of what is happening, resulting in loss of balance and vertigo, migraines, nausea, and hearing loss. Anyone who has spun around too quickly is familiar with a confused vestibular system.
 
-Knowing that, my first animation choice was a simple fade from colour to black and white. Nice and easy. Totally fashionable in The Year Of Our Furby 2020 <picture><source srcset="/images/hides-furby-linux/SnowWhite.gif" media="(prefers-color-scheme: dark)"><img src="/images/hides-furby-linux/Black.gif" alt="Black Furby 32x32 icon by Hide Itoh, because Furbies are fashionable once again" class="image-reset" style="vertical-align: middle;"></picture>.
+Knowing that, my first animation choice was a simple fade from colour to black and white. Nice and easy. Totally fashionable in The Year Of Our Furby 2020.
 
 ```css
 .random-gradient {
