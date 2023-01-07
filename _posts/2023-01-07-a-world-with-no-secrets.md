@@ -1,6 +1,8 @@
 ---
 layout: post
 class: post
+categories:
+  - Code
 title: A World with No Secrets
 subtitle: First TravisCI, now CircleCI
 pre_content:
