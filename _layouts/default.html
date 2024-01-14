@@ -206,6 +206,10 @@ back_to: home
       {% if page.layout == 'post' %}{% assign show_update_skip = true %}{% endif %}
       {% include published-date.html context=page show_update_skip=show_update_skip %}
 
+      {% if page.layout == 'post' and page.image and page.show_image_top_of_post %}
+        <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
+      {% endif %}
+
       {% unless header_title %}
       {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
       <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>

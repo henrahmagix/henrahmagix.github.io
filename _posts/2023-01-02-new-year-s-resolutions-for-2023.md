@@ -8,6 +8,8 @@ pre_content:
 syndications:
   twitter: null
 image: /images/posts/new-year-s-resolutions-for-2023.jpeg
+image_alt: Selfie of me smiling wearing a red christmas reindeer fancy.
+show_image_top_of_post: true
 ---
 
 1. Do those things you want to do!
