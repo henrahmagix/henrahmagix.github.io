@@ -3,5 +3,4 @@ lib
 .ssl
 node_modules
 .env
-.ruby-version
 .jekyll-metadata
