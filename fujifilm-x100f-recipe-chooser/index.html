@@ -206,23 +206,34 @@ data:
 </form>
 
 <script>
-fujixweekly.addEventListener('change', function(event) {
-  const values = Object.fromEntries(new FormData(event.target.form).entries());
-  console.log('change!', values);
-  selections.innerHTML = Object.entries(values).map(([k,v]) => {
-    const data = JSON.parse(v);
-    console.log('data!', data);
-    return `<b>${k}</b> ` + data.map(item => `<a href="${item.url}" class="recipe-link" data-whitebalance="${item.whitebalance}">${item.name}</a>`).join(', ');
-  }).join('; ');
+const stored = JSON.parse(localStorage.getItem('fujifilm_x100f_recipes'));
+if (stored) {
+  for (let key in stored) {
+    fujixweekly.elements[key].value = stored[key];
+  }
+  updateSelections();
+}
+fujixweekly.addEventListener('change', function (event) {
+  updateSelections();
 });
 document.addEventListener('click', function (event) {
   const link = event.target.closest('.recipe-link');
   if (!link) return;
   event.preventDefault();
-
+  showPreview(link);
+  return false;
+});
+function updateSelections() {
+  const values = Object.fromEntries(new FormData(fujixweekly).entries());
+  localStorage.setItem('fujifilm_x100f_recipes', JSON.stringify(values));
+  selections.innerHTML = Object.entries(values).map(([k,v]) => {
+    const data = JSON.parse(v);
+    return `<b>${k}</b> ` + data.map(item => `<a href="${item.url}" class="recipe-link" data-whitebalance="${item.whitebalance}">${item.name}</a>`).join(', ');
+  }).join('; ');
+}
+function showPreview(link) {
   preview.style.display = 'block';
   preview_iframe.src = link.href + '#main';
   preview_info.innerHTML = `${link.textContent}: ${link.dataset.whitebalance} (<a href="${link.href}" target="_blank">view on FujiXWeekly.com</a>)`;
-  return false;
-});
+}
 </script>
