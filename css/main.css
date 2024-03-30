@@ -1374,6 +1374,9 @@ details summary {
 .fa-long-arrow-alt-left::before {
   content: '←';
 }
+.fa-external-link-alt::before {
+  content: '↪';
+}
 .fa-vuejs::before {
   content: 'VueJS';
 }
