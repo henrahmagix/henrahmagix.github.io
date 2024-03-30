@@ -209,7 +209,12 @@ data:
 const stored = JSON.parse(localStorage.getItem('fujifilm_x100f_recipes'));
 if (stored) {
   for (let key in stored) {
-    fujixweekly.elements[key].value = stored[key];
+    const formElement = fujixweekly.elements[key];
+    if (formElement instanceof RadioNodeList) {
+      formElement.value = stored[key];
+    } else {
+      formElement.checked = true;
+    }
   }
   updateSelections();
 }
