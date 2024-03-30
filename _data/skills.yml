@@ -1,4 +1,7 @@
 -
+  - Ruby
+  - Rails / Padrino
+-
   - Golang
 -
   - JavaScript
@@ -8,7 +11,6 @@
   - AWS
 -
   - Angular
-  - AngularJS
   - Svelte
   - Vue
 -
@@ -16,6 +18,3 @@
   - Express
   - Gulp / Grunt
   - Webpack / Rollup
--
-  - Ruby
-  - Rails / Padrino
