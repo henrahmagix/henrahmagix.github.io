@@ -34,6 +34,11 @@
         <input type="radio" name="style" value="diff">
         <span>Diff</span>
       </label>
+      |
+      <label>
+        <input type="checkbox" name="wrap" checked>
+        <span>Wrap?</span>
+      </label>
       <span {hidden}="hidePostFrontMatterError" class="post-error-message">Error in front matter</span>
     </form>
   </div>
@@ -86,6 +91,10 @@
   [contenteditable=plaintext-only] {
     white-space: nowrap;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  }
+
+  textarea.wrap {
+    white-space: normal;
   }
 
   table.diff {
@@ -145,10 +154,10 @@
   export class View {
     /**
      * @param {DOMStringMap} dataset
-     * @param {EventTarget} events
+     * @param {EventTarget} element
      */
-    constructor(dataset, events) {
-      this.events = events;
+    constructor(dataset, element) {
+      this.events = element;
 
       this.postElements = {
         items: [],
@@ -256,7 +265,9 @@
 
     /** @param {Event} event */
     changeView(event) {
-      this.viewStyle = new FormData(event.currentTarget).get('style');
+      const form_data = new FormData(event.currentTarget);
+      this.viewStyle = form_data.get('style');
+      this.textarea.classList.toggle('wrap', form_data.get('wrap'));
       this.render();
     }
     /** @param {Event} event */
@@ -373,6 +384,8 @@
       this.image = this.imageFile ? imagePreviewSrc(this.imageFile) : this.postFile.get('image');
 
       this.extraEditingButtons.forEach(b => show(b, this.editing));
+
+      this.textarea.classList.toggle('wrap', new FormData(document.querySelector('form[name=view]')).get('wrap'));
     }
 
     renderContent() {
