@@ -9,6 +9,7 @@
     "files.associations": {
       "*.html": "jekyll"
     },
-    "cSpell.enabled": true
+    "cSpell.enabled": true,
+    "js/ts.implicitProjectConfig.checkJs": true
   }
 }

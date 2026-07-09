@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es6",
     "checkJs": true,
+    "allowJs": true,
     "noImplicitAny": true,
   },
   "exclude": [
