@@ -21,13 +21,13 @@
     <form {hidden}="hideViewForm" name="view" class="view-wrapper" onsubmit="return false;" {on-change}="changeView($event)">
       View:
       <label>
-        <input type="radio" name="style" value="html" checked>
-        <span>HTML</span>
+        <input type="radio" name="style" value="raw" checked>
+        <span>Raw</span>
       </label>
       |
       <label>
-        <input type="radio" name="style" value="raw">
-        <span>Raw</span>
+        <input type="radio" name="style" value="html">
+        <span>HTML</span>
       </label>
       |
       <label>
@@ -225,7 +225,8 @@
       this.postFile.fetch().then(() => {
         this.renderState();
 
-        if (this.postFile.isDraft) {
+        if (this.postFile.isDraft || this.postFile.isNew) {
+          this.viewStyle = new FormData(document.querySelector('form[name=view]')).get('style');
           this.render();
         }
 
