@@ -56,7 +56,7 @@ export function buildDiffView(baseName, baseString, newName, newString) {
   });
 }
 
-import '/lib/js-yaml@4.3.0/dist/js-yaml.min.js';
+import '/lib/js-yaml@3.13.0/dist/js-yaml.min.js';
 export const yaml = {
   /** @type {(js: any) => string} */
   jsToYaml(js) {
