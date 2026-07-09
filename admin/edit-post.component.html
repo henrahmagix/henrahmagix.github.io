@@ -34,6 +34,7 @@
         <input type="radio" name="style" value="diff">
         <span>Diff</span>
       </label>
+      <span {hidden}="hidePostFrontMatterError" class="post-error-message">Error in front matter</span>
     </form>
   </div>
 </template>
@@ -108,6 +109,11 @@
     display: block;
     width: 50px;
   }
+
+  .post-error-message {
+    color: red;
+    margin-left: 2em;
+  }
 </style>
 
 <script type="module">
@@ -130,6 +136,7 @@
       'hideViewForm',
       'hideImageInput',
       'hideImage',
+      'hidePostFrontMatterError',
       'imageFile',
       'image',
     ],
@@ -205,6 +212,8 @@
         this.fixTextareaHeight();
         this.updatePost();
       });
+
+      this.hidePostFrontMatterError = true;
 
       /** @type {HTMLElement} */
       this.diffEl = document.createElement('div'); // so it always exists
@@ -405,10 +414,22 @@
       document.execCommand('defaultParagraphSeparator', false, 'p');
     }
 
+    /** @type {(name: string, delay: number, callback: () => void) => void} */
+    debounce(name, delay, callback) {
+      if (!this._debounces) this._debounces = {};
+      if (this._debounces[name]) clearTimeout(this._debounces[name]);
+      this._debounces[name] = setTimeout(callback, delay);
+    }
+
     /** @type {(attr: string, el: Element) => void} */
     updatePost(attr, el) {
       if (this.writingRaw) {
-        this.postFile.setRaw(this.textarea.value);
+        try {
+          this.postFile.setRaw(this.textarea.value);
+          this.hidePostFrontMatterError = true;
+        } catch (err) {
+          this.hidePostFrontMatterError = false;
+        }
       } else {
         this.postFile.set(attr, htmlToMarkdown(el.innerHTML));
       }
