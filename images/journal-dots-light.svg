@@ -4,5 +4,5 @@
           <feGaussianBlur stdDeviation="0" />
       </filter>
   </defs>
-  <circle cx="7" cy="7" r="3" fill="rgba(217, 207, 190, 0.5)" filter="url(#blur)"></circle>
+  <circle cx="7" cy="7" r="4" fill="rgba(217, 207, 190, 0.2)" filter="url(#blur)"></circle>
 </svg>

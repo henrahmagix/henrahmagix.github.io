@@ -161,10 +161,13 @@ body {
   padding: 0
 }
 
+html {
+  font-size: 120%;
+}
+
 body {
   background-color: #FFFEF9;
   color: #23242C;
-  font-size: 100%;
   font-weight: 400;
   font-style: normal;
   line-height: 1.4;
@@ -830,6 +833,10 @@ dl {
   word-wrap: break-word;
 }
 
+#content.content-post p {
+  line-height: 1.8;
+}
+
 ul,
 ol {
   padding: 0;
@@ -1020,6 +1027,7 @@ details summary {
 }
 
 .posts-list .post-title {
+  font-size: 1.4em;
   margin-bottom: 0;
 }
 
