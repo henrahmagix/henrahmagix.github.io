@@ -319,7 +319,6 @@ a button,
 .inline-list.inline-to-prev {
   display: inline;
   padding: 0;
-  margin-left: 1em;
 }
 
 /* Header */
@@ -493,6 +492,13 @@ body:not(.page-photos) .content-max-width {
 }
 .side-by-side .side-by-side > * {
   flex-basis: 175px;
+}
+
+.gap-left {
+  margin-left: 0.5em;
+}
+.gap-right {
+  margin-right: 0.5em;
 }
 
 /* Logo interaction */
@@ -1118,7 +1124,7 @@ details summary {
 }
 
 .posts-list.side-by-side {
-  justify-content: center;
+  justify-content: start; /* flex will grow to fit items completely so they look centred; when only 1 item, align left to match surrounding nav left-edge */
 }
 .posts-list.side-by-side li {
   max-width: 600px;
