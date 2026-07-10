@@ -14,7 +14,7 @@
     <button {hidden}="hideTweet" {on-click}="clickTweet()" class="button-tweet"><i class="icon fab fa-twitter"></i>Tweet</button>
 
     <input {hidden}="hideImageInput" {on-change}="uploadImage($event)" {value}="imageFile" type="file" accept="image/*">
-    <img {hidden}="hideImage" {src}="image" class="post-image">
+    <img {hidden}="hideImage" {src}="image" class="post-image-preview">
 
     <span {hidden}="hideSpinner" class="spinner"><i hidden class="fas fa-spinner fa-pulse"></i></span>
 
@@ -114,9 +114,9 @@
     padding-left: 0;
   }
 
-  .post-image {
+  .post-image-preview {
     display: block;
-    width: 50px;
+    max-width: 250px;
   }
 
   .post-error-message {
