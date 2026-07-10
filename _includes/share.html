@@ -1,8 +1,8 @@
 {% capture view_history_url %}{{site.github.repository_url}}/commits/{{site.github.source.branch}}/{{page.path}}{% endcapture %}
 
 <nav id="share-section" aria-labelledby="sharenav-heading">
-  <h2 id="sharenav-heading" class="fancy-title emoji-on-the-left">Share and respond <span class="emoji">💬</span></h2>
-  <ul>
+  <h2 id="sharenav-heading" class="fancy-title emoji-on-the-left sr-only">Share and respond</h2>
+  <ul class="share-list">
     {% for synd_hash in page.syndications %}
       {% if synd_hash[1] == nil or synd_hash[1] == '' %}{% continue %}{% endif %}
       {% capture title %}Reply on {{synd_hash[0]|capitalize}}{% endcapture %}
@@ -13,11 +13,11 @@
     {% endfor %}
 
     <li>
-    {% include link.html id="share_me_link" title="Share" url="javascript:shareMe()" %}
+      <a id="share_me_link" href="javascript:shareMe()">Share <span class="emoji">💬</span></a>
     </li>
 
     <li>
-    {% include link.html title="View history" url=view_history_url %}
+      <a href="{{view_history_url}}">View history</a>
     </li>
   </ul>
 </nav>
