@@ -218,6 +218,8 @@ back_to: home
 
       {{ content }}
 
+      <div class="p-name-wrapper post-end"><p class="journal-highlight" aria-hidden=true>Fin</p></div>
+
       {% if page.url != "/" and page.hide_share != true and layout.hide_share != true %}
         {% capture share_section %}
           {% include share.html %}
@@ -228,7 +230,6 @@ back_to: home
 
       {% if share_section %}
         <aside class="instapaper_ignore">
-          <div class="journal-line"></div>
           {{ share_section }}
         </aside>
       {% endif %}

@@ -557,6 +557,14 @@ body:not(.page-photos) .content-max-width {
   font-size: min(5em, 20vw);
 }
 
+.p-name-wrapper.post-end > * {
+  font-size: 2em;
+}
+
+.post-end {
+  margin-top: 4em;
+}
+
 .journal-highlight,
 .journal-underline,
 .journal-crossout {
