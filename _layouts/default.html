@@ -226,31 +226,34 @@ back_to: home
 
       {% assign related_posts = site.categories[page.related_posts_category] %}
 
-      {% if share_section or related_posts or site.related_posts %}
+      {% if share_section %}
         <aside class="instapaper_ignore">
           <div class="journal-line"></div>
-
-          {% if share_section %}
-            {{ share_section }}
-          {% endif %}
-
-          {% if related_posts or site.related_posts %}
-            <div id="related-section">
-              {% if related_posts %}
-                <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
-                <p>Read more in <a href="{{site.data.links.blog.url}}/{{page.related_posts_category|downcase|cgi_encode}}">my blog about {{page.related_posts_category}}</a></p>
-                {% include posts.html posts=related_posts heading_element="h3" %}
-              {% elsif site.related_posts %}
-                <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
-                {% include posts.html posts=site.related_posts heading_element="h3" %}
-              {% endif %}
-            </div>
-          {% endif %}
+          {{ share_section }}
         </aside>
       {% endif %}
     </article>
 
-    <div class="page-back-to-top">{% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up" %}</div>
+    {% if related_posts or site.related_posts %}
+      <aside class="instapaper_ignore">
+        {% unless share_section %}<div class="journal-line"></div>{% endunless %}
+
+        {% if related_posts or site.related_posts %}
+          <div id="related-section">
+            {% if related_posts %}
+              <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
+              <p>Read more in <a href="{{site.data.links.blog.url}}/{{page.related_posts_category|downcase|cgi_encode}}">my blog about {{page.related_posts_category}}</a></p>
+              {% include posts.html posts=related_posts heading_element="h3" %}
+            {% elsif site.related_posts %}
+              <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
+              {% include posts.html posts=site.related_posts heading_element="h3" %}
+            {% endif %}
+          </div>
+        {% endif %}
+      </aside>
+    {% endif %}
+
+    <div class="page-back-to-top">{% include link.html url="#top" title="Back to top" icon="fas fa-long-arrow-alt-up gap-right" %}</div>
 
   </main>
 
