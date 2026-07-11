@@ -14,8 +14,14 @@
     "saveAndRun": {
       "commands": [
         {
-          "match": "admin",
+          "match": ".*",
+          "notMatch": "_spec\\.rb",
           "cmd": "bundle exec rspec",
+          "silent": false
+        },
+        {
+          "match": "_spec\\.rb",
+          "cmd": "bundle exec rspec ${relativeFile}",
           "silent": false
         }
       ]
