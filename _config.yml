@@ -49,7 +49,6 @@ exclude:
   - Gemfile*
   - bower.json
   - Makefile
-  - lib/bundle
   - node_modules
   - package*.json
   - jsconfig.json

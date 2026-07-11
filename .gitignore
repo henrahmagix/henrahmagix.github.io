@@ -1,5 +1,4 @@
 _site
-lib/bundle
 .ssl
 node_modules
 .env
