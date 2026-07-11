@@ -54,5 +54,6 @@ exclude:
   - package*.json
   - jsconfig.json
   - rougify.rb
+  - spec
   - "*.ts"
   - "*.sh"

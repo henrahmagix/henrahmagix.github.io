@@ -10,6 +10,15 @@
       "*.html": "jekyll"
     },
     "cSpell.enabled": true,
-    "js/ts.implicitProjectConfig.checkJs": true
+    "js/ts.implicitProjectConfig.checkJs": true,
+    "saveAndRun": {
+      "commands": [
+        {
+          "match": "admin",
+          "cmd": "bundle exec rspec",
+          "silent": false
+        }
+      ]
+    }
   }
 }
