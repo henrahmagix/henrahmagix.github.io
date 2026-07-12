@@ -21,7 +21,7 @@
         },
         {
           "match": ".*",
-          "notMatch": "spec/(?!jekyll_build_helper)|capybara_helper|\\.code-workspace",
+          "notMatch": ".git/|spec/(?!jekyll_build_helper)|capybara_helper|\\.code-workspace",
           // Tell rspec to wait until jekyll has built. Give the time 1 second
           // ago from the save point so we'll definitely capture the moment
           // before jekyll starts building.

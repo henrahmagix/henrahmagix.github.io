@@ -73,14 +73,14 @@ module Capybara
         profile
       end
 
-      def chrome_options
-        ::Selenium::WebDriver::Chrome::Options.new.tap do |options|
-          options.add_argument "--proxy-server=127.0.0.1:#{port_number}"
-        end
+      def set_firefox_profile_to_driver(driver)
+        firefox_options = driver.options[:options] ||= ::Selenium::WebDriver::Firefox::Options.new
+        firefox_options.profile = Capybara::Webmock.firefox_profile
       end
 
-      def chrome_headless_options
-        chrome_options.tap { |options| options.headless! }
+      def set_chrome_proxy_to_driver(driver)
+        chrome_options = driver.options[:options] ||= ::Selenium::WebDriver::Chrome::Options.new
+        chrome_options.add_argument "--proxy-server=127.0.0.1:#{port_number}"
       end
 
       def phantomjs_options
@@ -102,7 +102,7 @@ module Capybara
         end
 
         unless connected
-          raise "Unable to connect to capybara-webmock proxy on #{port_number}"
+          raise "Unable to connect to capybara-webmock proxy on #{port_number}\n#{@stdout.read}"
         end
       end
 
@@ -169,18 +169,31 @@ Capybara::Webmock.pid_file ||= File.join('tmp', 'pids', 'capybara_webmock_proxy.
 Capybara::Webmock.kill_timeout ||= 5
 Capybara::Webmock.start_timeout ||= 30
 
-Capybara.register_driver :capybara_webmock do |app|
-  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: Capybara::Webmock.firefox_profile)
+Capybara.register_driver :selenium_webmock do |app|
+  Capybara.drivers[:selenium].call(app).tap do |driver|
+    Capybara::Webmock.set_firefox_profile_to_driver(driver)
+  end
 end
 
-Capybara.register_driver :capybara_webmock_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [Capybara::Webmock.chrome_options])
+Capybara.register_driver :selenium_headless_webmock do |app|
+  Capybara.drivers[:selenium_headless].call(app).tap do |driver|
+    Capybara::Webmock.set_firefox_profile_to_driver(driver)
+  end
 end
 
-Capybara.register_driver :capybara_webmock_chrome_headless do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [Capybara::Webmock.chrome_headless_options])
+Capybara.register_driver :selenium_chrome_webmock do |app|
+  Capybara.drivers[:selenium_chrome].call(app).tap do |driver|
+    Capybara::Webmock.set_chrome_proxy_to_driver(driver)
+  end
+end
+
+Capybara.register_driver :selenium_chrome_headless_webmock do |app|
+  Capybara.drivers[:selenium_chrome_headless].call(app).tap do |driver|
+    Capybara::Webmock.set_chrome_proxy_to_driver(driver)
+  end
 end
 
 Capybara.register_driver :capybara_webmock_poltergeist do |app|
+  # TODO: this is probably old, will need updating for latest Capybara::Poltergeist.
   Capybara::Poltergeist::Driver.new(app, phantomjs_options: Capybara::Webmock.phantomjs_options)
 end
