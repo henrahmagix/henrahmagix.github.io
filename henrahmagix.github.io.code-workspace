@@ -14,8 +14,23 @@
     "saveAndRun": {
       "commands": [
         {
+          // Trigger a build so the helper changes can be reliably tested.
+          "match": "jekyll_build_helper",
+          "cmd": "bundle exec jekyll build",
+          "silent": false
+        },
+        {
           "match": ".*",
-          "notMatch": "_spec\\.rb",
+          "notMatch": "spec/(?!jekyll_build_helper)|\\.code-workspace",
+          // Tell rspec to wait until jekyll has built. Give the time 1 second
+          // ago from the save point so we'll definitely capture the moment
+          // before jekyll starts building.
+          "cmd": "WAIT_JEKYLL_BUILD=$(date -v-1S '+%Y-%m-%d% %H:%M:%S') bundle exec rspec",
+          "silent": false
+        },
+        {
+          "match": "spec/|\\.code-workspace",
+          "notMatch": "_spec\\.rb|jekyll_build_helper",
           "cmd": "bundle exec rspec",
           "silent": false
         },
