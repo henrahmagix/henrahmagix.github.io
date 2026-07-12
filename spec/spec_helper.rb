@@ -1,3 +1,6 @@
+# Allow us to commit old libs so we can edit them. Add them to the load path so require works.
+$LOAD_PATH.unshift(*Dir.glob(File.join(__dir__, 'vendor/*/lib')))
+
 require 'spec_type_helper'
 require 'jekyll_build_helper'
 

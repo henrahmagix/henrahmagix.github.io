@@ -9,4 +9,5 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'rackup' # for webrick handler for capybara use
+  gem 'rack-proxy' # for capybara-webmock
 end

@@ -11,5 +11,8 @@ RSpec.describe 'Admin login', :js do
     fill_in 'token', with: 'abc123'
     puts current_url
     click_on 'Login'
+    puts current_url
+    puts Capybara::Webmock.proxied_requests.reject { it.uri.to_s =~ /google\.com|googleapis/ }.map(&:inspect)
+    puts page.driver.browser.logs.get(:browser)
   end
 end
