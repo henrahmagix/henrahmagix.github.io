@@ -263,23 +263,32 @@ a,
 a button,
 .button-link,
 details summary {
-  color: inherit;
+  color: #A80084;
   text-decoration: underline;
+}
+
+a.active,
+a button.active,
+.button-link.active {
+  text-decoration: none;
+}
+
+nav a {
+  color: inherit;
 }
 
 a:hover,
 a button:hover,
 .button-link:hover,
 details summary:hover {
-  color: #A80084;
   text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  a:hover,
-  a button:hover,
-  .button-link:hover,
-  details summary:hover {
+  a,
+  a button,
+  .button-link,
+  details summary {
     color: #FF80E8;
   }
 }
@@ -784,20 +793,6 @@ h6 {
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.625em;
-}
-
-@media (prefers-color-scheme: dark) {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  strong {
-    /* Interestingly, for blog title links (<a> wrapping heading) this overrides
-    the <a> colour, which is quite nice for dark mode 🤗 */
-    color: #fcfcfc;
-  }
 }
 
 .entry-content h2,

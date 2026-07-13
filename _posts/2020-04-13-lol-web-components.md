@@ -7,7 +7,7 @@ subtitle: why did I do this (oh yeah because of the pandemic)
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1250100936120418309?s=21'
 pre_content:
-  - '[Example: /examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
+  - 'Example: [/examples/lol-web-components](/examples/lol-web-components "A live example of the code in this article")'
 updates:
   - date: 2020-04-17T00:00:00.000Z
     title: imports work in components now!

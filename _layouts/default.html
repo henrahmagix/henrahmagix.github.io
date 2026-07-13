@@ -152,7 +152,9 @@ back_to: home
         {% assign link = link_hash[1] %}
           {% if link.url and link.hide_nav != true %}
             <li>
-            {% include link.html title=link.title url=link.url relme=link.relme %}
+            {% assign class="" %}
+            {% if link.url == page.url %}{% assign class="active" %}{% endif %}
+            {% include link.html title=link.title url=link.url relme=link.relme class=class %}
             </li>
           {% endif %}
         {% endfor %}
