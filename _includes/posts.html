@@ -1,28 +1,27 @@
 {% if include.posts.size > 0 %}
-  <ul class="list-reset posts-list side-by-side {%if include.minimal%}minimal{%endif%}">
+  <ul class="list-reset posts-list {%if include.minimal%}minimal{%endif%}">
     {% assign posts = include.posts|where_exp:"post", "post.hidden != true" %}
     {% if include.sample %}{% assign posts = posts|sample:include.sample %}{% endif %}
     {% for post in posts %}
       <li>
         <article>
-          {% include published-date.html context=post %}
-
           <a href="{{post.url}}" class="post-link">
             {% capture title_html %}
               <{{include.heading_element}} class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</{{include.heading_element}}>
             {% endcapture %}
 
+            {{title_html}}
             {% if include.minimal %}
-              {{title_html}}
             {% else %}
               {% if post.image %}
                 <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
               {% else %}
                 <div class="post-image random-gradient random-gradient-{{forloop.index0|modulo:8}}"></div>
               {% endif %}
-              {{title_html}}
             {% endif %}
           </a>
+
+          {% include published-date.html context=post %}
 
           {% unless include.minimal %}
             <div class="excerpt">

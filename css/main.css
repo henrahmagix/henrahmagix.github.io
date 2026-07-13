@@ -793,13 +793,6 @@ h6 {
   font-weight: bold;
   margin: 0;
   margin-bottom: 0.625em;
-}
-
-.entry-content h2,
-.entry-content h3,
-.entry-content h4,
-.entry-content h5,
-.entry-content h6 {
   margin-top: 2em;
 }
 
@@ -809,33 +802,6 @@ h6 {
 .entry-content h5:not(:hover) > .heading-anchor:not(:focus),
 .entry-content h6:not(:hover) > .heading-anchor:not(:focus) {
   opacity: 0;
-}
-
-.entry-content hr + h2,
-.entry-content hr + h3,
-.entry-content hr + h4,
-.entry-content hr + h5,
-.entry-content hr + h6,
-.entry-content h2 + h3,
-.entry-content h3 + h4,
-.entry-content h4 + h5,
-.entry-content h5 + h6,
-.entry-content ul h2,
-.entry-content ul h3,
-.entry-content ul h4,
-.entry-content ul h5,
-.entry-content ul h6,
-.entry-content > h2:first-child,
-.entry-content > h3:first-child,
-.entry-content > h4:first-child,
-.entry-content > h5:first-child,
-.entry-content > h6:first-child,
-.entry-content > h2:first-of-type,
-.entry-content > h3:first-of-type,
-.entry-content > h4:first-of-type,
-.entry-content > h5:first-of-type,
-.entry-content > h6:first-of-type {
-  margin-top: 0;
 }
 
 h1 {
@@ -1061,6 +1027,7 @@ details summary {
 
 .posts-list .published {
   margin: 0;
+  font-size: smaller;
 }
 
 .posts-list .post-link {
