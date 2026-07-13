@@ -1,6 +1,6 @@
 <nav aria-labelledby="categories-nav">
   <span id="categories-nav" class="sr-only">Categories:</span>
-  <ul id="categories-list" class="inline-list inline-to-prev">
+  <ul id="categories-list" class="inline-list">
   {% if include.site_categories == true %}
     {% for category_hash in site.categories %}
       {% assign categories = categories|append:category_hash[0] %}

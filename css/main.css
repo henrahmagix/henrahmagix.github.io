@@ -313,7 +313,7 @@ a button,
 }
 
 .inline-list {
-  margin: 0;
+  padding: 0;
 }
 .inline-list li {
   display: inline;
