@@ -3,6 +3,7 @@
 <template>
   <section {hidden}="hide" id="admin-post-list">
     <h2>Blog Admin</h2>
+    <button id="login-logout" {on-click}="logout()">Logout</button>
 
     <div class="side-by-side">
       <admin-post-drafts-list></admin-post-drafts-list>
@@ -28,13 +29,18 @@
     constructor(dataset) {
       this.hide = true;
 
-      Admin.onLogin((loggedIn) => {
+      this.admin = Admin.onLogin((loggedIn) => {
         if (!loggedIn) {
           return;
         }
 
         this.hide = false;
       });
+    }
+
+    logout() {
+      this.admin.logout();
+      window.location.reload();
     }
   }
 </script>

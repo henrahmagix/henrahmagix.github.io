@@ -45,7 +45,7 @@ export class Admin {
 
   /** @param {HandleLogin} handleLogin */
   static onLogin(handleLogin) {
-    new this({ handleLogin });
+    return new this({ handleLogin });
   }
 
   /**
