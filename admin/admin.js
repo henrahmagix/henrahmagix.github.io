@@ -39,8 +39,9 @@ const TOKEN_KEY = 'gh_token';
 const loadingElement = createHTML('<div id="loading" hidden><i class="fas fa-spinner fa-pulse"></i></div>');
 document.body.appendChild(loadingElement);
 
+/** @member {boolean} loggedIn */
 export class Admin {
-  /** @typedef {(loggedIn: boolean) => void} HandleLogin */
+  /** @typedef {(loggedIn: boolean, allowRedirect?: boolean) => void} HandleLogin */
 
   /** @param {HandleLogin} handleLogin */
   static onLogin(handleLogin) {
@@ -54,35 +55,29 @@ export class Admin {
   constructor({
     handleLogin,
   }) {
-    this.handleLogin = handleLogin || noop;
+    /** @type {HandleLogin} */
+    this.handleLogin = function(loggedIn, allowRedirect) {
+      this.loggedIn = loggedIn;
+      (handleLogin || noop)(loggedIn, allowRedirect);
+    }
 
     const existingToken = localStorage.getItem(TOKEN_KEY);
     if (existingToken) {
-      this.loggedIn = true;
-    }
-  }
-
-  /** @param {boolean} loggedIn */
-  set loggedIn(loggedIn) {
-    if (!loggedIn) {
-      localStorage.setItem(TOKEN_KEY, '');
-    }
-
-    try {
-      this.handleLogin(Boolean(loggedIn));
-    } catch (err) {
-      handleError(err);
+      this.login(existingToken, false);
     }
   }
 
   logout() {
-    this.loggedIn = false;
+    localStorage.setItem(TOKEN_KEY, '');
+    this.handleLogin(false);
   }
 
-  /** @param {string} token */
-  async login(token) {
+  /**
+   * @param {string} token
+   * @param {boolean} allowRedirect?
+   */
+  async login(token, allowRedirect) {
     if (!token) {
-      this.loggedIn = false;
       handleError(new Error('Access token must not be empty'));
       return;
     }
@@ -90,9 +85,8 @@ export class Admin {
     try {
       await new Api(token).makeRequest('/teams'); // fails for anonymous
       localStorage.setItem(TOKEN_KEY, token);
-      this.loggedIn = true;
+      this.handleLogin(true, allowRedirect);
     } catch (err) {
-      this.loggedIn = false;
       handleError(new Error(`failed to login: ${err}`));
     }
   }

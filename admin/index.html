@@ -9,13 +9,19 @@ css: /admin/admin.css
   import { show } from './utils.js';
 
   const loginForm = document.getElementById('login-form');
+  const loginLogout = document.getElementById('login-logout');
 
   window.admin = new Admin({
-    handleLogin: (loggedIn) => {
+    handleLogin: (loggedIn, allowRedirect) => {
       show(loginForm, !loggedIn);
+      show(loginLogout, loggedIn);
 
       if (loggedIn) {
-        window.location.pathname = '/blog';
+        if (allowRedirect) {
+          window.location.pathname = '/blog';
+        } else {
+          document.getElementById('login-redirect').hidden = false;
+        }
       }
     }
   });
@@ -23,7 +29,7 @@ css: /admin/admin.css
   loginForm.onsubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    window.admin.login(data.get('token'));
+    window.admin.login(data.get('token'), true);
   };
 </script>
 
@@ -32,4 +38,5 @@ css: /admin/admin.css
   <button type="submit">Login</button>
 </form>
 
-<button onclick="admin.logout()">Logout</button>
+<button hidden id="login-logout" onclick="admin.logout()">Logout</button>
+<a hidden id="login-redirect" href="/blog">Go to Blog</a>
