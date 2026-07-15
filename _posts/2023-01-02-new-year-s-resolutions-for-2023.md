@@ -8,7 +8,8 @@ pre_content:
 syndications:
   twitter: null
 image: /images/posts/new-year-s-resolutions-for-2023.jpeg
-image_alt: Selfie of me smiling wearing a red christmas reindeer fancy.
+image_alt: Selfie of me smiling with eye-contact wearing a red christmas reindeer fancy.
+sensitive_image: true
 show_image_top_of_post: true
 ---
 

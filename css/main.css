@@ -1065,17 +1065,67 @@ details summary {
   }
 }
 
+.sensitive-cover {
+  position: relative;
+  overflow: hidden;
+}
+.sensitive-cover:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: blanchedalmond;
+  opacity: 0.8;
+}
+@media (prefers-color-scheme: dark) {
+  .sensitive-cover:after {
+    background-color: darksalmon;
+  }
+}
+.sensitive-cover:hover:after {
+  opacity: 0;
+  transition: opacity 0.7s ease-in;
+}
+.sensitive-cover .sensitive-eye {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  font-size: 3em;
+  margin: 0;
+  color: initial;
+}
+.sensitive-cover img {
+  width: 100%;
+  max-height: inherit;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.sensitive-cover:not(:hover) img {
+  filter: blur(10px);
+}
+.sensitive-cover:hover img {
+  transition: filter 0.7s ease-in;
+}
+.sensitive-cover:hover .sensitive-eye {
+  opacity: 0;
+  transition: opacity 0.7s ease-in;
+}
+
 .image-from-url {
   object-fit: cover;
   object-position: left center;
 }
 
-.post-link:hover .image-from-url,
+.post-link:hover .image-from-url:not(.sensitive-image),
 .post-link:hover .random-gradient {
   filter: saturate(1.2) brightness(1.10);
 }
 @media (prefers-color-scheme: dark) {
-  .post-link:hover .image-from-url {
+  .post-link:hover .image-from-url:not(.sensitive-image) {
     /* Already reduced opacity in dark-mode before hovering, so no need for brightness increase. */
     filter: saturate(1.2);
   }
@@ -1397,6 +1447,9 @@ details summary {
 }
 .fa-linkedin::before {
   content: 'Linkedin';
+}
+.fa-eye::before {
+  content: 'Eye';
 }
 .fa-long-arrow-alt-up::before {
   content: '↑';

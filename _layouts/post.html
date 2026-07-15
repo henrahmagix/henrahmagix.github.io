@@ -11,7 +11,14 @@ content_class: post
   {% include published-date.html context=page show_update_skip=true %}
 
   {% if page.image and page.show_image_top_of_post %}
-    <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
+    {% if page.sensitive_image %}
+      <div class="sensitive-cover post-header-image">
+        <img class="sensitive-image" src="{{page.image}}" alt="{{page.image_alt}}">
+        <i class="icon fas fa-eye sensitive-eye" aria-label="Hover to show sensitive image"></i>
+      </div>
+    {% else %}
+      <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
+    {% endif %}
   {% endif %}
 
   {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}

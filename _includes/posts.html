@@ -9,7 +9,14 @@
             <{{include.heading_element}} class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</{{include.heading_element}}>
 
             {% if post.image && !include.minimal %}
-              <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
+              {% if post.sensitive_image %}
+                <div class="sensitive-cover post-image">
+                  <img class="sensitive-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
+                  <i class="icon fas fa-eye sensitive-eye" aria-label="Hover to show sensitive image"></i>
+                </div>
+              {% else %}
+                <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
+              {% endif %}
             {% endif %}
           </a>
 
