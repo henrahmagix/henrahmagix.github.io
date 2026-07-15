@@ -6,18 +6,10 @@
       <li>
         <article>
           <a href="{{post.url}}" class="post-link">
-            {% capture title_html %}
-              <{{include.heading_element}} class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</{{include.heading_element}}>
-            {% endcapture %}
+            <{{include.heading_element}} class="post-title">{{post.title|markdownify|remove:'<p>'|remove:'</p>'}}</{{include.heading_element}}>
 
-            {{title_html}}
-            {% if include.minimal %}
-            {% else %}
-              {% if post.image %}
-                <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
-              {% else %}
-                <div class="post-image random-gradient random-gradient-{{forloop.index0|modulo:8}}"></div>
-              {% endif %}
+            {% if post.image && !include.minimal %}
+              <img class="post-image image-from-url" src="{{post.image}}" alt="{{post.image_alt}}">
             {% endif %}
           </a>
 
@@ -26,11 +18,9 @@
           {% unless include.minimal %}
             <div class="excerpt">
               {% if post.subtitle %}{{post.subtitle|markdownify}}{% endif %}
-              <p>
-                {% assign excerpt = post.content|markdownify|strip_html|truncatewords:20,"" %}
-                {{ excerpt }}
-                {% if excerpt != post.content %}&hellip; <a href="{{post.url}}" aria-hidden=true tabindex=-1><em>read more</em></a>{% endif %}
-              </p>
+              {% assign excerpt = post.excerpt %}
+              {{ excerpt }}
+              {% if excerpt != post.content %}<a href="{{post.url}}" aria-hidden=true tabindex=-1><em>read more</em></a>{% endif %}
             </div>
           {% endunless %}
         </article>

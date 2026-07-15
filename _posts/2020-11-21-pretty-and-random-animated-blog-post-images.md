@@ -5,7 +5,7 @@ categories:
   - Code
   - Accessibility
 title: Pretty and random animated blog post images
-subtitle: ooo pretty... what do you think?
+subtitle: but now I'm not using them any more :(
 image: /images/pretty-and-random-animated-blog-post-images.jpg
 image_alt: A collection of black-bordered rectangles, each with a different combination of two pastel colours blurred together from top-left to bottom-right.
 show_image_top_of_post: true
@@ -16,6 +16,8 @@ pre_content:
 updates:
   - date: 2021-06-16T20:34:00.000Z
     title: now they're simpler
+  - date: 2026-07-15T19:44:00.000Z
+    title: and now they're gone
 ---
 
 I recently made a small change to [my blog list page](/blog) by showing images in the list, to provide a clearer identifier for posts you may have already read. But not every post has an image, so what could I show for a default? Ooh, how about a random gradient?
@@ -379,3 +381,7 @@ What do you think? Blurred or not blurred? Let me know with the "Reply" link(s) 
 ### 2021-06-16
 
 Since implementing the hard-stopped gradients, I've realised that I much prefer "less" over "more". So I've switched to the soft version and removed the movement. Now, for a hover highlight, I've just increased brightness with a filter. Much simpler and still very nice and comfortable and lovely and random and pretty yayyy 🤗
+
+### 2026-07-15
+
+Going through a patch redesign, I've decided every post having an image is pointless. More focus on the content! So now they're gone :( but will always be here in this post 🥰
