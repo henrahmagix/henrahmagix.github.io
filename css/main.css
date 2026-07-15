@@ -450,6 +450,7 @@ a button,
 
 body {
   display: grid;
+  grid-auto-columns: 100%;
   min-height: 100vh;
 }
 
