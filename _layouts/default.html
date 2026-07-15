@@ -241,18 +241,16 @@ back_to: home
       <aside class="instapaper_ignore">
         {% unless share_section %}<div class="journal-line"></div>{% endunless %}
 
-        {% if related_posts or site.related_posts %}
-          <div id="related-section">
-            {% if related_posts %}
-              <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
-              <p>Read more in <a href="{{site.data.links.blog.url}}/{{page.related_posts_category|downcase|cgi_encode}}">my blog about {{page.related_posts_category}}</a></p>
-              {% include posts.html posts=related_posts heading_element="h3" %}
-            {% elsif site.related_posts %}
-              <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
-              {% include posts.html posts=site.related_posts heading_element="h3" %}
-            {% endif %}
-          </div>
-        {% endif %}
+        <div id="related-section">
+          {% if related_posts %}
+            <h2 class="fancy-title emoji-on-the-left">Related blog posts <span class="emoji">📖</span></h2>
+            <p>Read more in <a href="{{site.data.links.blog.url}}/{{page.related_posts_category|downcase|cgi_encode}}">my blog about {{page.related_posts_category}}</a></p>
+            {% include posts.html posts=related_posts heading_element="h3" %}
+          {% elsif site.related_posts %}
+            <h2 class="fancy-title emoji-on-the-left">More reading <span class="emoji">💌</span></h2>
+            {% include posts.html posts=site.related_posts heading_element="h3" %}
+          {% endif %}
+        </div>
       </aside>
     {% endif %}
 
