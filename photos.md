@@ -1,4 +1,5 @@
 ---
+layout: page
 section: Photos
 class: photos
 description: Gallery of the few photos I think look "Professional"

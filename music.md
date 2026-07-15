@@ -1,4 +1,5 @@
 ---
+layout: page
 section: Music
 description: wow this really blew up, here's my soundcloud
 related_posts_category: Music

@@ -1,7 +1,16 @@
 ---
+layout: default
 class: home
 css: /css/home.css
 ---
+
+<div class="p-name-wrapper">
+  <h1 class="entry-title p-name journal-crossout">{{site.author}}</h1>
+</div>
+
+{% if site.categories %}
+  <div hidden>{% include categories_nav.html site_categories=true %}</div>
+{% endif %}
 
 <div class="side-by-side">
   <div>

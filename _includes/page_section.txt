@@ -1,0 +1,2 @@
+{% capture page_section %}{% if page.section %}{{page.section|capitalize}}{% elsif layout.section %}{{layout.section|capitalize}}{% endif %}{% endcapture %}
+{% if page_section == "" %}{% assign page_section = nil %}{% endif %}

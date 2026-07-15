@@ -15,5 +15,5 @@ trim_trailing_whitespace = true
 [Makefile*]
 indent_style = tab
 
-[_includes/*.html]
+[_includes/*]
 insert_final_newline = false

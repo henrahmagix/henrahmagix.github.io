@@ -7,7 +7,8 @@
   "settings": {
     "html.format.enable": false,
     "files.associations": {
-      "*.html": "jekyll"
+      "*.html": "jekyll",
+      "_includes/*": "jekyll",
     },
     "cSpell.enabled": true,
     "js/ts.implicitProjectConfig.checkJs": true,

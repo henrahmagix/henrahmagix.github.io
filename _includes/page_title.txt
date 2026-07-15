@@ -1,0 +1,4 @@
+{% unless page.section %}
+  {% capture page_title %}{{ page.title|markdownify|remove:'<p>'|remove:'</p>'|strip }}{% endcapture %}
+  {% if page_title == '' %}{% assign page_title = nil %}{% endif %}
+{% endunless %}

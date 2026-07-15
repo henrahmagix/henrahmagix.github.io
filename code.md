@@ -1,4 +1,5 @@
 ---
+layout: page
 section: Code
 description: The most boring page on this World Wide Web Portal, but it is my job after all, to write code
 hide_share: true

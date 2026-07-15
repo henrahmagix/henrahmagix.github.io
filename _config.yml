@@ -1,8 +1,8 @@
 defaults:
   - scope:
-      path: ""
+      path: "*"
     values:
-      layout: default
+      layout: page
   - scope:
       path: "images/albums/*/*.jpg"
     values:

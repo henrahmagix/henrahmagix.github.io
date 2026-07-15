@@ -1,0 +1,19 @@
+---
+layout: default
+back_to: home
+---
+
+{% include page_title.txt %}
+{% include page_section.txt %}
+
+{% if page_section %}
+<div class="p-name-wrapper">
+  <h1 class="entry-title p-name journal-highlight">{{ page_section }}</h1>
+</div>
+{% else %}
+<h1 class="page-title entry-title p-name">{{ page_title }}</h1>
+{% endif %}
+
+{% include published-date.html context=page show_update_skip=false %}
+
+{{ content }}
