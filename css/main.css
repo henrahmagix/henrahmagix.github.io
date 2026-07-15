@@ -1031,8 +1031,21 @@ details summary {
   font-size: smaller;
 }
 
+/* This is where we produce a small, minimised block of the link wrapping around
+  a title and image, where the clickable area of the link doesn't extend outside
+  of the title and image, thus they are inline not full-width. */
 .posts-list .post-link {
-  display: block; /* without block display, :focus won't show at all */
+  display: inline-block; /* without some sort of block display, :focus won't show at all */
+  margin-top: 2em;
+}
+.posts-list .post-link > h1:first-child,
+.posts-list .post-link > h2:first-child,
+.posts-list .post-link > h3:first-child,
+.posts-list .post-link > h4:first-child,
+.posts-list .post-link > h5:first-child,
+.posts-list .post-link > h6:first-child {
+  display: block;
+  margin-top: 0;
 }
 
 .posts-list .post-title {
