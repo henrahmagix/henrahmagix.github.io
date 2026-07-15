@@ -12,7 +12,7 @@ syndications:
   twitter: null
 ---
 
-Since I've joined [Tech.LGBT](https://tech.lgbt) I've come to learn about various content warnings. One such warning that I hadn't realised I _wasn't_ giving for my own website was for eye contact - I had a giant selfie photo in my posts list!
+Since I've joined [Tech.LGBT](https://tech.lgbt) I've come to learn about various content warnings. One such warning that I hadn't realised I _wasn't_ giving for my own website was for eye contact - I had a giant selfie photo in my posts list! I've since fixed that: see <a href="https://github.com/henrahmagix/henrahmagix.github.io/commit/2b0ef6d690b552c567698e6e41c1d53d049f3df6" title="Git commit that added sensitive warning blur covers to my sole eye-contact image" target=_blank>git commit here {% include external-icon.html %}</a>.
 
 Lots of adults - primarily my mother - taught me to treat equally those we know to be different. And most importantly you have to moderate yourself in order to help those you _haven't even met yet_ when you know about some issues, phobias, or disabilities.
 
