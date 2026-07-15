@@ -1036,7 +1036,7 @@ details summary {
   of the title and image, thus they are inline not full-width. */
 .posts-list .post-link {
   display: inline-block; /* without some sort of block display, :focus won't show at all */
-  margin-top: 2em;
+  margin-top: 4em;
 }
 .posts-list .post-link > h1:first-child,
 .posts-list .post-link > h2:first-child,
