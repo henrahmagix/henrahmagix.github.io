@@ -3,6 +3,9 @@ layout: post
 class: post
 title: Eye contact warnings
 subtitle: I'm sooooooooooo glad I've learnt about these
+categories:
+  - Code
+  - Accessibility
 pre_content:
   - null
 syndications:

@@ -1050,6 +1050,7 @@ details summary {
 
 .posts-list .post-title {
   margin-bottom: 0;
+  font-size: 2em; /* make category lists same size as blog lists: former is H3, latter H2 */
 }
 
 .post-image {
