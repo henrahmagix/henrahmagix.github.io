@@ -1383,8 +1383,8 @@ details summary {
 .fa-github::before {
   content: 'GitHub';
 }
-.fa-twitter::before {
-  content: 'Twitter';
+.fa-mastodon::before {
+  content: 'Mastodon';
 }
 .fa-facebook::before {
   content: 'Facebook';

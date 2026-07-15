@@ -16,9 +16,9 @@ code:
   relme: true
 talk:
   title: Talk
-  icon: fab fa-twitter
-  ext_url: https://twitter.com/henrahmagix
-  ext_title: 'My Twitter page: @henrahmagix'
+  icon: fab fa-mastodon
+  ext_url: https://tech.lgbt/@henrahmagix
+  ext_title: 'My tech.lgbt page: @henrahmagix'
   relme: true
 music:
   title: Music
