@@ -347,6 +347,11 @@ a button,
   margin-bottom: 2em;
   text-align: center;
 }
+@media screen and (min-width: 1124px) {
+  .p-name-wrapper:not(:has(.journal-crossout)) {
+    text-align: left;
+  }
+}
 
 .page-header {
   text-align: center;
@@ -443,16 +448,36 @@ a button,
 
 /* Structure */
 
-body:not(.page-photos) .content-max-width {
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
+body {
+  display: grid;
+  min-height: 100vh;
 }
+
 @media screen and (min-width: 1124px) {
-  body:not(.page-photos) .content-max-width {
-    max-width: 1200px;
-    margin-left: 0;
-    margin-right: 0;
+  .flex-wrapper {
+    display: grid;
+    grid-template-columns: 1fr max-content 10fr 1fr;
+    grid-template-rows: auto max-content;
+    grid-template-areas: ". header main. " "footer footer footer footer";
+  }
+
+  /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
+  .page-header {
+    grid-area: header;
+    max-height: 100vh;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 2em; /* same as body top padding */
+    overflow: auto;
+    margin-right: 2em;
+  }
+
+  .page-main {
+    grid-area: main;
+  }
+
+  .page-footer {
+    grid-area: footer;
   }
 }
 
@@ -501,16 +526,18 @@ body:not(.page-photos) .content-max-width {
   padding: 0;
   margin: 0;
   font-size: 2em;
+  text-align: center;
 }
 
 .share-list li {
   flex-basis: 8em;
-  text-align: center;
   margin: 0.5em 0;
 }
-
-.share-list a {
-  text-decoration: none;
+@media screen and (min-width: 1124px) {
+  .share-list {
+    text-align: left;
+    justify-content: start;
+  }
 }
 
 .side-by-side {
@@ -716,32 +743,6 @@ body:not(.page-photos) .content-max-width {
 @media screen and (min-width: 1124px) {
   .post-header-image {
     max-height: 30em;
-  }
-
-  .flex-wrapper {
-    display: grid;
-    grid-template-columns: auto max-content auto auto;
-    grid-template-rows: auto;
-    grid-template-areas: ". header main ." "footer footer footer footer";
-  }
-
-  /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
-  .page-header {
-    grid-area: header;
-    max-height: 100vh;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 2em; /* same as body top padding */
-    overflow: auto;
-    margin-right: 2em;
-  }
-
-  .page-main {
-    grid-area: main;
-  }
-
-  .page-footer {
-    grid-area: footer;
   }
 }
 
@@ -1035,15 +1036,15 @@ details summary {
 }
 
 .posts-list .post-title {
-  font-size: 1.4em;
   margin-bottom: 0;
 }
 
 .post-image {
   display: block;
   border: 2px solid #23242C;
-  height: 10em;
   width: 100%;
+  max-width: 30em;
+  max-height: 20em;
 }
 @media (prefers-color-scheme: dark) {
   .post-image {
