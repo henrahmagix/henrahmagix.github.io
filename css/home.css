@@ -1,13 +1,7 @@
 #content {
-  text-align: center;
   word-break: break-word;
 }
 
-@media screen and (min-width: 1124px) {
-  #content {
-    text-align: left;
-  }
-}
 @media screen and (max-width: 1123px) {
   dd {
     margin-left: 0;
