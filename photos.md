@@ -4,6 +4,7 @@ section: Photos
 class: photos
 description: Gallery of the few photos I think look "Professional"
 related_posts_category: Photography
+hide_share: true
 # js:
 #   - /js/gallery.js
 #   - /js/swiped-events.js
