@@ -5,6 +5,7 @@ title: How I built the iPadOS Cursor for the Web
 subtitle: ''
 image: /images/posts/how-i-built-the-ipados-cursor-for-the-web.jpeg
 image_alt:
+show_image_top_of_post: true
 ---
 
 ![wefwef](/images/ipad-cursor-preview.jpg)

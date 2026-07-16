@@ -194,7 +194,7 @@ body {
   padding-right: calc(env(safe-area-inset-right) - 1em);
 }
 
-@media screen and (min-width: 1124px) {
+@media screen and (min-width: 768px) {
   body {
     padding: 2em;
   }
@@ -391,6 +391,15 @@ a button,
   margin-bottom: 0.5em;
 }
 
+#categories-list {
+  text-align: center;
+}
+@media screen and (min-width: 1124px) {
+  #categories-list {
+    text-align: left;
+  }
+}
+
 .logo {
   display: block;
   height: 100px;
@@ -457,7 +466,7 @@ body {
 @media screen and (min-width: 1124px) {
   .flex-wrapper {
     display: grid;
-    grid-template-columns: 1fr max-content 10fr 1fr;
+    grid-template-columns: 2em max-content 1fr 2em;
     grid-template-rows: auto max-content;
     grid-template-areas: ". header main. " "footer footer footer footer";
   }
@@ -470,7 +479,7 @@ body {
     position: sticky;
     top: 2em; /* same as body top padding */
     overflow: auto;
-    margin-right: 2em;
+    margin-right: 4em;
   }
 
   .page-main {
@@ -811,27 +820,27 @@ h6 {
 }
 
 h1 {
-  font-size: 2.25em;
+  font-size: 2.25rem;
 }
 
 h2 {
-  font-size: 2em;
+  font-size: 2rem;
 }
 
 h3 {
-  font-size: 1.75em;
+  font-size: 1.75rem;
 }
 
 h4 {
-  font-size: 1.6em;
+  font-size: 1.6rem;
 }
 
 h5 {
-  font-size: 1.45em;
+  font-size: 1.45rem;
 }
 
 h6 {
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
 
 p,
@@ -1041,7 +1050,7 @@ details summary {
   of the title and image, thus they are inline not full-width. */
 .posts-list .post-title-link {
   display: inline-block; /* without some sort of block display, :focus won't show at all */
-  margin-top: 4em;
+  margin-top: 4rem;
   color: inherit;
 }
 .posts-list .post-title-link > h1:first-child,
@@ -1055,7 +1064,7 @@ details summary {
 }
 
 .posts-list .post-title {
-  margin-bottom: 0;
+  margin-bottom: 0.2em;
   font-size: 2em; /* make category lists same size as blog lists: former is H3, latter H2 */
 }
 
