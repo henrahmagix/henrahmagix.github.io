@@ -10,6 +10,11 @@ content_class: post
 <header>
   {% include published-date.html context=page show_update_skip=true %}
 
+  {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
+  {% assign page_title = page.title %}
+  <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
+  <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
+
   {% if page.image and page.show_image_top_of_post %}
     {% if page.sensitive_image %}
       <div class="sensitive-cover post-header-image">
@@ -20,11 +25,6 @@ content_class: post
       <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
     {% endif %}
   {% endif %}
-
-  {%- comment -%} Keep title/subtitle rendered so admin can edit them for new drafts {%- endcomment -%}
-  {% assign page_title = page.title %}
-  <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
-  <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
 
   {% if page.pre_content %}
     {% for line in page.pre_content %}
@@ -45,4 +45,6 @@ content_class: post
 
 {% include anchor_headings.html html=content anchorBody="#" anchorAttrs='aria-label="Link to heading: %heading%"' anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
 
-<div class="p-name-wrapper post-end"><p class="journal-highlight" aria-hidden=true>Fin</p></div>
+<footer class="post-footer">
+  <div class="p-name-wrapper post-end"><p class="journal-highlight" aria-hidden=true>Fin</p></div>
+</footer>

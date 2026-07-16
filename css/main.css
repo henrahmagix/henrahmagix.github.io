@@ -729,18 +729,22 @@ body {
 }
 
 .post-header-image {
-  max-height: 20em;
+  display: block;
+  margin-bottom: 1em;
+  max-height: 50vh;
 }
-
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 768px) and (max-width: 1123px) {
   .post-header-image {
     float: right;
-    max-height: 15em;
+    max-height: 20em;
     max-width: 40%;
     margin-left: 1em;
+    margin-right: auto;
+  }
+  .post-footer {
+    clear: both;
   }
 }
-
 @media screen and (min-width: 1124px) {
   .post-header-image {
     max-height: 30em;
@@ -1071,6 +1075,7 @@ details summary {
 .sensitive-cover {
   position: relative;
   overflow: hidden;
+  display: inline-block;
 }
 .sensitive-cover:after {
   content: '';
@@ -1101,9 +1106,14 @@ details summary {
   margin: 0;
   color: initial;
 }
-.sensitive-cover img {
+.posts-list .sensitive-cover img {
   width: 100%;
+}
+.sensitive-cover img {
+  width: auto;
   max-height: inherit;
+  display: block;
+  margin: auto;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
