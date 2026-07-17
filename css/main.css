@@ -121,6 +121,7 @@
   outline-color: #23242C;
   outline-style: double;
   outline-width: 5px;
+  outline-offset: 5px;
 }
 
 .outline-big:focus {
