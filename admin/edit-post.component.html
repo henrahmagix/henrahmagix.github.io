@@ -450,6 +450,9 @@
           this.hidePostFrontMatterError = false;
         }
       } else {
+        const empty = el.textContent.trim().length === 0;
+        el.classList.toggle('empty', empty);
+        if (empty) el.innerHTML = '';
         this.postFile.set(attr, htmlToMarkdown(el.innerHTML));
       }
       this.renderState();
