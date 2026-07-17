@@ -28,7 +28,9 @@ content_class: post
 
   {% if page.pre_content %}
     {% for line in page.pre_content %}
+      {% if line %}
       <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
+      {% endif %}
     {% endfor %}
   {% endif %}
 

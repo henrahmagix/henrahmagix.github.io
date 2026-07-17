@@ -22,16 +22,11 @@
 
     const article = content.classList.contains('entry-content') ? content : content.querySelector('.entry-content');
 
-    const preContent = document.createDocumentFragment();
-    Array.from(article.children).forEach((child, i) => {
-      if (child.classList.contains('pre-content')) {
-        child.dataset.adminEditable = `pre_content:${i}`;
-        preContent.appendChild(child);
-      }
+    content.querySelectorAll('.pre-content').forEach((el, i) => {
+      el.dataset.adminEditable = `pre_content:${i}`;
     });
 
     article.innerHTML = `<div data-admin-editable="content">${article.innerHTML}</div>`;
-    article.prepend(preContent);
   } else {
     component.remove();
   }
