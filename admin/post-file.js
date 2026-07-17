@@ -120,6 +120,7 @@ export class PostFile {
 
   /** @private */
   onChange() {
+    // TODO: debounce this. Or debounce at the site of change?
     localStorage.setItem(this.storageKey, base64.encode(this.newContent));
   }
 
@@ -153,8 +154,9 @@ export class PostFile {
   /**
    * @private
    * @param {string} content
+   * @returns {string[]}
    */
-  buildContent(content) {
+  splitFrontMatterAndContent(content) {
     /** @type {string[]} */
     const frontMatterLines = [];
     /** @type {string[]} */
@@ -174,8 +176,17 @@ export class PostFile {
       }
     });
 
-    this.postFrontMatter = frontMatterLines.join('\n').trim();
-    this.postContent = contentsLines.join('\n').trim();
+    return [frontMatterLines, contentsLines].map(s => s.join('\n').trim());
+  }
+
+  /**
+   * @private
+   * @param {string} raw
+   */
+  buildContent(raw) {
+    const [frontMatter, content] = this.splitFrontMatterAndContent(raw);
+    this.postFrontMatter = frontMatter;
+    this.postContent = content;
   }
 
   get originalContent() {
@@ -198,8 +209,32 @@ export class PostFile {
     this.clearStorage();
   }
 
+  /** @returns {string|boolean} */
+  whatChanges() {
+    if (this.imageFile) return "image";
+    if (this.newContent === this.originalContent) return false;
+
+    // Compare front-matter as JS object to normalise for js-yaml syntax changes
+    // like quotes.
+    const [oldFrontMatter, oldContent] = this.splitFrontMatterAndContent(this.originalContent);
+    const [newFrontMatter, newContent] = this.splitFrontMatterAndContent(this.newContent);
+    if (oldContent !== newContent) return "content";
+    if (this.normaliseFrontMatter(oldFrontMatter) !== this.normaliseFrontMatter(newFrontMatter)) {
+      return "frontmatter";
+    }
+
+    return false;
+  }
+  /**
+   * @param {string} s
+   * @returns {string}
+   **/
+  normaliseFrontMatter(s) {
+    return JSON.stringify(yaml.yamlToJS(s)[0]);
+  }
+  /** @returns {boolean} */
   hasChanges() {
-    return this.imageFile || this.newContent !== this.originalContent;
+    return Boolean(this.whatChanges());
   }
 
   get isDraft() {
