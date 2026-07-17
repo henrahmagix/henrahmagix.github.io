@@ -63,7 +63,7 @@ export class Admin {
 
     const existingToken = localStorage.getItem(TOKEN_KEY);
     if (existingToken) {
-      this.login(existingToken, false);
+      this.handleLogin(true, false);
     }
   }
 
