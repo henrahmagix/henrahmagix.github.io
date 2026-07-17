@@ -674,6 +674,10 @@ body {
   line-height: 1.2;
 }
 
+* ~ .page-title {
+  margin-top: 0;
+}
+
 /* Footer */
 
 .page-footer {
