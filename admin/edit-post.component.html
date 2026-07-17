@@ -241,10 +241,10 @@
         filepath: dataset.filepath,
       });
       this.postFile.fetch().then(() => {
+        this.viewStyle = new FormData(document.querySelector('form[name=view]')).get('style');
         this.renderState();
 
         if (this.postFile.isDraft || this.postFile.isNew) {
-          this.viewStyle = new FormData(document.querySelector('form[name=view]')).get('style');
           this.render();
         }
 

@@ -359,7 +359,7 @@ function logNode(node) {
  * @property {(prop: string, data: RenderData, sub?: string|number) => void} renderProp
  */
 
-/** @type {(node: Node) => PropNode} */
+/** @type {(node: Node) => PropNode?} */
 function newPropNode(node) {
   if (node instanceof Text) {
     return new PropTextNode(node);
