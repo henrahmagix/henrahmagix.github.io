@@ -43,7 +43,9 @@ content_class: post
   {% endif %}
 </header>
 
-{% include anchor_headings.html html=content anchorBody="#" anchorAttrs='aria-label="Link to heading: %heading%"' anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
+<section class="entry-content e-content">
+  {% include anchor_headings.html html=content anchorBody="#" anchorAttrs='aria-label="Link to heading: %heading%"' anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
+</section>
 
 <footer class="post-footer">
   <div class="p-name-wrapper post-end"><p class="journal-highlight" aria-hidden=true>Fin</p></div>

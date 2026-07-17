@@ -24,6 +24,10 @@
         <input type="radio" name="style" value="raw" checked>
         <span>Raw</span>
       </label>
+      <label>
+        <input type="checkbox" name="wrap" checked>
+        <span>Wrap?</span>
+      </label>
       |
       <label>
         <input type="radio" name="style" value="html">
@@ -33,11 +37,6 @@
       <label>
         <input type="radio" name="style" value="diff">
         <span>Diff</span>
-      </label>
-      |
-      <label>
-        <input type="checkbox" name="wrap" checked>
-        <span>Wrap?</span>
       </label>
       <span {hidden}="hidePostFrontMatterError" class="post-error-message">Error in front matter</span>
     </form>
@@ -166,6 +165,7 @@
         },
         push: (item) => {
           this.postElements.items.push(item);
+          item.originalHTML = item.el.innerHTML;
           const {el, attr} = item;
           show(el, true);
           el.setAttribute('placeholder', attr.charAt(0).toUpperCase() + attr.slice(1));
@@ -404,7 +404,10 @@
         this.contentWrapper.replaceWith(this.textarea);
         this.diffEl.replaceWith(this.textarea);
         this.fixTextareaHeight();
-      } else {
+        return;
+      }
+
+      if (this.writingHTML) {
         this.postElements.forEach(({el, attr}) => {
           const html = markdownToHTML(this.postFile.get(attr));
           if (attr === 'content') {
@@ -418,6 +421,7 @@
 
         this.textarea.replaceWith(this.contentWrapper);
         this.diffEl.replaceWith(this.contentWrapper);
+        return;
       }
     }
 
@@ -461,6 +465,11 @@
       // TODO: implement ngModel-like for form fields.
       // this.viewForm.reset();
       this.state.reset();
+      this.postElements.forEach(({el, attr, originalHTML}) => {
+        el.innerHTML = originalHTML;
+      });
+      this.textarea.replaceWith(this.contentWrapper);
+      this.diffEl.replaceWith(this.contentWrapper);
     }
 
     async submitPost() {
@@ -494,6 +503,11 @@
   class EditPostState {
     constructor() {
       this._state = new State('view', 'edit', 'submitting', 'publishing', 'unpublishing', 'tweeting');
+    }
+
+    /** @returns {string} */
+    toString() {
+      return this._state.toString();
     }
 
     get editing() {

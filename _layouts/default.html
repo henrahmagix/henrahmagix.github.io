@@ -177,7 +177,7 @@ back_to: home
       {% endcapture %}
     {% endif %}
 
-    <article id="content" class="entry-content e-content {% if page.class %}content-{{ page.class }}{% endif %}">
+    <article id="content" class="{% if page.class %}content-{{ page.class }}{% endif %}">
       <div class="meta_info" hidden>
         <img class="u-photo" src="/images/me_silly.jpg" alt="silly profile photo of {{site.author}} with googly eyes and a clown hat">
         <a rel="author" class="p-author h-card" href="{{ site.url }}">{{site.author}}</a>

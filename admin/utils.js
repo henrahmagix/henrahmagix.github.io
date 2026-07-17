@@ -91,6 +91,11 @@ export class State {
     }
   }
 
+  /** @returns {string} */
+  toString() {
+    return this._state;
+  }
+
   /**
    * @param {string} s
    * @returns {boolean}
