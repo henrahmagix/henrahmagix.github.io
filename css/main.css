@@ -458,8 +458,8 @@ a button,
 /* Structure */
 
 body {
+  /* ensure background paper and dots fill the screen */
   display: grid;
-  grid-auto-columns: 100%;
   min-height: 100vh;
 }
 
@@ -467,7 +467,7 @@ body {
   .flex-wrapper {
     display: grid;
     grid-template-columns: 2em max-content 1fr 2em;
-    grid-template-rows: auto max-content;
+    grid-template-rows: min-content;
     grid-template-areas: ". header main. " "footer footer footer footer";
   }
 
