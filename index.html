@@ -14,6 +14,14 @@ css: /css/home.css
 
 <div class="side-by-side">
   <div>
+    {% if site.posts[0] %}
+      <h2 class="fancy-title emoji-on-the-left"><span class="emoji">💫</span> Latest post</h2>
+      {% assign post = site.posts[0] %}
+      <a href="{{post.url}}">{{post.title}}</a>
+    {% endif %}
+  </div>
+
+  <div>
     <h2 class="fancy-title emoji-on-the-left"><span class="emoji">✨</span> Featured</h2>
     <ul style="list-style-type:circle; list-style-position:inside; padding:0;">
       <li>
@@ -26,14 +34,6 @@ css: /css/home.css
       <a href="/fujifilm-x100f-recipe-chooser">Fujifilm X100F Recipe Chooser</a>
       </li>
     </ul>
-  </div>
-
-  <div>
-    {% if site.posts[0] %}
-      <h2 class="fancy-title emoji-on-the-left"><span class="emoji">💫</span> Latest post</h2>
-      {% assign post = site.posts[0] %}
-      <a href="{{post.url}}">{{post.title}}</a>
-    {% endif %}
   </div>
 </div>
 
