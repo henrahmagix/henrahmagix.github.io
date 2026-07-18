@@ -4,7 +4,7 @@ class: post
 title: 'How LLMs ruin written communication: part 2'
 subtitle: There is no life in getting answers from machines
 pre_content:
-  - nul
+  - null
 syndications:
   twitter: null
 ---
