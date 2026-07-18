@@ -187,6 +187,8 @@ body {
   box-sizing: border-box;
   padding: 1em;
   position: relative;
+  overflow-wrap: anywhere;
+  word-break: auto-phrase; /* this is experimental */
 }
 
 /* Gap for notches */
@@ -858,8 +860,6 @@ dl {
 
 #content p {
   line-height: 1.6;
-  word-wrap: break-word;
-  word-break: break-word;
 }
 
 #content.content-post p {
@@ -1041,10 +1041,6 @@ details summary {
 
 .posts-list {
   margin: 0;
-}
-
-.posts-list > li {
-  word-break: break-word;
 }
 
 .posts-list .published {
