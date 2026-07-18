@@ -73,6 +73,13 @@
   [placeholder][contenteditable]:empty:focus::before {
       content: '';
   }
+  [placeholder][contenteditable].empty {
+      min-height: 1em;
+  }
+
+  button.add-post-item {
+    margin: 1em 0;
+  }
 
   textarea {
     width: 100%;
@@ -201,7 +208,7 @@
       this.extraEditingButtons = [];
       Object.values(lastArrayProps).forEach(({el, attr}) => {
         const [key, index] = attr.split(':');
-        const makeNew = createHTML(`<button hidden>Add ${key}</button>`);
+        const makeNew = createHTML(`<button hidden class="add-post-item add-${key}">Add ${key}</button>`);
         let lastIndex = index;
         makeNew.onclick = () => {
           lastIndex++;
