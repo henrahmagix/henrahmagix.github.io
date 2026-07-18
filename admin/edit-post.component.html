@@ -420,22 +420,19 @@
         return;
       }
 
-      if (this.writingHTML) {
-        this.postElements.forEach(({el, attr}) => {
-          const html = markdownToHTML(this.postFile.get(attr));
-          if (attr === 'content') {
-            el.innerHTML = html;
-            // Fix code highlighting after editing.
-            el.querySelectorAll('pre').forEach(pre => pre.classList.add('highlight'));
-          } else {
-            el.innerHTML = html.replace(/^<p>|<\/p>$/g, '');
-          }
-        });
+      this.postElements.forEach(({el, attr}) => {
+        const html = markdownToHTML(this.postFile.get(attr));
+        if (attr === 'content') {
+          el.innerHTML = html;
+          // Fix code highlighting after editing.
+          el.querySelectorAll('pre').forEach(pre => pre.classList.add('highlight'));
+        } else {
+          el.innerHTML = html.replace(/^<p>|<\/p>$/g, '');
+        }
+      });
 
-        this.textarea.replaceWith(this.contentWrapper);
-        this.diffEl.replaceWith(this.contentWrapper);
-        return;
-      }
+      this.textarea.replaceWith(this.contentWrapper);
+      this.diffEl.replaceWith(this.contentWrapper);
     }
 
     /** @param {string} value */
