@@ -296,6 +296,12 @@
       }
 
       this.reset();
+      this.postElements.forEach(({el, attr, originalHTML, added}) => {
+        el.innerHTML = originalHTML;
+        if (added) el.remove();
+      });
+      this.textarea.replaceWith(this.contentWrapper);
+      this.diffEl.replaceWith(this.contentWrapper);
     }
     clickSubmit() {
       this.state.moveToSubmitting();
@@ -475,12 +481,6 @@
       // TODO: implement ngModel-like for form fields.
       // this.viewForm.reset();
       this.state.reset();
-      this.postElements.forEach(({el, attr, originalHTML, added}) => {
-        el.innerHTML = originalHTML;
-        if (added) el.remove();
-      });
-      this.textarea.replaceWith(this.contentWrapper);
-      this.diffEl.replaceWith(this.contentWrapper);
     }
 
     async submitPost() {
