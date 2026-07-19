@@ -4,7 +4,7 @@ class: post
 title: How LLMs ruin written communication
 subtitle: Word poison is bad for people
 pre_content:
-  - null
+  - '[Part two of my self-insertion into the 2026 LLMs discourse](/2026/07/18/how-llms-ruin-written-communication-part-2)'
 syndications:
   twitter: null
 ---
