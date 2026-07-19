@@ -4,7 +4,7 @@ class: post
 title: 'How LLMs ruin written communication: part 2'
 subtitle: There is no life in getting answers from machines
 pre_content:
-  - '[Part one of my self-insertion into the 2026 LLMs discourse](/2026/07/17/how-llms-ruin-written-communication)'
+  - '[Part one of my self-insertion into the 2026 LLMs discourse](/2026/07/17/how-llms-ruin-textual-communications)'
 syndications:
   twitter: null
 updates:
