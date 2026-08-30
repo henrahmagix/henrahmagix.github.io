@@ -1,0 +1,26 @@
+#power-washer-wrapper {
+  pointer-events: none;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#power-washer {
+  fill: #2F5B83;
+  opacity: 0.3;
+  transition: opacity 120ms ease-in-out;
+}
+
+#power-washer[hidden] {
+  opacity: 0;
+  transition-duration: 400ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  #power-washer {
+    fill: #8CB1D4;
+  }
+}

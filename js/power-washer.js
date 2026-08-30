@@ -7,11 +7,8 @@ var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 var cursor = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 svg.appendChild(cursor);
 
-svg.id = 'ipad-cursor-wrapper';
-cursor.id = 'ipad-cursor';
-
-var styles = document.createElement('style');
-styles.innerText = '* { cursor: none!important; }';
+svg.id = 'power-washer-wrapper';
+cursor.id = 'power-washer';
 
 /** @type {DOMRect?} */
 var boundPosition = null;
@@ -20,10 +17,8 @@ runEventOnce(document, 'mousemove', start);
 
 function start() {
   unbindCursor();
-  document.head.appendChild(styles);
   document.body.appendChild(svg);
   removerFunctions.push(function () {
-    document.head.removeChild(styles);
     document.body.removeChild(svg);
   });
 }
@@ -66,7 +61,7 @@ document.querySelectorAll('label').forEach(function (el) {
   });
 });
 
-window.iPadCursorDestroy = function () {
+window.powerWasherDestroy = function () {
   removerFunctions.forEach(function (fn) { fn(); });
 };
 
