@@ -31,13 +31,13 @@ function start() {
 /** @type {number} */
 var fadeTimeout;
 addEventListener(document, 'mousemove', function (event) {
-  cursor.setAttribute('hidden', 'false');
+  cursor.removeAttribute('hidden');
   window.clearTimeout(fadeTimeout);
 
   positionCursorForMouseEvent(event);
 
   fadeTimeout = window.setTimeout(function () {
-    cursor.setAttribute('hidden', 'true');
+    cursor.setAttribute('hidden', '');
   }, 3000);
 });
 
