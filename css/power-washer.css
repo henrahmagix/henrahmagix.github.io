@@ -1,25 +1,14 @@
 #power-washer-wrapper {
-  pointer-events: none;
   position: fixed;
   z-index: 3;
   top: 0;
   left: 0;
-  height: auto;
-  width: auto;
+  height: 3rem;
+  width: 3rem;
 }
 
 #power-washer {
+  user-select: none;
+  -webkit-user-select: none;
   font-size: 3rem;
-  transform: translate(-50%, -50%);
-}
-
-#power-washer[hidden] {
-  opacity: 0;
-  transition-duration: 400ms;
-}
-
-@media (prefers-color-scheme: dark) {
-  #power-washer {
-    fill: #8CB1D4;
-  }
 }

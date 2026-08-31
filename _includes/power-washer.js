@@ -1,5 +1,5 @@
 (function () {
-  var powerWasherTrigger = /** @type {HTMLInputElement} */ (document.getElementById('{{include.checkbox_id}}'));
+  window.powerWasherTrigger = /** @type {HTMLInputElement} */ (document.getElementById('{{include.checkbox_id}}'));
   /** @type {HTMLElement[]} */
   var powerWasherAssets = [];
 

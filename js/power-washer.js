@@ -10,22 +10,39 @@ cursorWrapper.appendChild(cursor);
 cursor.id = 'power-washer';
 cursor.textContent = '🚿';
 
-runEventOnce(document, 'mousemove', start);
+document.body.appendChild(cursorWrapper);
+removerFunctions.push(function () {
+  document.body.removeChild(cursorWrapper);
+});
+
+var isTouching = false;
+addEventListener(cursor, 'pointerdown', () => isTouching = true);
+addEventListener(cursor, 'touchstart', () => isTouching = true);
+addEventListener(document, 'pointerup', () => isTouching = false);
+addEventListener(document, 'touchend', () => isTouching = false);
+
+addEventListener(document, 'pointermove', function (event) {
+  if (isTouching) positionCursorForPointerEvent(event);
+});
+
+window.powerWasherDestroy = function () {
+  removerFunctions.forEach(function (fn) { fn(); });
+};
 
 /** @type {Map<HTMLElement,HTMLCanvasElement>} */
 if (!window.canvases) window.canvases = new Map();
 
 var BUFFER_SCALE = 4; // lowres drawing buffer
 
-function start() {
-  document.body.appendChild(cursorWrapper);
-  removerFunctions.push(function () {
-    document.body.removeChild(cursorWrapper);
-  });
+start();
 
+function start() {
+  requestAnimationFrame(() => {
+    var pos = getCoords(powerWasherTrigger);
+    positionCursorForPointerEvent({x: pos.left + 40, y: pos.top});
+  });
   document.querySelectorAll('.power-wash-this').forEach(function (el) {
     var canvas;
-    console.log('canvases has el?', window.canvases, el, window.canvases.has(el));
     if (window.canvases.has(el)) {
       canvas = window.canvases.get(el);
     } else {
@@ -39,7 +56,7 @@ function start() {
       canvas.height = rect.height;
       canvas.drawingCanvas.width = canvas.width / BUFFER_SCALE;
       canvas.drawingCanvas.height = canvas.height / BUFFER_SCALE;
-      // canvas.style.pointerEvents = 'none';
+      canvas.style.pointerEvents = 'none';
       canvas.style.position = 'absolute';
       canvas.style.top = rect.top + 'px';
       canvas.style.left = rect.left + 'px';
@@ -52,34 +69,23 @@ function start() {
       ctx.globalCompositeOperation = 'destination-out'; // erase to transparent
     }
 
-    addEventListener(canvas, 'mouseover', function(event) { mouseover(this, event); });
-    addEventListener(canvas, 'mousemove', function(event) { mousemove(this, event); });
+    addEventListener(cursorWrapper, 'mouseover',  runAndCancelEvent(canvas, pointerover));
+    addEventListener(cursorWrapper, 'touchstart', runAndCancelEvent(canvas, pointerover));
+    addEventListener(cursorWrapper, 'mousemove',  runAndCancelEvent(canvas, pointermove));
+    addEventListener(cursorWrapper, 'touchmove',  runAndCancelEvent(canvas, pointermove));
   });
 }
 
-addEventListener(document, 'mousemove', function (event) {
-  positionCursorForMouseEvent(event);
-});
-
-window.powerWasherDestroy = function () {
-  removerFunctions.forEach(function (fn) { fn(); });
-};
+function runAndCancelEvent(canvas, callback) {
+  return function(event) {
+    if (isTouching) {
+      callback(canvas, event);
+      event.preventDefault();
+    }
+  }
+}
 
 /* funcs */
-
-/**
- * @param {EventTarget} target
- * @param {string} name
- * @param {EventListener} fn
- */
-function runEventOnce(target, name, fn) {
-  /** @type {EventListener} */
-  var wrapped = function (event) {
-    fn(event);
-    target.removeEventListener(name, wrapped);
-  }
-  addEventListener(target, name, wrapped);
-}
 
 /**
  * @param {EventTarget} target
@@ -123,11 +129,13 @@ function getCanvasContext2d(canvas) {
  * @param {HTMLCanvasElement} canvas
  * @param {MouseEvent} event
 */
-function mouseover(canvas, event) {
+function pointerover(canvas, event) {
   var rect = canvas.getBoundingClientRect();
   var ctx = getCanvasContext2d(canvas.drawingCanvas);
-  var x = event.clientX - rect.left;
-  var y = event.clientY - rect.top;
+  var pos = event;
+  if (event.touches) pos = event.touches[0];
+  var x = pos.clientX - rect.left;
+  var y = pos.clientY - rect.top;
   ctx.moveTo(x / BUFFER_SCALE, y / BUFFER_SCALE);
   ctx.beginPath();
   ctx.lineWidth = 10;
@@ -139,17 +147,19 @@ function mouseover(canvas, event) {
  * @param {HTMLCanvasElement} canvas
  * @param {MouseEvent} event
 */
-function mousemove(canvas, event) {
+function pointermove(canvas, event) {
   var rect = canvas.getBoundingClientRect();
   var ctx = getCanvasContext2d(canvas.drawingCanvas);
-  var x = event.clientX - rect.left;
-  var y = event.clientY - rect.top;
+  var pos = event;
+  if (event.touches) pos = event.touches[0];
+  var x = pos.clientX - rect.left;
+  var y = pos.clientY - rect.top;
   ctx.lineTo(x / BUFFER_SCALE, y / BUFFER_SCALE);
   ctx.stroke();
 
-  requestAnimationFrame(() => {
-    for (let [el, drawnCanvas] of canvases) {
-      if (canvas === drawnCanvas) {
+  for (let [el, drawnCanvas] of canvases) {
+    if (canvas === drawnCanvas) {
+      requestAnimationFrame(() => {
         canvas.drawingCanvas.toBlob((blob) => {
           if (!blob) return;
           const url = URL.createObjectURL(blob);
@@ -158,16 +168,16 @@ function mousemove(canvas, event) {
           URL.revokeObjectURL(el.blobUrl);
           el.blobUrl = url;
         });
-        break;
-      }
+      });
+      break;
     }
-  });
+  }
 }
 
-/** @param {MouseEvent} event */
-function positionCursorForMouseEvent(event) {
+/** @param {PointerEvent|{x: number, y: number}} event */
+function positionCursorForPointerEvent(event) {
   requestAnimationFrame(function () {
-    cursorWrapper.style.transform = 'translate3d(' + event.x + 'px, ' + event.y + 'px, 0)';
+    cursorWrapper.style.transform = `translate3d(calc(${event.x}px - 1.5rem), calc(${event.y}px - 1.5rem), 0)`;
   });
 }
 
