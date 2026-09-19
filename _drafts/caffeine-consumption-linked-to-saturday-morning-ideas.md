@@ -14,7 +14,9 @@ syndications: null
 
 I’ve been thinking about Rails and Hotwire (Turbo/Stimulus). I also remembered that episode of Halt And Catch Fire where one person exfiltrated the bytecode of a competitor’s chip whilst another writes firmware towards specific goals but never the twain shall meet because that’s illegal.
 
-Of course this FOSS (is Rails and Hotwire FOSS? I know it’s OSS and it’s also Free so that does make it FOSS doesn’t it? but it’s not GPL so like, y’know?) doesn’t have the same copyright legalities (except maybe trademark?) but this post is just about thoughts, and 👆 they were my thoughts. 
+Of course this FOSS (is Rails and Hotwire FOSS? I know it’s OSS and it’s also Free so that does make it FOSS doesn’t it? but it’s not GPL so like, y’know?) doesn’t have the same copyright legalities (except maybe trademark?) but I still think about how one goes about creating a replacement for a community library. The whole “just fork it!” has always felt off to me, cos you’re still writing on top off the thing created by the fascist. Plus I like writing things from scratch, I find it fun, so that’s why im leaning on writing a replacement from scratch. 
+
+Feels easier to me than forking and thus supporting the *entire* feature set. Though of course maybe not many would be able to use it as a drop-in replacement due to it not having full feature parity straight away.
 
 ## How much does a library need to be updated?
 
@@ -44,7 +46,7 @@ I already have a rails library to test stimulus controllers in Ruby: https://git
 
 It doesn’t feel overly complex to write myself, and it would be fun. Also proposing it as a drop-in replacement perhaps helps the community to distance from Rails and DHH. 
 
-## Look for or consider writing simple Active*/Action* replacement
+## Look for or consider writing simple Active\*/Action\* replacement
 
 I know Sinatra is a good alternative to Rails, but in any particular monolith there is a heck of a lot of dependency on e.g. ActiveRecord and ActiveSupport and ActionView.
 
