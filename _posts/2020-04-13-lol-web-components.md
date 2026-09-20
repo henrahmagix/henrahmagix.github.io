@@ -72,7 +72,7 @@ So something like this then?
 </script>
 ```
 
-👉<i class="icon fab fa-vuejs" aria-hidden="true"></i><span class="sr-only">Vue JS</span> 👈👀
+👉<i class="icon fab fa-vuejs" title="VueJS icon"></i><span class="sr-only">Vue JS</span> 👈👀
 
 lol yes ok, this is pretty much a [Vue single-file component][]. We could use VueJS (or Svelte) – but again, that would require a build step, so ❌ (_buzzer sound_)
 

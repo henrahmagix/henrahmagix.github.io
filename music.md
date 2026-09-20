@@ -7,7 +7,7 @@ related_posts_category: Music
 
 ## Improvisations
 
-I sometimes post piano improvisations on [my SoundCloud]({{site.data.links.music.ext_url}}) <i class="{{site.data.links.music.icon}}" aria-hidden="true"></i> and [my YouTube channel](https://www.youtube.com/channel/UCGGooHDGChBvbXYoEkcDeew) <i class="fas fa-video" aria-hidden="true"></i>.
+I sometimes post piano improvisations on [my SoundCloud]({{site.data.links.music.ext_url}}) <i class="{{site.data.links.music.icon}}" title="musical note"></i> and [my YouTube channel](https://www.youtube.com/channel/UCGGooHDGChBvbXYoEkcDeew) <i class="fas fa-video" title="video camera"></i>.
 
 Whilst the UK is in lockdown from Covid-19 in the first half of 2020, I've been imagining going on an adventure. I think the imagery in my head is reflected in the improvisations I've recorded during this time. Below is the playlist, which will grow as I record more:
 
