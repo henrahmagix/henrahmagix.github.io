@@ -164,14 +164,14 @@ export class PostFile {
 
     let frontMatterMatches = 0;
     content.split('\n').forEach((line, i) => {
-      if (i === 0 && line.match(/---+/)) {
+      if (i === 0 && line.match(/^---/)) {
         frontMatterLines.push(line);
       } else if (frontMatterMatches > 0 && frontMatterMatches < 2) {
         frontMatterLines.push(line);
       } else {
         contentsLines.push(line);
       }
-      if (line.match(/---+/)) {
+      if (line.match(/^---/)) {
         frontMatterMatches++;
       }
     });

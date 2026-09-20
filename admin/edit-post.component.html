@@ -225,11 +225,20 @@
         this.extraEditingButtons.push(makeNew);
       });
 
-      this.textarea = document.createElement('textarea');
-      this.textarea.addEventListener('input', () => {
-        this.fixTextareaHeight();
+      this.textareaFrontmatter = document.createElement('textarea');
+      this.textareaFrontmatter.addEventListener('input', () => {
+        this.fixTextareaHeight(this.textareaFrontmatter);
         this.updatePost();
       });
+
+      this.textareaContent = document.createElement('textarea');
+      this.textareaContent.addEventListener('input', () => {
+        this.fixTextareaHeight(this.textareaContent);
+        this.updatePost();
+      });
+
+      this.textareas = document.createElement('div');
+      this.textareas.append(this.textareaFrontmatter, this.textareaContent);
 
       this.hidePostFrontMatterError = true;
 
@@ -263,14 +272,15 @@
       });
     }
 
-    fixTextareaHeight() {
-      cancelAnimationFrame(this.fixTextareaHeightRAF);
-      this.fixTextareaHeightRAF = requestAnimationFrame(() => {
-        this.textarea.style.lineHeight = '1.2';
-        const numlines = this.textarea.value.split('\n').length;
-        this.textarea.style.height = numlines * Number(this.textarea.style.lineHeight) + 'em';
-        this.textarea.style.minHeight = this.textarea.scrollHeight + 'px';
-        setTimeout(() => this.fixTextareaHeight(), 300);
+    /** @param {HTMLTextAreaElement} textarea */
+    fixTextareaHeight(textarea) {
+      cancelAnimationFrame(textarea.fixTextareaHeightRAF);
+      textarea.fixTextareaHeightRAF = requestAnimationFrame(() => {
+        textarea.style.lineHeight = '1.2';
+        const numlines = textarea.value.split('\n').length;
+        textarea.style.height = numlines * Number(textarea.style.lineHeight) + 'em';
+        textarea.style.minHeight = textarea.scrollHeight + 'px';
+        setTimeout(() => this.fixTextareaHeight(textarea), 300);
       });
     }
 
@@ -278,7 +288,7 @@
     changeView(event) {
       const form_data = new FormData(event.currentTarget);
       this.viewStyle = form_data.get('style');
-      this.textarea.classList.toggle('wrap', form_data.get('wrap'));
+      this.textareaContent.classList.toggle('wrap', form_data.get('wrap'));
       this.render();
     }
     /** @param {Event} event */
@@ -302,7 +312,7 @@
         el.innerHTML = originalHTML;
         if (added) el.remove();
       });
-      this.textarea.replaceWith(this.contentWrapper);
+      this.textareas.replaceWith(this.contentWrapper);
       this.diffEl.replaceWith(this.contentWrapper);
     }
     clickSubmit() {
@@ -402,23 +412,25 @@
 
       this.extraEditingButtons.forEach(b => show(b, this.editing));
 
-      this.textarea.classList.toggle('wrap', new FormData(document.querySelector('form[name=view]')).get('wrap'));
+      this.textareaContent.classList.toggle('wrap', new FormData(document.querySelector('form[name=view]')).get('wrap'));
     }
 
     renderContent() {
       if (this.diffing) {
         this.diffEl = this.postFile.diff();
         this.contentWrapper.replaceWith(this.diffEl);
-        this.textarea.replaceWith(this.diffEl);
+        this.textareas.replaceWith(this.diffEl);
         return;
       }
 
       if (this.writingRaw) {
-        this.textarea.value = this.postFile.getRaw();
+        this.textareaFrontmatter.value = this.postFile.postFrontMatter;
+        this.textareaContent.value = this.postFile.postContent;
 
-        this.contentWrapper.replaceWith(this.textarea);
-        this.diffEl.replaceWith(this.textarea);
-        this.fixTextareaHeight();
+        this.contentWrapper.replaceWith(this.textareas);
+        this.diffEl.replaceWith(this.textareas);
+        this.fixTextareaHeight(this.textareaFrontmatter);
+        this.fixTextareaHeight(this.textareaContent);
         return;
       }
 
@@ -433,7 +445,7 @@
         }
       });
 
-      this.textarea.replaceWith(this.contentWrapper);
+      this.textareas.replaceWith(this.contentWrapper);
       this.diffEl.replaceWith(this.contentWrapper);
     }
 
@@ -456,7 +468,7 @@
     updatePost(attr, el) {
       if (this.writingRaw) {
         try {
-          this.postFile.setRaw(this.textarea.value);
+          this.postFile.setRaw(this.textareaFrontmatter.value + '\n\n' + this.textareaContent.value);
           this.hidePostFrontMatterError = true;
         } catch (err) {
           this.hidePostFrontMatterError = false;
