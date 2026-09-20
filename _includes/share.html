@@ -1,7 +1,6 @@
 {% capture view_history_url %}{{site.github.repository_url}}/commits/{{site.github.source.branch}}/{{page.path}}{% endcapture %}
 
-<nav id="share-section" aria-labelledby="sharenav-heading">
-  <h2 id="sharenav-heading" class="fancy-title emoji-on-the-left sr-only">Share and respond</h2>
+<nav id="share-section" aria-label="Share and respond">
   <ul class="share-list">
     {% for synd_hash in page.syndications %}
       {% if synd_hash[1] == nil or synd_hash[1] == '' %}{% continue %}{% endif %}
