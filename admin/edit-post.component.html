@@ -95,12 +95,14 @@
 
   textarea,
   [contenteditable=plaintext-only] {
-    white-space: nowrap;
+    white-space: pre;
+    white-space-collapse: preserve;
     font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   }
 
   textarea.wrap {
     white-space: normal;
+    white-space-collapse: preserve; /* needs to be declared again since `white-space:` overrides */
   }
 
   table.diff {
