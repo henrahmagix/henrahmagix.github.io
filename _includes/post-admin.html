@@ -19,6 +19,7 @@
     content.dataset.adminContent = '';
     content.querySelector('.page-title').dataset.adminEditable = 'title';
     content.querySelector('.page-subtitle').dataset.adminEditable = 'subtitle';
+    content.querySelector('#navigation-toc').dataset.adminHideWhenEditing = true;
 
     const article = content.classList.contains('entry-content') ? content : content.querySelector('.entry-content');
 

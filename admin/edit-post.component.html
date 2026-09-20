@@ -197,6 +197,7 @@
       document.querySelectorAll('[data-admin-editable]').forEach(el => {
         this.postElements.push({ el, attr: el.getAttribute('data-admin-editable') });
       });
+      this.hiddenElements = document.querySelectorAll('[data-admin-hide-when-editing]');
       this.contentWrapper = document.querySelector('[data-admin-content]');
 
       const arrayProps = dataset.arrayProps.split(',').map(s=>s.trim());
@@ -301,6 +302,9 @@
 
     clickEdit() {
       this.state.moveToEdit();
+      this.hiddenElements.forEach((el) => {
+        el.hidden = true;
+      });
     }
     clickCancel() {
       if (this.needsReview() && !confirm('You will lose unsaved changes. Are you sure')) {
@@ -311,6 +315,9 @@
       this.postElements.forEach(({el, attr, originalHTML, added}) => {
         el.innerHTML = originalHTML;
         if (added) el.remove();
+      });
+      this.hiddenElements.forEach((el) => {
+        el.hidden = false;
       });
       this.textareas.replaceWith(this.contentWrapper);
       this.diffEl.replaceWith(this.contentWrapper);
