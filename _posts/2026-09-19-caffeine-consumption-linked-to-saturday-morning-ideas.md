@@ -5,7 +5,8 @@ title: Caffeine Consumption Linked to Saturday Morning Ideas
 subtitle: ''
 pre_content:
   - null
-syndications: null
+syndications:
+  mastodon: https://tech.lgbt/@henrahmagix/117297728428019394
 ---
 
 # Thoughts
