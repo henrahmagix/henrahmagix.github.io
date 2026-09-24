@@ -7,6 +7,7 @@ pre_content:
   - null
 syndications:
   mastodon: https://tech.lgbt/@henrahmagix/117297728428019394
+image: /images/posts/caffeine-consumption-linked-to-saturday-morning-ideas.jpeg
 ---
 
 # Thoughts
