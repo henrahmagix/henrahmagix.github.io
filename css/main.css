@@ -789,6 +789,7 @@ h4,
 h5,
 h6 {
   font-family: 'EB Garamond', serif;
+  clear: right;
 }
 
 .large-text,

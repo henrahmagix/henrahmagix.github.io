@@ -8,6 +8,7 @@ pre_content:
 syndications:
   mastodon: https://tech.lgbt/@henrahmagix/117297728428019394
 image: /images/posts/caffeine-consumption-linked-to-saturday-morning-ideas.jpeg
+image_alt: Link (from Skyward Sword) falling asleep in a chair in front of a desk.
 ---
 
 # Thoughts
@@ -37,6 +38,8 @@ I like that Nintendo’s first party games are on the cart, but get frustrated w
 # Ideas
 
 ## Play Skyward Sword and Windwaker before the Ocarina of Time remake arrives on November 6th
+
+<img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
 
 This feels possible. But then £45 for Skyward Sword feels a bit much so im watching on ebay. 
 
