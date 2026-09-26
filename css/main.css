@@ -418,17 +418,21 @@ a button,
   overflow: hidden;
 }
 
-.logo img,
-.logo svg {
+.logo img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
 }
 
+@media (prefers-color-scheme: light) {
+  .logo-signature-light {
+    display: none;
+  }
+}
 @media (prefers-color-scheme: dark) {
-  .logo svg {
-    fill: #fcfcfc;
+  .logo-signature-dark {
+    display: none;
   }
 }
 
