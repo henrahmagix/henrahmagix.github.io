@@ -15,17 +15,6 @@ content_class: post
   <h1 {% unless page_title %}hidden{% endunless %} class="page-title {% if page_title %}entry-title p-name{% endif %}">{{ page_title }}</h1>
   <p {% unless page.subtitle %}hidden{% endunless %} class="page-subtitle {% if page.subtitle %}entry-summary p-summary{% endif %}">{{ page.subtitle|markdownify|remove:'<p>'|remove:'</p>' }}</p>
 
-  {% if page.image and page.show_image_top_of_post %}
-    {% if page.sensitive_image %}
-      <div class="sensitive-cover post-header-image">
-        <img class="sensitive-image" src="{{page.image}}" alt="{{page.image_alt}}">
-        <i class="icon fas fa-eye sensitive-eye" aria-label="Hover to show sensitive image"></i>
-      </div>
-    {% else %}
-      <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
-    {% endif %}
-  {% endif %}
-
   {% if page.pre_content %}
     {% for line in page.pre_content %}
       <p class="pre-content">{{line|markdownify|remove:'<p>'|remove:'</p>'}}</p>
@@ -44,6 +33,17 @@ content_class: post
 </header>
 
 <section class="entry-content e-content">
+  {% if page.image and page.show_image_in_post %}
+    {% if page.sensitive_image %}
+      <div class="sensitive-cover post-header-image">
+        <img class="sensitive-image" src="{{page.image}}" alt="{{page.image_alt}}">
+        <i class="icon fas fa-eye sensitive-eye" aria-label="Hover to show sensitive image"></i>
+      </div>
+    {% else %}
+      <img class="post-header-image" src="{{page.image}}" alt="{{page.image_alt}}">
+    {% endif %}
+  {% endif %}
+
   {% include anchor_headings.html html=content anchorBody="#" anchorAttrs='aria-label="Link to heading: %heading%"' anchorTitle="Link to heading: %heading%" anchorClass="heading-anchor instapaper_ignore" %}
 </section>
 

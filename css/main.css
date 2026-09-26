@@ -479,7 +479,7 @@ body {
     display: grid;
     grid-template-columns: 2em max-content 1fr 2em;
     grid-template-rows: min-content;
-    grid-template-areas: ". header main. " "footer footer footer footer";
+    grid-template-areas: ". header main ." "footer footer footer footer";
   }
 
   /* TODO: style like binder tabs, so it looks good fixed on the screen instead of floating over the journal dots. */
@@ -755,13 +755,13 @@ body {
 .post-header-image {
   display: block;
   margin-bottom: 1em;
-  max-height: 50vh;
+  max-height: 70vh;
 }
-@media screen and (min-width: 768px) and (max-width: 1123px) {
+@media screen and (min-width: 768px) {
   .post-header-image {
     float: right;
     max-height: 20em;
-    max-width: 40%;
+    max-width: 20em;
     margin-left: 1em;
     margin-right: auto;
   }
@@ -772,6 +772,7 @@ body {
 @media screen and (min-width: 1124px) {
   .post-header-image {
     max-height: 30em;
+    max-width: 30vw;
   }
 }
 
@@ -779,7 +780,6 @@ body {
 
 body,
 .page-subtitle {
-  font-family: 'Merriweather', serif;
   font-family: 'Merriweather', sans-serif;
 }
 

@@ -11,7 +11,7 @@ syndications:
   twitter: null
 image: /images/posts/a-world-with-no-secrets.jpeg
 image_alt: Tweet by me saying "fantastic 😖" with a link to CircleCI blog explaining a data breach they had.
-show_image_top_of_post: true
+show_image_in_post: true
 ---
 
 Well, shit. [CircleCI was breached](<https://circleci.com/blog/january-4-2023-security-alert/>). Or was it only “accessed”? They haven’t confirmed a breach yet, but I’m sure we’ll all know once they know, I’m confident of that at least.

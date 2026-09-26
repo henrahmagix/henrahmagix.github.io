@@ -8,7 +8,7 @@ title: Pretty and random animated blog post images
 subtitle: but now I'm not using them any more :(
 image: /images/pretty-and-random-animated-blog-post-images.jpg
 image_alt: A collection of black-bordered rectangles, each with a different combination of two pastel colours blurred together from top-left to bottom-right.
-show_image_top_of_post: true
+show_image_in_post: true
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1330283284752977923?s=20'
 pre_content:
