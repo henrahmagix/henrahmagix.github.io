@@ -15,13 +15,16 @@
 
   {% assign categories = categories|split:"," %}
   {% for category in categories %}
-    <li>
-      {% if category == include.selected %}
-      <span class="p-category journal-underline"><span class="sr-only">Currently viewing:</span> {{category}}</span>
-      {% else %}
-      <a class="p-category" href="/blog/{{category|downcase}}"><span class="sr-only">Show blog posts about</span> {{category}}</a>
-      {% endif %}
-    </li>
+    {% assign category_file = site.pages|where:"category_name",category|first %}
+    {% if category_file %}
+      <li>
+        {% if category == include.selected %}
+        <span class="p-category journal-underline"><span class="sr-only">Currently viewing:</span> {{category}}</span>
+        {% else %}
+        <a class="p-category" href="{{category_file.url}}"><span class="sr-only">Show blog posts about</span> {{category}}</a>
+        {% endif %}
+      </li>
+    {% endif %}
   {% endfor %}
   </ul>
 </nav>
