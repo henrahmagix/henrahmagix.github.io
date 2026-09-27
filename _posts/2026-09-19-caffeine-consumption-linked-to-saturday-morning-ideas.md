@@ -9,6 +9,7 @@ syndications:
   mastodon: https://tech.lgbt/@henrahmagix/117297728428019394
 image: /images/posts/caffeine-consumption-linked-to-saturday-morning-ideas.jpeg
 image_alt: Link (from Skyward Sword) falling asleep in a chair in front of a desk.
+show_image_in_post: false
 ---
 
 # Thoughts

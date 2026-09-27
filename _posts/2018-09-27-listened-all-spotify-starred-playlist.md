@@ -7,6 +7,7 @@ title: Listening to all of my Spotify Starred playlist
 subtitle: '1,118 songs, 83 hrs 48 mins'
 image: /images/spotify-starred.jpg
 image_alt: 'Four album covers: the soundtrack to the 2013 film Oblivion; Bad Blood by Bastille; Visions by Grimes; and Friendly Fires by Friendly Fires.'
+show_image_in_post: false
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1045277345857392640'
 ---

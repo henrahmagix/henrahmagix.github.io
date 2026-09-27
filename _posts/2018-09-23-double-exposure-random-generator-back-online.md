@@ -8,6 +8,7 @@ title: Double exposure random generator is back online!
 subtitle: 'That''s right, it''s back!'
 image: /images/double-random-camera.jpg
 image_alt: Randomly generated double exposure of a silver Fujifilm X100S and a curvy piece of architecture with repetitive shadowy slots.
+show_image_in_post: false
 syndications:
   twitter: 'https://twitter.com/henrahmagix/status/1043831106284539904'
 ---
