@@ -11,7 +11,7 @@
     <button {hidden}="hideSubmit" {on-click}="clickSubmit()" class="button-submit"><i class="icon fas fa-check"></i>Submit</button>
     <button {hidden}="hidePublish" {on-click}="clickPublish()" class="button-publish"><i class="icon fas fa-cloud-upload-alt"></i>Publish</button>
     <button {hidden}="hideUnpublish" {on-click}="clickUnpublish()" class="button-unpublish"><i class="icon fas fa-cloud-download-alt"></i>Unpublish</button>
-    <button {hidden}="hideTweet" {on-click}="clickTweet()" class="button-tweet"><i class="icon fab fa-twitter"></i>Tweet</button>
+    <button {hidden}="hideTweet" {on-click}="clickTweet()" class="button-tweet"><i class="icon fab fa-mastodon"></i>Tweet</button>
 
     <input {hidden}="hideImageInput" {on-change}="uploadImage($event)" {value}="imageFile" type="file" accept="image/*">
     <img {hidden}="hideImage" {src}="image" class="post-image-preview">
@@ -336,15 +336,14 @@
     }
     clickTweet() {
       this.state.moveToTweeting();
-      const newTweetUrl = new URL('https://twitter.com/intent/tweet');
-      newTweetUrl.searchParams.set('text', `New blog post! "${this.postFile.get('title')}"`);
-      newTweetUrl.searchParams.set('url', window.location.href);
+      const newTweetText = `New blog post! "${this.postFile.get('title')}" ${window.location.href}`;
+      const newTweetUrl = `https://share.joinmastodon.org/#text=${encodeURIComponent(newTweetText)}`;
 
       // Open a new tab/window so the above next steps can occur.
-      window.open(newTweetUrl.toString(), '_blank');
+      window.open(newTweetUrl, '_blank');
       // Get posted tweet url and save to the file.
       const tweet = prompt('Enter tweet url');
-      this.postFile.setSyndication('twitter', tweet);
+      this.postFile.setSyndication('mastodon', tweet);
       // View the diff so it can be submitted.
       this.clickEdit();
       this.viewStyle = 'diff';
