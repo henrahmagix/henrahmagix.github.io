@@ -11,7 +11,7 @@
     <button {hidden}="hideSubmit" {on-click}="clickSubmit()" class="button-submit"><i class="icon fas fa-check"></i>Submit</button>
     <button {hidden}="hidePublish" {on-click}="clickPublish()" class="button-publish"><i class="icon fas fa-cloud-upload-alt"></i>Publish</button>
     <button {hidden}="hideUnpublish" {on-click}="clickUnpublish()" class="button-unpublish"><i class="icon fas fa-cloud-download-alt"></i>Unpublish</button>
-    <button {hidden}="hideTweet" {on-click}="clickTweet()" class="button-tweet"><i class="icon fab fa-mastodon"></i>Tweet</button>
+    <button {hidden}="hideToot" {on-click}="clickToot()" class="button-toot"><i class="icon fab fa-mastodon"></i>Toot</button>
 
     <input {hidden}="hideImageInput" {on-change}="uploadImage($event)" {value}="imageFile" type="file" accept="image/*">
     <img {hidden}="hideImage" {src}="image" class="post-image-preview">
@@ -148,7 +148,7 @@
       'hideSubmit',
       'hidePublish',
       'hideUnpublish',
-      'hideTweet',
+      'hideToot',
       'hideSpinner',
       'hideViewForm',
       'hideImageInput',
@@ -334,16 +334,16 @@
       this.state.moveToUnpublishing();
       this.unpublishPost();
     }
-    clickTweet() {
-      this.state.moveToTweeting();
-      const newTweetText = `New blog post! "${this.postFile.get('title')}" ${window.location.href}`;
-      const newTweetUrl = `https://share.joinmastodon.org/#text=${encodeURIComponent(newTweetText)}`;
+    clickToot() {
+      this.state.moveToTooting();
+      const newTootText = `New blog post! "${this.postFile.get('title')}" ${window.location.href}`;
+      const newTootUrl = `https://share.joinmastodon.org/#text=${encodeURIComponent(newTootText)}`;
 
       // Open a new tab/window so the above next steps can occur.
-      window.open(newTweetUrl, '_blank');
-      // Get posted tweet url and save to the file.
-      const tweet = prompt('Enter tweet url');
-      this.postFile.setSyndication('mastodon', tweet);
+      window.open(newTootUrl, '_blank');
+      // Get posted toot url and save to the file.
+      const toot = prompt('Enter toot url');
+      this.postFile.setSyndication('mastodon', toot);
       // View the diff so it can be submitted.
       this.clickEdit();
       this.viewStyle = 'diff';
@@ -351,7 +351,7 @@
     }
 
     get waiting() {
-      return this.submitting || this.publishing || this.tweeting;
+      return this.submitting || this.publishing || this.tooting;
     }
     get submitting() {
       return this.state.submitting;
@@ -359,8 +359,8 @@
     get publishing() {
       return this.state.publishing;
     }
-    get tweeting() {
-      return this.state.tweeting;
+    get tooting() {
+      return this.state.tooting;
     }
     get editing () {
       return this.state.editing && !this.waiting;
@@ -386,7 +386,7 @@
     get canUnpublish() {
       return !this.editing && !this.waiting && !this.postFile.isDraft && !this.postFile.isNew;
     }
-    get canTweet() {
+    get canToot() {
       return !this.editing && !this.waiting && !this.postFile.isDraft && !this.postFile.hasSyndication('twitter');
     }
 
@@ -409,7 +409,7 @@
       this.hideSubmit = !this.canSubmit;
       this.hidePublish = !this.canPublish;
       this.hideUnpublish = !this.canUnpublish;
-      this.hideTweet = !this.canTweet;
+      this.hideToot = !this.canToot;
       this.hideSpinner = !this.waiting;
       this.hideViewForm = !this.editing;
       this.hideImageInput = !this.editing;
@@ -530,7 +530,7 @@
 
   class EditPostState {
     constructor() {
-      this._state = new State('view', 'edit', 'submitting', 'publishing', 'unpublishing', 'tweeting');
+      this._state = new State('view', 'edit', 'submitting', 'publishing', 'unpublishing', 'tooting');
     }
 
     /** @returns {string} */
@@ -550,8 +550,8 @@
     get unpublishing() {
       return this._state.is('unpublishing');
     }
-    get tweeting() {
-      return this._state.is('tweeting');
+    get tooting() {
+      return this._state.is('tooting');
     }
 
     /** @param {() => void} fn */
@@ -579,8 +579,8 @@
       this._state.moveTo('unpublishing');
     }
 
-    moveToTweeting() {
-      this._state.moveTo('tweeting');
+    moveToTooting() {
+      this._state.moveTo('tooting');
     }
   }
 
