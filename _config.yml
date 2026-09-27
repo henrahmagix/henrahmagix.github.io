@@ -45,6 +45,8 @@ plugins:
   - jekyll-relative-links
   # Add other allowed dependencies here: see https://pages.github.com/versions/
   - jekyll-feed
+feed:
+  disable_in_development: false
 exclude:
   - Gemfile*
   - bower.json
