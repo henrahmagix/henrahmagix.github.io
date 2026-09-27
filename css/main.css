@@ -550,9 +550,11 @@ body {
   text-align: center;
 }
 
-.share-list li {
-  flex-basis: 8em;
-  margin: 0.5em 0;
+@media screen and (min-width: 768px) {
+  .share-list > li {
+    flex-basis: 8em;
+    margin: 0.5em 0;
+  }
 }
 @media screen and (min-width: 1124px) {
   .share-list {
@@ -1004,6 +1006,8 @@ details summary {
 #share-fallback ul {
   margin: 0;
   padding-left: 1em;
+  font-size: 1rem;
+  text-align: left;
 }
 
 #share-fallback .icon {

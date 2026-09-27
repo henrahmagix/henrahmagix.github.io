@@ -7,6 +7,7 @@
 {% endif %}
 
 <a id="{{ include.id }}" class="{{ include.class }}" href="{{ include.url }}"
+  {% if include.external %}target="_blank" rel="noopener"{% endif %}
   {% if include.relme %}rel="me"{% endif %}
   {% if include.hide_title == true %}title="{{include.title}}"{% endif %}
 >
